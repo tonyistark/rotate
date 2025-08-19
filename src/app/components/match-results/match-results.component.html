@@ -1,0 +1,120 @@
+<div class="gradient-bg">
+  <div class="container">
+    <!-- Header -->
+    <mat-card class="header-card" *ngIf="employee">
+      <mat-card-content>
+        <div class="header-content">
+          <div class="employee-info">
+            <mat-icon class="profile-icon">person</mat-icon>
+            <div>
+              <h1>Opportunities for {{employee.name}}</h1>
+              <p>{{employee.currentRole}} • {{employee.department}}</p>
+            </div>
+          </div>
+          <button mat-stroked-button color="primary" (click)="onBack()">
+            <mat-icon>edit</mat-icon>
+            Edit Profile
+          </button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card total">
+            <div class="stat-number">{{matches.length}}</div>
+            <div class="stat-label">Total Opportunities</div>
+          </div>
+          <div class="stat-card high">
+            <div class="stat-number">{{getFilterCount('high')}}</div>
+            <div class="stat-label">High Matches</div>
+          </div>
+          <div class="stat-card medium">
+            <div class="stat-number">{{getFilterCount('medium')}}</div>
+            <div class="stat-label">Medium Matches</div>
+          </div>
+          <div class="stat-card low">
+            <div class="stat-number">{{getFilterCount('low')}}</div>
+            <div class="stat-label">Low Matches</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Filters and Sorting -->
+    <mat-card class="filters-card">
+      <mat-card-content>
+        <div class="filters-content">
+          <div class="filter-section">
+            <mat-icon>filter_list</mat-icon>
+            <span class="filter-label">Filter by match quality:</span>
+            <div class="filter-buttons">
+              <button 
+                mat-chip-option 
+                [selected]="filter === 'all'"
+                (click)="onFilterChange('all')"
+                class="filter-chip">
+                All ({{getFilterCount('all')}})
+              </button>
+              <button 
+                mat-chip-option 
+                [selected]="filter === 'high'"
+                (click)="onFilterChange('high')"
+                class="filter-chip high">
+                High ({{getFilterCount('high')}})
+              </button>
+              <button 
+                mat-chip-option 
+                [selected]="filter === 'medium'"
+                (click)="onFilterChange('medium')"
+                class="filter-chip medium">
+                Medium ({{getFilterCount('medium')}})
+              </button>
+              <button 
+                mat-chip-option 
+                [selected]="filter === 'low'"
+                (click)="onFilterChange('low')"
+                class="filter-chip low">
+                Low ({{getFilterCount('low')}})
+              </button>
+            </div>
+          </div>
+
+          <div class="sort-section">
+            <mat-icon>sort</mat-icon>
+            <mat-form-field appearance="outline">
+              <mat-label>Sort by</mat-label>
+              <mat-select [value]="sortBy" (selectionChange)="onSortChange($event.value)">
+                <mat-option value="score">Match Score</mat-option>
+                <mat-option value="deadline">Application Deadline</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Results -->
+    <div class="results-section">
+      <div *ngIf="filteredMatches.length === 0" class="no-results">
+        <mat-card>
+          <mat-card-content>
+            <div class="no-results-content">
+              <mat-icon>search_off</mat-icon>
+              <h3>No opportunities match your current filter</h3>
+              <button mat-button color="primary" (click)="onFilterChange('all')">
+                Show all opportunities
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="results-grid" *ngIf="filteredMatches.length > 0">
+        <app-opportunity-card 
+          *ngFor="let match of filteredMatches" 
+          [match]="match"
+          (apply)="onApply($event)"
+          (cardClick)="openModal($event)">
+        </app-opportunity-card>
+      </div>
+    </div>
+  </div>
+</div>

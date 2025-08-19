@@ -1,0 +1,110 @@
+<div class="modal-header">
+  <div class="header-content">
+    <div class="title-section">
+      <h2 mat-dialog-title>{{match.opportunity.title}}</h2>
+      <div class="subtitle-info">
+        <span class="department">
+          <mat-icon>business</mat-icon>
+          {{match.opportunity.department}}
+        </span>
+        <mat-chip [color]="getLevelColor(match.opportunity.level)" selected>
+          {{match.opportunity.level}}
+        </mat-chip>
+        <span class="duration">
+          <mat-icon>schedule</mat-icon>
+          {{match.opportunity.duration}}
+        </span>
+      </div>
+    </div>
+    <div class="score-badge" [ngClass]="getScoreClass(match.score)">
+      {{match.score}}% Match
+    </div>
+  </div>
+  <button mat-icon-button (click)="onClose()" class="close-button">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="modal-content">
+  <div class="description-section">
+    <h3><mat-icon>description</mat-icon> Description</h3>
+    <p class="description">{{match.opportunity.description}}</p>
+  </div>
+
+  <div class="skills-section">
+    <div class="skill-group">
+      <h3><mat-icon>check_circle</mat-icon> Required Skills</h3>
+      <div class="chip-container">
+        <mat-chip *ngFor="let skill of match.opportunity.requiredSkills" color="warn" selected>
+          {{skill}}
+        </mat-chip>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3><mat-icon>star</mat-icon> Preferred Skills</h3>
+      <div class="chip-container">
+        <mat-chip *ngFor="let skill of match.opportunity.preferredSkills" color="primary" selected>
+          {{skill}}
+        </mat-chip>
+      </div>
+    </div>
+  </div>
+
+  <div class="learning-outcomes">
+    <h3><mat-icon>school</mat-icon> Learning Outcomes</h3>
+    <div class="chip-container">
+      <mat-chip *ngFor="let outcome of match.opportunity.learningOutcomes" color="accent" selected>
+        {{outcome}}
+      </mat-chip>
+    </div>
+  </div>
+
+  <div class="opportunity-details">
+    <div class="detail-item">
+      <mat-icon>access_time</mat-icon>
+      <span>{{match.opportunity.timeCommitment}}</span>
+    </div>
+    <div class="detail-item">
+      <mat-icon>{{match.opportunity.mentorAvailable ? 'supervisor_account' : 'person'}}</mat-icon>
+      <span>{{match.opportunity.mentorAvailable ? 'Mentor Available' : 'Self-Directed'}}</span>
+    </div>
+    <div class="detail-item">
+      <mat-icon>{{match.opportunity.remote ? 'home' : 'location_city'}}</mat-icon>
+      <span>{{match.opportunity.remote ? 'Remote OK' : 'On-site'}}</span>
+    </div>
+  </div>
+
+  <div class="match-reasons" *ngIf="match.matchReasons.length > 0">
+    <h3><mat-icon>thumb_up</mat-icon> Why this matches you:</h3>
+    <ul>
+      <li *ngFor="let reason of match.matchReasons">
+        <mat-icon>check</mat-icon>
+        {{reason}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="skill-gaps" *ngIf="match.skillGaps.length > 0">
+    <h3><mat-icon>trending_up</mat-icon> Skills to develop:</h3>
+    <div class="chip-container">
+      <mat-chip *ngFor="let skill of match.skillGaps" class="gap-chip">
+        {{skill}}
+      </mat-chip>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="modal-actions">
+  <div class="deadline-info">
+    <mat-icon>event</mat-icon>
+    <span>Apply by: {{formatDate(match.opportunity.applicationDeadline)}}</span>
+  </div>
+  <div class="action-buttons">
+    <button mat-button (click)="onClose()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onApply()">
+      <mat-icon>send</mat-icon>
+      Apply Now
+    </button>
+  </div>
+</mat-dialog-actions>

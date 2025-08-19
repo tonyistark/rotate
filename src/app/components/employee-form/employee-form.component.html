@@ -1,0 +1,156 @@
+<div class="gradient-bg">
+  <div class="container">
+    <div class="header-section">
+      <mat-icon class="header-icon">work</mat-icon>
+      <h1>Opportunity Matcher</h1>
+      <p>Discover new opportunities within your company to grow your skills and advance your career</p>
+    </div>
+
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>person</mat-icon>
+          Employee Profile
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+          <!-- Basic Information -->
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Full Name</mat-label>
+              <input matInput formControlName="name" required>
+              <mat-error *ngIf="employeeForm.get('name')?.hasError('required')">
+                Name is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" required>
+              <mat-error *ngIf="employeeForm.get('email')?.hasError('required')">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="employeeForm.get('email')?.hasError('email')">
+                Please enter a valid email
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Department</mat-label>
+              <mat-select formControlName="department" required>
+                <mat-option *ngFor="let dept of departments" [value]="dept">
+                  {{dept}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Current Role</mat-label>
+              <input matInput formControlName="currentRole" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Years of Experience</mat-label>
+              <input matInput type="number" formControlName="yearsExperience" min="0" max="50">
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Performance Rating</mat-label>
+              <mat-select formControlName="performanceRating">
+                <mat-option *ngFor="let rating of performanceRatings" [value]="rating.value">
+                  {{rating.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Availability</mat-label>
+              <mat-select formControlName="availability">
+                <mat-option *ngFor="let option of availabilityOptions" [value]="option.value">
+                  {{option.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Skills Section -->
+          <div class="chips-section">
+            <h3><mat-icon>build</mat-icon> Skills</h3>
+            <mat-form-field appearance="outline" class="chip-input">
+              <mat-label>Add skills</mat-label>
+              <mat-chip-grid #skillChipGrid>
+                <mat-chip-row *ngFor="let skill of skills" (removed)="removeSkill(skill)" class="skill-chip">
+                  {{skill}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              </mat-chip-grid>
+              <input placeholder="Type skill and press Enter"
+                     [matChipInputFor]="skillChipGrid"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     (matChipInputTokenEnd)="addSkill($event)">
+            </mat-form-field>
+          </div>
+
+          <!-- Interests Section -->
+          <div class="chips-section">
+            <h3><mat-icon>favorite</mat-icon> Areas of Interest</h3>
+            <mat-form-field appearance="outline" class="chip-input">
+              <mat-label>Add interests</mat-label>
+              <mat-chip-grid #interestChipGrid>
+                <mat-chip-row *ngFor="let interest of interests" (removed)="removeInterest(interest)" class="skill-chip">
+                  {{interest}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              </mat-chip-grid>
+              <input placeholder="Type interest and press Enter"
+                     [matChipInputFor]="interestChipGrid"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     (matChipInputTokenEnd)="addInterest($event)">
+            </mat-form-field>
+          </div>
+
+          <!-- Career Goals Section -->
+          <div class="chips-section">
+            <h3><mat-icon>trending_up</mat-icon> Career Goals</h3>
+            <mat-form-field appearance="outline" class="chip-input">
+              <mat-label>Add career goals</mat-label>
+              <mat-chip-grid #goalChipGrid>
+                <mat-chip-row *ngFor="let goal of careerGoals" (removed)="removeCareerGoal(goal)" class="skill-chip">
+                  {{goal}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              </mat-chip-grid>
+              <input placeholder="Type goal and press Enter"
+                     [matChipInputFor]="goalChipGrid"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     (matChipInputTokenEnd)="addCareerGoal($event)">
+            </mat-form-field>
+          </div>
+
+          <div class="submit-section">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!employeeForm.valid">
+              <mat-icon>search</mat-icon>
+              Find Matching Opportunities
+            </button>
+            <button mat-stroked-button color="warn" type="button" (click)="clearProfile()">
+              <mat-icon>clear</mat-icon>
+              Clear Profile
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

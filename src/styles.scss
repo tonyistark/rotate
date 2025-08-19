@@ -1,0 +1,109 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+// Theme configuration
+@include mat.core();
+
+// Define palettes
+$primary: mat.define-palette(mat.$indigo-palette);
+$accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$warn: mat.define-palette(mat.$red-palette);
+
+// Create both light and dark themes
+$light-theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  )
+));
+
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  )
+));
+
+// Apply default dark theme
+@include mat.all-component-themes($dark-theme);
+
+// Light theme override
+.light-theme {
+  @include mat.all-component-colors($light-theme);
+}
+
+// Global styles
+html, body { 
+  height: 100%; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+// Default CSS variables (will be overridden by ThemeService)
+:root {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #2d2d2d;
+  --bg-card: #1e1e1e;
+  --bg-elevated: #2d2d2d;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-muted: #808080;
+  --border-color: #404040;
+  --accent-primary: #3f51b5;
+  --accent-secondary: #5c6bc0;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
+}
+
+// Theme-specific body styles
+.dark-theme {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.light-theme {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+.card-hover {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card-hover:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.skill-chip {
+  margin: 4px;
+  cursor: pointer;
+}
+
+.match-score-high {
+  background-color: #4caf50;
+  color: white;
+}
+
+.match-score-medium {
+  background-color: #ff9800;
+  color: white;
+}
+
+.match-score-low {
+  background-color: #f44336;
+  color: white;
+}

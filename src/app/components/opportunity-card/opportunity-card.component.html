@@ -1,0 +1,57 @@
+<mat-card class="opportunity-card card-hover" (click)="onCardClick()">
+  <mat-card-header>
+    <div class="card-header-content">
+      <div class="title-section">
+        <mat-card-title>{{match.opportunity.title.length > 29 ? (match.opportunity.title | slice:0:29) + '...' : match.opportunity.title}}</mat-card-title>
+        <div class="card-subtitle">
+          <span class="department">
+            <mat-icon>business</mat-icon>
+            {{match.opportunity.department}}
+          </span>
+          <mat-chip [color]="getLevelColor(match.opportunity.level)" selected>
+            {{match.opportunity.level}}
+          </mat-chip>
+        </div>
+      </div>
+      <div class="score-badge" [ngClass]="getScoreClass(match.score)">
+        {{match.score}}%
+      </div>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="description">{{match.opportunity.description | slice:0:80}}{{match.opportunity.description.length > 80 ? '...' : ''}}</p>
+
+    <div class="compact-skills">
+      <div class="skill-preview">
+        <mat-icon>check_circle</mat-icon>
+        <span>{{match.opportunity.requiredSkills.length}} required</span>
+      </div>
+      <div class="skill-preview">
+        <mat-icon>star</mat-icon>
+        <span>{{match.opportunity.preferredSkills.length}} preferred</span>
+      </div>
+    </div>
+
+    <div class="quick-details">
+      <div class="detail-item">
+        <mat-icon>schedule</mat-icon>
+        <span>{{match.opportunity.duration}}</span>
+      </div>
+      <div class="detail-item">
+        <mat-icon>{{match.opportunity.remote ? 'home' : 'location_city'}}</mat-icon>
+        <span>{{match.opportunity.remote ? 'Remote' : 'On-site'}}</span>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="compact-actions">
+    <div class="deadline">
+      <mat-icon>event</mat-icon>
+      <span>{{formatDate(match.opportunity.applicationDeadline)}}</span>
+    </div>
+    <button mat-icon-button color="primary" (click)="onApply(); $event.stopPropagation()" matTooltip="Apply Now">
+      <mat-icon>send</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

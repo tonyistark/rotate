@@ -1,0 +1,316 @@
+<div class="employee-detail-modal">
+  <div class="modal-header">
+    <div class="employee-header">
+      <img *ngIf="employee.profilePicture" 
+           [src]="employee.profilePicture" 
+           [alt]="employee.name"
+           class="profile-picture-large">
+      <mat-icon *ngIf="!employee.profilePicture" class="profile-placeholder-large">person</mat-icon>
+      
+      <div class="header-info">
+        <h2>{{employee.name}}</h2>
+        <p class="job-title">{{employee.currentRole}}</p>
+        <p class="department">{{employee.department}}</p>
+      </div>
+    </div>
+    
+    <div class="header-actions">
+      <button *ngIf="!isEditMode" mat-raised-button color="primary" (click)="toggleEditMode()" class="edit-button">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+      
+      <div *ngIf="isEditMode" class="edit-actions">
+        <button mat-raised-button color="primary" (click)="saveChanges()" class="save-button">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+        <button mat-stroked-button (click)="cancelEdit()" class="cancel-button">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+      </div>
+      
+      <button mat-icon-button (click)="onClose()" class="close-button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-content">
+    <div class="content-columns">
+      <!-- Column 1: Basic Info to Performance -->
+      <div class="column-1">
+        <div class="section">
+          <h3><mat-icon>person</mat-icon> Basic Information</h3>
+          <div class="detail-item">
+            <span class="label">Email:</span>
+            <mat-form-field *ngIf="isEditMode" appearance="outline" class="edit-field">
+              <input matInput [(ngModel)]="editableEmployee.email" type="email">
+            </mat-form-field>
+            <span *ngIf="!isEditMode" class="value">{{employee.email}}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Years Experience:</span>
+            <mat-form-field *ngIf="isEditMode" appearance="outline" class="edit-field">
+              <input matInput [(ngModel)]="editableEmployee.yearsExperience" type="number" min="0">
+            </mat-form-field>
+            <span *ngIf="!isEditMode" class="value">{{employee.yearsExperience}} years</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Performance Rating:</span>
+            <mat-form-field *ngIf="isEditMode" appearance="outline" class="edit-field">
+              <mat-select [(ngModel)]="editableEmployee.performanceRating">
+                <mat-option *ngFor="let rating of performanceRatings" [value]="rating">
+                  {{rating}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span *ngIf="!isEditMode" class="value">{{employee.performanceRating}}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Availability:</span>
+            <mat-form-field *ngIf="isEditMode" appearance="outline" class="edit-field">
+              <mat-select [(ngModel)]="editableEmployee.availability">
+                <mat-option *ngFor="let option of availabilityOptions" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span *ngIf="!isEditMode" class="value">{{employee.availability}}</span>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3><mat-icon>timeline</mat-icon> Career Timeline</h3>
+          <div class="detail-item">
+            <span class="label">Last Hire Date:</span>
+            <span class="value">{{formatDate(employee.lastHireDate)}}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Last Promoted:</span>
+            <span class="value">{{formatDate(employee.lastPromotedDate)}}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Performance Trend:</span>
+            <span class="value">{{employee.performanceTrend}}</span>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3><mat-icon>psychology</mat-icon> Development & Risk</h3>
+          <div class="detail-item">
+            <span class="label">Talent Development:</span>
+            <div class="chip-container">
+              <mat-chip *ngFor="let item of employee.talentDevelopmentInventory" color="primary" selected>
+                {{item}}
+              </mat-chip>
+            </div>
+          </div>
+          <div class="detail-item">
+            <span class="label">Attrition Risk:</span>
+            <mat-form-field *ngIf="isEditMode" appearance="outline" class="edit-field">
+              <input matInput [(ngModel)]="editableEmployee.attritionRisk" type="number" min="0" max="100">
+              <span matSuffix>%</span>
+            </mat-form-field>
+            <span *ngIf="!isEditMode" class="value risk-percentage" [ngClass]="getAttritionRiskClass(employee.attritionRisk)">
+              {{employee.attritionRisk}}%
+            </span>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3><mat-icon>build</mat-icon> Skills</h3>
+          <div class="detail-item">
+            <span class="label">All Skills:</span>
+            <div *ngIf="isEditMode" class="editable-chips">
+              <div class="chip-container">
+                <mat-chip *ngFor="let skill of editableEmployee.skills; let i = index" color="primary" selected>
+                  {{skill}}
+                  <button matChipRemove (click)="removeSkill('skills', i)">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <div *ngIf="!showSkillInput['skills']">
+                  <button mat-mini-fab color="accent" (click)="addSkill('skills')" class="add-chip-button">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div *ngIf="showSkillInput['skills']" class="add-skill-input">
+                  <mat-form-field appearance="outline" class="skill-input-field">
+                    <input matInput [(ngModel)]="newSkillValues['skills']" placeholder="Enter new skill" 
+                           (keyup.enter)="confirmAddSkill('skills')" (keyup.escape)="cancelAddSkill('skills')">
+                  </mat-form-field>
+                  <button mat-icon-button color="primary" (click)="confirmAddSkill('skills')" class="confirm-button">
+                    <mat-icon>check</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="cancelAddSkill('skills')" class="cancel-button">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!isEditMode" class="chip-container">
+              <mat-chip *ngFor="let skill of employee.skills" color="primary" selected>
+                {{skill}}
+              </mat-chip>
+            </div>
+          </div>
+          <div class="detail-item">
+            <span class="label">Interests:</span>
+            <div *ngIf="isEditMode" class="editable-chips">
+              <div class="chip-container">
+                <mat-chip *ngFor="let interest of editableEmployee.interests; let i = index" color="accent" selected>
+                  {{interest}}
+                  <button matChipRemove (click)="removeSkill('interests', i)">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <button mat-mini-fab color="accent" (click)="addSkill('interests')" class="add-chip-button">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div *ngIf="!isEditMode" class="chip-container">
+              <mat-chip *ngFor="let interest of employee.interests" color="accent" selected>
+                {{interest}}
+              </mat-chip>
+            </div>
+          </div>
+          <div class="detail-item">
+            <span class="label">Career Goals:</span>
+            <div *ngIf="isEditMode" class="editable-chips">
+              <div class="chip-container">
+                <mat-chip *ngFor="let goal of editableEmployee.careerGoals; let i = index" color="warn" selected>
+                  {{goal}}
+                  <button matChipRemove (click)="removeSkill('careerGoals', i)">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <button mat-mini-fab color="accent" (click)="addSkill('careerGoals')" class="add-chip-button">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div *ngIf="!isEditMode" class="chip-container">
+              <mat-chip *ngFor="let goal of employee.careerGoals" color="warn" selected>
+                {{goal}}
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2: Skillset Experience onwards -->
+      <div class="column-2">
+        <div class="section">
+          <h3><mat-icon>code</mat-icon> Skillset Experience</h3>
+          <div class="detail-item">
+            <div *ngIf="isEditMode" class="editable-chips">
+              <div class="chip-container">
+                <mat-chip *ngFor="let skill of editableEmployee.skillsetExperience; let i = index" color="primary" selected>
+                  {{skill}}
+                  <button matChipRemove (click)="removeSkill('skillsetExperience', i)">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <div *ngIf="!showSkillInput['skillsetExperience']">
+                  <button mat-mini-fab color="accent" (click)="addSkill('skillsetExperience')" class="add-chip-button">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div *ngIf="showSkillInput['skillsetExperience']" class="add-skill-input">
+                  <mat-form-field appearance="outline" class="skill-input-field">
+                    <input matInput [(ngModel)]="newSkillValues['skillsetExperience']" placeholder="Enter new skill" 
+                           (keyup.enter)="confirmAddSkill('skillsetExperience')" (keyup.escape)="cancelAddSkill('skillsetExperience')">
+                  </mat-form-field>
+                  <button mat-icon-button color="primary" (click)="confirmAddSkill('skillsetExperience')" class="confirm-button">
+                    <mat-icon>check</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="cancelAddSkill('skillsetExperience')" class="cancel-button">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!isEditMode" class="chip-container">
+              <mat-chip *ngFor="let skill of employee.skillsetExperience" color="primary" selected>
+                {{skill}}
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3><mat-icon>star</mat-icon> Competency Strengths</h3>
+          <div class="detail-item">
+            <div *ngIf="isEditMode" class="editable-chips">
+              <div class="chip-container">
+                <mat-chip *ngFor="let strength of editableEmployee.competencyStrengths; let i = index" color="accent" selected>
+                  {{strength}}
+                  <button matChipRemove (click)="removeSkill('competencyStrengths', i)">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <button mat-mini-fab color="accent" (click)="addSkill('competencyStrengths')" class="add-chip-button">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div *ngIf="!isEditMode" class="chip-container">
+              <mat-chip *ngFor="let strength of employee.competencyStrengths" color="accent" selected>
+                {{strength}}
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3><mat-icon>interests</mat-icon> Career Interest</h3>
+          <div class="detail-item">
+            <div *ngIf="isEditMode" class="editable-chips">
+              <div class="chip-container">
+                <mat-chip *ngFor="let interest of editableEmployee.careerInterest; let i = index" color="warn" selected>
+                  {{interest}}
+                  <button matChipRemove (click)="removeSkill('careerInterest', i)">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <button mat-mini-fab color="accent" (click)="addSkill('careerInterest')" class="add-chip-button">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div *ngIf="!isEditMode" class="chip-container">
+              <mat-chip *ngFor="let interest of employee.careerInterest" color="warn" selected>
+                {{interest}}
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3><mat-icon>swap_horiz</mat-icon> Rotation Status</h3>
+          <div class="detail-item">
+            <span class="label">Confirmed Interest in Rotation:</span>
+            <mat-checkbox *ngIf="isEditMode" [(ngModel)]="editableEmployee.confirmedInterestInRotation" class="edit-checkbox">
+              {{editableEmployee.confirmedInterestInRotation ? 'Yes' : 'No'}}
+            </mat-checkbox>
+            <mat-chip *ngIf="!isEditMode" [color]="employee.confirmedInterestInRotation ? 'primary' : 'warn'" selected>
+              {{employee.confirmedInterestInRotation ? 'Yes' : 'No'}}
+            </mat-chip>
+          </div>
+          <div class="detail-item">
+            <span class="label">Leadership Support of Rotation:</span>
+            <mat-checkbox *ngIf="isEditMode" [(ngModel)]="editableEmployee.leadershipSupportOfRotation" class="edit-checkbox">
+              {{editableEmployee.leadershipSupportOfRotation ? 'Yes' : 'No'}}
+            </mat-checkbox>
+            <mat-chip *ngIf="!isEditMode" [color]="employee.leadershipSupportOfRotation ? 'primary' : 'warn'" selected>
+              {{employee.leadershipSupportOfRotation ? 'Yes' : 'No'}}
+            </mat-chip>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

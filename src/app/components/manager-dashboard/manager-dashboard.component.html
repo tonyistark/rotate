@@ -1,0 +1,226 @@
+<div class="manager-dashboard">
+  <div class="dashboard-header">
+    <mat-card class="header-card">
+      <mat-card-content>
+        <div class="header-content">
+          <div class="manager-info">
+            <mat-icon class="manager-icon">supervisor_account</mat-icon>
+            <div>
+              <h1>Manager Dashboard</h1>
+              <p>Manage your team's opportunity assignments</p>
+            </div>
+          </div>
+          
+          <div class="stats-overview">
+            <div class="stat-item">
+              <div class="stat-number">{{teamMembers.length}}</div>
+              <div class="stat-label">Team Members</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{getTotalAssignments()}}</div>
+              <div class="stat-label">Active Assignments</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{getHighPerformers()}}</div>
+              <div class="stat-label">High Performers</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{getAverageMatchScore()}}%</div>
+              <div class="stat-label">Avg Match Score</div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="team-grid" *ngIf="!loading">
+    <mat-card class="employee-card" *ngFor="let teamMember of teamMembers">
+      <mat-card-header>
+        <div class="employee-card-content">
+          <!-- Header with Profile -->
+          <div class="employee-header-section">
+            <div class="employee-profile">
+              <img *ngIf="teamMember.employee.profilePicture" 
+                   [src]="teamMember.employee.profilePicture" 
+                   [alt]="teamMember.employee.name"
+                   class="profile-picture">
+              <mat-icon *ngIf="!teamMember.employee.profilePicture" class="profile-placeholder">person</mat-icon>
+              
+              <div class="basic-info">
+                <h3 class="clickable-name" (click)="viewEmployeeDetails(teamMember.employee)">{{teamMember.employee.name}}</h3>
+                <p class="job-title">{{teamMember.employee.currentRole}}</p>
+                <div class="quick-stats">
+                  <span class="stat">{{teamMember.employee.yearsExperience}}y exp</span>
+                  <span class="stat">{{teamMember.employee.performanceRating}}</span>
+                  <span class="stat risk-stat" [ngClass]="getAttritionRiskClass(teamMember.employee.attritionRisk)">
+                    {{teamMember.employee.attritionRisk}}% risk
+                  </span>
+                </div>
+                <div class="rotation-badges">
+                  <mat-chip [color]="teamMember.employee.confirmedInterestInRotation ? 'primary' : 'warn'" selected class="small-chip">
+                    Interest: {{teamMember.employee.confirmedInterestInRotation ? 'Yes' : 'No'}}
+                  </mat-chip>
+                  <mat-chip [color]="teamMember.employee.leadershipSupportOfRotation ? 'primary' : 'warn'" selected class="small-chip">
+                    Support: {{teamMember.employee.leadershipSupportOfRotation ? 'Yes' : 'No'}}
+                  </mat-chip>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compact Info Grid -->
+          <div class="info-grid">
+            <div class="info-item">
+              <mat-icon>code</mat-icon>
+              <div class="info-content">
+                <span class="label">Skills</span>
+                <div class="compact-chips">
+                  <mat-chip *ngFor="let skill of teamMember.employee.skillsetExperience.slice(0, 3)" color="primary" selected>
+                    {{skill}}
+                  </mat-chip>
+                  <span *ngIf="teamMember.employee.skillsetExperience.length > 3" class="more-count">
+                    +{{teamMember.employee.skillsetExperience.length - 3}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon>star</mat-icon>
+              <div class="info-content">
+                <span class="label">Strengths</span>
+                <div class="compact-chips">
+                  <mat-chip *ngFor="let strength of teamMember.employee.competencyStrengths.slice(0, 2)" color="accent" selected>
+                    {{strength}}
+                  </mat-chip>
+                  <span *ngIf="teamMember.employee.competencyStrengths.length > 2" class="more-count">
+                    +{{teamMember.employee.competencyStrengths.length - 2}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon>interests</mat-icon>
+              <div class="info-content">
+                <span class="label">Interests</span>
+                <div class="compact-chips">
+                  <mat-chip *ngFor="let interest of teamMember.employee.careerInterest.slice(0, 2)" color="warn" selected>
+                    {{interest}}
+                  </mat-chip>
+                  <span *ngIf="teamMember.employee.careerInterest.length > 2" class="more-count">
+                    +{{teamMember.employee.careerInterest.length - 2}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon>timeline</mat-icon>
+              <div class="info-content">
+                <span class="label">Career</span>
+                <div class="career-info">
+                  <span class="career-detail">Hired: {{formatDate(teamMember.employee.lastHireDate)}}</span>
+                  <span class="career-detail">Promoted: {{formatDate(teamMember.employee.lastPromotedDate)}}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-item full-width">
+              <mat-icon>psychology</mat-icon>
+              <div class="info-content">
+                <span class="label">Development</span>
+                <div class="development-tags">
+                  <span *ngFor="let item of teamMember.employee.talentDevelopmentInventory" class="dev-tag">
+                    {{item}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="skills-preview">
+          <h4><mat-icon>psychology</mat-icon> Key Skills</h4>
+          <div class="skills-chips">
+            <mat-chip *ngFor="let skill of teamMember.employee.skills.slice(0, 3)" 
+                     color="primary" selected>
+              {{skill}}
+            </mat-chip>
+            <span *ngIf="teamMember.employee.skills.length > 3" class="more-skills">
+              +{{teamMember.employee.skills.length - 3}} more
+            </span>
+          </div>
+        </div>
+
+        <div class="opportunities-section">
+          <h4><mat-icon>work</mat-icon> Top Opportunity Matches</h4>
+          
+          <div class="opportunity-matches">
+            <div class="opportunity-match" *ngFor="let match of teamMember.topMatches">
+              <div class="match-info">
+                <div class="match-header">
+                  <span class="opportunity-title" (click)="viewOpportunityDetails(match)">
+                    {{match.opportunity.title}}
+                  </span>
+                  <div class="match-score" [ngClass]="getScoreClass(match.score)">
+                    {{match.score}}%
+                  </div>
+                </div>
+                <div class="match-details">
+                  <span class="department-badge">{{match.opportunity.department}}</span>
+                  <mat-chip [color]="getLevelColor(match.opportunity.level)" selected>
+                    {{match.opportunity.level}}
+                  </mat-chip>
+                  <span class="deadline">Due: {{formatDate(match.opportunity.applicationDeadline)}}</span>
+                </div>
+              </div>
+              
+              <div class="assignment-actions">
+                <button *ngIf="!isAssigned(teamMember.employee.id, match.opportunity.id)"
+                        mat-icon-button 
+                        color="primary"
+                        matTooltip="Assign to Employee"
+                        (click)="assignOpportunity(teamMember.employee.id, match.opportunity.id, match.opportunity.title)">
+                  <mat-icon>add_circle</mat-icon>
+                </button>
+                
+                <button *ngIf="isAssigned(teamMember.employee.id, match.opportunity.id)"
+                        mat-icon-button 
+                        color="warn"
+                        matTooltip="Remove Assignment"
+                        (click)="removeAssignment(teamMember.employee.id, match.opportunity.id, match.opportunity.title)">
+                  <mat-icon>remove_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="assignments-section" *ngIf="teamMember.assignments.length > 0">
+          <h4><mat-icon>assignment</mat-icon> Current Assignments</h4>
+          <div class="assignments-count">
+            <mat-chip color="accent" selected>
+              {{teamMember.assignments.length}} assigned
+            </mat-chip>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="loading-state" *ngIf="loading">
+    <mat-card>
+      <mat-card-content>
+        <div class="loading-content">
+          <mat-icon>hourglass_empty</mat-icon>
+          <h3>Loading team data...</h3>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
