@@ -29,6 +29,17 @@
               <div class="stat-label">Avg Match Score</div>
             </div>
           </div>
+          
+          <div class="header-actions">
+            <button mat-stroked-button color="primary" (click)="viewAllOpportunities()">
+              <mat-icon>list</mat-icon>
+              View All Opportunities
+            </button>
+            <button mat-raised-button color="primary" (click)="createNewOpportunity()">
+              <mat-icon>add</mat-icon>
+              Create Opportunity
+            </button>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
@@ -176,6 +187,7 @@
                   <mat-chip [color]="getLevelColor(match.opportunity.level)" selected>
                     {{match.opportunity.level}}
                   </mat-chip>
+                  <span class="start-date">Starts: {{formatDate(match.opportunity.startDate)}}</span>
                   <span class="deadline">Due: {{formatDate(match.opportunity.applicationDeadline)}}</span>
                 </div>
               </div>

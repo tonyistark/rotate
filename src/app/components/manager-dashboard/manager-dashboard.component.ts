@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,7 +38,8 @@ export class ManagerDashboardComponent implements OnInit {
   constructor(
     private managerService: ManagerService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -117,7 +119,14 @@ export class ManagerDashboardComponent implements OnInit {
   }
 
   formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString();
+    if (!dateString || dateString.trim() === '') {
+      return 'Not set';
+    }
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return 'Not set';
+    }
+    return date.toLocaleDateString();
   }
 
   getTotalAssignments(): number {
@@ -162,5 +171,13 @@ export class ManagerDashboardComponent implements OnInit {
         }
       }
     });
+  }
+
+  createNewOpportunity(): void {
+    this.router.navigate(['/create-opportunity']);
+  }
+
+  viewAllOpportunities(): void {
+    this.router.navigate(['/opportunities']);
   }
 }

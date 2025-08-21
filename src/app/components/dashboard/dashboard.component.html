@@ -1,0 +1,254 @@
+<div class="dashboard-container">
+  <!-- Header Section -->
+  <div class="dashboard-header">
+    <mat-card class="header-card">
+      <mat-card-content>
+        <div class="header-content">
+          <div class="title-section">
+            <h1>
+              <mat-icon>dashboard</mat-icon>
+              Manager Dashboard
+            </h1>
+            <p>Welcome back! Here's an overview of your team's performance and upcoming rotations.</p>
+          </div>
+          <div class="quick-actions">
+            <button mat-raised-button color="primary" (click)="navigateToCreateOpportunity()">
+              <mat-icon>add</mat-icon>
+              Create Opportunity
+            </button>
+            <button mat-raised-button color="accent" (click)="navigateToOpportunities()">
+              <mat-icon>list</mat-icon>
+              View All Opportunities
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Key Metrics Section -->
+  <div class="metrics-section">
+    <div class="metrics-grid">
+      <mat-card class="metric-card">
+        <mat-card-content>
+          <div class="metric-content">
+            <div class="metric-icon">
+              <mat-icon>group</mat-icon>
+            </div>
+            <div class="metric-info">
+              <h3>{{teamMetrics.totalMembers}}</h3>
+              <p>Team Members</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <mat-card-content>
+          <div class="metric-content">
+            <div class="metric-icon active">
+              <mat-icon>autorenew</mat-icon>
+            </div>
+            <div class="metric-info">
+              <h3>{{teamMetrics.activeRotations}}</h3>
+              <p>Active Rotations</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <mat-card-content>
+          <div class="metric-content">
+            <div class="metric-icon upcoming">
+              <mat-icon>schedule</mat-icon>
+            </div>
+            <div class="metric-info">
+              <h3>{{teamMetrics.upcomingRotations}}</h3>
+              <p>Upcoming Rotations</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <mat-card-content>
+          <div class="metric-content">
+            <div class="metric-icon performance">
+              <mat-icon>trending_up</mat-icon>
+            </div>
+            <div class="metric-info">
+              <h3>{{teamMetrics.averagePerformance}}%</h3>
+              <p>Avg Performance</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="main-content">
+    <div class="content-grid">
+      
+      <!-- Team Overview -->
+      <mat-card class="team-overview-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>people</mat-icon>
+            Team Overview
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="team-stats">
+            <div class="stat-item">
+              <span class="stat-label">Performance Distribution</span>
+              <div class="performance-breakdown">
+                <div class="performance-item" *ngFor="let member of teamMembers">
+                  <span class="member-name">{{member.name}}</span>
+                  <mat-chip [color]="getPerformanceColor(member.performanceRating)" selected>
+                    {{member.performanceRating}}
+                  </mat-chip>
+                </div>
+              </div>
+            </div>
+            
+            <div class="stat-item">
+              <span class="stat-label">Attrition Risk</span>
+              <div class="risk-indicator">
+                <mat-progress-bar 
+                  mode="determinate" 
+                  [value]="teamMetrics.attritionRisk"
+                  [color]="getAttritionRiskColor(teamMetrics.attritionRisk)">
+                </mat-progress-bar>
+                <span class="risk-value">{{teamMetrics.attritionRisk}}%</span>
+              </div>
+            </div>
+          </div>
+          
+          <button mat-raised-button color="primary" (click)="navigateToTeamManagement()">
+            <mat-icon>manage_accounts</mat-icon>
+            Manage Team
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Rotation Calendar -->
+      <mat-card class="calendar-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>event</mat-icon>
+            Rotation Calendar
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="calendar-section">
+            <div class="upcoming-rotations">
+              <h4>Upcoming Rotations</h4>
+              <div class="rotation-list">
+                <div class="rotation-item" *ngFor="let event of rotationEvents">
+                  <div class="rotation-info">
+                    <div class="rotation-header">
+                      <mat-icon [color]="getRotationTypeColor(event.type)">
+                        {{getRotationTypeIcon(event.type)}}
+                      </mat-icon>
+                      <span class="rotation-title">{{event.title}}</span>
+                    </div>
+                    <div class="rotation-details">
+                      <span class="employee-name">{{event.employeeName}}</span>
+                      <span class="department">{{event.department}}</span>
+                    </div>
+                    <div class="rotation-dates">
+                      <span class="start-date">Starts: {{formatDate(event.startDate)}}</span>
+                      <span class="end-date">Ends: {{formatDate(event.endDate)}}</span>
+                    </div>
+                  </div>
+                  <mat-chip [color]="getRotationTypeColor(event.type)" selected>
+                    {{event.type}}
+                  </mat-chip>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Skills Inventory -->
+      <mat-card class="skills-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>psychology</mat-icon>
+            Team Skills Inventory
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="skills-grid">
+            <div class="skill-item" *ngFor="let skill of skillInventory">
+              <div class="skill-header">
+                <span class="skill-name">{{skill.skill}}</span>
+                <mat-icon [color]="getTrendColor(skill.trend)">
+                  {{getTrendIcon(skill.trend)}}
+                </mat-icon>
+              </div>
+              <div class="skill-details">
+                <span class="skill-count">{{skill.count}} team members</span>
+                <mat-chip [color]="skill.proficiency === 'Expert' ? 'primary' : 'accent'" selected>
+                  {{skill.proficiency}}
+                </mat-chip>
+              </div>
+              <mat-progress-bar 
+                mode="determinate" 
+                [value]="(skill.count / teamMembers.length) * 100"
+                color="primary">
+              </mat-progress-bar>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Recent Opportunities -->
+      <mat-card class="opportunities-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>work</mat-icon>
+            Recent Opportunities
+          </mat-card-title>
+          <mat-card-subtitle>Latest opportunities created</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="opportunities-list" *ngIf="opportunities.length > 0; else noOpportunities">
+            <div class="opportunity-item" *ngFor="let opportunity of opportunities.slice(0, 3)">
+              <div class="opportunity-info">
+                <h4>{{opportunity.title}}</h4>
+                <p>{{opportunity.department}} • {{opportunity.level}}</p>
+                <div class="opportunity-meta">
+                  <span class="duration">{{opportunity.duration}}</span>
+                  <span class="commitment">{{opportunity.timeCommitment}}</span>
+                </div>
+              </div>
+              <div class="opportunity-actions">
+                <mat-chip color="primary" selected>{{opportunity.level}}</mat-chip>
+              </div>
+            </div>
+          </div>
+          <ng-template #noOpportunities>
+            <div class="no-opportunities">
+              <mat-icon>work_off</mat-icon>
+              <p>No opportunities created yet</p>
+              <button mat-raised-button color="primary" (click)="navigateToCreateOpportunity()">
+                Create First Opportunity
+              </button>
+            </div>
+          </ng-template>
+          
+          <div class="opportunities-actions" *ngIf="opportunities.length > 0">
+            <button mat-button color="primary" (click)="navigateToOpportunities()">
+              View All Opportunities
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+</div>

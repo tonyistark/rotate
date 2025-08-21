@@ -60,6 +60,13 @@ export class OpportunityCardComponent {
   }
 
   formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString();
+    if (!dateString || dateString.trim() === '') {
+      return 'Not set';
+    }
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return 'Not set';
+    }
+    return date.toLocaleDateString();
   }
 }

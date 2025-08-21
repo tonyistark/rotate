@@ -1,0 +1,212 @@
+<div class="opportunities-list-container">
+  <div class="header-section">
+    <mat-card class="header-card">
+      <mat-card-content>
+        <div class="header-content">
+          <div class="title-section">
+            <button mat-icon-button (click)="goBack()" matTooltip="Back to Dashboard">
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+            <div class="title-info">
+              <h1><mat-icon>work</mat-icon> All Opportunities</h1>
+              <p>Browse and manage available rotation opportunities</p>
+            </div>
+          </div>
+          
+          <div class="header-actions">
+            <button mat-raised-button color="primary" (click)="createNewOpportunity()">
+              <mat-icon>add</mat-icon>
+              Create New Opportunity
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="filters-section">
+    <mat-card class="filters-card">
+      <mat-card-content>
+        <div class="filters-content">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search opportunities</mat-label>
+            <input matInput [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" 
+                   placeholder="Search by title, description, or skills...">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Department</mat-label>
+            <mat-select [(ngModel)]="selectedDepartment" (ngModelChange)="onDepartmentChange()">
+              <mat-option *ngFor="let dept of departments" [value]="dept === 'All' ? '' : dept">
+                {{dept}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Level</mat-label>
+            <mat-select [(ngModel)]="selectedLevel" (ngModelChange)="onLevelChange()">
+              <mat-option *ngFor="let level of levels" [value]="level === 'All' ? '' : level">
+                {{level}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="results-section">
+    <div class="results-header">
+      <h3>{{filteredOpportunities.length}} Opportunities Found</h3>
+    </div>
+
+    <div class="opportunities-grid" *ngIf="!loading">
+      <mat-card class="opportunity-card" *ngFor="let opportunity of filteredOpportunities" 
+                (click)="viewOpportunityDetails(opportunity)">
+        <mat-card-header>
+          <div class="card-header-content">
+            <div class="title-section">
+              <mat-card-title>{{opportunity.title}}</mat-card-title>
+              <div class="card-subtitle">
+                <span class="department">
+                  <mat-icon>business</mat-icon>
+                  {{opportunity.department}}
+                </span>
+                <mat-chip [color]="getLevelColor(opportunity.level)" selected>
+                  {{opportunity.level}}
+                </mat-chip>
+              </div>
+            </div>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p class="description">{{opportunity.description}}</p>
+
+          <div class="skills-section">
+            <div class="skill-group">
+              <h4><mat-icon>check_circle</mat-icon> Required Skills</h4>
+              <div class="skills-chips">
+                <mat-chip *ngFor="let skill of opportunity.requiredSkills.slice(0, 3)" color="primary" selected>
+                  {{skill}}
+                </mat-chip>
+                <span *ngIf="opportunity.requiredSkills.length > 3" class="more-count">
+                  +{{opportunity.requiredSkills.length - 3}} more
+                </span>
+              </div>
+            </div>
+
+            <div class="skill-group" *ngIf="opportunity.preferredSkills.length > 0">
+              <h4><mat-icon>star</mat-icon> Preferred Skills</h4>
+              <div class="skills-chips">
+                <mat-chip *ngFor="let skill of opportunity.preferredSkills.slice(0, 3)" color="accent" selected>
+                  {{skill}}
+                </mat-chip>
+                <span *ngIf="opportunity.preferredSkills.length > 3" class="more-count">
+                  +{{opportunity.preferredSkills.length - 3}} more
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="opportunity-details">
+            <div class="detail-item">
+              <mat-icon>schedule</mat-icon>
+              <span>{{opportunity.timeCommitment}} • {{opportunity.duration}}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>{{opportunity.remote ? 'home' : 'location_city'}}</mat-icon>
+              <span>{{opportunity.remote ? 'Remote' : 'On-site'}}</span>
+            </div>
+            <div class="detail-item" *ngIf="opportunity.mentorAvailable">
+              <mat-icon>person</mat-icon>
+              <span>Mentor Available</span>
+            </div>
+          </div>
+
+          <div class="team-matches">
+            <h4><mat-icon>people</mat-icon> Team Matches</h4>
+            <div class="matches-breakdown">
+              <div class="match-summary">
+                <span class="total-matches">{{getTeamMatches(opportunity).length}} team members match</span>
+                <div class="match-levels">
+                  <span class="excellent-matches" *ngIf="getExcellentMatches(opportunity).length > 0">
+                    {{getExcellentMatches(opportunity).length}} excellent
+                  </span>
+                  <span class="good-matches" *ngIf="getGoodMatches(opportunity).length > 0">
+                    {{getGoodMatches(opportunity).length}} good
+                  </span>
+                  <span class="fair-matches" *ngIf="getFairMatches(opportunity).length > 0">
+                    {{getFairMatches(opportunity).length}} fair
+                  </span>
+                </div>
+              </div>
+              <div class="matched-members">
+                <div class="member-match" *ngFor="let match of getTeamMatches(opportunity).slice(0, 3)">
+                  <span class="member-name">{{match.name}}</span>
+                  <mat-chip [color]="getMatchQualityColor(match.matchScore)" selected>
+                    {{getMatchQualityLabel(match.matchScore)}}
+                  </mat-chip>
+                </div>
+                <span *ngIf="getTeamMatches(opportunity).length > 3" class="more-matches">
+                  +{{getTeamMatches(opportunity).length - 3}} more matches
+                </span>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions class="card-actions">
+          <div class="date-info">
+            <div class="date-item">
+              <mat-icon>play_arrow</mat-icon>
+              <span>Starts: {{formatDate(opportunity.startDate)}}</span>
+            </div>
+            <div class="date-item">
+              <mat-icon>event</mat-icon>
+              <span>Apply by: {{formatDate(opportunity.applicationDeadline)}}</span>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button mat-raised-button color="primary" (click)="viewOpportunityDetails(opportunity); $event.stopPropagation()">
+              View Details
+            </button>
+            <button mat-raised-button color="accent" (click)="editOpportunity(opportunity); $event.stopPropagation()">
+              <mat-icon>edit</mat-icon>
+              Edit
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <div class="loading-state" *ngIf="loading">
+      <mat-card>
+        <mat-card-content>
+          <div class="loading-content">
+            <mat-icon>hourglass_empty</mat-icon>
+            <h3>Loading opportunities...</h3>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && filteredOpportunities.length === 0">
+      <mat-card>
+        <mat-card-content>
+          <div class="empty-content">
+            <mat-icon>search_off</mat-icon>
+            <h3>No opportunities found</h3>
+            <p>Try adjusting your search criteria or create a new opportunity.</p>
+            <button mat-raised-button color="primary" (click)="createNewOpportunity()">
+              <mat-icon>add</mat-icon>
+              Create New Opportunity
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

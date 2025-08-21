@@ -1,0 +1,219 @@
+<div class="create-opportunity-container">
+  <mat-card class="create-opportunity-card">
+    <mat-card-header>
+      <div class="header-content">
+        <mat-icon class="header-icon">add_business</mat-icon>
+        <div>
+          <mat-card-title>{{ isEditMode ? 'Edit Opportunity' : 'Create New Opportunity' }}</mat-card-title>
+          <mat-card-subtitle>{{ isEditMode ? 'Update the opportunity details below' : 'Fill out the form below to create a new opportunity for your team' }}</mat-card-subtitle>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="opportunityForm" (ngSubmit)="onSubmit()" class="opportunity-form">
+        
+        <!-- Basic Information -->
+        <div class="form-section">
+          <h3><mat-icon>info</mat-icon> Basic Information</h3>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Opportunity Title</mat-label>
+              <input matInput formControlName="title" placeholder="e.g., Frontend Developer Rotation">
+              <mat-error *ngIf="opportunityForm.get('title')?.hasError('required')">
+                Title is required
+              </mat-error>
+              <mat-error *ngIf="opportunityForm.get('title')?.hasError('minlength')">
+                Title must be at least 3 characters
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Department</mat-label>
+              <mat-select formControlName="department">
+                <mat-option *ngFor="let dept of departments" [value]="dept">
+                  {{dept}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="opportunityForm.get('department')?.hasError('required')">
+                Department is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Level</mat-label>
+              <mat-select formControlName="level">
+                <mat-option *ngFor="let level of levels" [value]="level">
+                  {{level}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="opportunityForm.get('level')?.hasError('required')">
+                Level is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="4" 
+                       placeholder="Describe the opportunity, responsibilities, and what the candidate will learn..."></textarea>
+              <mat-error *ngIf="opportunityForm.get('description')?.hasError('required')">
+                Description is required
+              </mat-error>
+              <mat-error *ngIf="opportunityForm.get('description')?.hasError('minlength')">
+                Description must be at least 10 characters
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Skills Requirements -->
+        <div class="form-section">
+          <h3><mat-icon>code</mat-icon> Skills & Requirements</h3>
+          
+          <div class="skills-section">
+            <h4>Required Skills</h4>
+            <div formArrayName="requiredSkills">
+              <div *ngFor="let skill of requiredSkills.controls; let i = index" class="skill-input">
+                <mat-form-field appearance="outline" class="skill-field">
+                  <mat-label>Required Skill {{i + 1}}</mat-label>
+                  <input matInput [formControlName]="i" placeholder="e.g., JavaScript, React">
+                  <mat-error *ngIf="skill.hasError('required')">
+                    Skill is required
+                  </mat-error>
+                </mat-form-field>
+                <button type="button" mat-icon-button color="warn" (click)="removeSkill('required', i)">
+                  <mat-icon>remove_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+            <button type="button" mat-stroked-button color="primary" (click)="addSkill('required')">
+              <mat-icon>add</mat-icon> Add Required Skill
+            </button>
+          </div>
+
+          <div class="skills-section">
+            <h4>Preferred Skills</h4>
+            <div formArrayName="preferredSkills">
+              <div *ngFor="let skill of preferredSkills.controls; let i = index" class="skill-input">
+                <mat-form-field appearance="outline" class="skill-field">
+                  <mat-label>Preferred Skill {{i + 1}}</mat-label>
+                  <input matInput [formControlName]="i" placeholder="e.g., TypeScript, Node.js">
+                  <mat-error *ngIf="skill.hasError('required')">
+                    Skill is required
+                  </mat-error>
+                </mat-form-field>
+                <button type="button" mat-icon-button color="warn" (click)="removeSkill('preferred', i)">
+                  <mat-icon>remove_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+            <button type="button" mat-stroked-button color="accent" (click)="addSkill('preferred')">
+              <mat-icon>add</mat-icon> Add Preferred Skill
+            </button>
+          </div>
+        </div>
+
+        <!-- Opportunity Details -->
+        <div class="form-section">
+          <h3><mat-icon>schedule</mat-icon> Opportunity Details</h3>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Time Commitment</mat-label>
+              <mat-select formControlName="timeCommitment">
+                <mat-option *ngFor="let commitment of timeCommitments" [value]="commitment">
+                  {{commitment}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="opportunityForm.get('timeCommitment')?.hasError('required')">
+                Time commitment is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Duration</mat-label>
+              <mat-select formControlName="duration">
+                <mat-option *ngFor="let duration of durations" [value]="duration">
+                  {{duration}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="opportunityForm.get('duration')?.hasError('required')">
+                Duration is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Start Date</mat-label>
+              <input matInput [matDatepicker]="startPicker" formControlName="startDate">
+              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+              <mat-error *ngIf="opportunityForm.get('startDate')?.hasError('required')">
+                Start date is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Application Deadline</mat-label>
+              <input matInput [matDatepicker]="deadlinePicker" formControlName="applicationDeadline">
+              <mat-datepicker-toggle matSuffix [for]="deadlinePicker"></mat-datepicker-toggle>
+              <mat-datepicker #deadlinePicker></mat-datepicker>
+              <mat-error *ngIf="opportunityForm.get('applicationDeadline')?.hasError('required')">
+                Application deadline is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row checkbox-row">
+            <mat-checkbox formControlName="mentorAvailable">
+              <mat-icon>person</mat-icon> Mentor Available
+            </mat-checkbox>
+            <mat-checkbox formControlName="remote">
+              <mat-icon>home</mat-icon> Remote Work Option
+            </mat-checkbox>
+          </div>
+        </div>
+
+        <!-- Learning Outcomes -->
+        <div class="form-section">
+          <h3><mat-icon>school</mat-icon> Learning Outcomes</h3>
+          
+          <div formArrayName="learningOutcomes">
+            <div *ngFor="let outcome of learningOutcomes.controls; let i = index" class="outcome-input">
+              <mat-form-field appearance="outline" class="outcome-field">
+                <mat-label>Learning Outcome {{i + 1}}</mat-label>
+                <input matInput [formControlName]="i" placeholder="e.g., Gain experience with microservices architecture">
+                <mat-error *ngIf="outcome.hasError('required')">
+                  Learning outcome is required
+                </mat-error>
+              </mat-form-field>
+              <button type="button" mat-icon-button color="warn" (click)="removeLearningOutcome(i)">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </div>
+          </div>
+          <button type="button" mat-stroked-button color="primary" (click)="addLearningOutcome()">
+            <mat-icon>add</mat-icon> Add Learning Outcome
+          </button>
+        </div>
+
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="form-actions">
+      <button mat-button type="button" (click)="cancel()">
+        <mat-icon>cancel</mat-icon> Cancel
+      </button>
+      <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="opportunityForm.invalid">
+        <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+        {{ isEditMode ? 'Update Opportunity' : 'Create Opportunity' }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -40,4 +40,45 @@ export class OpportunityService {
   getOpportunityById(id: string): Opportunity | undefined {
     return this.opportunities.find(opp => opp.id === id);
   }
+
+  createOpportunity(opportunity: Omit<Opportunity, 'id'>): Observable<Opportunity> {
+    const newOpportunity: Opportunity = {
+      ...opportunity,
+      id: this.generateId()
+    };
+    
+    this.opportunities.push(newOpportunity);
+    this.opportunitiesSubject.next([...this.opportunities]);
+    
+    return new Observable(observer => {
+      observer.next(newOpportunity);
+      observer.complete();
+    });
+  }
+
+  updateOpportunity(id: string, updatedOpportunity: Omit<Opportunity, 'id'>): Observable<Opportunity> {
+    const index = this.opportunities.findIndex(opp => opp.id === id);
+    if (index === -1) {
+      return new Observable(observer => {
+        observer.error(new Error('Opportunity not found'));
+      });
+    }
+
+    const opportunity: Opportunity = {
+      ...updatedOpportunity,
+      id: id
+    };
+
+    this.opportunities[index] = opportunity;
+    this.opportunitiesSubject.next([...this.opportunities]);
+
+    return new Observable(observer => {
+      observer.next(opportunity);
+      observer.complete();
+    });
+  }
+
+  private generateId(): string {
+    return 'opp_' + Math.random().toString(36).substr(2, 9);
+  }
 }

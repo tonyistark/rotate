@@ -46,9 +46,15 @@
   </mat-card-content>
 
   <mat-card-actions class="compact-actions">
-    <div class="deadline">
-      <mat-icon>event</mat-icon>
-      <span>{{formatDate(match.opportunity.applicationDeadline)}}</span>
+    <div class="date-info">
+      <div class="date-item">
+        <mat-icon>play_arrow</mat-icon>
+        <span>Starts: {{formatDate(match.opportunity.startDate)}}</span>
+      </div>
+      <div class="date-item">
+        <mat-icon>event</mat-icon>
+        <span>Apply by: {{formatDate(match.opportunity.applicationDeadline)}}</span>
+      </div>
     </div>
     <button mat-icon-button color="primary" (click)="onApply(); $event.stopPropagation()" matTooltip="Apply Now">
       <mat-icon>send</mat-icon>
