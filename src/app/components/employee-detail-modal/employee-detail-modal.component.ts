@@ -76,7 +76,14 @@ export class EmployeeDetailModalComponent {
   }
 
   formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    if (!dateString || dateString.trim() === '') {
+      return 'Not set';
+    }
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return 'Not set';
+    }
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'

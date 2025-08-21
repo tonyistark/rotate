@@ -39,6 +39,7 @@ export interface Opportunity {
   remote: boolean;
   level: 'Entry' | 'Mid' | 'Senior' | 'Lead';
   applicationDeadline: string;
+  startDate: string;
 }
 
 export interface Match {
