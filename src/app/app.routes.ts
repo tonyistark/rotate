@@ -5,10 +5,12 @@ import { ManagerDashboardComponent } from './components/manager-dashboard/manage
 import { CreateOpportunityComponent } from './components/create-opportunity/create-opportunity.component';
 import { OpportunitiesListComponent } from './components/opportunities-list/opportunities-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HrbpDashboardComponent } from './components/hrbp-dashboard/hrbp-dashboard.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'hrbp-dashboard', component: HrbpDashboardComponent },
   { path: 'manager', component: ManagerDashboardComponent },
   { path: 'create-opportunity', component: CreateOpportunityComponent },
   { path: 'edit-opportunity/:id', component: CreateOpportunityComponent },

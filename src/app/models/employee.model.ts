@@ -40,6 +40,22 @@ export interface Opportunity {
   level: 'Entry' | 'Mid' | 'Senior' | 'Lead';
   applicationDeadline: string;
   startDate: string;
+  
+  // Filter metadata fields
+  leader: string; // Reports to leader (e.g., "Reports to 4 (CTO)", "Reports to 5")
+  jobLevel: string; // Job level classification
+  jobFamily: string; // Job family classification
+  jobProfile: string; // Job profile classification
+  plIc: 'PL' | 'IC'; // People Leader or Individual Contributor
+  tenure: string; // Tenure requirements
+  location: string; // Location requirements
+  dayZero: boolean; // Day 0 indicator
+  lossImpact: 'Low' | 'Medium' | 'High'; // Loss impact level
+  attritionRisk: 'Low' | 'Medium' | 'High'; // Attrition risk level
+  attritionResponse: string; // Attrition response strategy
+  previousPerformanceRatings: string[]; // Required previous performance ratings
+  rotationLevel: string; // Rotation level requirements
+  rotationLength: string; // Length of rotation
 }
 
 export interface Match {

@@ -186,7 +186,22 @@ export class CreateOpportunityComponent implements OnInit {
         remote: formValue.remote,
         level: formValue.level,
         applicationDeadline: formValue.applicationDeadline.toISOString().split('T')[0],
-        startDate: formValue.startDate.toISOString().split('T')[0]
+        startDate: formValue.startDate.toISOString().split('T')[0],
+        // Default filter metadata fields
+        leader: 'Reports to 5',
+        jobLevel: 'L4',
+        jobFamily: formValue.department,
+        jobProfile: 'Standard',
+        plIc: 'IC',
+        tenure: '2+ years',
+        location: formValue.remote ? 'Remote' : 'On-site',
+        dayZero: false,
+        lossImpact: 'Medium',
+        attritionRisk: 'Medium',
+        attritionResponse: 'Standard Support',
+        previousPerformanceRatings: ['Meets', 'Exceeds'],
+        rotationLevel: 'Department',
+        rotationLength: formValue.duration
       };
 
       if (this.isEditMode && this.opportunityId) {

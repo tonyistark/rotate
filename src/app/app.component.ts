@@ -35,6 +35,10 @@ import { ThemeService, Theme } from './services/theme.service';
         <mat-icon>supervisor_account</mat-icon>
         Manager View
       </button>
+      <button mat-button routerLink="/hrbp-dashboard">
+        <mat-icon>dashboard</mat-icon>
+        HRBP Dashboard
+      </button>
     </mat-toolbar>
     <router-outlet></router-outlet>
   `,

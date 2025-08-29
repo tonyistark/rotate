@@ -45,10 +45,14 @@ export class EmployeeDetailModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<EmployeeDetailModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public employee: Employee
+    @Inject(MAT_DIALOG_DATA) public data: { employee: Employee }
   ) {
-    this.originalEmployee = { ...employee };
-    this.editableEmployee = { ...employee };
+    this.originalEmployee = { ...data.employee };
+    this.editableEmployee = { ...data.employee };
+  }
+
+  get employee(): Employee {
+    return this.isEditMode ? this.editableEmployee : this.originalEmployee;
   }
 
   onClose(): void {
