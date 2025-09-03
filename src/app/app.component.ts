@@ -39,6 +39,10 @@ import { ThemeService, Theme } from './services/theme.service';
         <mat-icon>dashboard</mat-icon>
         HRBP Dashboard
       </button>
+      <button mat-button routerLink="/new-employees">
+        <mat-icon>group</mat-icon>
+        New Employee Page
+      </button>
     </mat-toolbar>
     <router-outlet></router-outlet>
   `,

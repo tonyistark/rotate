@@ -1,0 +1,1701 @@
+{
+  "talent_evaluation_data": {
+    "evaluation_framework": {
+      "competencies": [
+        "Customer Focus",
+        "Influence",
+        "Judgment",
+        "Lives the Values",
+        "Problem Solving",
+        "Results Focus",
+        "Teamwork",
+        "Communication",
+        "Hard/Job-Specific Skill"
+      ],
+      "rating_scale": {
+        "1": "Exceptional",
+        "2": "Very Strong",
+        "3": "Strong",
+        "4": "Inconsistent",
+        "5": "Action Required",
+        "6": "Too New"
+      },
+      "dev_zones": [
+        "Invest Now",
+        "Emerging Growth",
+        "Support in Current Role"
+      ],
+      "impact_levels": [
+        "Low",
+        "Medium",
+        "High"
+      ],
+      "attrition_risk": [
+        "Low",
+        "Medium",
+        "High"
+      ],
+      "hiring_decisions": [
+        "Act aggressive to retain",
+        "Hire back for this role",
+        "Hire back for this or other roles",
+        "Maybe hire back",
+        "Not likely hire back for this role",
+        "Not attempt to retain",
+        "Time bound retention"
+      ]
+    },
+    "employees": [
+      {
+        "eid": "EID001",
+        "full_name": "Jordan Blake",
+        "job_level": "Senior Director",
+        "job_family": "Design",
+        "last_hire": "9/2/2019",
+        "last_promoted_date": "7/19/2022",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "Medium",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Not likely hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Sarah Johnson",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Michael Chen"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "5 - Action Required",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "3 - Strong",
+        "role_type": "Manager",
+        "specialization": "Mobile",
+        "loss_impact_description": "Jordan Blake has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively",
+          "Reliable execution and consistent performance delivery"
+        ],
+        "development_areas": [
+          "Could improve time management and prioritization skills",
+          "Could strengthen strategic thinking and long-term planning abilities"
+        ]
+      },
+      {
+        "eid": "EID002",
+        "full_name": "Alex Chen",
+        "job_level": "Director",
+        "job_family": "Finance",
+        "last_hire": "12/18/2020",
+        "last_promoted_date": "9/29/2021",
+        "dev_zone": "Invest Now",
+        "loss_impact": "High",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Sarah Johnson",
+          "reports_to_4": "Kamlesh Talreja",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "1 - Exceptional",
+        "role_type": "Manager",
+        "specialization": "Backend",
+        "loss_impact_description": "Alex Chen has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Collaborative team player with strong interpersonal skills",
+          "Reliable execution and consistent performance delivery"
+        ],
+        "development_areas": [
+          "Opportunity to develop deeper technical expertise in emerging technologies",
+          "Would benefit from enhanced project management capabilities"
+        ]
+      },
+      {
+        "eid": "EID003",
+        "full_name": "Morgan Davis",
+        "job_level": "Principal",
+        "job_family": "Sales",
+        "last_hire": "1/25/2019",
+        "last_promoted_date": "9/20/2023",
+        "dev_zone": "Invest Now",
+        "loss_impact": "High",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Not likely hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Kamlesh Talreja",
+          "reports_to_4": "Sarah Johnson",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "5 - Action Required",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "3 - Strong",
+        "role_type": "IC",
+        "specialization": "Analytics",
+        "loss_impact_description": "Morgan Davis has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Innovative thinking and ability to identify process improvements",
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively"
+        ],
+        "development_areas": [
+          "Could improve time management and prioritization skills",
+          "Opportunity to develop stronger stakeholder management skills"
+        ]
+      },
+      {
+        "eid": "EID004",
+        "full_name": "Taylor Smith",
+        "job_level": "Senior Associate",
+        "job_family": "Design",
+        "last_hire": "1/19/2021",
+        "last_promoted_date": "6/14/2021",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Low",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Lisa Wang",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Parvesh Kumar"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "Manager",
+        "specialization": "Analytics",
+        "loss_impact_description": "Taylor Smith has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Strong analytical thinking and data-driven decision making",
+          "Innovative thinking and ability to identify process improvements"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Opportunity to develop stronger presentation and public speaking abilities"
+        ]
+      },
+      {
+        "eid": "EID005",
+        "full_name": "Casey Johnson",
+        "job_level": "Senior Principal",
+        "job_family": "Product Management",
+        "last_hire": "4/26/2017",
+        "last_promoted_date": "3/20/2021",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "High",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Not likely hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Parvesh Kumar",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Sarah Johnson"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "5 - Action Required",
+        "role_type": "IC",
+        "specialization": "DevOps",
+        "loss_impact_description": "Casey Johnson has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Shows strong problem-solving abilities and consistently delivers high-quality solutions",
+          "Innovative thinking and ability to identify process improvements"
+        ],
+        "development_areas": [
+          "Could benefit from additional leadership training and delegation skills",
+          "Opportunity to develop stronger presentation and public speaking abilities"
+        ]
+      },
+      {
+        "eid": "EID006",
+        "full_name": "Riley Brown",
+        "job_level": "Associate",
+        "job_family": "HR",
+        "last_hire": "1/13/2021",
+        "last_promoted_date": "12/20/2024",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "Medium",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Chris Nicetra",
+          "reports_to_4": "Sarah Johnson",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "1 - Exceptional",
+        "role_type": "Manager",
+        "specialization": "Mobile",
+        "loss_impact_description": "Riley Brown has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Innovative thinking and ability to identify process improvements",
+          "Collaborative team player with strong interpersonal skills"
+        ],
+        "development_areas": [
+          "Opportunity to develop stronger presentation and public speaking abilities",
+          "Opportunity to develop stronger stakeholder management skills"
+        ]
+      },
+      {
+        "eid": "EID007",
+        "full_name": "Avery Wilson",
+        "job_level": "Associate",
+        "job_family": "Data Science",
+        "last_hire": "5/19/2021",
+        "last_promoted_date": "7/3/2024",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Low",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Kamlesh Talreja",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "IC",
+        "specialization": "Analytics",
+        "loss_impact_description": "Avery Wilson has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Strong analytical thinking and data-driven decision making",
+          "Reliable execution and consistent performance delivery"
+        ],
+        "development_areas": [
+          "Opportunity to develop stronger presentation and public speaking abilities",
+          "Could improve time management and prioritization skills"
+        ]
+      },
+      {
+        "eid": "EID008",
+        "full_name": "Quinn Miller",
+        "job_level": "Senior Associate",
+        "job_family": "Marketing",
+        "last_hire": "11/19/2019",
+        "last_promoted_date": "2/6/2023",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "Medium",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Michael Chen",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Michael Chen"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Below Strong",
+        "overall_rating": "5 - Action Required",
+        "role_type": "Manager",
+        "specialization": "Analytics",
+        "loss_impact_description": "Quinn Miller has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Shows strong problem-solving abilities and consistently delivers high-quality solutions",
+          "Excellent communication skills and ability to work cross-functionally"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Opportunity to develop deeper technical expertise in emerging technologies"
+        ]
+      },
+      {
+        "eid": "EID009",
+        "full_name": "Sage Garcia",
+        "job_level": "Principal",
+        "job_family": "Marketing",
+        "last_hire": "7/11/2020",
+        "last_promoted_date": "6/27/2022",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "High",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Parvesh Kumar",
+          "reports_to_4": "Lisa Wang",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "Manager",
+        "specialization": "DevOps",
+        "loss_impact_description": "Sage Garcia has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Takes initiative on complex projects and drives results",
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively"
+        ],
+        "development_areas": [
+          "Could benefit from additional leadership training and delegation skills",
+          "Could improve time management and prioritization skills"
+        ]
+      },
+      {
+        "eid": "EID010",
+        "full_name": "River Martinez",
+        "job_level": "Director",
+        "job_family": "Operations",
+        "last_hire": "2/7/2024",
+        "last_promoted_date": "6/21/2020",
+        "dev_zone": "Invest Now",
+        "loss_impact": "Low",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Michael Chen",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Chris Nicetra"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "IC",
+        "specialization": "ML/AI",
+        "loss_impact_description": "River Martinez has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Reliable execution and consistent performance delivery",
+          "Collaborative team player with strong interpersonal skills"
+        ],
+        "development_areas": [
+          "Could benefit from additional leadership training and delegation skills",
+          "Opportunity to develop deeper technical expertise in emerging technologies"
+        ]
+      },
+      {
+        "eid": "EID011",
+        "full_name": "Phoenix Anderson",
+        "job_level": "Senior Director",
+        "job_family": "Software Engineering",
+        "last_hire": "2/27/2017",
+        "last_promoted_date": "9/20/2024",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Medium",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Not likely hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Lisa Wang",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "4 - Inconsistent",
+        "role_type": "IC",
+        "specialization": "DevOps",
+        "loss_impact_description": "Phoenix Anderson has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Takes initiative on complex projects and drives results",
+          "Strong analytical thinking and data-driven decision making"
+        ],
+        "development_areas": [
+          "Could improve time management and prioritization skills",
+          "Could benefit from additional leadership training and delegation skills"
+        ]
+      },
+      {
+        "eid": "EID012",
+        "full_name": "Skylar Thompson",
+        "job_level": "Senior Principal",
+        "job_family": "Finance",
+        "last_hire": "1/27/2024",
+        "last_promoted_date": "9/7/2023",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "Low",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Lisa Wang",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Chris Nicetra"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "3 - Strong",
+        "mid_year_performance_rating": "Below Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "Manager",
+        "specialization": "DevOps",
+        "loss_impact_description": "Skylar Thompson has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Reliable execution and consistent performance delivery",
+          "Takes initiative on complex projects and drives results"
+        ],
+        "development_areas": [
+          "Opportunity to develop deeper technical expertise in emerging technologies",
+          "Opportunity to develop stronger presentation and public speaking abilities"
+        ]
+      },
+      {
+        "eid": "EID013",
+        "full_name": "Rowan White",
+        "job_level": "Principal",
+        "job_family": "Sales",
+        "last_hire": "5/2/2022",
+        "last_promoted_date": "8/21/2021",
+        "dev_zone": "Invest Now",
+        "loss_impact": "Medium",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Kamlesh Talreja",
+          "reports_to_4": "Lisa Wang",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "3 - Strong",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "Manager",
+        "specialization": "Backend",
+        "loss_impact_description": "Rowan White has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Strong analytical thinking and data-driven decision making",
+          "Collaborative team player with strong interpersonal skills"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Could benefit from additional leadership training and delegation skills"
+        ]
+      },
+      {
+        "eid": "EID014",
+        "full_name": "Emery Harris",
+        "job_level": "Director",
+        "job_family": "Data Science",
+        "last_hire": "5/23/2019",
+        "last_promoted_date": "7/30/2021",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Medium",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Parvesh Kumar",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Chris Nicetra"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "Manager",
+        "specialization": "DevOps",
+        "loss_impact_description": "Emery Harris has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Collaborative team player with strong interpersonal skills",
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively"
+        ],
+        "development_areas": [
+          "Would benefit from broader exposure to different business areas",
+          "Could benefit from additional leadership training and delegation skills"
+        ]
+      },
+      {
+        "eid": "EID015",
+        "full_name": "Finley Clark",
+        "job_level": "Associate",
+        "job_family": "Operations",
+        "last_hire": "5/31/2015",
+        "last_promoted_date": "8/2/2024",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "High",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Parvesh Kumar",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Michael Chen"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "3 - Strong",
+        "role_type": "Manager",
+        "specialization": "Fullstack",
+        "loss_impact_description": "Finley Clark has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Innovative thinking and ability to identify process improvements",
+          "Strong analytical thinking and data-driven decision making"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Would benefit from enhanced project management capabilities"
+        ]
+      },
+      {
+        "eid": "EID016",
+        "full_name": "Hayden Lewis",
+        "job_level": "VP",
+        "job_family": "Marketing",
+        "last_hire": "2/23/2021",
+        "last_promoted_date": "9/20/2022",
+        "dev_zone": "Invest Now",
+        "loss_impact": "High",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Parvesh Kumar",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Sarah Johnson"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "IC",
+        "specialization": "Frontend",
+        "loss_impact_description": "Hayden Lewis has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Shows strong problem-solving abilities and consistently delivers high-quality solutions",
+          "Excellent communication skills and ability to work cross-functionally"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Would benefit from broader exposure to different business areas"
+        ]
+      },
+      {
+        "eid": "EID017",
+        "full_name": "Peyton Walker",
+        "job_level": "Director",
+        "job_family": "Finance",
+        "last_hire": "5/1/2019",
+        "last_promoted_date": "3/9/2023",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Medium",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Act aggressive to retain",
+        "reporting_structure": {
+          "reports_to_3": "Lisa Wang",
+          "reports_to_4": "Kamlesh Talreja",
+          "reports_to_5": "Michael Chen"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "3 - Strong",
+        "role_type": "IC",
+        "specialization": "Mobile",
+        "loss_impact_description": "Peyton Walker has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Strong analytical thinking and data-driven decision making",
+          "Excellent communication skills and ability to work cross-functionally"
+        ],
+        "development_areas": [
+          "Opportunity to develop stronger presentation and public speaking abilities",
+          "Opportunity to develop stronger stakeholder management skills"
+        ]
+      },
+      {
+        "eid": "EID018",
+        "full_name": "Cameron Hall",
+        "job_level": "Associate",
+        "job_family": "Design",
+        "last_hire": "8/18/2020",
+        "last_promoted_date": "6/29/2021",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Low",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Parvesh Kumar",
+          "reports_to_4": "Kamlesh Talreja",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "4 - Inconsistent",
+        "role_type": "Manager",
+        "specialization": "DevOps",
+        "loss_impact_description": "Cameron Hall has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Takes initiative on complex projects and drives results",
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively"
+        ],
+        "development_areas": [
+          "Could benefit from additional leadership training and delegation skills",
+          "Opportunity to develop stronger stakeholder management skills"
+        ]
+      },
+      {
+        "eid": "EID019",
+        "full_name": "Drew Allen",
+        "job_level": "Associate",
+        "job_family": "Finance",
+        "last_hire": "9/22/2015",
+        "last_promoted_date": "12/27/2022",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "High",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Lisa Wang",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Below Strong",
+        "overall_rating": "3 - Strong",
+        "role_type": "IC",
+        "specialization": "DevOps",
+        "loss_impact_description": "Drew Allen has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Collaborative team player with strong interpersonal skills",
+          "Shows strong problem-solving abilities and consistently delivers high-quality solutions"
+        ],
+        "development_areas": [
+          "Could improve time management and prioritization skills",
+          "Would benefit from broader exposure to different business areas"
+        ]
+      },
+      {
+        "eid": "EID020",
+        "full_name": "Blake Young",
+        "job_level": "VP",
+        "job_family": "Marketing",
+        "last_hire": "4/30/2015",
+        "last_promoted_date": "6/9/2021",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "High",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Parvesh Kumar",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "IC",
+        "specialization": "Frontend",
+        "loss_impact_description": "Blake Young has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Innovative thinking and ability to identify process improvements",
+          "Shows strong problem-solving abilities and consistently delivers high-quality solutions"
+        ],
+        "development_areas": [
+          "Would benefit from enhanced project management capabilities",
+          "Could benefit from additional leadership training and delegation skills"
+        ]
+      },
+      {
+        "eid": "EID021",
+        "full_name": "Reese King",
+        "job_level": "Senior Director",
+        "job_family": "Product Management",
+        "last_hire": "10/19/2024",
+        "last_promoted_date": "8/12/2024",
+        "dev_zone": "Invest Now",
+        "loss_impact": "High",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Michael Chen",
+          "reports_to_4": "Lisa Wang",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "5 - Action Required",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "IC",
+        "specialization": "DevOps",
+        "loss_impact_description": "Reese King has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively",
+          "Innovative thinking and ability to identify process improvements"
+        ],
+        "development_areas": [
+          "Opportunity to develop stronger stakeholder management skills",
+          "Could strengthen strategic thinking and long-term planning abilities"
+        ]
+      },
+      {
+        "eid": "EID022",
+        "full_name": "Parker Wright",
+        "job_level": "Director",
+        "job_family": "Marketing",
+        "last_hire": "9/8/2024",
+        "last_promoted_date": "12/24/2024",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Low",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Act aggressive to retain",
+        "reporting_structure": {
+          "reports_to_3": "Parvesh Kumar",
+          "reports_to_4": "Parvesh Kumar",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "IC",
+        "specialization": "Frontend",
+        "loss_impact_description": "Parker Wright has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Shows strong problem-solving abilities and consistently delivers high-quality solutions",
+          "Takes initiative on complex projects and drives results"
+        ],
+        "development_areas": [
+          "Would benefit from enhanced project management capabilities",
+          "Opportunity to develop stronger stakeholder management skills"
+        ]
+      },
+      {
+        "eid": "EID023",
+        "full_name": "Kendall Lopez",
+        "job_level": "Principal",
+        "job_family": "HR",
+        "last_hire": "3/14/2021",
+        "last_promoted_date": "12/17/2020",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "Medium",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Michael Chen",
+          "reports_to_4": "Lisa Wang",
+          "reports_to_5": "Chris Nicetra"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "4 - Inconsistent",
+        "role_type": "Manager",
+        "specialization": "Analytics",
+        "loss_impact_description": "Kendall Lopez has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Excellent communication skills and ability to work cross-functionally",
+          "Reliable execution and consistent performance delivery"
+        ],
+        "development_areas": [
+          "Would benefit from broader exposure to different business areas",
+          "Could improve time management and prioritization skills"
+        ]
+      },
+      {
+        "eid": "EID024",
+        "full_name": "Marlowe Hill",
+        "job_level": "Director",
+        "job_family": "HR",
+        "last_hire": "7/5/2017",
+        "last_promoted_date": "8/8/2021",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "Medium",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Not likely hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Chris Nicetra",
+          "reports_to_4": "Sarah Johnson",
+          "reports_to_5": "Sarah Johnson"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "3 - Strong",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "5 - Action Required",
+        "role_type": "Manager",
+        "specialization": "Analytics",
+        "loss_impact_description": "Marlowe Hill has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Reliable execution and consistent performance delivery",
+          "Innovative thinking and ability to identify process improvements"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Would benefit from broader exposure to different business areas"
+        ]
+      },
+      {
+        "eid": "EID025",
+        "full_name": "Teagan Scott",
+        "job_level": "Director",
+        "job_family": "Software Engineering",
+        "last_hire": "7/25/2015",
+        "last_promoted_date": "7/17/2023",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "High",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Michael Chen",
+          "reports_to_4": "Kamlesh Talreja",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Below Strong",
+        "overall_rating": "5 - Action Required",
+        "role_type": "IC",
+        "specialization": "Fullstack",
+        "loss_impact_description": "Teagan Scott has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Collaborative team player with strong interpersonal skills",
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively"
+        ],
+        "development_areas": [
+          "Could benefit from additional leadership training and delegation skills",
+          "Opportunity to develop stronger presentation and public speaking abilities"
+        ]
+      },
+      {
+        "eid": "EID026",
+        "full_name": "Remy Green",
+        "job_level": "Senior Director",
+        "job_family": "Marketing",
+        "last_hire": "7/15/2019",
+        "last_promoted_date": "1/25/2024",
+        "dev_zone": "Invest Now",
+        "loss_impact": "High",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Not likely hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Michael Chen",
+          "reports_to_4": "Sarah Johnson",
+          "reports_to_5": "Sarah Johnson"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "1 - Exceptional",
+        "role_type": "Manager",
+        "specialization": "DevOps",
+        "loss_impact_description": "Remy Green has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Innovative thinking and ability to identify process improvements",
+          "Takes initiative on complex projects and drives results"
+        ],
+        "development_areas": [
+          "Would benefit from enhanced project management capabilities",
+          "Would benefit from broader exposure to different business areas"
+        ]
+      },
+      {
+        "eid": "EID027",
+        "full_name": "Shiloh Adams",
+        "job_level": "Senior Associate",
+        "job_family": "Product Management",
+        "last_hire": "5/17/2023",
+        "last_promoted_date": "4/14/2021",
+        "dev_zone": "Invest Now",
+        "loss_impact": "Medium",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Act aggressive to retain",
+        "reporting_structure": {
+          "reports_to_3": "Sarah Johnson",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Michael Chen"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "3 - Strong",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "1 - Exceptional",
+        "role_type": "IC",
+        "specialization": "DevOps",
+        "loss_impact_description": "Shiloh Adams has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Takes initiative on complex projects and drives results",
+          "Collaborative team player with strong interpersonal skills"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Would benefit from broader exposure to different business areas"
+        ]
+      },
+      {
+        "eid": "EID028",
+        "full_name": "Indigo Baker",
+        "job_level": "Senior Associate",
+        "job_family": "Finance",
+        "last_hire": "3/16/2023",
+        "last_promoted_date": "12/30/2022",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Low",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Michael Chen",
+          "reports_to_4": "Lisa Wang",
+          "reports_to_5": "Michael Chen"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "4 - Inconsistent",
+        "role_type": "IC",
+        "specialization": "DevOps",
+        "loss_impact_description": "Indigo Baker has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Shows strong problem-solving abilities and consistently delivers high-quality solutions",
+          "Reliable execution and consistent performance delivery"
+        ],
+        "development_areas": [
+          "Would benefit from broader exposure to different business areas",
+          "Would benefit from enhanced project management capabilities"
+        ]
+      },
+      {
+        "eid": "EID029",
+        "full_name": "Kai Gonzalez",
+        "job_level": "Director",
+        "job_family": "Product Management",
+        "last_hire": "5/8/2023",
+        "last_promoted_date": "7/23/2024",
+        "dev_zone": "Invest Now",
+        "loss_impact": "Medium",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Not likely hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Sarah Johnson",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "3 - Strong",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "5 - Action Required",
+        "role_type": "IC",
+        "specialization": "Mobile",
+        "loss_impact_description": "Kai Gonzalez has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Strong analytical thinking and data-driven decision making",
+          "Reliable execution and consistent performance delivery"
+        ],
+        "development_areas": [
+          "Would benefit from enhanced project management capabilities",
+          "Could benefit from additional leadership training and delegation skills"
+        ]
+      },
+      {
+        "eid": "EID030",
+        "full_name": "Lennox Nelson",
+        "job_level": "Director",
+        "job_family": "Operations",
+        "last_hire": "6/21/2024",
+        "last_promoted_date": "9/10/2022",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "High",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Kamlesh Talreja",
+          "reports_to_4": "Parvesh Kumar",
+          "reports_to_5": "Michael Chen"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "4 - Inconsistent",
+        "role_type": "Manager",
+        "specialization": "ML/AI",
+        "loss_impact_description": "Lennox Nelson has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Excellent communication skills and ability to work cross-functionally",
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively"
+        ],
+        "development_areas": [
+          "Would benefit from broader exposure to different business areas",
+          "Could strengthen strategic thinking and long-term planning abilities"
+        ]
+      },
+      {
+        "eid": "EID031",
+        "full_name": "Briar Carter",
+        "job_level": "Senior Principal",
+        "job_family": "Design",
+        "last_hire": "9/6/2015",
+        "last_promoted_date": "9/8/2022",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "Low",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Not likely hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Lisa Wang",
+          "reports_to_4": "Parvesh Kumar",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "2 - Very Strong",
+        "role_type": "Manager",
+        "specialization": "ML/AI",
+        "loss_impact_description": "Briar Carter has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Reliable execution and consistent performance delivery",
+          "Innovative thinking and ability to identify process improvements"
+        ],
+        "development_areas": [
+          "Opportunity to develop stronger stakeholder management skills",
+          "Could improve time management and prioritization skills"
+        ]
+      },
+      {
+        "eid": "EID032",
+        "full_name": "Wren Mitchell",
+        "job_level": "Senior Associate",
+        "job_family": "HR",
+        "last_hire": "8/28/2019",
+        "last_promoted_date": "1/8/2022",
+        "dev_zone": "Invest Now",
+        "loss_impact": "Medium",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Kamlesh Talreja",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Parvesh Kumar"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "5 - Action Required",
+        "role_type": "IC",
+        "specialization": "Backend",
+        "loss_impact_description": "Wren Mitchell has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Strong analytical thinking and data-driven decision making",
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively"
+        ],
+        "development_areas": [
+          "Would benefit from enhanced project management capabilities",
+          "Could strengthen strategic thinking and long-term planning abilities"
+        ]
+      },
+      {
+        "eid": "EID033",
+        "full_name": "Sage Perez",
+        "job_level": "VP",
+        "job_family": "Data Science",
+        "last_hire": "4/7/2019",
+        "last_promoted_date": "5/16/2020",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "High",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Chris Nicetra",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Michael Chen"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "3 - Strong",
+        "role_type": "IC",
+        "specialization": "Mobile",
+        "loss_impact_description": "Sage Perez has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively",
+          "Strong analytical thinking and data-driven decision making"
+        ],
+        "development_areas": [
+          "Opportunity to develop stronger presentation and public speaking abilities",
+          "Could benefit from additional leadership training and delegation skills"
+        ]
+      },
+      {
+        "eid": "EID034",
+        "full_name": "River Roberts",
+        "job_level": "Senior Director",
+        "job_family": "Marketing",
+        "last_hire": "4/10/2021",
+        "last_promoted_date": "7/15/2020",
+        "dev_zone": "Invest Now",
+        "loss_impact": "Low",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Sarah Johnson",
+          "reports_to_4": "Kamlesh Talreja",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "4 - Inconsistent",
+        "role_type": "IC",
+        "specialization": "Analytics",
+        "loss_impact_description": "River Roberts has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Reliable execution and consistent performance delivery",
+          "Takes initiative on complex projects and drives results"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Opportunity to develop deeper technical expertise in emerging technologies"
+        ]
+      },
+      {
+        "eid": "EID035",
+        "full_name": "Aspen Turner",
+        "job_level": "VP",
+        "job_family": "Product Management",
+        "last_hire": "5/30/2015",
+        "last_promoted_date": "1/17/2024",
+        "dev_zone": "Invest Now",
+        "loss_impact": "Low",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Kamlesh Talreja",
+          "reports_to_4": "Lisa Wang",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "1 - Exceptional",
+        "role_type": "Manager",
+        "specialization": "Security",
+        "loss_impact_description": "Aspen Turner has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Innovative thinking and ability to identify process improvements",
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively"
+        ],
+        "development_areas": [
+          "Could improve time management and prioritization skills",
+          "Opportunity to develop stronger presentation and public speaking abilities"
+        ]
+      },
+      {
+        "eid": "EID036",
+        "full_name": "Oakley Phillips",
+        "job_level": "Director",
+        "job_family": "Finance",
+        "last_hire": "1/13/2019",
+        "last_promoted_date": "8/23/2020",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "High",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Sarah Johnson",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Below Strong",
+        "overall_rating": "5 - Action Required",
+        "role_type": "IC",
+        "specialization": "Mobile",
+        "loss_impact_description": "Oakley Phillips has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Innovative thinking and ability to identify process improvements",
+          "Takes initiative on complex projects and drives results"
+        ],
+        "development_areas": [
+          "Could benefit from additional leadership training and delegation skills",
+          "Opportunity to develop stronger stakeholder management skills"
+        ]
+      },
+      {
+        "eid": "EID037",
+        "full_name": "Juniper Campbell",
+        "job_level": "Principal",
+        "job_family": "Data Science",
+        "last_hire": "1/22/2017",
+        "last_promoted_date": "5/4/2023",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Medium",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Chris Nicetra",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Sarah Johnson"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Below Strong",
+        "overall_rating": "5 - Action Required",
+        "role_type": "Manager",
+        "specialization": "Analytics",
+        "loss_impact_description": "Juniper Campbell has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Excellent communication skills and ability to work cross-functionally",
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Would benefit from enhanced project management capabilities"
+        ]
+      },
+      {
+        "eid": "EID038",
+        "full_name": "Cedar Parker",
+        "job_level": "Senior Principal",
+        "job_family": "Operations",
+        "last_hire": "2/4/2018",
+        "last_promoted_date": "3/27/2022",
+        "dev_zone": "Invest Now",
+        "loss_impact": "High",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Sarah Johnson",
+          "reports_to_4": "Parvesh Kumar",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Below Strong",
+        "overall_rating": "4 - Inconsistent",
+        "role_type": "Manager",
+        "specialization": "ML/AI",
+        "loss_impact_description": "Cedar Parker has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Shows strong problem-solving abilities and consistently delivers high-quality solutions",
+          "Strong analytical thinking and data-driven decision making"
+        ],
+        "development_areas": [
+          "Opportunity to develop stronger stakeholder management skills",
+          "Could benefit from additional leadership training and delegation skills"
+        ]
+      },
+      {
+        "eid": "EID039",
+        "full_name": "Willow Evans",
+        "job_level": "Associate",
+        "job_family": "Product Management",
+        "last_hire": "12/4/2018",
+        "last_promoted_date": "7/5/2020",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "High",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Maybe hire back",
+        "reporting_structure": {
+          "reports_to_3": "Chris Nicetra",
+          "reports_to_4": "Kamlesh Talreja",
+          "reports_to_5": "Sarah Johnson"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "4 - Inconsistent",
+        "role_type": "IC",
+        "specialization": "Analytics",
+        "loss_impact_description": "Willow Evans has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Innovative thinking and ability to identify process improvements",
+          "Reliable execution and consistent performance delivery"
+        ],
+        "development_areas": [
+          "Opportunity to develop stronger presentation and public speaking abilities",
+          "Would benefit from enhanced project management capabilities"
+        ]
+      },
+      {
+        "eid": "EID040",
+        "full_name": "Rowan Edwards",
+        "job_level": "VP",
+        "job_family": "Operations",
+        "last_hire": "11/23/2023",
+        "last_promoted_date": "9/29/2020",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "High",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Not likely hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Parvesh Kumar",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "1 - Exceptional",
+        "role_type": "IC",
+        "specialization": "Security",
+        "loss_impact_description": "Rowan Edwards has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Reliable execution and consistent performance delivery",
+          "Excellent communication skills and ability to work cross-functionally"
+        ],
+        "development_areas": [
+          "Could improve time management and prioritization skills",
+          "Would benefit from enhanced project management capabilities"
+        ]
+      },
+      {
+        "eid": "EID041",
+        "full_name": "Sage Collins",
+        "job_level": "Senior Principal",
+        "job_family": "Operations",
+        "last_hire": "9/2/2015",
+        "last_promoted_date": "8/25/2023",
+        "dev_zone": "Invest Now",
+        "loss_impact": "Low",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Act aggressive to retain",
+        "reporting_structure": {
+          "reports_to_3": "Sarah Johnson",
+          "reports_to_4": "Kamlesh Talreja",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "3 - Strong",
+        "role_type": "IC",
+        "specialization": "Backend",
+        "loss_impact_description": "Sage Collins has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Shows strong problem-solving abilities and consistently delivers high-quality solutions",
+          "Innovative thinking and ability to identify process improvements"
+        ],
+        "development_areas": [
+          "Could improve time management and prioritization skills",
+          "Could benefit from additional leadership training and delegation skills"
+        ]
+      },
+      {
+        "eid": "EID042",
+        "full_name": "River Stewart",
+        "job_level": "Principal",
+        "job_family": "HR",
+        "last_hire": "9/14/2020",
+        "last_promoted_date": "10/17/2023",
+        "dev_zone": "Invest Now",
+        "loss_impact": "Low",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Not likely hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Chris Nicetra",
+          "reports_to_4": "Sarah Johnson",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Below Strong",
+        "overall_rating": "3 - Strong",
+        "role_type": "IC",
+        "specialization": "Fullstack",
+        "loss_impact_description": "River Stewart has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Innovative thinking and ability to identify process improvements",
+          "Excellent communication skills and ability to work cross-functionally"
+        ],
+        "development_areas": [
+          "Could improve time management and prioritization skills",
+          "Opportunity to develop deeper technical expertise in emerging technologies"
+        ]
+      },
+      {
+        "eid": "EID043",
+        "full_name": "Aspen Sanchez",
+        "job_level": "Senior Principal",
+        "job_family": "Finance",
+        "last_hire": "4/12/2021",
+        "last_promoted_date": "7/30/2024",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Low",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Hire back for this or other roles",
+        "reporting_structure": {
+          "reports_to_3": "Sarah Johnson",
+          "reports_to_4": "Parvesh Kumar",
+          "reports_to_5": "Chris Nicetra"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "5 - Action Required",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "5 - Action Required",
+        "role_type": "Manager",
+        "specialization": "Backend",
+        "loss_impact_description": "Aspen Sanchez has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Excellent communication skills and ability to work cross-functionally",
+          "Collaborative team player with strong interpersonal skills"
+        ],
+        "development_areas": [
+          "Opportunity to develop deeper technical expertise in emerging technologies",
+          "Opportunity to develop stronger presentation and public speaking abilities"
+        ]
+      },
+      {
+        "eid": "EID044",
+        "full_name": "Oakley Morris",
+        "job_level": "Senior Director",
+        "job_family": "Marketing",
+        "last_hire": "8/4/2019",
+        "last_promoted_date": "4/10/2023",
+        "dev_zone": "Invest Now",
+        "loss_impact": "High",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Act aggressive to retain",
+        "reporting_structure": {
+          "reports_to_3": "Michael Chen",
+          "reports_to_4": "Parvesh Kumar",
+          "reports_to_5": "Sarah Johnson"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "4 - Inconsistent",
+        "role_type": "Manager",
+        "specialization": "DevOps",
+        "loss_impact_description": "Oakley Morris has shown exceptional performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Collaborative team player with strong interpersonal skills",
+          "Shows strong problem-solving abilities and consistently delivers high-quality solutions"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Would benefit from broader exposure to different business areas"
+        ]
+      },
+      {
+        "eid": "EID045",
+        "full_name": "Juniper Rogers",
+        "job_level": "Principal",
+        "job_family": "Data Science",
+        "last_hire": "4/24/2015",
+        "last_promoted_date": "3/13/2022",
+        "dev_zone": "Invest Now",
+        "loss_impact": "High",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Lisa Wang",
+          "reports_to_4": "Sarah Johnson",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "4 - Inconsistent",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "1 - Exceptional",
+        "role_type": "IC",
+        "specialization": "Frontend",
+        "loss_impact_description": "Juniper Rogers has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in technical skills would benefit their career progression and team impact.",
+        "strengths": [
+          "Strong analytical thinking and data-driven decision making",
+          "Innovative thinking and ability to identify process improvements"
+        ],
+        "development_areas": [
+          "Would benefit from enhanced project management capabilities",
+          "Could benefit from additional leadership training and delegation skills"
+        ]
+      },
+      {
+        "eid": "EID046",
+        "full_name": "Cedar Reed",
+        "job_level": "Principal",
+        "job_family": "Sales",
+        "last_hire": "3/18/2024",
+        "last_promoted_date": "7/17/2020",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "Low",
+        "attrition_risk": "High",
+        "hiring_recommendation": "Hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Chris Nicetra",
+          "reports_to_4": "Kamlesh Talreja",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Below Strong",
+        "overall_rating": "3 - Strong",
+        "role_type": "IC",
+        "specialization": "ML/AI",
+        "loss_impact_description": "Cedar Reed has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively",
+          "Reliable execution and consistent performance delivery"
+        ],
+        "development_areas": [
+          "Could strengthen strategic thinking and long-term planning abilities",
+          "Opportunity to develop stronger stakeholder management skills"
+        ]
+      },
+      {
+        "eid": "EID047",
+        "full_name": "Willow Cook",
+        "job_level": "Director",
+        "job_family": "Operations",
+        "last_hire": "5/7/2024",
+        "last_promoted_date": "1/23/2022",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "Medium",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Kamlesh Talreja",
+          "reports_to_4": "Lisa Wang",
+          "reports_to_5": "Lisa Wang"
+        },
+        "career_clarity": "Neutral",
+        "recent_year_end_performance": "1 - Exceptional",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "5 - Action Required",
+        "role_type": "Manager",
+        "specialization": "Frontend",
+        "loss_impact_description": "Willow Cook has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Innovative thinking and ability to identify process improvements",
+          "Takes initiative on complex projects and drives results"
+        ],
+        "development_areas": [
+          "Opportunity to develop stronger presentation and public speaking abilities",
+          "Could improve time management and prioritization skills"
+        ]
+      },
+      {
+        "eid": "EID048",
+        "full_name": "Rowan Bailey",
+        "job_level": "Senior Principal",
+        "job_family": "Sales",
+        "last_hire": "12/20/2018",
+        "last_promoted_date": "4/21/2023",
+        "dev_zone": "Support in Current Role",
+        "loss_impact": "High",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Act aggressive to retain",
+        "reporting_structure": {
+          "reports_to_3": "Lisa Wang",
+          "reports_to_4": "Michael Chen",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Positive",
+        "recent_year_end_performance": "3 - Strong",
+        "mid_year_performance_rating": "Strong",
+        "overall_rating": "4 - Inconsistent",
+        "role_type": "Manager",
+        "specialization": "Analytics",
+        "loss_impact_description": "Rowan Bailey has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Reliable execution and consistent performance delivery",
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively"
+        ],
+        "development_areas": [
+          "Would benefit from enhanced project management capabilities",
+          "Could improve time management and prioritization skills"
+        ]
+      },
+      {
+        "eid": "EID049",
+        "full_name": "Sage Rivera",
+        "job_level": "Senior Associate",
+        "job_family": "Operations",
+        "last_hire": "5/18/2022",
+        "last_promoted_date": "7/31/2024",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "Medium",
+        "attrition_risk": "Medium",
+        "hiring_recommendation": "Act aggressive to retain",
+        "reporting_structure": {
+          "reports_to_3": "Lisa Wang",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Kamlesh Talreja"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "2 - Very Strong",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "3 - Strong",
+        "role_type": "Manager",
+        "specialization": "Security",
+        "loss_impact_description": "Sage Rivera has shown consistent performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in strategic thinking would benefit their career progression and team impact.",
+        "strengths": [
+          "Demonstrates exceptional technical leadership and mentors junior team members effectively",
+          "Innovative thinking and ability to identify process improvements"
+        ],
+        "development_areas": [
+          "Would benefit from enhanced project management capabilities",
+          "Opportunity to develop stronger stakeholder management skills"
+        ]
+      },
+      {
+        "eid": "EID050",
+        "full_name": "River Cooper",
+        "job_level": "Senior Principal",
+        "job_family": "HR",
+        "last_hire": "12/27/2018",
+        "last_promoted_date": "10/25/2023",
+        "dev_zone": "Emerging Growth",
+        "loss_impact": "Medium",
+        "attrition_risk": "Low",
+        "hiring_recommendation": "Hire back for this role",
+        "reporting_structure": {
+          "reports_to_3": "Parvesh Kumar",
+          "reports_to_4": "Chris Nicetra",
+          "reports_to_5": "Michael Chen"
+        },
+        "career_clarity": "Negative",
+        "recent_year_end_performance": "3 - Strong",
+        "mid_year_performance_rating": "Above Strong",
+        "overall_rating": "1 - Exceptional",
+        "role_type": "IC",
+        "specialization": "Analytics",
+        "loss_impact_description": "River Cooper has shown strong performance in their role and contributes significantly to team objectives.",
+        "investment_assessment": "Continued development in leadership would benefit their career progression and team impact.",
+        "strengths": [
+          "Strong analytical thinking and data-driven decision making",
+          "Excellent communication skills and ability to work cross-functionally"
+        ],
+        "development_areas": [
+          "Could improve time management and prioritization skills",
+          "Would benefit from enhanced project management capabilities"
+        ]
+      }
+    ]
+  }
+}

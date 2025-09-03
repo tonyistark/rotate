@@ -500,8 +500,8 @@
     "retentionRisk": "28%",
     "tdiZone": "Maintain",
     "ratingCycles": {
-      "MY24": "Solid",
-      "YE24": "Solid", 
+      "MY24": "Strong",
+      "YE24": "Strong", 
       "MY25": "Strong"
     },
     "myRating": "Solid",

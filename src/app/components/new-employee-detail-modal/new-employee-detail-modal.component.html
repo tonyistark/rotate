@@ -1,0 +1,353 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <h2>{{employee.full_name}}</h2>
+    <div class="header-actions">
+      <button mat-icon-button (click)="toggleEditMode()" *ngIf="!isEditMode" matTooltip="Edit Employee">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onClose()" matTooltip="Close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-content">
+    <mat-tab-group>
+      <!-- Overview Tab -->
+      <mat-tab label="Overview">
+        <div class="tab-content">
+          <!-- Basic Information -->
+          <mat-card class="info-card">
+            <mat-card-header>
+              <mat-card-title>Basic Information</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="label">Employee ID:</span>
+                  <span class="value">{{employee.eid}}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Email:</span>
+                  <span class="value">{{employee.email}}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Job Level:</span>
+                  <span class="value">{{employee.job_level}}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Job Family:</span>
+                  <span class="value">{{employee.job_family}}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Department:</span>
+                  <span class="value">{{employee.department}}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Role Type:</span>
+                  <span class="value">{{employee.role_type}}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Specialization:</span>
+                  <span class="value">{{employee.specialization}}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">Years Experience:</span>
+                  <span class="value">{{employee.yearsExperience}} years</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Status Indicators -->
+          <mat-card class="info-card">
+            <mat-card-header>
+              <mat-card-title>Status & Assessment</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="status-grid">
+                <div class="status-item">
+                  <span class="status-label">Development Zone</span>
+                  <mat-chip [class]="getDevZoneClass(employee.dev_zone)" selected>
+                    {{employee.dev_zone}}
+                  </mat-chip>
+                </div>
+                <div class="status-item">
+                  <span class="status-label">Overall Rating</span>
+                  <mat-chip [class]="getRatingClass(employee.overall_rating)" selected>
+                    {{employee.overall_rating}}
+                  </mat-chip>
+                </div>
+                <div class="status-item">
+                  <span class="status-label">Loss Impact</span>
+                  <mat-chip [class]="getLossImpactClass(employee.loss_impact)" selected>
+                    {{employee.loss_impact}}
+                  </mat-chip>
+                </div>
+                <div class="status-item">
+                  <span class="status-label">Attrition Risk</span>
+                  <mat-chip [class]="getAttritionRiskClass(employee.attrition_risk)" selected>
+                    {{employee.attrition_risk}}
+                  </mat-chip>
+                </div>
+                <div class="status-item">
+                  <span class="status-label">Hiring Recommendation</span>
+                  <mat-chip [class]="getHiringRecommendationClass(employee.hiring_recommendation)" selected>
+                    {{employee.hiring_recommendation}}
+                  </mat-chip>
+                </div>
+                <div class="status-item">
+                  <span class="status-label">Career Clarity</span>
+                  <mat-chip [class]="getCareerClarityClass(employee.career_clarity)" selected>
+                    {{employee.career_clarity}}
+                  </mat-chip>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Timeline Information -->
+          <mat-card class="info-card">
+            <mat-card-header>
+              <mat-card-title>Timeline & Tenure</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="timeline-grid">
+                <div class="timeline-item">
+                  <span class="label">Last Hire Date:</span>
+                  <span class="value">{{formatDate(employee.last_hire)}}</span>
+                </div>
+                <div class="timeline-item">
+                  <span class="label">Last Promoted:</span>
+                  <span class="value">{{formatDate(employee.last_promoted_date)}}</span>
+                </div>
+                <div class="timeline-item">
+                  <span class="label">Total Tenure:</span>
+                  <span class="value">{{calculateTenure()}}</span>
+                </div>
+                <div class="timeline-item">
+                  <span class="label">Time in Current Role:</span>
+                  <span class="value">{{calculateTimeInCurrentRole()}}</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <!-- Performance Tab -->
+      <mat-tab label="Performance">
+        <div class="tab-content">
+          <mat-card class="info-card">
+            <mat-card-header>
+              <mat-card-title>Performance Ratings</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="performance-grid">
+                <div class="performance-item">
+                  <span class="label">Recent Year End Performance:</span>
+                  <mat-chip [class]="getRatingClass(employee.recent_year_end_performance)" selected>
+                    {{employee.recent_year_end_performance}}
+                  </mat-chip>
+                </div>
+                <div class="performance-item">
+                  <span class="label">Mid Year Performance Rating:</span>
+                  <mat-chip [class]="getRatingClass(employee.mid_year_performance_rating)" selected>
+                    {{employee.mid_year_performance_rating}}
+                  </mat-chip>
+                </div>
+                <div class="performance-item">
+                  <span class="label">Overall Rating:</span>
+                  <mat-chip [class]="getRatingClass(employee.overall_rating)" selected>
+                    {{employee.overall_rating}}
+                  </mat-chip>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Competency Evaluations -->
+          <mat-card class="info-card" *ngIf="employee.competency_evaluations">
+            <mat-card-header>
+              <mat-card-title>Competency Evaluations</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngFor="let competency of employee.competency_evaluations | keyvalue" class="competency-section">
+                <h4>{{competency.key | titlecase}}</h4>
+                <div class="competency-details">
+                  <div class="competency-item">
+                    <span class="label">Rating:</span>
+                    <mat-chip [class]="getRatingClass(competency.value.rating)" selected>
+                      {{competency.value.rating}}
+                    </mat-chip>
+                  </div>
+                  <div class="competency-item">
+                    <span class="label">Strength:</span>
+                    <span class="value">{{competency.value.strength_value}}</span>
+                  </div>
+                  <div class="competency-item">
+                    <span class="label">Development Area 1:</span>
+                    <span class="value">{{competency.value.gaps_value_1}}</span>
+                  </div>
+                  <div class="competency-item" *ngIf="competency.value.gaps_value_2">
+                    <span class="label">Development Area 2:</span>
+                    <span class="value">{{competency.value.gaps_value_2}}</span>
+                  </div>
+                </div>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <!-- Development Tab -->
+      <mat-tab label="Development">
+        <div class="tab-content">
+          <!-- Strengths -->
+          <mat-card class="info-card" *ngIf="employee.strengths && employee.strengths.length > 0">
+            <mat-card-header>
+              <mat-card-title>Strengths</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="strengths-list">
+                <div *ngFor="let strength of employee.strengths" class="strength-item">
+                  <mat-icon class="strength-icon">star</mat-icon>
+                  <span>{{strength}}</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Development Areas -->
+          <mat-card class="info-card" *ngIf="employee.development_areas && employee.development_areas.length > 0">
+            <mat-card-header>
+              <mat-card-title>Development Areas</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="development-list">
+                <div *ngFor="let area of employee.development_areas" class="development-item">
+                  <mat-icon class="development-icon">trending_up</mat-icon>
+                  <span>{{area}}</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Investment Assessment -->
+          <mat-card class="info-card">
+            <mat-card-header>
+              <mat-card-title>Investment Assessment</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="assessment-text">{{employee.investment_assessment}}</p>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Loss Impact Description -->
+          <mat-card class="info-card">
+            <mat-card-header>
+              <mat-card-title>Loss Impact Analysis</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="impact-text">{{employee.loss_impact_description}}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <!-- Skills & Interests Tab -->
+      <mat-tab label="Skills & Interests">
+        <div class="tab-content">
+          <!-- Skills -->
+          <mat-card class="info-card" *ngIf="employee.skills && employee.skills.length > 0">
+            <mat-card-header>
+              <mat-card-title>Technical Skills</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="skills-container">
+                <mat-chip *ngFor="let skill of employee.skills" class="skill-chip">
+                  {{skill}}
+                </mat-chip>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Interests -->
+          <mat-card class="info-card" *ngIf="employee.interests && employee.interests.length > 0">
+            <mat-card-header>
+              <mat-card-title>Career Interests</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="interests-container">
+                <mat-chip *ngFor="let interest of employee.interests" class="interest-chip">
+                  {{interest}}
+                </mat-chip>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Career Goals -->
+          <mat-card class="info-card" *ngIf="employee.careerGoals && employee.careerGoals.length > 0">
+            <mat-card-header>
+              <mat-card-title>Career Goals</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="goals-container">
+                <mat-chip *ngFor="let goal of employee.careerGoals" class="goal-chip">
+                  {{goal}}
+                </mat-chip>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <!-- Reporting Structure Tab -->
+      <mat-tab label="Reporting">
+        <div class="tab-content">
+          <mat-card class="info-card">
+            <mat-card-header>
+              <mat-card-title>Reporting Structure</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="reporting-structure">
+                <div class="reporting-item">
+                  <span class="label">Reports to (Level 3):</span>
+                  <span class="value">{{employee.reporting_structure.reports_to_3}}</span>
+                </div>
+                <div class="reporting-item">
+                  <span class="label">Reports to (Level 4):</span>
+                  <span class="value">{{employee.reporting_structure.reports_to_4}}</span>
+                </div>
+                <div class="reporting-item">
+                  <span class="label">Reports to (Level 5):</span>
+                  <span class="value">{{employee.reporting_structure.reports_to_5}}</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <!-- Modal Actions -->
+  <div class="modal-actions">
+    <div class="actions-left">
+      <button mat-button *ngIf="isEditMode" (click)="cancelEdit()">
+        <mat-icon>cancel</mat-icon>
+        Cancel
+      </button>
+    </div>
+    <div class="actions-right">
+      <button mat-raised-button color="primary" *ngIf="isEditMode" (click)="saveChanges()">
+        <mat-icon>save</mat-icon>
+        Save Changes
+      </button>
+      <button mat-button (click)="onClose()">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

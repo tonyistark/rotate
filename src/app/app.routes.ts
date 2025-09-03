@@ -6,11 +6,13 @@ import { CreateOpportunityComponent } from './components/create-opportunity/crea
 import { OpportunitiesListComponent } from './components/opportunities-list/opportunities-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HrbpDashboardComponent } from './components/hrbp-dashboard/hrbp-dashboard.component';
+import { NewEmployeeListComponent } from './components/new-employee-list/new-employee-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/hrbp-dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'hrbp-dashboard', component: HrbpDashboardComponent },
+  { path: 'new-employees', component: NewEmployeeListComponent },
   { path: 'manager', component: ManagerDashboardComponent },
   { path: 'create-opportunity', component: CreateOpportunityComponent },
   { path: 'edit-opportunity/:id', component: CreateOpportunityComponent },
