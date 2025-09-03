@@ -201,7 +201,8 @@ export class CreateOpportunityComponent implements OnInit {
         attritionResponse: 'Standard Support',
         previousPerformanceRatings: ['Meets', 'Exceeds'],
         rotationLevel: 'Department',
-        rotationLength: formValue.duration
+        rotationLength: formValue.duration,
+        submittedBy: 'Current User' // Default value for new opportunities
       };
 
       if (this.isEditMode && this.opportunityId) {

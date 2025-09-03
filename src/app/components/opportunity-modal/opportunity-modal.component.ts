@@ -49,15 +49,6 @@ export class OpportunityModalComponent {
     return 'score-poor';
   }
 
-  onApply(): void {
-    this.snackBar.open(
-      `Application submitted for ${this.match.opportunity.title}!`,
-      'Close',
-      { duration: 3000 }
-    );
-    this.dialogRef.close('applied');
-  }
-
   onClose(): void {
     this.dialogRef.close();
   }

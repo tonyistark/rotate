@@ -16,8 +16,14 @@
         </span>
       </div>
     </div>
-    <div class="score-badge" [ngClass]="getScoreClass(match.score)">
-      {{match.score}}% Match
+    <div class="header-meta">
+      <div class="score-badge" [ngClass]="getScoreClass(match.score)">
+        {{match.score}}% Match
+      </div>
+      <div class="submitted-by">
+        <mat-icon>person</mat-icon>
+        <span>Submitted by {{match.opportunity.submittedBy}}</span>
+      </div>
     </div>
   </div>
   <button mat-icon-button (click)="onClose()" class="close-button">
@@ -75,15 +81,6 @@
     </div>
   </div>
 
-  <div class="match-reasons" *ngIf="match.matchReasons.length > 0">
-    <h3><mat-icon>thumb_up</mat-icon> Why this matches you:</h3>
-    <ul>
-      <li *ngFor="let reason of match.matchReasons">
-        <mat-icon>check</mat-icon>
-        {{reason}}
-      </li>
-    </ul>
-  </div>
 
   <div class="skill-gaps" *ngIf="match.skillGaps.length > 0">
     <h3><mat-icon>trending_up</mat-icon> Skills to develop:</h3>
@@ -100,11 +97,14 @@
     <mat-icon>event</mat-icon>
     <span>Apply by: {{formatDate(match.opportunity.applicationDeadline)}}</span>
   </div>
+  <div class="start-date-info">
+    <mat-icon>play_arrow</mat-icon>
+    <span>Starts: {{formatDate(match.opportunity.startDate)}}</span>
+  </div>
   <div class="action-buttons">
-    <button mat-button (click)="onClose()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="onApply()">
-      <mat-icon>send</mat-icon>
-      Apply Now
+    <button mat-raised-button color="primary" (click)="onClose()">
+      <mat-icon>close</mat-icon>
+      Close
     </button>
   </div>
 </mat-dialog-actions>

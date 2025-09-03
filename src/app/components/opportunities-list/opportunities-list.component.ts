@@ -65,6 +65,43 @@ export class OpportunitiesListComponent implements OnInit {
       careerGoals: ['Tech Lead', 'Solution Architect'],
       availability: 'Full-time',
       performanceRating: 'Outstanding',
+      
+      // TDI Profile fields
+      timeInRole: '2 years 3 months',
+      lengthOfService: '5 years 8 months',
+      promotionForecast: 'YE 2025',
+      retentionRisk: '12%',
+      tdiZone: 'Invest Now',
+      myRating: 'Strong',
+      yeRating: 'Above Strong',
+      lastPromoDate: '2022-08-01',
+      
+      // Development Focus
+      preparingForPromo: true,
+      preparingForStretch: false,
+      preparingForRotation: true,
+      
+      // Future Talent Profile
+      futureTalentProfile: 'Technical Leadership',
+      differentiatedStrength: 'Technical Excellence',
+      currentGapsOpportunities: 'Leadership experience needed',
+      
+      // Development needs
+      whatNeedsToBeDemonstrated: 'Team leadership and mentoring skills',
+      howToInvest: 'Provide tech lead opportunities and leadership training',
+      whatSupportNeeded: 'Mentorship from senior engineering leaders',
+      
+      // Career aspirations and investment
+      associateCareerAspirations: 'Solution Architect, Engineering Manager',
+      previousDifferentialInvestment: 'Advanced AWS certification, leadership workshop',
+      
+      // Retention and rotation plans
+      retentionPlanNeeded: false,
+      retentionPlanJustification: '',
+      rotationStechPlanNeeded: true,
+      rotationStechPlanJustification: 'Cross-functional experience needed for leadership growth',
+      
+      // Legacy fields
       lastHireDate: '2019-03-15',
       lastPromotedDate: '2022-08-01',
       performanceTrend: 'Outstanding (YE24), Exceeds (MY24)',
@@ -88,6 +125,43 @@ export class OpportunitiesListComponent implements OnInit {
       careerGoals: ['Senior Product Manager', 'VP Product'],
       availability: 'Full-time',
       performanceRating: 'Exceeds',
+      
+      // TDI Profile fields
+      timeInRole: '3 years 2 months',
+      lengthOfService: '7 years 1 month',
+      promotionForecast: 'YE 2026',
+      retentionRisk: '8%',
+      tdiZone: 'Develop',
+      myRating: 'Strong',
+      yeRating: 'Strong',
+      lastPromoDate: '2021-01-15',
+      
+      // Development Focus
+      preparingForPromo: true,
+      preparingForStretch: true,
+      preparingForRotation: true,
+      
+      // Future Talent Profile
+      futureTalentProfile: 'Product Leadership',
+      differentiatedStrength: 'Strategic Thinking',
+      currentGapsOpportunities: 'Cross-functional leadership experience',
+      
+      // Development needs
+      whatNeedsToBeDemonstrated: 'P&L ownership and strategic vision',
+      howToInvest: 'Stretch assignments with revenue responsibility',
+      whatSupportNeeded: 'Executive mentorship and business strategy training',
+      
+      // Career aspirations and investment
+      associateCareerAspirations: 'VP Product, General Manager',
+      previousDifferentialInvestment: 'MBA sponsorship, product leadership program',
+      
+      // Retention and rotation plans
+      retentionPlanNeeded: false,
+      retentionPlanJustification: '',
+      rotationStechPlanNeeded: true,
+      rotationStechPlanJustification: 'Business unit exposure for GM readiness',
+      
+      // Legacy fields
       lastHireDate: '2017-11-20',
       lastPromotedDate: '2021-01-15',
       performanceTrend: 'Exceeds (YE24), Exceeds (MY24)',
@@ -111,6 +185,43 @@ export class OpportunitiesListComponent implements OnInit {
       careerGoals: ['Senior UX Designer', 'Design Lead'],
       availability: 'Full-time',
       performanceRating: 'Meets',
+      
+      // TDI Profile fields
+      timeInRole: '1 year 8 months',
+      lengthOfService: '4 years 6 months',
+      promotionForecast: 'YE 2025',
+      retentionRisk: '25%',
+      tdiZone: 'Maintain',
+      myRating: 'Solid',
+      yeRating: 'Solid',
+      lastPromoDate: '2023-03-01',
+      
+      // Development Focus
+      preparingForPromo: false,
+      preparingForStretch: true,
+      preparingForRotation: false,
+      
+      // Future Talent Profile
+      futureTalentProfile: 'Design Leadership',
+      differentiatedStrength: 'User Empathy',
+      currentGapsOpportunities: 'Design system leadership and team management',
+      
+      // Development needs
+      whatNeedsToBeDemonstrated: 'Design system ownership and cross-team collaboration',
+      howToInvest: 'Design system lead role and design thinking workshops',
+      whatSupportNeeded: 'Senior design mentor and leadership training',
+      
+      // Career aspirations and investment
+      associateCareerAspirations: 'Senior UX Designer, Design Manager',
+      previousDifferentialInvestment: 'Design leadership course, UX certification',
+      
+      // Retention and rotation plans
+      retentionPlanNeeded: true,
+      retentionPlanJustification: 'Moderate attrition risk due to limited growth opportunities',
+      rotationStechPlanNeeded: false,
+      rotationStechPlanJustification: '',
+      
+      // Legacy fields
       lastHireDate: '2020-06-10',
       lastPromotedDate: '2023-03-01',
       performanceTrend: 'Meets (YE24), Meets (MY24)',

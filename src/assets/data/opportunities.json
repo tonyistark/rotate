@@ -14,6 +14,7 @@
     "level": "Mid",
     "applicationDeadline": "2024-09-15",
     "startDate": "2024-10-01",
+    "submittedBy": "Sarah Chen",
     "leader": "Reports to 4 (CTO)",
     "jobLevel": "L5",
     "jobFamily": "Data & Analytics",
@@ -44,6 +45,7 @@
     "level": "Entry",
     "applicationDeadline": "2024-08-30",
     "startDate": "2024-09-15",
+    "submittedBy": "Michael Rodriguez",
     "leader": "Reports to 5",
     "jobLevel": "L3",
     "jobFamily": "Design",
@@ -74,6 +76,7 @@
     "level": "Senior",
     "applicationDeadline": "2024-09-01",
     "startDate": "2024-09-15",
+    "submittedBy": "Jennifer Park",
     "leader": "Reports to 4 (CTO)",
     "jobLevel": "L6",
     "jobFamily": "Engineering",
@@ -104,6 +107,7 @@
     "level": "Mid",
     "applicationDeadline": "2024-08-25",
     "startDate": "2024-09-10",
+    "submittedBy": "David Thompson",
     "leader": "Reports to 5",
     "jobLevel": "L4",
     "jobFamily": "Marketing",
@@ -134,6 +138,7 @@
     "level": "Lead",
     "applicationDeadline": "2024-09-10",
     "startDate": "2024-10-01",
+    "submittedBy": "Lisa Wang",
     "leader": "Reports to 4 (CTO)",
     "jobLevel": "L7",
     "jobFamily": "Legal",
@@ -164,6 +169,7 @@
     "level": "Mid",
     "applicationDeadline": "2024-09-05",
     "startDate": "2024-09-20",
+    "submittedBy": "Robert Johnson",
     "leader": "Reports to 5",
     "jobLevel": "L5",
     "jobFamily": "Customer Success",
@@ -192,7 +198,9 @@
     "mentorAvailable": true,
     "remote": true,
     "level": "Senior",
-    "applicationDeadline": "2024-09-20"
+    "applicationDeadline": "2024-09-20",
+    "startDate": "2024-10-05",
+    "submittedBy": "Amanda Foster"
   },
   {
     "id": "8",
@@ -207,7 +215,9 @@
     "mentorAvailable": true,
     "remote": false,
     "level": "Mid",
-    "applicationDeadline": "2024-09-12"
+    "applicationDeadline": "2024-09-12",
+    "startDate": "2024-09-30",
+    "submittedBy": "Kevin Martinez"
   },
   {
     "id": "9",
@@ -222,7 +232,9 @@
     "mentorAvailable": true,
     "remote": true,
     "level": "Mid",
-    "applicationDeadline": "2024-08-28"
+    "applicationDeadline": "2024-08-28",
+    "startDate": "2024-09-15",
+    "submittedBy": "Rachel Green"
   },
   {
     "id": "10",
@@ -237,7 +249,9 @@
     "mentorAvailable": true,
     "remote": true,
     "level": "Senior",
-    "applicationDeadline": "2024-09-18"
+    "applicationDeadline": "2024-09-18",
+    "startDate": "2024-10-02",
+    "submittedBy": "Thomas Lee"
   },
   {
     "id": "11",
@@ -252,7 +266,9 @@
     "mentorAvailable": false,
     "remote": true,
     "level": "Mid",
-    "applicationDeadline": "2024-09-08"
+    "applicationDeadline": "2024-09-08",
+    "startDate": "2024-09-25",
+    "submittedBy": "Emily Davis"
   },
   {
     "id": "12",
@@ -267,7 +283,9 @@
     "mentorAvailable": true,
     "remote": false,
     "level": "Mid",
-    "applicationDeadline": "2024-09-15"
+    "applicationDeadline": "2024-09-15",
+    "startDate": "2024-10-01",
+    "submittedBy": "James Wilson"
   },
   {
     "id": "13",
@@ -282,7 +300,9 @@
     "mentorAvailable": true,
     "remote": true,
     "level": "Entry",
-    "applicationDeadline": "2024-09-25"
+    "applicationDeadline": "2024-09-25",
+    "startDate": "2024-10-10",
+    "submittedBy": "Maria Garcia"
   },
   {
     "id": "14",
@@ -297,7 +317,9 @@
     "mentorAvailable": true,
     "remote": true,
     "level": "Mid",
-    "applicationDeadline": "2024-09-03"
+    "applicationDeadline": "2024-09-03",
+    "startDate": "2024-09-20",
+    "submittedBy": "Alex Kim"
   },
   {
     "id": "15",
@@ -312,7 +334,9 @@
     "mentorAvailable": true,
     "remote": false,
     "level": "Senior",
-    "applicationDeadline": "2024-09-10"
+    "applicationDeadline": "2024-09-10",
+    "startDate": "2024-09-28",
+    "submittedBy": "Nicole Brown"
   },
   {
     "id": "16",
@@ -327,7 +351,9 @@
     "mentorAvailable": true,
     "remote": true,
     "level": "Mid",
-    "applicationDeadline": "2024-09-22"
+    "applicationDeadline": "2024-09-22",
+    "startDate": "2024-10-08",
+    "submittedBy": "Christopher Taylor"
   },
   {
     "id": "17",
@@ -342,6 +368,8 @@
     "mentorAvailable": true,
     "remote": false,
     "level": "Executive",
-    "applicationDeadline": "2024-10-01"
+    "applicationDeadline": "2024-10-01",
+    "startDate": "2024-10-15",
+    "submittedBy": "Victoria Adams"
   }
 ]
