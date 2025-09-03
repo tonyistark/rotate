@@ -15,7 +15,7 @@ import { ThemeService, Theme } from './services/theme.service';
   template: `
     <mat-toolbar color="primary" class="app-toolbar">
       <mat-icon class="toolbar-icon">work</mat-icon>
-      <span>Opportunity Matcher</span>
+      <span>Catalyst</span>
       <span class="spacer"></span>
       
       <div class="theme-toggle" matTooltip="Toggle theme">

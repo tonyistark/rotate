@@ -8,12 +8,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HrbpDashboardComponent } from './components/hrbp-dashboard/hrbp-dashboard.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/hrbp-dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'hrbp-dashboard', component: HrbpDashboardComponent },
   { path: 'manager', component: ManagerDashboardComponent },
   { path: 'create-opportunity', component: CreateOpportunityComponent },
   { path: 'edit-opportunity/:id', component: CreateOpportunityComponent },
   { path: 'opportunities', component: OpportunitiesListComponent },
-  { path: '**', redirectTo: '/dashboard' }
+  { path: '**', redirectTo: '/hrbp-dashboard' }
 ];
