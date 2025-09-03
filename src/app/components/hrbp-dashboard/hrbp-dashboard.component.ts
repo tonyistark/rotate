@@ -135,7 +135,10 @@ export class HrbpDashboardComponent extends BaseComponent implements OnInit {
 
     const dialogRef = this.dialog.open(OpportunityModalComponent, {
       ...APP_CONSTANTS.DIALOG_CONFIG.OPPORTUNITY_MODAL,
-      data: { match }
+      data: { 
+        match,
+        availableEmployees: this.employees
+      }
     });
 
     dialogRef.afterClosed()
@@ -144,6 +147,8 @@ export class HrbpDashboardComponent extends BaseComponent implements OnInit {
         if (result === 'applied') {
           console.log('Application submitted for opportunity:', opportunity.title);
         }
+        // Refresh opportunities to show updated assignment status
+        this.loadOpportunities();
       });
   }
 

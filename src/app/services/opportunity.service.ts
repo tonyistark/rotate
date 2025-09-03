@@ -78,6 +78,52 @@ export class OpportunityService {
     });
   }
 
+  assignEmployee(opportunityId: string, employeeId: string, employee: any): Observable<Opportunity> {
+    const index = this.opportunities.findIndex(opp => opp.id === opportunityId);
+    if (index === -1) {
+      return new Observable(observer => {
+        observer.error(new Error('Opportunity not found'));
+      });
+    }
+
+    this.opportunities[index] = {
+      ...this.opportunities[index],
+      assignedEmployeeId: employeeId,
+      assignedEmployee: employee,
+      assignmentDate: new Date().toISOString()
+    };
+
+    this.opportunitiesSubject.next([...this.opportunities]);
+
+    return new Observable(observer => {
+      observer.next(this.opportunities[index]);
+      observer.complete();
+    });
+  }
+
+  removeAssignment(opportunityId: string): Observable<Opportunity> {
+    const index = this.opportunities.findIndex(opp => opp.id === opportunityId);
+    if (index === -1) {
+      return new Observable(observer => {
+        observer.error(new Error('Opportunity not found'));
+      });
+    }
+
+    this.opportunities[index] = {
+      ...this.opportunities[index],
+      assignedEmployeeId: undefined,
+      assignedEmployee: undefined,
+      assignmentDate: undefined
+    };
+
+    this.opportunitiesSubject.next([...this.opportunities]);
+
+    return new Observable(observer => {
+      observer.next(this.opportunities[index]);
+      observer.complete();
+    });
+  }
+
   private generateId(): string {
     return 'opp_' + Math.random().toString(36).substr(2, 9);
   }

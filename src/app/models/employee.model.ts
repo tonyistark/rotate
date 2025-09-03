@@ -89,6 +89,11 @@ export interface Opportunity {
   applicationDeadline: string;
   startDate: string;
   
+  // Assignment fields
+  assignedEmployeeId?: string; // ID of assigned employee
+  assignedEmployee?: Employee; // Full employee object for display
+  assignmentDate?: string; // Date when assignment was made
+  
   // Filter metadata fields
   leader: string; // Reports to leader (e.g., "Reports to 4 (CTO)", "Reports to 5")
   jobLevel: string; // Job level classification

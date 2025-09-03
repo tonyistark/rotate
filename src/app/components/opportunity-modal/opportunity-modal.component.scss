@@ -259,6 +259,125 @@
       }
     }
   }
+
+  .assignment-section {
+    margin-bottom: 32px;
+    background: var(--bg-card);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-primary);
+    
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        color: var(--accent-primary);
+      }
+    }
+
+    .assigned-employee {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      background: rgba(76, 175, 80, 0.1);
+      border: 1px solid var(--success);
+      border-radius: 12px;
+      
+      .employee-info {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        
+        mat-icon {
+          color: var(--success);
+          font-size: 28px;
+          width: 28px;
+          height: 28px;
+        }
+        
+        .employee-details {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          
+          .employee-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+          }
+          
+          .employee-role {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+          }
+          
+          .assignment-date {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            font-style: italic;
+          }
+        }
+      }
+      
+      .remove-assignment {
+        flex-shrink: 0;
+        
+        mat-icon {
+          color: var(--error);
+        }
+      }
+    }
+
+    .assignment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      
+      .employee-select {
+        width: 100%;
+        
+        .employee-option {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          padding: 8px 0;
+          
+          .employee-name {
+            font-weight: 600;
+            color: var(--text-primary);
+          }
+          
+          .employee-role {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+          }
+        }
+      }
+      
+      .assign-button {
+        align-self: flex-start;
+        padding: 12px 24px;
+        border-radius: 24px;
+        font-weight: 600;
+        
+        mat-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
 }
 
 .modal-actions {

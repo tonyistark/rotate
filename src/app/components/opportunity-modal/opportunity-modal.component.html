@@ -87,6 +87,47 @@
       </mat-chip>
     </div>
   </div>
+
+  <!-- Assignment Section -->
+  <div class="assignment-section">
+    <h3><mat-icon>assignment_ind</mat-icon> Employee Assignment</h3>
+    
+    <div *ngIf="match.opportunity.assignedEmployee" class="assigned-employee">
+      <div class="employee-info">
+        <mat-icon>person</mat-icon>
+        <div class="employee-details">
+          <span class="employee-name">{{match.opportunity.assignedEmployee.name}}</span>
+          <span class="employee-role">{{match.opportunity.assignedEmployee.currentRole}} • {{match.opportunity.assignedEmployee.department}}</span>
+          <span class="assignment-date">Assigned on {{formatDate(match.opportunity.assignmentDate || '')}}</span>
+        </div>
+      </div>
+      <button mat-icon-button color="warn" (click)="removeAssignment()" class="remove-assignment">
+        <mat-icon>person_remove</mat-icon>
+      </button>
+    </div>
+
+    <div *ngIf="!match.opportunity.assignedEmployee" class="assignment-form">
+      <mat-form-field appearance="outline" class="employee-select">
+        <mat-label>Select Employee to Assign</mat-label>
+        <mat-select [(value)]="selectedEmployeeId" (selectionChange)="onEmployeeSelected($event)">
+          <mat-option *ngFor="let employee of availableEmployees" [value]="employee.id">
+            <div class="employee-option">
+              <span class="employee-name">{{employee.name}}</span>
+              <span class="employee-role">{{employee.currentRole}} • {{employee.department}}</span>
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <button mat-raised-button color="accent" 
+              [disabled]="!selectedEmployeeId" 
+              (click)="assignEmployee()" 
+              class="assign-button">
+        <mat-icon>person_add</mat-icon>
+        Assign Employee
+      </button>
+    </div>
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions class="modal-actions">

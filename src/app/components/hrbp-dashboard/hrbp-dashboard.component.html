@@ -299,7 +299,15 @@
             *ngFor="let opportunity of filteredOpportunities" 
             (click)="onOpportunityClick(opportunity)"
             (dblclick)="openOpportunityModal(opportunity)"
-            [class.selected]="selectedOpportunity?.id === opportunity.id">
+            [class.selected]="selectedOpportunity?.id === opportunity.id"
+            [class.assigned]="opportunity.assignedEmployee">
+            
+            <!-- Assignment Indicator -->
+            <div *ngIf="opportunity.assignedEmployee" class="assignment-indicator">
+              <mat-icon>person</mat-icon>
+              <span>Assigned</span>
+            </div>
+            
             <mat-card-header>
               <mat-card-title>{{opportunity.title}}</mat-card-title>
               <mat-card-subtitle>{{opportunity.department}} • {{opportunity.level}}</mat-card-subtitle>
@@ -307,6 +315,18 @@
             <mat-card-content>
               <div class="opportunity-details">
                 <p class="description">{{opportunity.description}}</p>
+                
+                <!-- Assigned Employee Info -->
+                <div *ngIf="opportunity.assignedEmployee" class="assigned-employee-info">
+                  <div class="employee-badge">
+                    <mat-icon>assignment_ind</mat-icon>
+                    <div class="employee-details">
+                      <span class="employee-name">{{opportunity.assignedEmployee.name}}</span>
+                      <span class="employee-role">{{opportunity.assignedEmployee.currentRole}}</span>
+                    </div>
+                  </div>
+                </div>
+                
                 <div class="skills-preview">
                   <mat-chip *ngFor="let skill of opportunity.requiredSkills.slice(0, 3)" color="primary" selected>
                     {{skill}}
