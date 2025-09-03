@@ -6,6 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Match } from '../../models/employee.model';
+import { BaseComponent } from '../../shared/base/base.component';
+import { UtilsService } from '../../shared/services/utils.service';
+import { FilterService } from '../../shared/services/filter.service';
 
 @Component({
   selector: 'app-opportunity-modal',
@@ -21,46 +24,24 @@ import { Match } from '../../models/employee.model';
   templateUrl: './opportunity-modal.component.html',
   styleUrls: ['./opportunity-modal.component.scss']
 })
-export class OpportunityModalComponent {
+export class OpportunityModalComponent extends BaseComponent {
   constructor(
     public dialogRef: MatDialogRef<OpportunityModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { match: Match },
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    utilsService: UtilsService,
+    filterService: FilterService
+  ) {
+    super(utilsService, filterService);
+  }
 
   get match(): Match {
     return this.data.match;
   }
 
-  getLevelColor(level: string): string {
-    switch (level) {
-      case 'Entry': return 'primary';
-      case 'Mid': return 'accent';
-      case 'Senior': return 'warn';
-      case 'Lead': return 'primary';
-      default: return 'primary';
-    }
-  }
-
-  getScoreClass(score: number): string {
-    if (score >= 80) return 'score-excellent';
-    if (score >= 60) return 'score-good';
-    if (score >= 40) return 'score-fair';
-    return 'score-poor';
-  }
 
   onClose(): void {
     this.dialogRef.close();
   }
 
-  formatDate(dateString: string): string {
-    if (!dateString || dateString.trim() === '') {
-      return 'Not set';
-    }
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-      return 'Not set';
-    }
-    return date.toLocaleDateString();
-  }
 }

@@ -11,13 +11,17 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { takeUntil } from 'rxjs/operators';
 
-import { Opportunity, Match } from '../../models/employee.model';
-import { Employee } from '../../models/employee.model';
+import { Opportunity, Match, Employee } from '../../models/employee.model';
 import { OpportunityService } from '../../services/opportunity.service';
 import { EmployeeService } from '../../services/employee.service';
 import { EmployeeDetailModalComponent } from '../employee-detail-modal/employee-detail-modal.component';
 import { OpportunityModalComponent } from '../opportunity-modal/opportunity-modal.component';
+import { BaseComponent } from '../../shared/base/base.component';
+import { FilterService, FilterState } from '../../shared/services/filter.service';
+import { UtilsService } from '../../shared/services/utils.service';
+import { APP_CONSTANTS, FILTER_LABELS } from '../../shared/constants/app.constants';
 
 interface EmployeeMatch {
   employee: Employee;
@@ -57,55 +61,32 @@ interface EmployeeMatch {
     ])
   ]
 })
-export class HrbpDashboardComponent implements OnInit {
+export class HrbpDashboardComponent extends BaseComponent implements OnInit {
   opportunities: Opportunity[] = [];
   filteredOpportunities: Opportunity[] = [];
   employees: Employee[] = [];
   selectedOpportunity: Opportunity | null = null;
   employeeMatches: EmployeeMatch[] = [];
 
-  // Search and filter state
-  searchTerm: string = '';
+  // UI state
   showEmployeePanel = false;
   showInstructionPopup = false;
 
-  // Filter options
-  selectedLeader = '';
-  selectedJobLevel = '';
-  selectedJobFamily = '';
-  selectedJobProfile = '';
-  selectedPlIc = '';
-  selectedTenure = '';
-  selectedLocation = '';
-  selectedDayZero = '';
-  selectedLossImpact = '';
-  selectedAttritionRisk = '';
-  selectedAttritionResponse = '';
-  selectedPerformanceRating = '';
-  selectedRotationLevel = '';
-  selectedRotationLength = '';
-
-  // Filter dropdown options
-  leaders: string[] = [];
-  jobLevels: string[] = [];
-  jobFamilies: string[] = [];
-  jobProfiles: string[] = [];
-  plIcOptions: string[] = [];
-  tenureOptions: string[] = [];
-  locationOptions: string[] = [];
-  dayZeroOptions: string[] = [];
-  lossImpactOptions: string[] = [];
-  attritionRiskOptions: string[] = [];
-  attritionResponseOptions: string[] = [];
-  performanceRatingOptions: string[] = [];
-  rotationLevelOptions: string[] = [];
-  rotationLengthOptions: string[] = [];
+  // Filter state
+  filterState: FilterState;
+  filterOptions: any = {};
+  readonly filterLabels = FILTER_LABELS;
 
   constructor(
     private opportunityService: OpportunityService,
     private employeeService: EmployeeService,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    utilsService: UtilsService,
+    filterService: FilterService
+  ) {
+    super(utilsService, filterService);
+    this.filterState = this.filterService.createInitialFilterState();
+  }
 
   ngOnInit(): void {
     this.loadOpportunities();
@@ -113,57 +94,26 @@ export class HrbpDashboardComponent implements OnInit {
   }
 
   loadOpportunities(): void {
-    this.opportunityService.getOpportunities().subscribe(opportunities => {
-      this.opportunities = opportunities;
-      this.filteredOpportunities = opportunities;
-      this.populateFilterOptions();
-    });
+    this.opportunityService.getOpportunities()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(opportunities => {
+        this.opportunities = opportunities;
+        this.filteredOpportunities = opportunities;
+        this.filterOptions = this.filterService.extractFilterOptions(opportunities);
+      });
   }
 
   loadEmployees(): void {
-    this.employeeService.getEmployees().subscribe(employees => {
-      this.employees = employees;
-    });
+    this.employeeService.getEmployees()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(employees => {
+        this.employees = employees;
+      });
   }
 
-  populateFilterOptions(): void {
-    // Extract unique values from opportunities for filter dropdowns
-    this.leaders = ['All', ...new Set(this.opportunities.map(opp => opp.leader))];
-    this.jobLevels = ['All', ...new Set(this.opportunities.map(opp => opp.jobLevel))];
-    this.jobFamilies = ['All', ...new Set(this.opportunities.map(opp => opp.jobFamily))];
-    this.jobProfiles = ['All', ...new Set(this.opportunities.map(opp => opp.jobProfile))];
-    this.tenureOptions = ['All', ...new Set(this.opportunities.map(opp => opp.tenure))];
-    this.locationOptions = ['All', ...new Set(this.opportunities.map(opp => opp.location))];
-    this.attritionResponseOptions = ['All', ...new Set(this.opportunities.map(opp => opp.attritionResponse))];
-    this.performanceRatingOptions = ['All', ...new Set(this.opportunities.flatMap(opp => opp.previousPerformanceRatings))];
-    this.rotationLevelOptions = ['All', ...new Set(this.opportunities.map(opp => opp.rotationLevel))];
-    this.rotationLengthOptions = ['All', ...new Set(this.opportunities.map(opp => opp.rotationLength))];
-  }
 
   applyFilters(): void {
-    this.filteredOpportunities = this.opportunities.filter(opportunity => {
-      // Search term filter
-      const matchesSearch = !this.searchTerm || 
-        opportunity.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        opportunity.description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        opportunity.department.toLowerCase().includes(this.searchTerm.toLowerCase());
-      
-      return matchesSearch && (
-        (this.selectedLeader === '' || this.selectedLeader === 'All' || opportunity.leader === this.selectedLeader) &&
-        (this.selectedJobLevel === '' || this.selectedJobLevel === 'All' || opportunity.jobLevel === this.selectedJobLevel) &&
-        (this.selectedJobFamily === '' || this.selectedJobFamily === 'All' || opportunity.jobFamily === this.selectedJobFamily) &&
-        (this.selectedJobProfile === '' || this.selectedJobProfile === 'All' || opportunity.jobProfile === this.selectedJobProfile) &&
-        (this.selectedPlIc === '' || this.selectedPlIc === 'All' || opportunity.plIc === this.selectedPlIc) &&
-        (this.selectedTenure === '' || this.selectedTenure === 'All' || opportunity.tenure === this.selectedTenure) &&
-        (this.selectedLocation === '' || this.selectedLocation === 'All' || opportunity.location === this.selectedLocation) &&
-        (this.selectedDayZero === '' || this.selectedDayZero === 'All' || String(opportunity.dayZero) === this.selectedDayZero) &&
-        (this.selectedLossImpact === '' || this.selectedLossImpact === 'All' || opportunity.lossImpact === this.selectedLossImpact) &&
-        (this.selectedAttritionRisk === '' || this.selectedAttritionRisk === 'All' || opportunity.attritionRisk === this.selectedAttritionRisk) &&
-        (this.selectedAttritionResponse === '' || this.selectedAttritionResponse === 'All' || opportunity.attritionResponse === this.selectedAttritionResponse) &&
-        (this.selectedRotationLevel === '' || this.selectedRotationLevel === 'All' || opportunity.rotationLevel === this.selectedRotationLevel) &&
-        (this.selectedRotationLength === '' || this.selectedRotationLength === 'All' || opportunity.rotationLength === this.selectedRotationLength)
-      );
-    });
+    this.filteredOpportunities = this.filterService.applyFilters(this.opportunities, this.filterState);
   }
 
   onFilterChange(): void {
@@ -176,106 +126,60 @@ export class HrbpDashboardComponent implements OnInit {
   }
 
   openOpportunityModal(opportunity: Opportunity): void {
-    // Create a match object for the opportunity modal
     const match: Match = {
-      opportunity: opportunity,
-      score: 85, // Default score for demonstration
+      opportunity,
+      score: 85,
       matchReasons: [],
-      skillGaps: opportunity.requiredSkills.slice(0, 2) // Show first 2 as skill gaps for demo
+      skillGaps: opportunity.requiredSkills.slice(0, 2)
     };
 
-    // Open the opportunity modal
     const dialogRef = this.dialog.open(OpportunityModalComponent, {
-      width: '80vw',
-      maxWidth: '800px',
+      ...APP_CONSTANTS.DIALOG_CONFIG.OPPORTUNITY_MODAL,
       data: { match }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'applied') {
-        console.log('Application submitted for opportunity:', opportunity.title);
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(result => {
+        if (result === 'applied') {
+          console.log('Application submitted for opportunity:', opportunity.title);
+        }
+      });
   }
 
 
   clearSearch(): void {
-    this.searchTerm = '';
+    this.filterState.searchTerm = '';
     this.onFilterChange();
   }
 
   hasActiveFilters(): boolean {
-    return !!(this.selectedLeader || this.selectedJobLevel || this.selectedJobFamily || 
-             this.selectedJobProfile || this.selectedPlIc || this.selectedTenure ||
-             this.selectedLocation || this.selectedRotationLevel || this.selectedRotationLength ||
-             this.searchTerm);
+    return this.filterService.hasActiveFilters(this.filterState);
   }
 
-  clearFilter(filterType: string): void {
-    switch (filterType) {
-      case 'leader':
-        this.selectedLeader = '';
-        break;
-      case 'jobLevel':
-        this.selectedJobLevel = '';
-        break;
-      case 'jobFamily':
-        this.selectedJobFamily = '';
-        break;
-      case 'jobProfile':
-        this.selectedJobProfile = '';
-        break;
-      case 'plIc':
-        this.selectedPlIc = '';
-        break;
-      case 'tenure':
-        this.selectedTenure = '';
-        break;
-      case 'location':
-        this.selectedLocation = '';
-        break;
-      case 'rotationLevel':
-        this.selectedRotationLevel = '';
-        break;
-      case 'rotationLength':
-        this.selectedRotationLength = '';
-        break;
-    }
+  clearFilter(filterType: keyof FilterState): void {
+    this.filterState = this.filterService.clearFilter(this.filterState, filterType);
     this.onFilterChange();
   }
 
   clearAllFilters(): void {
-    this.selectedLeader = '';
-    this.selectedJobLevel = '';
-    this.selectedJobFamily = '';
-    this.selectedJobProfile = '';
-    this.selectedPlIc = '';
-    this.selectedTenure = '';
-    this.selectedLocation = '';
-    this.selectedDayZero = '';
-    this.selectedLossImpact = '';
-    this.selectedAttritionRisk = '';
-    this.selectedAttritionResponse = '';
-    this.selectedPerformanceRating = '';
-    this.selectedRotationLevel = '';
-    this.selectedRotationLength = '';
-    this.searchTerm = '';
+    this.filterState = this.filterService.clearAllFilters(this.filterState);
     this.onFilterChange();
   }
 
   showEmployeeDetails(employee: Employee): void {
     const dialogRef = this.dialog.open(EmployeeDetailModalComponent, {
-      width: '90vw',
-      maxWidth: '1200px',
+      ...APP_CONSTANTS.DIALOG_CONFIG.EMPLOYEE_DETAIL,
       data: { employee }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Handle any updates to employee data
-        console.log('Employee updated:', result);
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(result => {
+        if (result) {
+          console.log('Employee updated:', result);
+        }
+      });
   }
 
   calculateEmployeeMatches(opportunity: Opportunity): void {
@@ -298,7 +202,7 @@ export class HrbpDashboardComponent implements OnInit {
       score += skillMatchRatio * 40;
       
       // Performance rating (20% weight)
-      const performanceScore = this.getPerformanceScore(employee.performanceRating);
+      const performanceScore = this.utilsService.getPerformanceScore(employee.performanceRating);
       score += (performanceScore / 5) * 20;
       
       // Career interest alignment (20% weight)
@@ -327,23 +231,10 @@ export class HrbpDashboardComponent implements OnInit {
     this.employeeMatches = this.filterAndSortForOpportunity(potentialMatches, opportunity);
   }
 
-  getPerformanceScore(rating: string): number {
-    switch (rating) {
-      case 'Outstanding': return 5;
-      case 'Exceeds': return 4;
-      case 'Meets': return 3;
-      case 'Below': return 2;
-      default: return 1;
-    }
-  }
 
   calculateInterestAlignment(employee: Employee, opportunity: Opportunity): number {
-    const alignmentScore = employee.careerInterest.some(interest => 
-      opportunity.description.toLowerCase().includes(interest.toLowerCase()) ||
-      opportunity.title.toLowerCase().includes(interest.toLowerCase())
-    ) ? 1 : 0.5;
-    
-    return alignmentScore;
+    const opportunityText = `${opportunity.description} ${opportunity.title}`;
+    return this.utilsService.calculateInterestAlignment(employee.careerInterest, opportunityText);
   }
 
   getOpportunitySpecificAdjustment(employee: Employee, opportunity: Opportunity): number {
@@ -412,48 +303,4 @@ export class HrbpDashboardComponent implements OnInit {
     this.showInstructionPopup = !this.showInstructionPopup;
   }
 
-  getMatchScoreColor(score: number): string {
-    if (score >= 90) return 'primary';
-    if (score >= 75) return 'accent';
-    if (score >= 60) return 'warn';
-    return 'basic';
-  }
-
-  getPerformanceColor(rating: string): string {
-    switch (rating.toLowerCase()) {
-      case 'exceeds expectations':
-      case 'outstanding':
-        return 'primary';
-      case 'meets expectations':
-      case 'good':
-        return 'accent';
-      case 'below expectations':
-      case 'needs improvement':
-        return 'warn';
-      default:
-        return 'basic';
-    }
-  }
-
-  getAttritionRiskColor(risk: number): string {
-    if (risk <= 20) return 'primary';
-    if (risk <= 50) return 'accent';
-    return 'warn';
-  }
-
-  getMatchScoreLabel(score: number): string {
-    if (score >= 90) return 'Excellent';
-    if (score >= 75) return 'Good';
-    if (score >= 60) return 'Fair';
-    return 'Poor';
-  }
-
-  formatDate(date: string | Date): string {
-    const d = new Date(date);
-    return d.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  }
 }

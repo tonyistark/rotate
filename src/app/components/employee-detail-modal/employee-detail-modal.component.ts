@@ -15,6 +15,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Employee } from '../../models/employee.model';
+import { BaseComponent } from '../../shared/base/base.component';
+import { UtilsService } from '../../shared/services/utils.service';
+import { FilterService } from '../../shared/services/filter.service';
+import { APP_CONSTANTS } from '../../shared/constants/app.constants';
 
 @Component({
   selector: 'app-employee-detail-modal',
@@ -39,7 +43,7 @@ import { Employee } from '../../models/employee.model';
   templateUrl: './employee-detail-modal.component.html',
   styleUrls: ['./employee-detail-modal.component.scss']
 })
-export class EmployeeDetailModalComponent {
+export class EmployeeDetailModalComponent extends BaseComponent {
   isEditMode = false;
   editableEmployee: Employee;
   originalEmployee: Employee;
@@ -48,13 +52,20 @@ export class EmployeeDetailModalComponent {
   showSkillInput: { [key: string]: boolean } = {};
   newSkillValues: { [key: string]: string } = {};
 
-  performanceRatings = ['Outstanding', 'Exceeds', 'Meets', 'Below'];
-  availabilityOptions = ['Full-time', 'Part-time'];
+  readonly performanceRatings = APP_CONSTANTS.PERFORMANCE_RATINGS;
+  readonly availabilityOptions = ['Full-time', 'Part-time'];
+  readonly skillTypes = [
+    'skills', 'interests', 'careerGoals', 'skillsetExperience', 
+    'competencyStrengths', 'careerInterest', 'talentDevelopmentInventory'
+  ] as const;
 
   constructor(
     public dialogRef: MatDialogRef<EmployeeDetailModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { employee: Employee }
+    @Inject(MAT_DIALOG_DATA) public data: { employee: Employee },
+    utilsService: UtilsService,
+    filterService: FilterService
   ) {
+    super(utilsService, filterService);
     this.originalEmployee = { ...data.employee };
     this.editableEmployee = { ...data.employee };
     this.initializeEmployeeDefaults();
@@ -89,36 +100,16 @@ export class EmployeeDetailModalComponent {
     this.isEditMode = false;
   }
 
-  formatDate(dateString: string): string {
-    if (!dateString || dateString.trim() === '') {
-      return 'Not set';
-    }
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-      return 'Not set';
-    }
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  }
 
-  getAttritionRiskClass(risk: number): string {
-    if (risk <= 15) return 'low-risk';
-    if (risk <= 30) return 'medium-risk';
-    return 'high-risk';
-  }
 
-  addSkill(skillType: 'skills' | 'interests' | 'careerGoals' | 'skillsetExperience' | 'competencyStrengths' | 'careerInterest' | 'talentDevelopmentInventory'): void {
+  addSkill(skillType: typeof this.skillTypes[number]): void {
     this.showSkillInput[skillType] = true;
     this.newSkillValues[skillType] = '';
   }
 
-  confirmAddSkill(skillType: 'skills' | 'interests' | 'careerGoals' | 'skillsetExperience' | 'competencyStrengths' | 'careerInterest' | 'talentDevelopmentInventory'): void {
+  confirmAddSkill(skillType: typeof this.skillTypes[number]): void {
     const newSkill = this.newSkillValues[skillType];
     if (newSkill && newSkill.trim()) {
-      // Initialize array if it doesn't exist
       if (!this.editableEmployee[skillType]) {
         this.editableEmployee[skillType] = [];
       }
@@ -128,22 +119,20 @@ export class EmployeeDetailModalComponent {
     this.newSkillValues[skillType] = '';
   }
 
-  cancelAddSkill(skillType: 'skills' | 'interests' | 'careerGoals' | 'skillsetExperience' | 'competencyStrengths' | 'careerInterest' | 'talentDevelopmentInventory'): void {
+  cancelAddSkill(skillType: typeof this.skillTypes[number]): void {
     this.showSkillInput[skillType] = false;
     this.newSkillValues[skillType] = '';
   }
 
-  removeSkill(skillType: 'skills' | 'interests' | 'careerGoals' | 'skillsetExperience' | 'competencyStrengths' | 'careerInterest' | 'talentDevelopmentInventory', index: number): void {
+  removeSkill(skillType: typeof this.skillTypes[number], index: number): void {
     if (this.editableEmployee[skillType]) {
       this.editableEmployee[skillType].splice(index, 1);
     }
   }
 
-  // Helper methods for new TDI fields
-  initializeEmployeeDefaults(): void {
+  private initializeEmployeeDefaults(): void {
     // Initialize arrays if they don't exist
-    const arrayFields = ['skills', 'interests', 'careerGoals', 'skillsetExperience', 'competencyStrengths', 'careerInterest', 'talentDevelopmentInventory'];
-    arrayFields.forEach(field => {
+    this.skillTypes.forEach(field => {
       if (!this.editableEmployee[field as keyof Employee]) {
         (this.editableEmployee as any)[field] = [];
       }
@@ -172,24 +161,14 @@ export class EmployeeDetailModalComponent {
   }
 
   getTdiZoneClass(zone: string): string {
-    if (!zone) return '';
-    const lowerZone = zone.toLowerCase();
-    if (lowerZone.includes('invest')) return 'invest-zone';
-    if (lowerZone.includes('develop')) return 'develop-zone';
-    if (lowerZone.includes('maintain')) return 'maintain-zone';
-    return '';
+    return this.utilsService.getTdiZoneClass(zone);
   }
 
   getRatingClass(rating: string): string {
-    if (!rating) return '';
-    const lowerRating = rating.toLowerCase();
-    if (lowerRating.includes('strong')) return 'strong-rating';
-    if (lowerRating.includes('exceptional')) return 'exceptional-rating';
-    if (lowerRating.includes('outstanding')) return 'outstanding-rating';
-    return '';
+    return this.utilsService.getRatingClass(rating);
   }
 
-  ensureRatingCycles(): void {
+  private ensureRatingCycles(): void {
     // Ensure ratingCycles is always defined for both employees
     if (!this.editableEmployee.ratingCycles) {
       this.editableEmployee.ratingCycles = {
