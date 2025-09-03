@@ -289,13 +289,14 @@
       <div class="opportunities-section">
         <div class="section-header">
           <h2>Available Opportunities</h2>
-          <p class="section-subtitle">Select an opportunity to view employee matches</p>
+          <p class="section-subtitle">Select an opportunity to view employee matches • Double-click to view details</p>
         </div>
         <div class="opportunities-grid">
           <mat-card 
             class="opportunity-card" 
             *ngFor="let opportunity of filteredOpportunities" 
             (click)="onOpportunityClick(opportunity)"
+            (dblclick)="openOpportunityModal(opportunity)"
             [class.selected]="selectedOpportunity?.id === opportunity.id">
             <mat-card-header>
               <mat-card-title>{{opportunity.title}}</mat-card-title>

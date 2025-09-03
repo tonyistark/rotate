@@ -12,11 +12,12 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
-import { Opportunity } from '../../models/employee.model';
+import { Opportunity, Match } from '../../models/employee.model';
 import { Employee } from '../../models/employee.model';
 import { OpportunityService } from '../../services/opportunity.service';
 import { EmployeeService } from '../../services/employee.service';
 import { EmployeeDetailModalComponent } from '../employee-detail-modal/employee-detail-modal.component';
+import { OpportunityModalComponent } from '../opportunity-modal/opportunity-modal.component';
 
 interface EmployeeMatch {
   employee: Employee;
@@ -43,6 +44,18 @@ interface EmployeeMatch {
   ],
   templateUrl: './hrbp-dashboard.component.html',
   styleUrls: ['./hrbp-dashboard.component.scss'],
+  animations: [
+    trigger('slideIn', [
+      state('in', style({transform: 'translateY(0)', opacity: 1})),
+      transition('void => *', [
+        style({transform: 'translateY(-20px)', opacity: 0}),
+        animate(300)
+      ]),
+      transition('* => void', [
+        animate(300, style({transform: 'translateY(-20px)', opacity: 0}))
+      ])
+    ])
+  ]
 })
 export class HrbpDashboardComponent implements OnInit {
   opportunities: Opportunity[] = [];
@@ -160,7 +173,29 @@ export class HrbpDashboardComponent implements OnInit {
   onOpportunityClick(opportunity: Opportunity): void {
     this.selectedOpportunity = opportunity;
     this.calculateEmployeeMatches(opportunity);
-    // Don't automatically show the panel, just update the right sidebar
+  }
+
+  openOpportunityModal(opportunity: Opportunity): void {
+    // Create a match object for the opportunity modal
+    const match: Match = {
+      opportunity: opportunity,
+      score: 85, // Default score for demonstration
+      matchReasons: [],
+      skillGaps: opportunity.requiredSkills.slice(0, 2) // Show first 2 as skill gaps for demo
+    };
+
+    // Open the opportunity modal
+    const dialogRef = this.dialog.open(OpportunityModalComponent, {
+      width: '80vw',
+      maxWidth: '800px',
+      data: { match }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'applied') {
+        console.log('Application submitted for opportunity:', opportunity.title);
+      }
+    });
   }
 
 

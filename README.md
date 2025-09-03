@@ -1,4 +1,4 @@
-# Angular Opportunity Matcher
+# Angular Catalyst
 
 An interactive Angular application that helps employees discover new opportunities within their company to develop skills and advance their careers.
 
