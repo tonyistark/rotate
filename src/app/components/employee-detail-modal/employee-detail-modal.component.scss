@@ -1,3 +1,65 @@
+// SCSS Variables
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$transition-fast: 0.15s ease;
+$transition-normal: 0.2s ease;
+
+// Mixins
+@mixin card-base {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $border-radius-md;
+  transition: all $transition-fast;
+}
+
+@mixin card-hover {
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: var(--border-color);
+    transform: translateY(-1px);
+  }
+}
+
+@mixin form-field-base {
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    background: var(--bg-card);
+    border-radius: $border-radius-sm;
+    border: 1px solid var(--border-color);
+  }
+
+  ::ng-deep .mdc-text-field__input {
+    color: var(--text-primary) !important;
+  }
+
+  ::ng-deep .mat-mdc-form-field-label {
+    color: var(--text-secondary) !important;
+  }
+}
+
+@mixin button-fab {
+  transition: all $transition-fast;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 40px;
+  height: 40px;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .employee-detail-modal {
   width: 100%;
   max-width: 100%;
@@ -5,11 +67,9 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: var(--bg-card);
-  color: var(--text-primary);
-  border-radius: 8px;
+  @include card-base;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);
-  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   .modal-header {
@@ -25,8 +85,8 @@
       max-width: 1200px;
       width: 95vw;
       max-height: 90vh;
-      background: var(--bg-card);
-      border-radius: 12px;
+      @include card-base;
+      border-radius: $border-radius-lg;
       overflow: hidden;
     }
 
@@ -51,7 +111,6 @@
           width: 28px;
           height: 28px;
           color: var(--text-secondary);
-          
         }
       }
 
@@ -77,7 +136,6 @@
             font-size: 13px;
             color: var(--text-secondary);
             font-weight: 400;
-            
 
             mat-icon {
               font-size: 14px;
@@ -85,7 +143,6 @@
               height: 14px;
               color: var(--text-secondary);
               margin-right: 6px;
-              
             }
           }
 
@@ -109,15 +166,7 @@
       }
 
       button[mat-fab] {
-        transition: all 0.15s ease;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        width: 40px;
-        height: 40px;
-
-        &:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
+        @include button-fab;
       }
 
       button[mat-icon-button] {
@@ -128,7 +177,6 @@
         &:hover {
           background: var(--bg-hover);
         }
-        
       }
     }
   }
@@ -161,7 +209,7 @@
         }
 
         ::ng-deep .mat-mdc-card-header {
-          padding: 16px;
+          padding: $spacing-md;
           background: transparent;
           border-bottom: none;
 
@@ -173,11 +221,10 @@
             color: var(--text-secondary);
             font-weight: 500;
             font-size: 12px;
-            margin: 0 0 8px 0;
+            margin: 0 0 $spacing-sm 0;
             text-transform: uppercase;
             letter-spacing: 0.5px;
           }
-          
         }
 
         ::ng-deep .mat-mdc-card-content {
@@ -191,7 +238,7 @@
               font-size: 28px;
               font-weight: 700;
               color: var(--text-primary);
-              margin-bottom: 4px;
+              margin-bottom: $spacing-xs;
             }
 
             .metric-label {
@@ -199,8 +246,6 @@
             }
           }
         }
-
-        // Remove card-specific styling since avatars are hidden
       }
     }
 
@@ -258,16 +303,12 @@
           }
 
           .info-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            transition: all 0.15s ease;
+            @include card-base;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            @include card-hover;
 
             &:hover {
               box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-              border-color: var(--border-color);
-              transform: translateY(-1px);
             }
 
             ::ng-deep .mat-mdc-card-header {
@@ -294,10 +335,6 @@
                 font-weight: 600;
                 font-size: 14px;
                 margin: 0;
-                
-                .mat-mdc-card-title {
-                  color: var(--text-primary);
-                }
               }
             }
 
@@ -318,12 +355,9 @@
       .info-item {
         display: flex;
         align-items: flex-start;
-        gap: 16px;
+        gap: $spacing-md;
         padding: 20px;
-        background: var(--bg-card);
-        border-radius: 8px;
-        border: 1px solid var(--border-color);
-        transition: all 0.15s ease;
+        @include card-base;
 
         &:hover {
           background: var(--bg-tertiary);
@@ -422,23 +456,12 @@
 
           .modern-field {
             width: 100%;
-            margin-top: 4px;
-
-            ::ng-deep .mat-mdc-text-field-wrapper {
-              background: var(--bg-card);
-              border-radius: 4px;
-              border: 1px solid var(--border-color);
-            }
+            margin-top: $spacing-xs;
+            @include form-field-base;
 
             ::ng-deep .mdc-text-field__input {
-              color: var(--text-primary) !important;
               font-size: 14px;
             }
-
-            ::ng-deep .mat-mdc-form-field-label {
-              color: var(--text-secondary) !important;
-            }
-            
           }
         }
       }
@@ -450,12 +473,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 16px 20px;
-        background: var(--bg-card);
-        border-radius: 8px;
+        padding: $spacing-md 20px;
+        @include card-base;
         margin-bottom: 12px;
-        border: 1px solid var(--border-color);
-        transition: all 0.15s ease;
 
         &:last-child {
           margin-bottom: 0;
@@ -620,6 +640,7 @@
 
         .full-width {
           width: 100%;
+          @include form-field-base;
 
           ::ng-deep .mat-mdc-text-field-wrapper {
             background: var(--bg-card);
@@ -832,11 +853,8 @@
 
           .edit-field {
             width: 100%;
-            margin-top: 8px;
-
-            &.full-width {
-              width: 100%;
-            }
+            margin-top: $spacing-sm;
+            @include form-field-base;
 
             ::ng-deep .mat-mdc-form-field-subscript-wrapper {
               display: none;
@@ -844,45 +862,21 @@
 
             ::ng-deep .mat-mdc-text-field-wrapper {
               background-color: var(--bg-tertiary);
-              border-radius: 4px;
-              border: 1px solid var(--border-color);
             }
 
             ::ng-deep .mdc-text-field--filled {
               background-color: var(--bg-tertiary);
             }
 
-            ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-              background-color: var(--bg-tertiary);
-            }
-
             ::ng-deep .mat-mdc-form-field-input-control {
-              color: var(--text-primary) !important;
               font-size: 14px;
-              padding: 12px 16px;
+              padding: 12px $spacing-md;
               background-color: transparent;
             }
 
             ::ng-deep .mdc-text-field__input {
-              color: var(--text-primary) !important;
               caret-color: var(--text-primary);
               background-color: transparent;
-            }
-
-            ::ng-deep .mat-mdc-form-field-label {
-              color: var(--text-secondary) !important;
-            }
-
-            ::ng-deep .mat-mdc-form-field {
-              color: var(--text-primary) !important;
-            }
-
-            ::ng-deep .mat-mdc-form-field-flex {
-              color: var(--text-primary) !important;
-            }
-
-            ::ng-deep .mat-mdc-form-field-infix {
-              color: var(--text-primary) !important;
             }
 
             ::ng-deep .mdc-line-ripple::before {
@@ -891,14 +885,6 @@
 
             ::ng-deep .mdc-line-ripple::after {
               border-bottom-color: var(--accent-primary);
-            }
-
-            ::ng-deep .mdc-text-field--focused .mdc-text-field__input {
-              color: var(--text-primary) !important;
-            }
-
-            ::ng-deep .mdc-text-field:hover .mdc-text-field__input {
-              color: var(--text-primary) !important;
             }
           }
 
@@ -955,37 +941,18 @@
   }
 }
 
-// TDI Zone styling
-.invest-zone {
-  color: #4caf50 !important;
+// Status and rating color classes
+@mixin status-color($color) {
+  color: $color !important;
   font-weight: 600;
 }
 
-.develop-zone {
-  color: #ff9800 !important;
-  font-weight: 600;
-}
-
-.maintain-zone {
-  color: #2196f3 !important;
-  font-weight: 600;
-}
-
-// Rating styling
-.strong-rating {
-  color: #4caf50 !important;
-  font-weight: 600;
-}
-
-.exceptional-rating {
-  color: #9c27b0 !important;
-  font-weight: 600;
-}
-
-.outstanding-rating {
-  color: #ff5722 !important;
-  font-weight: 600;
-}
+.invest-zone { @include status-color(#4caf50); }
+.develop-zone { @include status-color(#ff9800); }
+.maintain-zone { @include status-color(#2196f3); }
+.strong-rating { @include status-color(#4caf50); }
+.exceptional-rating { @include status-color(#9c27b0); }
+.outstanding-rating { @include status-color(#ff5722); }
 
 // Responsive design
 @media (max-width: 768px) {
