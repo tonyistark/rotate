@@ -10,6 +10,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Employee } from '../../models/employee.model';
 
 @Component({
@@ -26,7 +30,11 @@ import { Employee } from '../../models/employee.model';
     MatFormFieldModule,
     MatSelectModule,
     MatSliderModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatCardModule,
+    MatTabsModule,
+    MatSlideToggleModule,
+    MatTooltipModule
   ],
   templateUrl: './employee-detail-modal.component.html',
   styleUrls: ['./employee-detail-modal.component.scss']
@@ -49,6 +57,8 @@ export class EmployeeDetailModalComponent {
   ) {
     this.originalEmployee = { ...data.employee };
     this.editableEmployee = { ...data.employee };
+    this.initializeEmployeeDefaults();
+    this.ensureRatingCycles();
   }
 
   get employee(): Employee {
@@ -108,6 +118,10 @@ export class EmployeeDetailModalComponent {
   confirmAddSkill(skillType: 'skills' | 'interests' | 'careerGoals' | 'skillsetExperience' | 'competencyStrengths' | 'careerInterest' | 'talentDevelopmentInventory'): void {
     const newSkill = this.newSkillValues[skillType];
     if (newSkill && newSkill.trim()) {
+      // Initialize array if it doesn't exist
+      if (!this.editableEmployee[skillType]) {
+        this.editableEmployee[skillType] = [];
+      }
       this.editableEmployee[skillType].push(newSkill.trim());
     }
     this.showSkillInput[skillType] = false;
@@ -120,6 +134,76 @@ export class EmployeeDetailModalComponent {
   }
 
   removeSkill(skillType: 'skills' | 'interests' | 'careerGoals' | 'skillsetExperience' | 'competencyStrengths' | 'careerInterest' | 'talentDevelopmentInventory', index: number): void {
-    this.editableEmployee[skillType].splice(index, 1);
+    if (this.editableEmployee[skillType]) {
+      this.editableEmployee[skillType].splice(index, 1);
+    }
+  }
+
+  // Helper methods for new TDI fields
+  initializeEmployeeDefaults(): void {
+    // Initialize arrays if they don't exist
+    const arrayFields = ['skills', 'interests', 'careerGoals', 'skillsetExperience', 'competencyStrengths', 'careerInterest', 'talentDevelopmentInventory'];
+    arrayFields.forEach(field => {
+      if (!this.editableEmployee[field as keyof Employee]) {
+        (this.editableEmployee as any)[field] = [];
+      }
+    });
+
+    // Initialize rating cycles if they don't exist
+    if (!this.editableEmployee.ratingCycles) {
+      this.editableEmployee.ratingCycles = {
+        MY24: this.editableEmployee.myRating as any || 'Strong',
+        YE24: this.editableEmployee.yeRating as any || 'Strong', 
+        MY25: 'Strong'
+      };
+    }
+
+    // Initialize boolean fields with defaults
+    const booleanFields = [
+      'preparingForPromo', 'preparingForStretch', 'preparingForRotation',
+      'confirmedInterestInRotation', 'leadershipSupportOfRotation',
+      'retentionPlanNeeded', 'rotationStechPlanNeeded'
+    ];
+    booleanFields.forEach(field => {
+      if (this.editableEmployee[field as keyof Employee] === undefined) {
+        (this.editableEmployee as any)[field] = false;
+      }
+    });
+  }
+
+  getTdiZoneClass(zone: string): string {
+    if (!zone) return '';
+    const lowerZone = zone.toLowerCase();
+    if (lowerZone.includes('invest')) return 'invest-zone';
+    if (lowerZone.includes('develop')) return 'develop-zone';
+    if (lowerZone.includes('maintain')) return 'maintain-zone';
+    return '';
+  }
+
+  getRatingClass(rating: string): string {
+    if (!rating) return '';
+    const lowerRating = rating.toLowerCase();
+    if (lowerRating.includes('strong')) return 'strong-rating';
+    if (lowerRating.includes('exceptional')) return 'exceptional-rating';
+    if (lowerRating.includes('outstanding')) return 'outstanding-rating';
+    return '';
+  }
+
+  ensureRatingCycles(): void {
+    // Ensure ratingCycles is always defined for both employees
+    if (!this.editableEmployee.ratingCycles) {
+      this.editableEmployee.ratingCycles = {
+        MY24: this.editableEmployee.myRating as any || 'Strong',
+        YE24: this.editableEmployee.yeRating as any || 'Strong',
+        MY25: 'Strong'
+      };
+    }
+    if (!this.originalEmployee.ratingCycles) {
+      this.originalEmployee.ratingCycles = {
+        MY24: this.originalEmployee.myRating as any || 'Strong',
+        YE24: this.originalEmployee.yeRating as any || 'Strong',
+        MY25: 'Strong'
+      };
+    }
   }
 }

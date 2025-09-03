@@ -11,8 +11,56 @@ export interface Employee {
   careerGoals: string[];
   availability: 'Full-time' | 'Part-time' | 'Project-based';
   
-  // New fields for enhanced employee cards
+  // Enhanced profile fields
   profilePicture?: string;
+  level?: string;
+  jobTitle?: string;
+  
+  // TDI Profile fields
+  timeInRole: string; // e.g., "2 years 5 months"
+  lengthOfService: string; // e.g., "5 years 2 months"
+  promotionForecast: string; // e.g., "YE 2026"
+  retentionRisk: string; // e.g., "30%"
+  tdiZone: string; // e.g., "Invest Now"
+  
+  // Performance ratings for specific cycles
+  ratingCycles?: {
+    'MY24': 'Below Strong' | 'Strong' | 'Above Strong';
+    'YE24': 'Below Strong' | 'Strong' | 'Above Strong';
+    'MY25': 'Below Strong' | 'Strong' | 'Above Strong';
+  };
+  
+  // Legacy rating fields for backward compatibility
+  myRating: string; // e.g., "Strong"
+  yeRating: string; // e.g., "Above Strong"
+  lastPromoDate: string; // e.g., "1/1/2023"
+  
+  // Development Focus
+  preparingForPromo: boolean;
+  preparingForStretch: boolean;
+  preparingForRotation: boolean;
+  
+  // Future Talent Profile
+  futureTalentProfile: string; // e.g., "Outcome Based Leadership"
+  differentiatedStrength: string; // e.g., "Talent Magnet"
+  currentGapsOpportunities: string; // What is potentially blocking?
+  
+  // Development needs
+  whatNeedsToBeDemonstrated: string; // Skills needed for next level
+  howToInvest: string; // Description of support needed
+  whatSupportNeeded: string; // What support can the group provide?
+  
+  // Career aspirations and investment
+  associateCareerAspirations: string; // Career aspirations
+  previousDifferentialInvestment: string; // Previous differential investment
+  
+  // Retention and rotation plans
+  retentionPlanNeeded: boolean;
+  retentionPlanJustification: string;
+  rotationStechPlanNeeded: boolean;
+  rotationStechPlanJustification: string;
+  
+  // Legacy fields for backward compatibility
   lastHireDate: string;
   lastPromotedDate: string;
   performanceTrend: string; // e.g., "Exceptional(YE24), Very Strong (MY24)"
@@ -56,6 +104,7 @@ export interface Opportunity {
   previousPerformanceRatings: string[]; // Required previous performance ratings
   rotationLevel: string; // Rotation level requirements
   rotationLength: string; // Length of rotation
+  submittedBy: string; // Name of person who submitted the opportunity
 }
 
 export interface Match {

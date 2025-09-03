@@ -1,316 +1,393 @@
 <div class="employee-detail-modal">
   <div class="modal-header">
     <div class="employee-header">
-      <img *ngIf="employee.profilePicture" 
-           [src]="employee.profilePicture" 
-           [alt]="employee.name"
-           class="profile-picture-large">
-      <mat-icon *ngIf="!employee.profilePicture" class="profile-placeholder-large">person</mat-icon>
-      
-      <div class="header-info">
-        <h2>{{employee.name}}</h2>
-        <p class="job-title">{{employee.currentRole}}</p>
-        <p class="department">{{employee.department}}</p>
+      <div class="employee-avatar">
+        <mat-icon class="avatar-icon">person</mat-icon>
+      </div>
+      <div class="employee-info">
+        <h1 class="employee-name">{{employee.name}}</h1>
+        <div class="employee-meta">
+          <span class="job-title">
+            <mat-icon>work</mat-icon>
+            {{employee.currentRole}}
+          </span>
+          <span class="department">
+            <mat-icon>business</mat-icon>
+            {{employee.department}}
+          </span>
+          <span class="experience">
+            <mat-icon>schedule</mat-icon>
+            {{employee.yearsExperience}} years experience
+          </span>
+        </div>
       </div>
     </div>
     
     <div class="header-actions">
-      <button *ngIf="!isEditMode" mat-raised-button color="primary" (click)="toggleEditMode()" class="edit-button">
+      <button *ngIf="!isEditMode" mat-fab color="primary" (click)="toggleEditMode()" matTooltip="Edit Profile">
         <mat-icon>edit</mat-icon>
-        Edit
       </button>
       
       <div *ngIf="isEditMode" class="edit-actions">
-        <button mat-raised-button color="primary" (click)="saveChanges()" class="save-button">
+        <button mat-fab color="primary" (click)="saveChanges()" matTooltip="Save Changes">
           <mat-icon>save</mat-icon>
-          Save
         </button>
-        <button mat-stroked-button (click)="cancelEdit()" class="cancel-button">
-          <mat-icon>cancel</mat-icon>
-          Cancel
+        <button mat-fab color="warn" (click)="cancelEdit()" matTooltip="Cancel">
+          <mat-icon>close</mat-icon>
         </button>
       </div>
       
-      <button mat-icon-button (click)="onClose()" class="close-button">
+      <button mat-icon-button (click)="onClose()" matTooltip="Close">
         <mat-icon>close</mat-icon>
       </button>
     </div>
   </div>
 
   <div class="modal-content">
-    <div class="content-columns">
-      <!-- Column 1: Basic Info to Performance -->
-      <div class="column-1">
-        <div class="section">
-          <h3><mat-icon>person</mat-icon> Basic Information</h3>
-          <div class="detail-item">
-            <span class="label">Email:</span>
-            <mat-form-field *ngIf="isEditMode" appearance="outline" class="edit-field">
-              <input matInput [(ngModel)]="editableEmployee.email" type="email">
-            </mat-form-field>
-            <span *ngIf="!isEditMode" class="value">{{employee.email}}</span>
+    <!-- Performance Summary Cards -->
+    <div class="summary-cards">
+      <mat-card class="summary-card performance-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>trending_up</mat-icon>
+          <mat-card-title>Performance</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="metric">
+            <span class="metric-value">{{employee.ratingCycles?.MY25 || employee.performanceRating}}</span>
+            <span class="metric-label">Current Rating (MY '25)</span>
           </div>
-          <div class="detail-item">
-            <span class="label">Years Experience:</span>
-            <mat-form-field *ngIf="isEditMode" appearance="outline" class="edit-field">
-              <input matInput [(ngModel)]="editableEmployee.yearsExperience" type="number" min="0">
-            </mat-form-field>
-            <span *ngIf="!isEditMode" class="value">{{employee.yearsExperience}} years</span>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="summary-card retention-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar [class]="getAttritionRiskClass(employee.attritionRisk)">warning</mat-icon>
+          <mat-card-title>Retention Risk</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="metric">
+            <span class="metric-value" [class]="getAttritionRiskClass(employee.attritionRisk)">{{employee.retentionRisk}}</span>
+            <span class="metric-label">Risk Level</span>
           </div>
-          <div class="detail-item">
-            <span class="label">Performance Rating:</span>
-            <mat-form-field *ngIf="isEditMode" appearance="outline" class="edit-field">
-              <mat-select [(ngModel)]="editableEmployee.performanceRating">
-                <mat-option *ngFor="let rating of performanceRatings" [value]="rating">
-                  {{rating}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <span *ngIf="!isEditMode" class="value">{{employee.performanceRating}}</span>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="summary-card tdi-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>psychology</mat-icon>
+          <mat-card-title>TDI Zone</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="metric">
+            <span class="metric-value">{{employee.tdiZone}}</span>
+            <span class="metric-label">Development Zone</span>
           </div>
-          <div class="detail-item">
-            <span class="label">Availability:</span>
-            <mat-form-field *ngIf="isEditMode" appearance="outline" class="edit-field">
-              <mat-select [(ngModel)]="editableEmployee.availability">
-                <mat-option *ngFor="let option of availabilityOptions" [value]="option">
-                  {{option}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <span *ngIf="!isEditMode" class="value">{{employee.availability}}</span>
-          </div>
-        </div>
-
-        <div class="section">
-          <h3><mat-icon>timeline</mat-icon> Career Timeline</h3>
-          <div class="detail-item">
-            <span class="label">Last Hire Date:</span>
-            <span class="value">{{formatDate(employee.lastHireDate)}}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Last Promoted:</span>
-            <span class="value">{{formatDate(employee.lastPromotedDate)}}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Performance Trend:</span>
-            <span class="value">{{employee.performanceTrend}}</span>
-          </div>
-        </div>
-
-        <div class="section">
-          <h3><mat-icon>psychology</mat-icon> Development & Risk</h3>
-          <div class="detail-item">
-            <span class="label">Talent Development:</span>
-            <div class="chip-container">
-              <mat-chip *ngFor="let item of employee.talentDevelopmentInventory" color="primary" selected>
-                {{item}}
-              </mat-chip>
-            </div>
-          </div>
-          <div class="detail-item">
-            <span class="label">Attrition Risk:</span>
-            <mat-form-field *ngIf="isEditMode" appearance="outline" class="edit-field">
-              <input matInput [(ngModel)]="editableEmployee.attritionRisk" type="number" min="0" max="100">
-              <span matSuffix>%</span>
-            </mat-form-field>
-            <span *ngIf="!isEditMode" class="value risk-percentage" [ngClass]="getAttritionRiskClass(employee.attritionRisk)">
-              {{employee.attritionRisk}}%
-            </span>
-          </div>
-        </div>
-
-        <div class="section">
-          <h3><mat-icon>build</mat-icon> Skills</h3>
-          <div class="detail-item">
-            <span class="label">All Skills:</span>
-            <div *ngIf="isEditMode" class="editable-chips">
-              <div class="chip-container">
-                <mat-chip *ngFor="let skill of editableEmployee.skills; let i = index" color="primary" selected>
-                  {{skill}}
-                  <button matChipRemove (click)="removeSkill('skills', i)">
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-                <div *ngIf="!showSkillInput['skills']">
-                  <button mat-mini-fab color="accent" (click)="addSkill('skills')" class="add-chip-button">
-                    <mat-icon>add</mat-icon>
-                  </button>
-                </div>
-                <div *ngIf="showSkillInput['skills']" class="add-skill-input">
-                  <mat-form-field appearance="outline" class="skill-input-field">
-                    <input matInput [(ngModel)]="newSkillValues['skills']" placeholder="Enter new skill" 
-                           (keyup.enter)="confirmAddSkill('skills')" (keyup.escape)="cancelAddSkill('skills')">
-                  </mat-form-field>
-                  <button mat-icon-button color="primary" (click)="confirmAddSkill('skills')" class="confirm-button">
-                    <mat-icon>check</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" (click)="cancelAddSkill('skills')" class="cancel-button">
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div *ngIf="!isEditMode" class="chip-container">
-              <mat-chip *ngFor="let skill of employee.skills" color="primary" selected>
-                {{skill}}
-              </mat-chip>
-            </div>
-          </div>
-          <div class="detail-item">
-            <span class="label">Interests:</span>
-            <div *ngIf="isEditMode" class="editable-chips">
-              <div class="chip-container">
-                <mat-chip *ngFor="let interest of editableEmployee.interests; let i = index" color="accent" selected>
-                  {{interest}}
-                  <button matChipRemove (click)="removeSkill('interests', i)">
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-                <button mat-mini-fab color="accent" (click)="addSkill('interests')" class="add-chip-button">
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
-            </div>
-            <div *ngIf="!isEditMode" class="chip-container">
-              <mat-chip *ngFor="let interest of employee.interests" color="accent" selected>
-                {{interest}}
-              </mat-chip>
-            </div>
-          </div>
-          <div class="detail-item">
-            <span class="label">Career Goals:</span>
-            <div *ngIf="isEditMode" class="editable-chips">
-              <div class="chip-container">
-                <mat-chip *ngFor="let goal of editableEmployee.careerGoals; let i = index" color="warn" selected>
-                  {{goal}}
-                  <button matChipRemove (click)="removeSkill('careerGoals', i)">
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-                <button mat-mini-fab color="accent" (click)="addSkill('careerGoals')" class="add-chip-button">
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
-            </div>
-            <div *ngIf="!isEditMode" class="chip-container">
-              <mat-chip *ngFor="let goal of employee.careerGoals" color="warn" selected>
-                {{goal}}
-              </mat-chip>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Column 2: Skillset Experience onwards -->
-      <div class="column-2">
-        <div class="section">
-          <h3><mat-icon>code</mat-icon> Skillset Experience</h3>
-          <div class="detail-item">
-            <div *ngIf="isEditMode" class="editable-chips">
-              <div class="chip-container">
-                <mat-chip *ngFor="let skill of editableEmployee.skillsetExperience; let i = index" color="primary" selected>
-                  {{skill}}
-                  <button matChipRemove (click)="removeSkill('skillsetExperience', i)">
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-                <div *ngIf="!showSkillInput['skillsetExperience']">
-                  <button mat-mini-fab color="accent" (click)="addSkill('skillsetExperience')" class="add-chip-button">
-                    <mat-icon>add</mat-icon>
-                  </button>
-                </div>
-                <div *ngIf="showSkillInput['skillsetExperience']" class="add-skill-input">
-                  <mat-form-field appearance="outline" class="skill-input-field">
-                    <input matInput [(ngModel)]="newSkillValues['skillsetExperience']" placeholder="Enter new skill" 
-                           (keyup.enter)="confirmAddSkill('skillsetExperience')" (keyup.escape)="cancelAddSkill('skillsetExperience')">
-                  </mat-form-field>
-                  <button mat-icon-button color="primary" (click)="confirmAddSkill('skillsetExperience')" class="confirm-button">
-                    <mat-icon>check</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" (click)="cancelAddSkill('skillsetExperience')" class="cancel-button">
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div *ngIf="!isEditMode" class="chip-container">
-              <mat-chip *ngFor="let skill of employee.skillsetExperience" color="primary" selected>
-                {{skill}}
-              </mat-chip>
-            </div>
-          </div>
-        </div>
-
-        <div class="section">
-          <h3><mat-icon>star</mat-icon> Competency Strengths</h3>
-          <div class="detail-item">
-            <div *ngIf="isEditMode" class="editable-chips">
-              <div class="chip-container">
-                <mat-chip *ngFor="let strength of editableEmployee.competencyStrengths; let i = index" color="accent" selected>
-                  {{strength}}
-                  <button matChipRemove (click)="removeSkill('competencyStrengths', i)">
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-                <button mat-mini-fab color="accent" (click)="addSkill('competencyStrengths')" class="add-chip-button">
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
-            </div>
-            <div *ngIf="!isEditMode" class="chip-container">
-              <mat-chip *ngFor="let strength of employee.competencyStrengths" color="accent" selected>
-                {{strength}}
-              </mat-chip>
-            </div>
-          </div>
-        </div>
-
-        <div class="section">
-          <h3><mat-icon>interests</mat-icon> Career Interest</h3>
-          <div class="detail-item">
-            <div *ngIf="isEditMode" class="editable-chips">
-              <div class="chip-container">
-                <mat-chip *ngFor="let interest of editableEmployee.careerInterest; let i = index" color="warn" selected>
-                  {{interest}}
-                  <button matChipRemove (click)="removeSkill('careerInterest', i)">
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-                <button mat-mini-fab color="accent" (click)="addSkill('careerInterest')" class="add-chip-button">
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
-            </div>
-            <div *ngIf="!isEditMode" class="chip-container">
-              <mat-chip *ngFor="let interest of employee.careerInterest" color="warn" selected>
-                {{interest}}
-              </mat-chip>
-            </div>
-          </div>
-        </div>
-
-        <div class="section">
-          <h3><mat-icon>swap_horiz</mat-icon> Rotation Status</h3>
-          <div class="detail-item">
-            <span class="label">Confirmed Interest in Rotation:</span>
-            <mat-checkbox *ngIf="isEditMode" [(ngModel)]="editableEmployee.confirmedInterestInRotation" class="edit-checkbox">
-              {{editableEmployee.confirmedInterestInRotation ? 'Yes' : 'No'}}
-            </mat-checkbox>
-            <mat-chip *ngIf="!isEditMode" [color]="employee.confirmedInterestInRotation ? 'primary' : 'warn'" selected>
-              {{employee.confirmedInterestInRotation ? 'Yes' : 'No'}}
-            </mat-chip>
-          </div>
-          <div class="detail-item">
-            <span class="label">Leadership Support of Rotation:</span>
-            <mat-checkbox *ngIf="isEditMode" [(ngModel)]="editableEmployee.leadershipSupportOfRotation" class="edit-checkbox">
-              {{editableEmployee.leadershipSupportOfRotation ? 'Yes' : 'No'}}
-            </mat-checkbox>
-            <mat-chip *ngIf="!isEditMode" [color]="employee.leadershipSupportOfRotation ? 'primary' : 'warn'" selected>
-              {{employee.leadershipSupportOfRotation ? 'Yes' : 'No'}}
-            </mat-chip>
-          </div>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
     </div>
+
+    <!-- Tabbed Content -->
+    <mat-tab-group class="detail-tabs">
+      <mat-tab label="Profile & Performance">
+        <div class="tab-content">
+          <div class="cards-grid">
+            <!-- TDI Profile Card -->
+            <mat-card class="info-card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>badge</mat-icon>
+                <mat-card-title>TDI Profile</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="info-grid">
+                  <div class="info-item">
+                    <mat-icon class="info-icon">schedule</mat-icon>
+                    <div class="info-content">
+                      <span class="info-label">Time in Role</span>
+                      <mat-form-field *ngIf="isEditMode" appearance="outline" class="modern-field">
+                        <mat-label>Time in Role</mat-label>
+                        <input matInput [(ngModel)]="editableEmployee.timeInRole" placeholder="e.g., 2 years 5 months">
+                      </mat-form-field>
+                      <span *ngIf="!isEditMode" class="info-value">{{employee.timeInRole || 'Not set'}}</span>
+                    </div>
+                  </div>
+                  
+                  <div class="info-item">
+                    <mat-icon class="info-icon">work_history</mat-icon>
+                    <div class="info-content">
+                      <span class="info-label">Length of Service</span>
+                      <mat-form-field *ngIf="isEditMode" appearance="outline" class="modern-field">
+                        <mat-label>Length of Service</mat-label>
+                        <input matInput [(ngModel)]="editableEmployee.lengthOfService" placeholder="e.g., 5 years 2 months">
+                      </mat-form-field>
+                      <span *ngIf="!isEditMode" class="info-value">{{employee.lengthOfService || 'Not set'}}</span>
+                    </div>
+                  </div>
+                  
+                  <div class="info-item">
+                    <mat-icon class="info-icon">trending_up</mat-icon>
+                    <div class="info-content">
+                      <span class="info-label">Promotion Forecast</span>
+                      <mat-form-field *ngIf="isEditMode" appearance="outline" class="modern-field">
+                        <mat-label>Promotion Forecast</mat-label>
+                        <input matInput [(ngModel)]="editableEmployee.promotionForecast" placeholder="e.g., YE 2026">
+                      </mat-form-field>
+                      <span *ngIf="!isEditMode" class="info-value">{{employee.promotionForecast || 'Not set'}}</span>
+                    </div>
+                  </div>
+                  
+                  <div class="info-item">
+                    <mat-icon class="info-icon">event</mat-icon>
+                    <div class="info-content">
+                      <span class="info-label">Last Promo Date</span>
+                      <mat-form-field *ngIf="isEditMode" appearance="outline" class="modern-field">
+                        <mat-label>Last Promo Date</mat-label>
+                        <input matInput [(ngModel)]="editableEmployee.lastPromoDate" type="date">
+                      </mat-form-field>
+                      <span *ngIf="!isEditMode" class="info-value">{{formatDate(employee.lastPromoDate)}}</span>
+                    </div>
+                  </div>
+                  
+                  <!-- Rating Cycles Section -->
+                  <div class="info-item rating-cycles-container">
+                    <mat-icon class="info-icon">star</mat-icon>
+                    <div class="info-content">
+                      <span class="info-label">Performance Ratings</span>
+                      <div class="rating-cycles-grid">
+                        <div class="rating-cycle">
+                          <span class="cycle-label">MY '24</span>
+                          <mat-form-field *ngIf="isEditMode" appearance="outline" class="cycle-field">
+                            <mat-select [(ngModel)]="editableEmployee.ratingCycles!.MY24">
+                              <mat-option value="Below Strong">Below Strong</mat-option>
+                              <mat-option value="Strong">Strong</mat-option>
+                              <mat-option value="Above Strong">Above Strong</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <span *ngIf="!isEditMode" class="cycle-value">{{employee.ratingCycles?.MY24 || employee.myRating || 'Not set'}}</span>
+                        </div>
+                        
+                        <div class="rating-cycle">
+                          <span class="cycle-label">YE '24</span>
+                          <mat-form-field *ngIf="isEditMode" appearance="outline" class="cycle-field">
+                            <mat-select [(ngModel)]="editableEmployee.ratingCycles!.YE24">
+                              <mat-option value="Below Strong">Below Strong</mat-option>
+                              <mat-option value="Strong">Strong</mat-option>
+                              <mat-option value="Above Strong">Above Strong</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <span *ngIf="!isEditMode" class="cycle-value">{{employee.ratingCycles?.YE24 || employee.yeRating || 'Not set'}}</span>
+                        </div>
+                        
+                        <div class="rating-cycle">
+                          <span class="cycle-label">MY '25</span>
+                          <mat-form-field *ngIf="isEditMode" appearance="outline" class="cycle-field">
+                            <mat-select [(ngModel)]="editableEmployee.ratingCycles!.MY25">
+                              <mat-option value="Below Strong">Below Strong</mat-option>
+                              <mat-option value="Strong">Strong</mat-option>
+                              <mat-option value="Above Strong">Above Strong</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <span *ngIf="!isEditMode" class="cycle-value">{{employee.ratingCycles?.MY25 || 'Not set'}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <!-- Development Focus Card -->
+            <mat-card class="info-card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>trending_up</mat-icon>
+                <mat-card-title>Development Focus</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="development-chips">
+                  <div class="chip-row">
+                    <span class="chip-label">Preparing for Promo:</span>
+                    <mat-slide-toggle *ngIf="isEditMode" [(ngModel)]="editableEmployee.preparingForPromo" class="modern-toggle">
+                      {{editableEmployee.preparingForPromo ? 'Yes' : 'No'}}
+                    </mat-slide-toggle>
+                    <mat-chip-set *ngIf="!isEditMode">
+                      <mat-chip [highlighted]="employee.preparingForPromo">
+                        {{employee.preparingForPromo ? 'Yes' : 'No'}}
+                      </mat-chip>
+                    </mat-chip-set>
+                  </div>
+                  
+                  <div class="chip-row">
+                    <span class="chip-label">Preparing for Stretch:</span>
+                    <mat-slide-toggle *ngIf="isEditMode" [(ngModel)]="editableEmployee.preparingForStretch" class="modern-toggle">
+                      {{editableEmployee.preparingForStretch ? 'Yes' : 'No'}}
+                    </mat-slide-toggle>
+                    <mat-chip-set *ngIf="!isEditMode">
+                      <mat-chip [highlighted]="employee.preparingForStretch">
+                        {{employee.preparingForStretch ? 'Yes' : 'No'}}
+                      </mat-chip>
+                    </mat-chip-set>
+                  </div>
+                  
+                  <div class="chip-row">
+                    <span class="chip-label">Preparing for Rotation:</span>
+                    <mat-slide-toggle *ngIf="isEditMode" [(ngModel)]="editableEmployee.preparingForRotation" class="modern-toggle">
+                      {{editableEmployee.preparingForRotation ? 'Yes' : 'No'}}
+                    </mat-slide-toggle>
+                    <mat-chip-set *ngIf="!isEditMode">
+                      <mat-chip [highlighted]="employee.preparingForRotation">
+                        {{employee.preparingForRotation ? 'Yes' : 'No'}}
+                      </mat-chip>
+                    </mat-chip-set>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Skills & Interests">
+        <div class="tab-content">
+          <div class="cards-grid">
+            <!-- Skills Card -->
+            <mat-card class="info-card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>build</mat-icon>
+                <mat-card-title>Skills</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-chip-set class="chip-container">
+                  <mat-chip *ngFor="let skill of employee.skills" class="skill-chip">
+                    {{skill}}
+                  </mat-chip>
+                </mat-chip-set>
+              </mat-card-content>
+            </mat-card>
+
+            <!-- Interests Card -->
+            <mat-card class="info-card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>interests</mat-icon>
+                <mat-card-title>Interests</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-chip-set class="chip-container">
+                  <mat-chip *ngFor="let interest of employee.interests" class="interest-chip">
+                    {{interest}}
+                  </mat-chip>
+                </mat-chip-set>
+              </mat-card-content>
+            </mat-card>
+
+            <!-- Career Goals Card -->
+            <mat-card class="info-card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>flag</mat-icon>
+                <mat-card-title>Career Goals</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-chip-set class="chip-container">
+                  <mat-chip *ngFor="let goal of employee.careerGoals" class="goal-chip">
+                    {{goal}}
+                  </mat-chip>
+                </mat-chip-set>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Development & Plans">
+        <div class="tab-content">
+          <div class="cards-grid single-column">
+            <!-- Development Needs Card -->
+            <mat-card class="info-card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>school</mat-icon>
+                <mat-card-title>Development Needs</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="development-section">
+                  <div class="development-item">
+                    <h4>What needs to be demonstrated to unlock next level performance?</h4>
+                    <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
+                      <mat-label>Development needs</mat-label>
+                      <textarea matInput [(ngModel)]="editableEmployee.whatNeedsToBeDemonstrated" rows="3"></textarea>
+                    </mat-form-field>
+                    <p *ngIf="!isEditMode" class="development-text">{{employee.whatNeedsToBeDemonstrated || 'Not set'}}</p>
+                  </div>
+                  
+                  <div class="development-item">
+                    <h4>How do we need to differentially invest to unlock next step change?</h4>
+                    <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
+                      <mat-label>Investment strategy</mat-label>
+                      <textarea matInput [(ngModel)]="editableEmployee.howToInvest" rows="3"></textarea>
+                    </mat-form-field>
+                    <p *ngIf="!isEditMode" class="development-text">{{employee.howToInvest || 'Not set'}}</p>
+                  </div>
+                  
+                  <div class="development-item">
+                    <h4>What support can the group provide?</h4>
+                    <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
+                      <mat-label>Group support</mat-label>
+                      <textarea matInput [(ngModel)]="editableEmployee.whatSupportNeeded" rows="3"></textarea>
+                    </mat-form-field>
+                    <p *ngIf="!isEditMode" class="development-text">{{employee.whatSupportNeeded || 'Not set'}}</p>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <!-- Retention & Plans Card -->
+            <mat-card class="info-card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>assignment</mat-icon>
+                <mat-card-title>Retention & Plans</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="retention-section">
+                  <div class="retention-item">
+                    <div class="retention-row">
+                      <span class="retention-label">Retention Plan Needed:</span>
+                      <mat-slide-toggle *ngIf="isEditMode" [(ngModel)]="editableEmployee.retentionPlanNeeded" class="modern-toggle">
+                        {{editableEmployee.retentionPlanNeeded ? 'Yes' : 'No'}}
+                      </mat-slide-toggle>
+                      <mat-chip-set *ngIf="!isEditMode">
+                        <mat-chip [highlighted]="employee.retentionPlanNeeded">
+                          {{employee.retentionPlanNeeded ? 'Yes' : 'No'}}
+                        </mat-chip>
+                      </mat-chip-set>
+                    </div>
+                    <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
+                      <mat-label>Justification</mat-label>
+                      <input matInput [(ngModel)]="editableEmployee.retentionPlanJustification">
+                    </mat-form-field>
+                    <p *ngIf="!isEditMode" class="justification-text">{{employee.retentionPlanJustification || 'Not set'}}</p>
+                  </div>
+                  
+                  <div class="retention-item">
+                    <div class="retention-row">
+                      <span class="retention-label">Rotation / Stretch Plan Needed:</span>
+                      <mat-slide-toggle *ngIf="isEditMode" [(ngModel)]="editableEmployee.rotationStechPlanNeeded" class="modern-toggle">
+                        {{editableEmployee.rotationStechPlanNeeded ? 'Yes' : 'No'}}
+                      </mat-slide-toggle>
+                      <mat-chip-set *ngIf="!isEditMode">
+                        <mat-chip [highlighted]="employee.rotationStechPlanNeeded">
+                          {{employee.rotationStechPlanNeeded ? 'Yes' : 'No'}}
+                        </mat-chip>
+                      </mat-chip-set>
+                    </div>
+                    <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
+                      <mat-label>Justification</mat-label>
+                      <input matInput [(ngModel)]="editableEmployee.rotationStechPlanJustification">
+                    </mat-form-field>
+                    <p *ngIf="!isEditMode" class="justification-text">{{employee.rotationStechPlanJustification || 'Not set'}}</p>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>
