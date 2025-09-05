@@ -67,9 +67,10 @@
         font-weight: 500;
       }
       
-      &.total-skills .kpi-value { color: #4caf50; }
       &.opportunities .kpi-value { color: #2196f3; }
+      &.current-matches .kpi-value { color: #1976d2; }
       &.employees .kpi-value { color: #ff9800; }
+      &.total-skills .kpi-value { color: #4caf50; }
       &.gaps .kpi-value { color: #f44336; }
     }
   }
@@ -1493,14 +1494,15 @@
         transform: scale(1.1);
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
       }
-    }
-    
-    .assign-fab-inline {
-      background: linear-gradient(135deg, #4caf50, #45a049);
+      
       
       mat-icon {
         color: white;
       }
+    }
+    
+    .assign-fab-inline {
+      background: linear-gradient(135deg, #4caf50, #45a049);
     }
     
     .remove-fab-inline {

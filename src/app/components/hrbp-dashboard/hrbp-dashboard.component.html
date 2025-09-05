@@ -8,16 +8,6 @@
     
     <!-- KPI Metrics Cards -->
     <div class="header-metrics" *ngIf="skillsAnalytics">
-      <div class="kpi-card total-skills">
-        <div class="kpi-icon">
-          <mat-icon>psychology</mat-icon>
-        </div>
-        <div class="kpi-content">
-          <div class="kpi-value">{{skillsAnalytics.totalUniqueSkills}}</div>
-          <div class="kpi-label">Unique Skills</div>
-        </div>
-      </div>
-      
       <div class="kpi-card opportunities">
         <div class="kpi-icon">
           <mat-icon>work</mat-icon>
@@ -28,6 +18,16 @@
         </div>
       </div>
       
+      <div class="kpi-card current-matches">
+        <div class="kpi-icon">
+          <mat-icon>link</mat-icon>
+        </div>
+        <div class="kpi-content">
+          <div class="kpi-value">{{getCurrentMatches()}}</div>
+          <div class="kpi-label">Current Matches</div>
+        </div>
+      </div>
+      
       <div class="kpi-card employees">
         <div class="kpi-icon">
           <mat-icon>people</mat-icon>
@@ -35,6 +35,16 @@
         <div class="kpi-content">
           <div class="kpi-value">{{skillsAnalytics.totalEmployees}}</div>
           <div class="kpi-label">Employees</div>
+        </div>
+      </div>
+      
+      <div class="kpi-card total-skills">
+        <div class="kpi-icon">
+          <mat-icon>psychology</mat-icon>
+        </div>
+        <div class="kpi-content">
+          <div class="kpi-value">{{skillsAnalytics.totalUniqueSkills}}</div>
+          <div class="kpi-label">Unique Skills</div>
         </div>
       </div>
       

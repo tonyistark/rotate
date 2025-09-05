@@ -221,6 +221,11 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     return this.skillsAnalytics.skillGaps.filter(gap => gap.status === 'shortage').length;
   }
 
+  getCurrentMatches(): number {
+    // Count opportunities that have been assigned to employees
+    return this.opportunities.filter(opp => opp.assignedEmployeeId).length;
+  }
+
   getFilteredOpportunities(): Opportunity[] {
     return this.opportunities; // Simplified for now
   }
