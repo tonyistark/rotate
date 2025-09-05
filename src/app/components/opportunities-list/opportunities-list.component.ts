@@ -311,13 +311,7 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
     }
   }
 
-  createNewOpportunity(): void {
-    this.router.navigate(['/create-opportunity']);
-  }
 
-  editOpportunity(opportunity: Opportunity): void {
-    this.router.navigate(['/edit-opportunity', opportunity.id]);
-  }
 
   viewOpportunityDetails(opportunity: Opportunity): void {
     // Create a mock match object for the modal since it expects a Match interface

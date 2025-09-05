@@ -1,3 +1,5 @@
+@import '../../../styles/mixins.scss';
+
 .opportunity-card {
   @include card-base(var(--border-radius-md));
   @include card-hover;

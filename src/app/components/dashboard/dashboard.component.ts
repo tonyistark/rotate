@@ -388,9 +388,6 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     this.router.navigate(['/opportunities']);
   }
 
-  navigateToCreateOpportunity(): void {
-    this.router.navigate(['/create-opportunity']);
-  }
 
   navigateToTeamManagement(): void {
     this.router.navigate(['/manager']);

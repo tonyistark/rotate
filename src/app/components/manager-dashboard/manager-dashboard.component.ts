@@ -173,9 +173,6 @@ export class ManagerDashboardComponent implements OnInit {
     });
   }
 
-  createNewOpportunity(): void {
-    this.router.navigate(['/create-opportunity']);
-  }
 
   viewAllOpportunities(): void {
     this.router.navigate(['/opportunities']);

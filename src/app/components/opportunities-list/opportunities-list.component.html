@@ -13,12 +13,6 @@
             </div>
           </div>
           
-          <div class="header-actions">
-            <button mat-raised-button color="primary" (click)="createNewOpportunity()">
-              <mat-icon>add</mat-icon>
-              Create New Opportunity
-            </button>
-          </div>
         </div>
       </mat-card-content>
     </mat-card>
@@ -173,10 +167,6 @@
             <button mat-raised-button color="primary" (click)="viewOpportunityDetails(opportunity); $event.stopPropagation()">
               View Details
             </button>
-            <button mat-raised-button color="accent" (click)="editOpportunity(opportunity); $event.stopPropagation()">
-              <mat-icon>edit</mat-icon>
-              Edit
-            </button>
           </div>
         </mat-card-actions>
       </mat-card>
@@ -199,11 +189,7 @@
           <div class="empty-content">
             <mat-icon>search_off</mat-icon>
             <h3>No opportunities found</h3>
-            <p>Try adjusting your search criteria or create a new opportunity.</p>
-            <button mat-raised-button color="primary" (click)="createNewOpportunity()">
-              <mat-icon>add</mat-icon>
-              Create New Opportunity
-            </button>
+            <p>Try adjusting your search criteria.</p>
           </div>
         </mat-card-content>
       </mat-card>

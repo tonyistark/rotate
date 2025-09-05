@@ -12,10 +12,6 @@
             <p>Welcome back! Here's an overview of your team's performance and upcoming rotations.</p>
           </div>
           <div class="quick-actions">
-            <button mat-raised-button color="primary" (click)="navigateToCreateOpportunity()">
-              <mat-icon>add</mat-icon>
-              Create Opportunity
-            </button>
             <button mat-raised-button color="accent" (click)="navigateToOpportunities()">
               <mat-icon>list</mat-icon>
               View All Opportunities
@@ -234,10 +230,8 @@
           <ng-template #noOpportunities>
             <div class="no-opportunities">
               <mat-icon>work_off</mat-icon>
-              <p>No opportunities created yet</p>
-              <button mat-raised-button color="primary" (click)="navigateToCreateOpportunity()">
-                Create First Opportunity
-              </button>
+              <p>No opportunities available yet</p>
+              <p>Opportunities will be uploaded through the admin panel.</p>
             </div>
           </ng-template>
           
