@@ -92,15 +92,19 @@
     .header-metrics .kpi-card {
       background: var(--card-background-dark, #2d2d2d);
       border: 1px solid var(--border-color-dark, #404040);
-      color: var(--text-primary-dark, #ffffff);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      
-      &:hover {
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-      }
       
       .kpi-label {
         color: var(--text-secondary-dark, #b0b0b0);
+      }
+    }
+    
+    .section-fab {
+      .assign-fab-inline, .remove-fab-inline {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        
+        &:hover {
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+        }
       }
     }
   }
@@ -1277,7 +1281,7 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        padding: 0;
       }
       
       .mat-mdc-tab-header {
@@ -1301,6 +1305,333 @@
         
         .mdc-tab-indicator__content--underline {
           background-color: var(--accent-primary, #2196f3);
+        }
+      }
+    }
+  }
+}
+
+// AI Recommendation Styling
+.ai-recommendation {
+  background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+  border: 2px solid #2196f3;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  animation: slideIn 0.5s ease-out;
+  
+  .recommendation-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #1976d2;
+    
+    mat-icon {
+      font-size: 20px;
+      color: #ff9800;
+    }
+  }
+  
+  .recommendation-content {
+    .recommended-employee {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      
+      strong {
+        color: #1976d2;
+        font-size: 1.1em;
+      }
+      
+      .confidence-badge {
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+    }
+    
+    .recommendation-reason {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9em;
+      color: #666;
+      
+      mat-icon {
+        font-size: 16px;
+        color: #ffc107;
+      }
+    }
+  }
+}
+
+// AI Badge for recommended employees
+.ai-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+  z-index: 10;
+  
+  mat-icon {
+    font-size: 14px;
+  }
+}
+
+// AI Recommended employee cards
+.match-card.ai-recommended {
+  border: 2px solid #ff9800;
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1), rgba(255, 152, 0, 0.05));
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff9800, #ffc107);
+    border-radius: 8px 8px 0 0;
+  }
+}
+
+// Enhanced match card layout
+.match-card {
+  .match-content {
+    .match-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      
+      .match-title {
+        flex: 1;
+        margin-right: 8px;
+      }
+    }
+    
+    .match-details {
+      .match-metrics {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+        
+        .skill-match, .availability-status {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 0.8em;
+          padding: 2px 6px;
+          border-radius: 8px;
+          
+          mat-icon {
+            font-size: 14px;
+          }
+        }
+        
+        .skill-match {
+          background: rgba(33, 150, 243, 0.1);
+          color: #1976d2;
+          border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+        
+        .availability-status {
+          &.availability-high {
+            background: rgba(76, 175, 80, 0.1);
+            color: #388e3c;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+          }
+          
+          &.availability-medium {
+            background: rgba(255, 152, 0, 0.1);
+            color: #f57c00;
+            border: 1px solid rgba(255, 152, 0, 0.3);
+          }
+          
+          &.availability-low {
+            background: rgba(244, 67, 54, 0.1);
+            color: #d32f2f;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Section-positioned FAB styling
+.section-header {
+  position: relative;
+  
+  .section-fab {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    
+    .assign-fab-inline, .remove-fab-inline {
+      width: 48px;
+      height: 48px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+    }
+    
+    .assign-fab-inline {
+      background: linear-gradient(135deg, #4caf50, #45a049);
+      
+      mat-icon {
+        color: white;
+      }
+    }
+    
+    .remove-fab-inline {
+      background: linear-gradient(135deg, #f44336, #d32f2f);
+      
+      mat-icon {
+        color: white;
+      }
+    }
+  }
+}
+
+// Availability Summary Styling
+.availability-summary {
+  display: flex;
+  gap: 16px;
+  margin: 12px 0;
+  padding: 12px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  
+  .summary-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9em;
+    font-weight: 500;
+    
+    mat-icon {
+      font-size: 18px;
+    }
+    
+    &.available {
+      color: #28a745;
+      
+      mat-icon {
+        color: #28a745;
+      }
+    }
+    
+    &.assigned {
+      color: #6c757d;
+      
+      mat-icon {
+        color: #6c757d;
+      }
+    }
+  }
+}
+
+// Dark mode support for AI features
+:host-context(body[data-theme="dark"]) {
+  .ai-recommendation {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.15), rgba(156, 39, 176, 0.1));
+    border-color: #42a5f5;
+    
+    .recommendation-header {
+      color: #64b5f6;
+    }
+    
+    .recommended-employee strong {
+      color: #64b5f6;
+    }
+    
+    .recommendation-reason {
+      color: #bbb;
+    }
+  }
+  
+  .ai-badge {
+    background: linear-gradient(135deg, #ffb74d, #ff9800);
+    box-shadow: 0 2px 8px rgba(255, 183, 77, 0.4);
+  }
+  
+  .match-card.ai-recommended {
+    border-color: #ffb74d;
+    background: linear-gradient(135deg, rgba(255, 183, 77, 0.15), rgba(255, 183, 77, 0.08));
+    box-shadow: 0 4px 12px rgba(255, 183, 77, 0.3);
+    
+    &::before {
+      background: linear-gradient(90deg, #ffb74d, #ffc107);
+    }
+  }
+  
+  .match-card .match-content .match-details .match-metrics {
+    .skill-match {
+      background: rgba(100, 181, 246, 0.2);
+      color: #64b5f6;
+      border-color: rgba(100, 181, 246, 0.4);
+    }
+    
+    .availability-status {
+      &.availability-high {
+        background: rgba(129, 199, 132, 0.2);
+        color: #81c784;
+        border-color: rgba(129, 199, 132, 0.4);
+      }
+      
+      &.availability-medium {
+        background: rgba(255, 183, 77, 0.2);
+        color: #ffb74d;
+        border-color: rgba(255, 183, 77, 0.4);
+      }
+      
+      &.availability-low {
+        background: rgba(240, 98, 146, 0.2);
+        color: #f06292;
+        border-color: rgba(240, 98, 146, 0.4);
+      }
+    }
+  }
+  
+  .availability-summary {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    border-color: rgba(255, 255, 255, 0.1);
+    
+    .summary-item {
+      &.available {
+        color: #81c784;
+        
+        mat-icon {
+          color: #81c784;
+        }
+      }
+      
+      &.assigned {
+        color: #bbb;
+        
+        mat-icon {
+          color: #bbb;
         }
       }
     }

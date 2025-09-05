@@ -9,9 +9,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Subject, takeUntil, combineLatest } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
@@ -70,6 +71,8 @@ interface EmployeeMatch {
     MatProgressBarModule,
     MatDialogModule,
     MatTabsModule,
+    MatSnackBarModule,
+    MatTooltipModule,
     FormsModule,
     SkillsInventoryComponent
   ],
@@ -95,6 +98,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   filteredOpportunities: Opportunity[] = [];
   employees: Employee[] = [];
   selectedOpportunity: Opportunity | null = null;
+  selectedEmployee: Employee | null = null;
   employeeMatches: EmployeeMatch[] = [];
   skillsAnalytics: SkillsAnalytics | null = null;
 
@@ -128,7 +132,8 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     private opportunityService: OpportunityService,
     private employeeService: EmployeeService,
     private dialog: MatDialog,
-    private skillsAnalyticsService: SkillsAnalyticsService
+    private skillsAnalyticsService: SkillsAnalyticsService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -283,8 +288,11 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   }
 
   calculateEmployeeMatches(opportunity: Opportunity): void {
+    // Filter out employees who are already assigned to other opportunities
+    const availableEmployees = this.getAvailableEmployees();
+    
     // Create opportunity-specific employee matches with varied results
-    let potentialMatches = this.employees.map(employee => {
+    let potentialMatches = availableEmployees.map(employee => {
       const allSkills = [...opportunity.requiredSkills, ...opportunity.preferredSkills];
       const matchingSkills = employee.skills.filter((skill: string) => 
         allSkills.some(reqSkill => reqSkill.toLowerCase().includes(skill.toLowerCase()))
@@ -415,6 +423,183 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     this.selectedOpportunity = opportunity;
     this.calculateEmployeeMatches(opportunity);
     this.showEmployeePanel = true;
+  }
+
+  onEmployeeClick(employee: Employee): void {
+    this.selectedEmployee = employee;
+  }
+
+  // Quick assignment functionality
+  canQuickAssign(): boolean {
+    return !!(this.selectedOpportunity && this.selectedEmployee && !this.selectedOpportunity.assignedEmployee);
+  }
+
+  quickAssignEmployee(): void {
+    if (!this.selectedOpportunity || !this.selectedEmployee) return;
+    
+    this.opportunityService.assignEmployee(this.selectedOpportunity.id, this.selectedEmployee.id, this.selectedEmployee)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.snackBar.open(
+            `Assigned ${this.selectedEmployee!.name} to ${this.selectedOpportunity!.title}`,
+            'Close',
+            { duration: 4000 }
+          );
+          this.loadOpportunities(); // Refresh data
+          this.selectedEmployee = null; // Clear selection
+          // Recalculate matches to exclude newly assigned employee
+          if (this.selectedOpportunity) {
+            this.calculateEmployeeMatches(this.selectedOpportunity);
+          }
+        },
+        error: (error) => {
+          this.snackBar.open(
+            'Failed to assign employee. Please try again.',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      });
+  }
+
+  quickRemoveAssignment(): void {
+    if (!this.selectedOpportunity?.assignedEmployee) return;
+    
+    this.opportunityService.removeAssignment(this.selectedOpportunity.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.snackBar.open(
+            `Removed assignment from ${this.selectedOpportunity!.title}`,
+            'Close',
+            { duration: 3000 }
+          );
+          this.loadOpportunities(); // Refresh data
+          // Recalculate matches to include newly available employee
+          if (this.selectedOpportunity) {
+            this.calculateEmployeeMatches(this.selectedOpportunity);
+          }
+        },
+        error: (error) => {
+          this.snackBar.open(
+            'Failed to remove assignment. Please try again.',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      });
+  }
+
+  getEmployeeMatchScore(employee: Employee): number {
+    if (!this.selectedOpportunity) return 0;
+    const match = this.employeeMatches.find(m => m.employee.id === employee.id);
+    return match ? Math.round(match.matchScore) : 0;
+  }
+
+  getMatchScoreClass(score: number): string {
+    if (score >= 80) return 'high-match';
+    if (score >= 60) return 'medium-match';
+    return 'low-match';
+  }
+
+  // Smart assignment suggestions
+  getTopRecommendation(): EmployeeMatch | null {
+    if (!this.employeeMatches.length) return null;
+    return this.employeeMatches[0]; // Highest scoring match
+  }
+
+  getRecommendationConfidence(match: EmployeeMatch): string {
+    if (match.matchScore >= 90) return 'Excellent';
+    if (match.matchScore >= 80) return 'Very Good';
+    if (match.matchScore >= 70) return 'Good';
+    if (match.matchScore >= 60) return 'Fair';
+    return 'Poor';
+  }
+
+  getRecommendationReason(match: EmployeeMatch): string {
+    const reasons = [];
+    
+    if (match.matchingSkills.length > 0) {
+      reasons.push(`${match.matchingSkills.length} matching skills`);
+    }
+    
+    if (match.employee.performanceRating === 'Outstanding') {
+      reasons.push('outstanding performance');
+    } else if (match.employee.performanceRating === 'Exceeds') {
+      reasons.push('exceeds expectations');
+    }
+    
+    if (match.employee.confirmedInterestInRotation) {
+      reasons.push('rotation interest');
+    }
+    
+    if (match.employee.leadershipSupportOfRotation) {
+      reasons.push('leadership support');
+    }
+    
+    return reasons.length > 0 ? reasons.join(', ') : 'basic qualifications';
+  }
+
+  shouldHighlightAsRecommended(employee: Employee): boolean {
+    const topMatch = this.getTopRecommendation();
+    return topMatch?.employee.id === employee.id && topMatch.matchScore >= 75;
+  }
+
+  getSkillMatchPercentage(employee: Employee): number {
+    if (!this.selectedOpportunity) return 0;
+    const match = this.employeeMatches.find(m => m.employee.id === employee.id);
+    if (!match) return 0;
+    
+    const totalSkills = this.selectedOpportunity.requiredSkills.length + this.selectedOpportunity.preferredSkills.length;
+    return totalSkills > 0 ? Math.round((match.matchingSkills.length / totalSkills) * 100) : 0;
+  }
+
+  getAvailabilityStatus(employee: Employee): string {
+    if (employee.confirmedInterestInRotation && employee.leadershipSupportOfRotation) {
+      return 'Fully Available';
+    } else if (employee.confirmedInterestInRotation) {
+      return 'Interested';
+    } else if (employee.leadershipSupportOfRotation) {
+      return 'Supported';
+    }
+    return 'Limited';
+  }
+
+  getAvailabilityClass(employee: Employee): string {
+    const status = this.getAvailabilityStatus(employee);
+    switch (status) {
+      case 'Fully Available': return 'availability-high';
+      case 'Interested': 
+      case 'Supported': return 'availability-medium';
+      default: return 'availability-low';
+    }
+  }
+
+  // Get employees who are not currently assigned to any opportunity
+  getAvailableEmployees(): Employee[] {
+    const assignedEmployeeIds = new Set(
+      this.opportunities
+        .filter(opp => opp.assignedEmployeeId)
+        .map(opp => opp.assignedEmployeeId)
+    );
+    
+    return this.employees.filter(employee => !assignedEmployeeIds.has(employee.id));
+  }
+
+  // Get count of available employees for display
+  getAvailableEmployeeCount(): number {
+    return this.getAvailableEmployees().length;
+  }
+
+  // Get count of assigned employees for display
+  getAssignedEmployeeCount(): number {
+    const assignedEmployeeIds = new Set(
+      this.opportunities
+        .filter(opp => opp.assignedEmployeeId)
+        .map(opp => opp.assignedEmployeeId)
+    );
+    return assignedEmployeeIds.size;
   }
 
   clearFilter(filterKey: string): void {

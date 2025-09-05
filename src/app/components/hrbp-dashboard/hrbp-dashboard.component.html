@@ -343,6 +343,27 @@
                 <div class="section-header">
                   <h2>Available Opportunities</h2>
                   <p class="section-subtitle">Select an opportunity to view employee matches • Double-click to view details</p>
+                  
+                  <!-- Quick Assignment FAB positioned in section header -->
+                  <div class="section-fab" *ngIf="canQuickAssign()">
+                    <button mat-fab color="accent" 
+                            (click)="quickAssignEmployee()"
+                            matTooltip="Assign {{selectedEmployee?.name}} to {{selectedOpportunity?.title}}"
+                            matTooltipPosition="left"
+                            class="assign-fab-inline">
+                      <mat-icon>person_add</mat-icon>
+                    </button>
+                  </div>
+                  
+                  <div class="section-fab" *ngIf="selectedOpportunity?.assignedEmployee">
+                    <button mat-fab color="warn" 
+                            (click)="quickRemoveAssignment()"
+                            matTooltip="Remove assignment from {{selectedOpportunity?.title}}"
+                            matTooltipPosition="left"
+                            class="remove-fab-inline">
+                      <mat-icon>person_remove</mat-icon>
+                    </button>
+                  </div>
                 </div>
                 <div class="opportunities-grid">
                   <mat-card 
@@ -419,7 +440,37 @@
     <div class="employee-sidebar">
       <div class="sidebar-header">
         <h3>Employee Matches</h3>
-        <p *ngIf="!selectedOpportunity">Select an opportunity to see matches</p>
+        <div class="availability-summary" *ngIf="!selectedOpportunity">
+          <div class="summary-item available">
+            <mat-icon>person</mat-icon>
+            <span>{{getAvailableEmployeeCount()}} Available</span>
+          </div>
+          <div class="summary-item assigned">
+            <mat-icon>assignment_ind</mat-icon>
+            <span>{{getAssignedEmployeeCount()}} Assigned</span>
+          </div>
+        </div>
+        <p *ngIf="!selectedOpportunity">Select an opportunity to see available matches</p>
+        
+        <!-- AI Recommendation Banner -->
+        <div class="ai-recommendation" *ngIf="selectedOpportunity && getTopRecommendation() as topRec">
+          <div class="recommendation-header">
+            <mat-icon>auto_awesome</mat-icon>
+            <span>AI Recommendation</span>
+          </div>
+          <div class="recommendation-content">
+            <div class="recommended-employee">
+              <strong>{{topRec.employee.name}}</strong>
+              <span class="confidence-badge" [ngClass]="getMatchScoreClass(topRec.matchScore)">
+                {{getRecommendationConfidence(topRec)}}
+              </span>
+            </div>
+            <div class="recommendation-reason">
+              <mat-icon>lightbulb</mat-icon>
+              <span>{{getRecommendationReason(topRec)}}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="matches-container" *ngIf="selectedOpportunity">
@@ -431,38 +482,101 @@
           <div *ngIf="getExcellentMatches().length > 0">
             <div class="match-card" 
                  *ngFor="let match of getExcellentMatches()" 
-                 (click)="showEmployeeDetails(match.employee)">
+                 (click)="onEmployeeClick(match.employee)"
+                 (dblclick)="showEmployeeDetails(match.employee)"
+                 [class.selected-employee]="selectedEmployee?.id === match.employee.id"
+                 [class.ai-recommended]="shouldHighlightAsRecommended(match.employee)">
+              
+              <!-- AI Recommendation Badge -->
+              <div class="ai-badge" *ngIf="shouldHighlightAsRecommended(match.employee)">
+                <mat-icon>auto_awesome</mat-icon>
+                <span>AI Pick</span>
+              </div>
+              
               <div class="match-content">
-                <div class="match-title">{{match.employee.name}}</div>
-                <div class="match-score">{{match.matchScore}}% Match</div>
-                <div class="match-text">{{match.employee.currentRole}} • {{match.employee.department}}</div>
+                <div class="match-header">
+                  <div class="match-title">{{match.employee.name}}</div>
+                  <div class="match-score high-match">{{match.matchScore}}% Match</div>
+                </div>
+                
+                <div class="match-details">
+                  <div class="match-text">{{match.employee.currentRole}} • {{match.employee.department}}</div>
+                  
+                  <!-- Enhanced match information -->
+                  <div class="match-metrics">
+                    <div class="skill-match">
+                      <mat-icon>psychology</mat-icon>
+                      <span>{{getSkillMatchPercentage(match.employee)}}% Skills</span>
+                    </div>
+                    <div class="availability-status" [ngClass]="getAvailabilityClass(match.employee)">
+                      <mat-icon>schedule</mat-icon>
+                      <span>{{getAvailabilityStatus(match.employee)}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="match-actions" *ngIf="selectedEmployee?.id === match.employee.id">
+                <mat-icon class="selection-indicator">check_circle</mat-icon>
               </div>
             </div>
           </div>
           <div *ngIf="getExcellentMatches().length === 0" class="no-matches-message">
             <mat-icon>info</mat-icon>
-            <span>No 90%+ matches found for this opportunity</span>
+            <span>No 90%+ matches found among available employees</span>
           </div>
         </div>
 
         <!-- Other Matches -->
         <div class="other-matches" *ngIf="getOtherMatches().length > 0">
           <div class="other-matches-header">
-            <span>Other Matches</span>
-            <span class="subtext">Click on a match to see details</span>
+            <span>Other Matches ({{getOtherMatches().length}} available)</span>
+            <span class="subtext">Click to select • Double-click for details</span>
           </div>
           <div class="match-card secondary" 
                *ngFor="let match of getOtherMatches()" 
-               (click)="showEmployeeDetails(match.employee)">
+               (click)="onEmployeeClick(match.employee)"
+               (dblclick)="showEmployeeDetails(match.employee)"
+               [class.selected-employee]="selectedEmployee?.id === match.employee.id"
+               [class.ai-recommended]="shouldHighlightAsRecommended(match.employee)">
+            
+            <!-- AI Recommendation Badge -->
+            <div class="ai-badge" *ngIf="shouldHighlightAsRecommended(match.employee)">
+              <mat-icon>auto_awesome</mat-icon>
+              <span>AI Pick</span>
+            </div>
+            
             <div class="match-content">
-              <div class="match-title">{{match.employee.name}}</div>
-              <div class="match-score">{{match.matchScore}}% Match</div>
-              <div class="match-text">{{match.employee.currentRole}} • {{match.employee.department}}</div>
+              <div class="match-header">
+                <div class="match-title">{{match.employee.name}}</div>
+                <div class="match-score" [ngClass]="getMatchScoreClass(match.matchScore)">{{match.matchScore}}% Match</div>
+              </div>
+              
+              <div class="match-details">
+                <div class="match-text">{{match.employee.currentRole}} • {{match.employee.department}}</div>
+                
+                <!-- Enhanced match information -->
+                <div class="match-metrics">
+                  <div class="skill-match">
+                    <mat-icon>psychology</mat-icon>
+                    <span>{{getSkillMatchPercentage(match.employee)}}% Skills</span>
+                  </div>
+                  <div class="availability-status" [ngClass]="getAvailabilityClass(match.employee)">
+                    <mat-icon>schedule</mat-icon>
+                    <span>{{getAvailabilityStatus(match.employee)}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="match-actions" *ngIf="selectedEmployee?.id === match.employee.id">
+              <mat-icon class="selection-indicator">check_circle</mat-icon>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
 
 </div>
