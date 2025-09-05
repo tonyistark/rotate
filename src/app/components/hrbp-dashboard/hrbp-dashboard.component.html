@@ -1,8 +1,53 @@
 <div class="hrbp-dashboard-container">
   <!-- Header Section -->
   <div class="dashboard-header">
-    <h1>HRBP Dashboard</h1>
-    <p class="subtitle">Employee Opportunity Matching & Talent Development</p>
+    <div class="header-content">
+      <h1>HRBP Dashboard</h1>
+      <p class="subtitle">Employee Opportunity Matching & Talent Development</p>
+    </div>
+    
+    <!-- KPI Metrics Cards -->
+    <div class="header-metrics" *ngIf="skillsAnalytics">
+      <div class="kpi-card total-skills">
+        <div class="kpi-icon">
+          <mat-icon>psychology</mat-icon>
+        </div>
+        <div class="kpi-content">
+          <div class="kpi-value">{{skillsAnalytics.totalUniqueSkills}}</div>
+          <div class="kpi-label">Unique Skills</div>
+        </div>
+      </div>
+      
+      <div class="kpi-card opportunities">
+        <div class="kpi-icon">
+          <mat-icon>work</mat-icon>
+        </div>
+        <div class="kpi-content">
+          <div class="kpi-value">{{skillsAnalytics.totalOpportunities}}</div>
+          <div class="kpi-label">Opportunities</div>
+        </div>
+      </div>
+      
+      <div class="kpi-card employees">
+        <div class="kpi-icon">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="kpi-content">
+          <div class="kpi-value">{{skillsAnalytics.totalEmployees}}</div>
+          <div class="kpi-label">Employees</div>
+        </div>
+      </div>
+      
+      <div class="kpi-card gaps">
+        <div class="kpi-icon">
+          <mat-icon>trending_down</mat-icon>
+        </div>
+        <div class="kpi-content">
+          <div class="kpi-value">{{getSkillShortages()}}</div>
+          <div class="kpi-label">Skill Shortages</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Main Content Grid -->
@@ -240,7 +285,7 @@
       </mat-card>
     </div>
 
-    <!-- Center Content - Instruction and Opportunities -->
+    <!-- Center Content - Tabbed Interface -->
     <div class="center-content">
       <!-- Instruction Section with Help Bubble -->
       <div class="instruction-section">
@@ -287,68 +332,86 @@
         </div>
       </div>
 
-      <!-- Opportunities Section -->
-      <div class="opportunities-section">
-        <div class="section-header">
-          <h2>Available Opportunities</h2>
-          <p class="section-subtitle">Select an opportunity to view employee matches • Double-click to view details</p>
-        </div>
-        <div class="opportunities-grid">
-          <mat-card 
-            class="opportunity-card" 
-            *ngFor="let opportunity of filteredOpportunities" 
-            (click)="onOpportunityClick(opportunity)"
-            (dblclick)="openOpportunityModal(opportunity)"
-            [class.selected]="selectedOpportunity?.id === opportunity.id"
-            [class.assigned]="opportunity.assignedEmployee">
-            
-            <!-- Assignment Indicator -->
-            <div *ngIf="opportunity.assignedEmployee" class="assignment-indicator">
-              <mat-icon>person</mat-icon>
-              <span>Assigned</span>
-            </div>
-            
-            <mat-card-header>
-              <mat-card-title>{{opportunity.title}}</mat-card-title>
-              <mat-card-subtitle>{{opportunity.department}} • {{opportunity.level}}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <div class="opportunity-details">
-                <p class="description">{{opportunity.description}}</p>
-                
-                <!-- Assigned Employee Info -->
-                <div *ngIf="opportunity.assignedEmployee" class="assigned-employee-info">
-                  <div class="employee-badge">
-                    <mat-icon>assignment_ind</mat-icon>
-                    <div class="employee-details">
-                      <span class="employee-name">{{opportunity.assignedEmployee.name}}</span>
-                      <span class="employee-role">{{opportunity.assignedEmployee.currentRole}}</span>
+      <!-- Tabbed Content -->
+      <div class="tabbed-content">
+        <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event.index)" class="main-tabs">
+          
+          <!-- Opportunities Tab -->
+          <mat-tab label="Opportunities">
+            <ng-template matTabContent>
+              <div class="opportunities-section">
+                <div class="section-header">
+                  <h2>Available Opportunities</h2>
+                  <p class="section-subtitle">Select an opportunity to view employee matches • Double-click to view details</p>
+                </div>
+                <div class="opportunities-grid">
+                  <mat-card 
+                    class="opportunity-card" 
+                    *ngFor="let opportunity of filteredOpportunities" 
+                    (click)="onOpportunityClick(opportunity)"
+                    (dblclick)="openOpportunityModal(opportunity)"
+                    [class.selected]="selectedOpportunity?.id === opportunity.id"
+                    [class.assigned]="opportunity.assignedEmployee">
+                    
+                    <!-- Assignment Indicator -->
+                    <div *ngIf="opportunity.assignedEmployee" class="assignment-indicator">
+                      <mat-icon>person</mat-icon>
+                      <span>Assigned</span>
                     </div>
-                  </div>
-                </div>
-                
-                <div class="skills-preview">
-                  <mat-chip *ngFor="let skill of opportunity.requiredSkills.slice(0, 3)" color="primary" selected>
-                    {{skill}}
-                  </mat-chip>
-                  <span *ngIf="opportunity.requiredSkills.length > 3" class="more-skills">
-                    +{{opportunity.requiredSkills.length - 3}} more
-                  </span>
-                </div>
-                <div class="opportunity-meta">
-                  <div class="meta-item">
-                    <mat-icon>schedule</mat-icon>
-                    <span>{{opportunity.duration}}</span>
-                  </div>
-                  <div class="meta-item">
-                    <mat-icon>{{opportunity.remote ? 'home' : 'location_city'}}</mat-icon>
-                    <span>{{opportunity.remote ? 'Remote' : 'On-site'}}</span>
-                  </div>
+                    
+                    <mat-card-header>
+                      <mat-card-title>{{opportunity.title}}</mat-card-title>
+                      <mat-card-subtitle>{{opportunity.department}} • {{opportunity.level}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div class="opportunity-details">
+                        <p class="description">{{opportunity.description}}</p>
+                        
+                        <!-- Assigned Employee Info -->
+                        <div *ngIf="opportunity.assignedEmployee" class="assigned-employee-info">
+                          <div class="employee-badge">
+                            <mat-icon>assignment_ind</mat-icon>
+                            <div class="employee-details">
+                              <span class="employee-name">{{opportunity.assignedEmployee.name}}</span>
+                              <span class="employee-role">{{opportunity.assignedEmployee.currentRole}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="skills-preview">
+                          <mat-chip *ngFor="let skill of opportunity.requiredSkills.slice(0, 3)" color="primary" selected>
+                            {{skill}}
+                          </mat-chip>
+                          <span *ngIf="opportunity.requiredSkills.length > 3" class="more-skills">
+                            +{{opportunity.requiredSkills.length - 3}} more
+                          </span>
+                        </div>
+                        <div class="opportunity-meta">
+                          <div class="meta-item">
+                            <mat-icon>schedule</mat-icon>
+                            <span>{{opportunity.duration}}</span>
+                          </div>
+                          <div class="meta-item">
+                            <mat-icon>{{opportunity.remote ? 'home' : 'location_city'}}</mat-icon>
+                            <span>{{opportunity.remote ? 'Remote' : 'On-site'}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
                 </div>
               </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
+            </ng-template>
+          </mat-tab>
+
+          <!-- Skills Inventory Tab -->
+          <mat-tab label="Skills Inventory">
+            <ng-template matTabContent>
+              <app-skills-inventory></app-skills-inventory>
+            </ng-template>
+          </mat-tab>
+
+        </mat-tab-group>
       </div>
     </div>
 

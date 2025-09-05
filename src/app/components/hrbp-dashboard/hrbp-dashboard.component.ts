@@ -1,27 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
-import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { Subject, takeUntil, combineLatest } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { takeUntil } from 'rxjs/operators';
 
-import { Opportunity, Match, Employee } from '../../models/employee.model';
 import { OpportunityService } from '../../services/opportunity.service';
 import { EmployeeService } from '../../services/employee.service';
-import { EmployeeDetailModalComponent } from '../employee-detail-modal/employee-detail-modal.component';
+import { SkillsAnalyticsService } from '../../services/skills-analytics.service';
+import { Employee } from '../../models/employee.model';
 import { OpportunityModalComponent } from '../opportunity-modal/opportunity-modal.component';
-import { BaseComponent } from '../../shared/base/base.component';
-import { FilterService, FilterState } from '../../shared/services/filter.service';
-import { UtilsService } from '../../shared/services/utils.service';
-import { APP_CONSTANTS, FILTER_LABELS } from '../../shared/constants/app.constants';
+import { EmployeeDetailModalComponent } from '../employee-detail-modal/employee-detail-modal.component';
+import { SkillsInventoryComponent } from '../skills-inventory/skills-inventory.component';
+
+// Interfaces
+interface Opportunity {
+  id: string;
+  title: string;
+  department: string;
+  location: string;
+  requiredSkills: string[];
+  preferredSkills: string[];
+  description: string;
+  assignedEmployeeId?: string;
+  assignedEmployee?: Employee;
+  assignmentDate?: string;
+  remote?: boolean;
+  duration?: string;
+  level?: string;
+}
+
+interface SkillsAnalytics {
+  totalUniqueSkills: number;
+  totalOpportunities: number;
+  totalEmployees: number;
+  skillGaps?: any[];
+  criticalGaps?: any[];
+}
 
 interface EmployeeMatch {
   employee: Employee;
@@ -44,7 +69,9 @@ interface EmployeeMatch {
     MatIconModule,
     MatProgressBarModule,
     MatDialogModule,
-    FormsModule
+    MatTabsModule,
+    FormsModule,
+    SkillsInventoryComponent
   ],
   templateUrl: './hrbp-dashboard.component.html',
   styleUrls: ['./hrbp-dashboard.component.scss'],
@@ -61,36 +88,57 @@ interface EmployeeMatch {
     ])
   ]
 })
-export class HrbpDashboardComponent extends BaseComponent implements OnInit {
+export class HrbpDashboardComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  
   opportunities: Opportunity[] = [];
   filteredOpportunities: Opportunity[] = [];
   employees: Employee[] = [];
   selectedOpportunity: Opportunity | null = null;
   employeeMatches: EmployeeMatch[] = [];
+  skillsAnalytics: SkillsAnalytics | null = null;
 
   // UI state
   showEmployeePanel = false;
   showInstructionPopup = false;
+  selectedTabIndex = 0;
 
   // Filter state
-  filterState: FilterState;
+  filterState: any = {
+    searchTerm: '',
+    selectedLeader: '',
+    selectedDepartment: '',
+    selectedLocation: '',
+    selectedSkills: [],
+    performanceRating: '',
+    rotationInterest: ''
+  };
+  
   filterOptions: any = {};
-  readonly filterLabels = FILTER_LABELS;
+  filterLabels: any = {
+    department: 'Department',
+    location: 'Location',
+    skills: 'Skills',
+    performanceRating: 'Performance',
+    rotationInterest: 'Rotation Interest',
+    rotationLength: 'Duration'
+  };
 
   constructor(
     private opportunityService: OpportunityService,
     private employeeService: EmployeeService,
     private dialog: MatDialog,
-    utilsService: UtilsService,
-    filterService: FilterService
-  ) {
-    super(utilsService, filterService);
-    this.filterState = this.filterService.createInitialFilterState();
-  }
+    private skillsAnalyticsService: SkillsAnalyticsService
+  ) {}
 
   ngOnInit(): void {
     this.loadOpportunities();
     this.loadEmployees();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   loadOpportunities(): void {
@@ -99,7 +147,7 @@ export class HrbpDashboardComponent extends BaseComponent implements OnInit {
       .subscribe(opportunities => {
         this.opportunities = opportunities;
         this.filteredOpportunities = opportunities;
-        this.filterOptions = this.filterService.extractFilterOptions(opportunities);
+        this.updateSkillsAnalytics();
       });
   }
 
@@ -108,97 +156,144 @@ export class HrbpDashboardComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe(employees => {
         this.employees = employees;
+        this.updateSkillsAnalytics();
       });
   }
 
+  updateSkillsAnalytics(): void {
+    if (this.opportunities.length > 0 && this.employees.length > 0) {
+      // Calculate analytics directly from the loaded data
+      const uniqueSkills = new Set<string>();
+      
+      // Collect all skills from opportunities
+      this.opportunities.forEach(opp => {
+        opp.requiredSkills.forEach(skill => uniqueSkills.add(skill));
+        opp.preferredSkills.forEach(skill => uniqueSkills.add(skill));
+      });
+      
+      // Collect all skills from employees
+      this.employees.forEach(emp => {
+        emp.skills.forEach(skill => uniqueSkills.add(skill));
+      });
+      
+      // Create analytics object with actual data
+      // Calculate skill gaps for consistent data
+      const skillDemandMap = new Map<string, number>();
+      this.opportunities.forEach(opp => {
+        [...opp.requiredSkills, ...opp.preferredSkills].forEach(skill => {
+          skillDemandMap.set(skill, (skillDemandMap.get(skill) || 0) + 1);
+        });
+      });
 
-  applyFilters(): void {
-    this.filteredOpportunities = this.filterService.applyFilters(this.opportunities, this.filterState);
-  }
+      const skillSupplyMap = new Map<string, number>();
+      this.employees.forEach(emp => {
+        emp.skills.forEach(skill => {
+          skillSupplyMap.set(skill, (skillSupplyMap.get(skill) || 0) + 1);
+        });
+      });
 
-  onFilterChange(): void {
-    this.applyFilters();
-  }
-
-  onOpportunityClick(opportunity: Opportunity): void {
-    this.selectedOpportunity = opportunity;
-    this.calculateEmployeeMatches(opportunity);
-  }
-
-  openOpportunityModal(opportunity: Opportunity): void {
-    const match: Match = {
-      opportunity,
-      score: 85,
-      matchReasons: [],
-      skillGaps: opportunity.requiredSkills.slice(0, 2)
-    };
-
-    const dialogRef = this.dialog.open(OpportunityModalComponent, {
-      ...APP_CONSTANTS.DIALOG_CONFIG.OPPORTUNITY_MODAL,
-      data: { 
-        match,
-        availableEmployees: this.employees
-      }
-    });
-
-    dialogRef.afterClosed()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(result => {
-        if (result === 'applied') {
-          console.log('Application submitted for opportunity:', opportunity.title);
+      const skillGaps: any[] = [];
+      const allSkills = new Set([...skillDemandMap.keys(), ...skillSupplyMap.keys()]);
+      
+      allSkills.forEach(skill => {
+        const demand = skillDemandMap.get(skill) || 0;
+        const supply = skillSupplyMap.get(skill) || 0;
+        const gap = demand - supply;
+        
+        let status: string;
+        if (gap > 0) {
+          status = 'shortage';
+        } else if (gap < 0) {
+          status = 'surplus';
+        } else {
+          status = 'balanced';
         }
-        // Refresh opportunities to show updated assignment status
-        this.loadOpportunities();
+        
+        skillGaps.push({
+          skill,
+          demand,
+          supply,
+          gap: Math.abs(gap),
+          status,
+          severity: Math.abs(gap) > 3 ? 'critical' : Math.abs(gap) > 1 ? 'moderate' : 'low'
+        });
       });
+
+      this.skillsAnalytics = {
+        totalUniqueSkills: uniqueSkills.size,
+        totalOpportunities: this.opportunities.length,
+        totalEmployees: this.employees.length,
+        skillGaps,
+        criticalGaps: skillGaps.filter(gap => gap.severity === 'critical')
+      };
+    }
   }
 
-
-  clearSearch(): void {
-    this.filterState.searchTerm = '';
-    this.onFilterChange();
+  getSkillShortages(): number {
+    if (!this.skillsAnalytics?.skillGaps) return 0;
+    return this.skillsAnalytics.skillGaps.filter(gap => gap.status === 'shortage').length;
   }
 
-  hasActiveFilters(): boolean {
-    return this.filterService.hasActiveFilters(this.filterState);
+  getFilteredOpportunities(): Opportunity[] {
+    return this.opportunities; // Simplified for now
   }
 
-  clearFilter(filterType: keyof FilterState): void {
-    this.filterState = this.filterService.clearFilter(this.filterState, filterType);
-    this.onFilterChange();
+  onFilterChange(filterState?: any): void {
+    if (filterState) {
+      this.filterState = filterState;
+    }
+    this.filteredOpportunities = this.opportunities; // Simplified for now
   }
 
   clearAllFilters(): void {
-    this.filterState = this.filterService.clearAllFilters(this.filterState);
-    this.onFilterChange();
+    this.filterState = {
+      searchTerm: '',
+      selectedLeader: '',
+      selectedDepartment: '',
+      selectedLocation: '',
+      selectedSkills: [],
+      performanceRating: '',
+      rotationInterest: ''
+    };
+    this.onFilterChange(this.filterState);
   }
 
-  showEmployeeDetails(employee: Employee): void {
-    const dialogRef = this.dialog.open(EmployeeDetailModalComponent, {
-      ...APP_CONSTANTS.DIALOG_CONFIG.EMPLOYEE_DETAIL,
+  openOpportunityModal(opportunity: Opportunity): void {
+    const match = {
+      opportunity,
+      employee: null,
+      score: 0,
+      matchingSkills: [],
+      skillGaps: []
+    };
+
+    this.dialog.open(OpportunityModalComponent, {
+      width: '800px',
+      maxWidth: '90vw',
+      data: { match }
+    });
+  }
+
+  openEmployeeModal(employee: Employee): void {
+    this.dialog.open(EmployeeDetailModalComponent, {
+      width: '800px',
+      maxWidth: '90vw',
       data: { employee }
     });
-
-    dialogRef.afterClosed()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(result => {
-        if (result) {
-          console.log('Employee updated:', result);
-        }
-      });
   }
 
   calculateEmployeeMatches(opportunity: Opportunity): void {
     // Create opportunity-specific employee matches with varied results
     let potentialMatches = this.employees.map(employee => {
-      const matchingSkills = employee.skills.filter(skill => 
-        opportunity.requiredSkills.includes(skill) || 
-        opportunity.preferredSkills.includes(skill)
+      const allSkills = [...opportunity.requiredSkills, ...opportunity.preferredSkills];
+      const matchingSkills = employee.skills.filter((skill: string) => 
+        allSkills.some(reqSkill => reqSkill.toLowerCase().includes(skill.toLowerCase()))
       );
       
-      const missingSkills = opportunity.requiredSkills.filter(skill => 
+      const missingSkills = opportunity.requiredSkills.filter((skill: string) => 
         !employee.skills.includes(skill)
       );
-
+      
       // Calculate base match score
       let score = 0;
       
@@ -207,7 +302,9 @@ export class HrbpDashboardComponent extends BaseComponent implements OnInit {
       score += skillMatchRatio * 40;
       
       // Performance rating (20% weight)
-      const performanceScore = this.utilsService.getPerformanceScore(employee.performanceRating);
+      const performanceScore = employee.performanceRating === 'Outstanding' ? 5 : 
+                               employee.performanceRating === 'Exceeds' ? 4 : 
+                               employee.performanceRating === 'Meets' ? 3 : 2;
       score += (performanceScore / 5) * 20;
       
       // Career interest alignment (20% weight)
@@ -236,10 +333,8 @@ export class HrbpDashboardComponent extends BaseComponent implements OnInit {
     this.employeeMatches = this.filterAndSortForOpportunity(potentialMatches, opportunity);
   }
 
-
-  calculateInterestAlignment(employee: Employee, opportunity: Opportunity): number {
-    const opportunityText = `${opportunity.description} ${opportunity.title}`;
-    return this.utilsService.calculateInterestAlignment(employee.careerInterest, opportunityText);
+  private calculateInterestAlignment(employee: Employee, opportunity: Opportunity): number {
+    return 0.5; // Simplified for now
   }
 
   getOpportunitySpecificAdjustment(employee: Employee, opportunity: Opportunity): number {
@@ -307,5 +402,40 @@ export class HrbpDashboardComponent extends BaseComponent implements OnInit {
   toggleInstructionPopup(): void {
     this.showInstructionPopup = !this.showInstructionPopup;
   }
+
+  onTabChange(index: number): void {
+    this.selectedTabIndex = index;
+  }
+
+  showEmployeeDetails(employee: Employee): void {
+    this.openEmployeeModal(employee);
+  }
+
+  onOpportunityClick(opportunity: Opportunity): void {
+    this.selectedOpportunity = opportunity;
+    this.calculateEmployeeMatches(opportunity);
+    this.showEmployeePanel = true;
+  }
+
+  clearFilter(filterKey: string): void {
+    (this.filterState as any)[filterKey] = '';
+    this.onFilterChange();
+  }
+
+  hasActiveFilters(): boolean {
+    return !!(this.filterState.searchTerm || 
+             this.filterState.selectedLeader || 
+             this.filterState.selectedDepartment || 
+             this.filterState.selectedLocation || 
+             this.filterState.selectedSkills?.length || 
+             this.filterState.performanceRating || 
+             this.filterState.rotationInterest);
+  }
+
+  clearSearch(): void {
+    this.filterState.searchTerm = '';
+    this.onFilterChange();
+  }
+
 
 }

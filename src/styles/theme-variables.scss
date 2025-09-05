@@ -1,0 +1,147 @@
+// Global Theme Variables
+:root {
+  // Status Colors
+  --color-shortage: #f44336;
+  --color-balanced: #4caf50;
+  --color-surplus: #2196f3;
+  --color-shortage-light: #ff6b6b;
+  --color-balanced-light: #81c784;
+  --color-surplus-light: #64b5f6;
+
+  // Primary Colors
+  --color-primary: #1976d2;
+  --color-primary-light: #64b5f6;
+  --color-accent: #ff9800;
+
+  // Background Colors
+  --bg-primary: #fafafa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f8f9fa;
+  --bg-section: #f8f9fa;
+
+  // Text Colors
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+
+  // Border & Shadow
+  --border-color: #e0e0e0;
+  --border-hover: #d0d0d0;
+  --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+  // Interactive States
+  --hover-bg: #f5f5f5;
+  --active-bg: #e3f2fd;
+
+  // Spacing
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  // Border Radius
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+}
+
+// Dark Theme
+[data-theme="dark"] {
+  // Status Colors (adjusted for dark theme)
+  --color-shortage: #ff6b6b;
+  --color-balanced: #81c784;
+  --color-surplus: #64b5f6;
+
+  // Background Colors
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #2d2d2d;
+  --bg-section: #2a2a2a;
+
+  // Text Colors
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-muted: #808080;
+
+  // Border & Shadow
+  --border-color: #404040;
+  --border-hover: #505050;
+  --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  // Interactive States
+  --hover-bg: #3d3d3d;
+  --active-bg: #404040;
+}
+
+// Status Color Mixins
+@mixin status-colors($type: 'light') {
+  &.shortage {
+    color: var(--color-shortage);
+    .legend-color {
+      background: var(--color-shortage);
+    }
+  }
+
+  &.balanced {
+    color: var(--color-balanced);
+    .legend-color {
+      background: var(--color-balanced);
+    }
+  }
+
+  &.surplus {
+    color: var(--color-surplus);
+    .legend-color {
+      background: var(--color-surplus);
+    }
+  }
+}
+
+// Card Mixin
+@mixin card-base {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--border-hover);
+  }
+}
+
+// Interactive Element Mixin
+@mixin interactive-element {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--hover-bg);
+    border-color: var(--color-primary);
+  }
+}
+
+// Gradient Mixins
+@mixin gradient-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+}
+
+@mixin gradient-shortage {
+  background: linear-gradient(135deg, var(--color-shortage), var(--color-shortage-light));
+}
+
+@mixin gradient-balanced {
+  background: linear-gradient(135deg, var(--color-balanced), var(--color-balanced-light));
+}
+
+@mixin gradient-surplus {
+  background: linear-gradient(135deg, var(--color-surplus), var(--color-surplus-light));
+}

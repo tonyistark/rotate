@@ -55,6 +55,9 @@ export class ThemeService {
     // Add new theme class
     body.classList.add(`${theme}-theme`);
     
+    // Set data-theme attribute for CSS selectors
+    body.setAttribute('data-theme', theme);
+    
     // Update CSS custom properties
     if (theme === 'dark') {
       this.setDarkThemeProperties();

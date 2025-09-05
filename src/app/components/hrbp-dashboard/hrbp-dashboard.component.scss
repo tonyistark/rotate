@@ -6,24 +6,103 @@
 }
 
 .dashboard-header {
-  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 32px;
   padding: 24px 0;
   border-bottom: 1px solid var(--border-color);
   
-  h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
-    letter-spacing: -0.025em;
+  .header-content {
+    text-align: left;
+    
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+      letter-spacing: -0.025em;
+    }
+    
+    .subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-weight: 400;
+    }
   }
   
-  .subtitle {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    margin-top: 4px;
-    font-weight: 400;
+  .header-metrics {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    
+    .kpi-card {
+      background: var(--card-background, #ffffff);
+      border: 1px solid var(--border-color, #e0e0e0);
+      border-radius: 12px;
+      padding: 1rem;
+      min-width: 120px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      }
+      
+      .kpi-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: var(--primary-color, #2196f3);
+      }
+      
+      .kpi-label {
+        font-size: 0.75rem;
+        color: var(--text-secondary, #666);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 500;
+      }
+      
+      &.total-skills .kpi-value { color: #4caf50; }
+      &.opportunities .kpi-value { color: #2196f3; }
+      &.employees .kpi-value { color: #ff9800; }
+      &.gaps .kpi-value { color: #f44336; }
+    }
+  }
+  
+  // Dark mode styles
+  :host-context(body[data-theme="dark"]) & {
+    background: var(--bg-primary-dark, #1a1a1a);
+    color: var(--text-primary-dark, #ffffff);
+    
+    .header-content {
+      h1 {
+        color: var(--text-primary-dark, #ffffff);
+      }
+      
+      .subtitle {
+        color: var(--text-secondary-dark, #b0b0b0);
+      }
+    }
+    
+    .header-metrics .kpi-card {
+      background: var(--card-background-dark, #2d2d2d);
+      border: 1px solid var(--border-color-dark, #404040);
+      color: var(--text-primary-dark, #ffffff);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      
+      &:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      }
+      
+      .kpi-label {
+        color: var(--text-secondary-dark, #b0b0b0);
+      }
+    }
   }
 }
 
@@ -1163,4 +1242,67 @@
 
 .mat-mdc-button {
   border-radius: 4px !important;
+}
+
+// Tabbed content styles
+.tabbed-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  
+  .main-tabs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    
+    ::ng-deep {
+      .mat-mdc-tab-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .mat-mdc-tab-body-wrapper {
+        flex: 1;
+        display: flex;
+      }
+      
+      .mat-mdc-tab-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .mat-mdc-tab-body-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      
+      .mat-mdc-tab-header {
+        background: var(--bg-primary, white);
+        border-bottom: 1px solid var(--border-color, #e0e0e0);
+        
+        .mat-mdc-tab {
+          min-width: 120px;
+          color: var(--text-secondary, #666);
+          
+          &.mdc-tab--active {
+            color: var(--text-primary, #333);
+          }
+          
+          .mdc-tab__text-label {
+            font-weight: 500;
+            font-size: 14px;
+            color: inherit;
+          }
+        }
+        
+        .mdc-tab-indicator__content--underline {
+          background-color: var(--accent-primary, #2196f3);
+        }
+      }
+    }
+  }
 }

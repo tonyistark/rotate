@@ -1,0 +1,179 @@
+<div class="skills-inventory-container">
+  <!-- Header Section -->
+  <div class="inventory-header">
+    <div class="header-content">
+      <h2>Skills Inventory</h2>
+      <p class="subtitle">Real-time analysis of skill demand, supply, and gaps</p>
+    </div>
+    <div class="header-stats" *ngIf="analytics">
+      <div class="stat-item last-updated">
+        <mat-icon>schedule</mat-icon>
+        <span class="stat-label">{{getFormattedLastUpdated()}}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="!analytics" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading skills analytics...</p>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="analytics" class="inventory-content">
+    
+    <!-- Skills Demand Section -->
+    <mat-card class="inventory-section demand-section">
+      <mat-card-header>
+        <div mat-card-avatar class="section-avatar demand-avatar">
+          <mat-icon>trending_up</mat-icon>
+        </div>
+        <mat-card-title>Skills in Demand</mat-card-title>
+        <mat-card-subtitle>Skills ranked by opportunity frequency</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="skills-list">
+          <div class="skill-item" *ngFor="let demand of getDisplayedDemands(); let i = index">
+            <div class="skill-rank">{{i + 1}}</div>
+            <div class="skill-content">
+              <div class="skill-header">
+                <span class="skill-name">{{demand.skill}}</span>
+                <div class="skill-metrics">
+                  <span class="skill-count">{{demand.opportunityCount}} opportunities</span>
+                  <span class="skill-percentage">{{demand.percentage}}%</span>
+                </div>
+              </div>
+              <div class="skill-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill demand-fill" 
+                       [style.width.%]="getProgressWidth(demand.opportunityCount, getMaxDemand())">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="load-more-container" *ngIf="hasMore('demand')">
+          <button mat-button (click)="loadMore('demand')" class="load-more-btn">
+            <mat-icon>expand_more</mat-icon>
+            Load More
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Skills Supply Section -->
+    <mat-card class="inventory-section supply-section">
+      <mat-card-header>
+        <div mat-card-avatar class="section-avatar supply-avatar">
+          <mat-icon>people</mat-icon>
+        </div>
+        <mat-card-title>Employee Skills</mat-card-title>
+        <mat-card-subtitle>Skills ranked by employee count</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="skills-list">
+          <div class="skill-item" *ngFor="let supply of getDisplayedSupplies(); let i = index">
+            <div class="skill-rank">{{i + 1}}</div>
+            <div class="skill-content">
+              <div class="skill-header">
+                <span class="skill-name">{{supply.skill}}</span>
+                <div class="skill-metrics">
+                  <span class="skill-count">{{supply.employeeCount}} employees</span>
+                  <span class="skill-percentage">{{supply.percentage}}%</span>
+                </div>
+              </div>
+              <div class="skill-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill supply-fill" 
+                       [style.width.%]="getProgressWidth(supply.employeeCount, getMaxSupply())">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="load-more-container" *ngIf="hasMore('supply')">
+          <button mat-button (click)="loadMore('supply')" class="load-more-btn">
+            <mat-icon>expand_more</mat-icon>
+            Load More
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Skills Gap Analysis Section -->
+    <mat-card class="inventory-section gaps-section">
+      <mat-card-header>
+        <div mat-card-avatar class="section-avatar gaps-avatar">
+          <mat-icon>analytics</mat-icon>
+        </div>
+        <mat-card-title>Skill Gap Analysis</mat-card-title>
+        <mat-card-subtitle>Supply vs demand analysis</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="gaps-summary">
+          <div class="gap-summary-item shortage">
+            <mat-icon>trending_down</mat-icon>
+            <div class="summary-content">
+              <span class="summary-count">{{analytics.skillGaps.filter(g => g.status === 'shortage').length}}</span>
+              <span class="summary-label">Skills in Shortage</span>
+            </div>
+          </div>
+          <div class="gap-summary-item balanced">
+            <mat-icon>trending_flat</mat-icon>
+            <div class="summary-content">
+              <span class="summary-count">{{analytics.skillGaps.filter(g => g.status === 'balanced').length}}</span>
+              <span class="summary-label">Balanced Skills</span>
+            </div>
+          </div>
+          <div class="gap-summary-item surplus">
+            <mat-icon>trending_up</mat-icon>
+            <div class="summary-content">
+              <span class="summary-count">{{analytics.skillGaps.filter(g => g.status === 'surplus').length}}</span>
+              <span class="summary-label">Skills in Surplus</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="skills-list">
+          <div class="skill-item gap-item" *ngFor="let gap of getDisplayedGaps(); let i = index">
+            <div class="skill-rank">{{i + 1}}</div>
+            <div class="skill-content">
+              <div class="skill-header">
+                <span class="skill-name">{{gap.skill}}</span>
+                <div class="gap-status" [ngClass]="getGapStatusClass(gap.status)">
+                  <mat-icon>{{getGapStatusIcon(gap.status)}}</mat-icon>
+                  <span>{{getGapText(gap)}}</span>
+                </div>
+              </div>
+              <div class="gap-details">
+                <div class="gap-metric">
+                  <span class="metric-label">Demand:</span>
+                  <span class="metric-value demand-value">{{gap.demand}}</span>
+                </div>
+                <div class="gap-metric">
+                  <span class="metric-label">Supply:</span>
+                  <span class="metric-value supply-value">{{gap.supply}}</span>
+                </div>
+                <div class="gap-metric" *ngIf="gap.status !== 'balanced'">
+                  <span class="metric-label">Gap:</span>
+                  <span class="metric-value" [ngClass]="getGapStatusClass(gap.status)">
+                    {{gap.gapPercentage}}%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="load-more-container" *ngIf="hasMore('gaps')">
+          <button mat-button (click)="loadMore('gaps')" class="load-more-btn">
+            <mat-icon>expand_more</mat-icon>
+            Load More
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>
