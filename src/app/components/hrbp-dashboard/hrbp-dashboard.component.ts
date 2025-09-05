@@ -1,45 +1,31 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Subject, takeUntil, combineLatest } from 'rxjs';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-
+import { Subject, takeUntil } from 'rxjs';
+import { Employee, Opportunity } from '../../models/employee.model';
 import { OpportunityService } from '../../services/opportunity.service';
 import { EmployeeService } from '../../services/employee.service';
+import { MatchingService } from '../../services/matching.service';
 import { SkillsAnalyticsService } from '../../services/skills-analytics.service';
-import { Employee } from '../../models/employee.model';
+import { FilterService, FilterState } from '../../shared/services/filter.service';
 import { OpportunityModalComponent } from '../opportunity-modal/opportunity-modal.component';
 import { EmployeeDetailModalComponent } from '../employee-detail-modal/employee-detail-modal.component';
 import { SkillsInventoryComponent } from '../skills-inventory/skills-inventory.component';
 
 // Interfaces
-interface Opportunity {
-  id: string;
-  title: string;
-  department: string;
-  location: string;
-  requiredSkills: string[];
-  preferredSkills: string[];
-  description: string;
-  assignedEmployeeId?: string;
-  assignedEmployee?: Employee;
-  assignmentDate?: string;
-  remote?: boolean;
-  duration?: string;
-  level?: string;
-}
 
 interface SkillsAnalytics {
   totalUniqueSkills: number;
@@ -108,15 +94,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   selectedTabIndex = 0;
 
   // Filter state
-  filterState: any = {
-    searchTerm: '',
-    selectedLeader: '',
-    selectedDepartment: '',
-    selectedLocation: '',
-    selectedSkills: [],
-    performanceRating: '',
-    rotationInterest: ''
-  };
+  filterState: FilterState;
   
   filterOptions: any = {};
   filterLabels: any = {
@@ -133,8 +111,11 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     private employeeService: EmployeeService,
     private dialog: MatDialog,
     private skillsAnalyticsService: SkillsAnalyticsService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private filterService: FilterService
+  ) {
+    this.filterState = this.filterService.createInitialFilterState();
+  }
 
   ngOnInit(): void {
     this.loadOpportunities();
@@ -152,6 +133,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
       .subscribe(opportunities => {
         this.opportunities = opportunities;
         this.filteredOpportunities = opportunities;
+        this.filterOptions = this.filterService.extractFilterOptions(opportunities);
         this.updateSkillsAnalytics();
       });
   }
@@ -243,24 +225,31 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     return this.opportunities; // Simplified for now
   }
 
-  onFilterChange(filterState?: any): void {
+  onFilterChange(filterState?: FilterState): void {
     if (filterState) {
       this.filterState = filterState;
     }
-    this.filteredOpportunities = this.opportunities; // Simplified for now
+    // Apply filters using the FilterService
+    this.filteredOpportunities = this.filterService.applyFilters(this.opportunities, this.filterState);
   }
 
   clearAllFilters(): void {
-    this.filterState = {
-      searchTerm: '',
-      selectedLeader: '',
-      selectedDepartment: '',
-      selectedLocation: '',
-      selectedSkills: [],
-      performanceRating: '',
-      rotationInterest: ''
-    };
-    this.onFilterChange(this.filterState);
+    this.filterState = this.filterService.createInitialFilterState();
+    this.onFilterChange();
+  }
+
+  clearFilter(filterType: keyof FilterState): void {
+    this.filterState = this.filterService.clearFilter(this.filterState, filterType);
+    this.onFilterChange();
+  }
+
+  hasActiveFilters(): boolean {
+    return this.filterService.hasActiveFilters(this.filterState);
+  }
+
+  clearSearch(): void {
+    this.filterState.searchTerm = '';
+    this.onFilterChange();
   }
 
   openOpportunityModal(opportunity: Opportunity): void {
@@ -602,25 +591,6 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     return assignedEmployeeIds.size;
   }
 
-  clearFilter(filterKey: string): void {
-    (this.filterState as any)[filterKey] = '';
-    this.onFilterChange();
-  }
-
-  hasActiveFilters(): boolean {
-    return !!(this.filterState.searchTerm || 
-             this.filterState.selectedLeader || 
-             this.filterState.selectedDepartment || 
-             this.filterState.selectedLocation || 
-             this.filterState.selectedSkills?.length || 
-             this.filterState.performanceRating || 
-             this.filterState.rotationInterest);
-  }
-
-  clearSearch(): void {
-    this.filterState.searchTerm = '';
-    this.onFilterChange();
-  }
 
 
 }

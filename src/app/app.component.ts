@@ -15,7 +15,7 @@ import { ThemeService, Theme } from './services/theme.service';
   template: `
     <mat-toolbar color="primary" class="app-toolbar">
       <mat-icon class="toolbar-icon">work</mat-icon>
-      <span>Catalyst</span>
+      <span class="app-title" routerLink="/" matTooltip="Go to Home">Catalyst</span>
       <span class="spacer"></span>
       
       <div class="theme-toggle" matTooltip="Toggle theme">
@@ -55,6 +55,24 @@ import { ThemeService, Theme } from './services/theme.service';
       
       .toolbar-icon {
         margin-right: 12px;
+      }
+      
+      .app-title {
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        padding: 4px 8px;
+        border-radius: 4px;
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          transform: scale(1.02);
+        }
+        
+        &:active {
+          transform: scale(0.98);
+        }
       }
       
       .spacer {
