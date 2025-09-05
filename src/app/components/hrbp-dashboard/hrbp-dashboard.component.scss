@@ -1,5 +1,7 @@
+@import '../../../styles/mixins.scss';
+
 .hrbp-dashboard-container {
-  padding: 24px;
+  padding: var(--spacing-lg);
   background: var(--bg-primary);
   min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -9,8 +11,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 32px;
-  padding: 24px 0;
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg) 0;
   border-bottom: 1px solid var(--border-color);
   
   .header-content {
@@ -38,19 +40,11 @@
     align-items: center;
     
     .kpi-card {
-      background: var(--card-background, #ffffff);
-      border: 1px solid var(--border-color, #e0e0e0);
-      border-radius: 12px;
-      padding: 1rem;
+      @include card-base;
+      @include card-hover;
+      padding: var(--spacing-md);
       min-width: 120px;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-      }
       
       .kpi-value {
         font-size: 1.5rem;
@@ -330,7 +324,7 @@
           .mat-mdc-text-field-wrapper {
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: var(--border-radius-md);
             transition: all 0.2s ease;
             min-width: 0;
             
@@ -562,13 +556,10 @@
       }
       
       .opportunity-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 20px;
+        @include card-base;
+        @include card-hover;
+        padding: var(--spacing-lg);
         cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         position: relative;
         overflow: hidden;
         height: 280px;
@@ -614,7 +605,7 @@
           background: var(--success);
           color: white;
           padding: 4px 8px;
-          border-radius: 12px;
+          border-radius: var(--border-radius-md);
           font-size: 0.75rem;
           font-weight: 600;
           z-index: 1;
@@ -964,11 +955,10 @@
         flex-wrap: wrap;
 
         .skill-chip {
+          @include badge-base;
           background-color: var(--bg-tertiary);
           color: var(--accent-primary);
           font-size: 0.65rem;
-          padding: 2px 6px;
-          border-radius: 12px;
           border: 1px solid var(--border-color);
         }
       }
@@ -1510,6 +1500,281 @@
       
       mat-icon {
         color: white;
+      }
+    }
+  }
+}
+
+// Matches Summary Tab Styling
+.matches-summary-section {
+  padding: 24px;
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    
+    .export-actions {
+      display: flex;
+      gap: 12px;
+      
+      button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+  
+  .matches-overview {
+    margin-bottom: 24px;
+    
+    .overview-card {
+      .overview-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        color: var(--primary-color);
+      }
+      
+      .overview-stats {
+        display: flex;
+        gap: 32px;
+        margin-top: 16px;
+        
+        .stat-item {
+          text-align: center;
+          
+          .stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+          }
+          
+          .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+  
+  .matches-table-container {
+    .table-card {
+      .table-wrapper {
+        overflow-x: auto;
+        
+        .matches-table {
+          width: 100%;
+          
+          .employee-cell {
+            .employee-info {
+              display: flex;
+              flex-direction: column;
+              gap: 2px;
+              
+              .employee-name {
+                font-weight: 600;
+                color: var(--text-primary);
+              }
+              
+              .employee-role {
+                font-size: 0.875rem;
+                color: var(--text-secondary);
+              }
+            }
+          }
+          
+          .opportunity-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            
+            .opportunity-title {
+              font-weight: 600;
+              color: var(--text-primary);
+            }
+            
+            .opportunity-dept {
+              font-size: 0.875rem;
+              color: var(--text-secondary);
+            }
+          }
+          
+          .location-cell {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            
+            mat-icon {
+              font-size: 16px;
+              width: 16px;
+              height: 16px;
+              color: var(--text-secondary);
+            }
+          }
+          
+          .skills-match {
+            .match-chips {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 4px;
+              align-items: center;
+              
+              .skill-chip {
+                @include badge-base;
+                font-size: 0.75rem;
+                background: rgba(76, 175, 80, 0.1);
+                color: #2e7d32;
+                border: 1px solid rgba(76, 175, 80, 0.3);
+              }
+              
+              .more-skills {
+                font-size: 0.75rem;
+                color: var(--text-secondary);
+                font-weight: 500;
+              }
+            }
+          }
+          
+          .action-buttons {
+            display: flex;
+            gap: 4px;
+            
+            button {
+              width: 32px;
+              height: 32px;
+              
+              mat-icon {
+                font-size: 16px;
+                width: 16px;
+                height: 16px;
+              }
+            }
+          }
+          
+          .assignment-date, .duration {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+          }
+        }
+      }
+    }
+  }
+  
+  .no-matches-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    
+    .empty-state-card {
+      max-width: 400px;
+      text-align: center;
+      
+      .empty-state-content {
+        padding: 32px;
+        
+        .empty-state-icon {
+          font-size: 64px;
+          width: 64px;
+          height: 64px;
+          color: var(--text-secondary);
+          margin-bottom: 16px;
+        }
+        
+        h3 {
+          margin: 0 0 12px 0;
+          color: var(--text-primary);
+          font-weight: 600;
+        }
+        
+        p {
+          margin: 8px 0;
+          color: var(--text-secondary);
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
+
+// Dark mode styles for matches summary
+:host-context(body[data-theme="dark"]) .matches-summary-section {
+  .overview-card {
+    background: var(--card-background-dark);
+    border: 1px solid var(--border-color-dark);
+    
+    .overview-stats .stat-item {
+      .stat-value {
+        color: var(--primary-color);
+      }
+      
+      .stat-label {
+        color: var(--text-secondary-dark);
+      }
+    }
+  }
+  
+  .table-card {
+    background: var(--card-background-dark);
+    border: 1px solid var(--border-color-dark);
+    
+    .matches-table {
+      .employee-cell .employee-info {
+        .employee-name {
+          color: var(--text-primary-dark);
+        }
+        
+        .employee-role {
+          color: var(--text-secondary-dark);
+        }
+      }
+      
+      .opportunity-cell {
+        .opportunity-title {
+          color: var(--text-primary-dark);
+        }
+        
+        .opportunity-dept {
+          color: var(--text-secondary-dark);
+        }
+      }
+      
+      .assignment-date, .duration {
+        color: var(--text-primary-dark);
+      }
+    }
+  }
+  
+  .empty-state-card {
+    background: var(--card-background-dark);
+    border: 1px solid var(--border-color-dark);
+    
+    .empty-state-content {
+      .empty-state-icon {
+        color: var(--text-secondary-dark);
+      }
+      
+      h3 {
+        color: var(--text-primary-dark);
+      }
+      
+      p {
+        color: var(--text-secondary-dark);
       }
     }
   }

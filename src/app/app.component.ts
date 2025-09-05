@@ -43,6 +43,10 @@ import { ThemeService, Theme } from './services/theme.service';
         <mat-icon>group</mat-icon>
         New Employee Page
       </button>
+      <button mat-button routerLink="/admin">
+        <mat-icon>admin_panel_settings</mat-icon>
+        Admin
+      </button>
     </mat-toolbar>
     <router-outlet></router-outlet>
   `,

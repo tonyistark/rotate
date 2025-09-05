@@ -40,4 +40,29 @@ export class EmployeeService {
   clearCurrentEmployee(): void {
     this.currentEmployeeSubject.next(null);
   }
+
+  uploadEmployees(employees: Employee[]): Promise<void> {
+    return new Promise((resolve, reject) => {
+      try {
+        // Add unique IDs to employees that don't have them
+        const processedEmployees = employees.map(emp => ({
+          ...emp,
+          id: emp.id || this.generateId()
+        }));
+
+        // Replace existing employees with uploaded ones
+        this.employees = processedEmployees;
+        
+        console.log(`Successfully uploaded ${employees.length} employees`);
+        resolve();
+      } catch (error) {
+        console.error('Error uploading employees:', error);
+        reject(error);
+      }
+    });
+  }
+
+  private generateId(): string {
+    return 'emp_' + Math.random().toString(36).substr(2, 9);
+  }
 }

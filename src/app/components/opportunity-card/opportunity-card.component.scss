@@ -1,18 +1,13 @@
 .opportunity-card {
+  @include card-base(var(--border-radius-md));
+  @include card-hover;
   margin-bottom: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
   cursor: pointer;
   height: 280px;
   display: flex;
   flex-direction: column;
   
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     border-color: var(--accent-primary);
   }
   
@@ -63,7 +58,7 @@
           gap: 6px;
           background: var(--bg-tertiary);
           padding: 4px 8px;
-          border-radius: 12px;
+          border-radius: var(--border-radius-md);
           font-weight: 500;
           
           mat-icon {
@@ -78,14 +73,14 @@
           font-size: 0.75rem;
           height: 24px;
           font-weight: 600;
-          border-radius: 12px;
+          border-radius: var(--border-radius-md);
         }
       }
     }
     
     .score-badge {
       padding: 8px 12px;
-      border-radius: 20px;
+      border-radius: var(--border-radius-xl);
       font-weight: 700;
       font-size: 0.85rem;
       white-space: nowrap;

@@ -1,0 +1,514 @@
+.admin-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--background-color, #f5f5f5);
+}
+
+// Header Section
+.admin-header {
+  margin-bottom: 32px;
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    
+    .title-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      
+      .admin-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        color: var(--primary-color);
+      }
+      
+      .title-text {
+        .title-with-help {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          
+          h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+          }
+          
+          .help-button {
+            color: var(--text-secondary);
+            
+            &:hover {
+              color: var(--text-primary);
+            }
+          }
+        }
+        
+        p {
+          margin: 4px 0 0 0;
+          font-size: 1.1rem;
+          color: var(--text-secondary);
+          font-weight: 400;
+        }
+      }
+    }
+    
+    .stats-section {
+      display: flex;
+      gap: 16px;
+      
+      .stat-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border-color);
+        
+        mat-icon {
+          font-size: 32px;
+          width: 32px;
+          height: 32px;
+          color: var(--color-primary);
+        }
+        
+        .stat-info {
+          display: flex;
+          flex-direction: column;
+          
+          .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+          }
+          
+          .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Upload Sections
+.upload-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.upload-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color, #e0e0e0);
+  overflow: hidden;
+  
+  mat-card-header {
+    padding: 24px 24px 16px 24px;
+    
+    .upload-avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      
+      &.opportunities-avatar {
+        background: linear-gradient(135deg, #2196F3, #1976D2);
+      }
+      
+      &.employees-avatar {
+        background: linear-gradient(135deg, #4CAF50, #388E3C);
+      }
+      
+      mat-icon {
+        color: white;
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+    
+    mat-card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    
+    mat-card-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+  }
+  
+  mat-card-content {
+    padding: 0 24px 16px 24px;
+  }
+  
+  mat-card-actions {
+    padding: 16px 24px 24px 24px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+// File Upload Area
+.file-upload-section {
+  margin-bottom: 20px;
+  
+  .upload-area {
+    border: 2px dashed var(--border-color, #e0e0e0);
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    background: var(--surface-color, #fafafa);
+    transition: all 0.3s ease;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:hover {
+      border-color: var(--primary-color);
+      background: var(--primary-light, rgba(33, 150, 243, 0.05));
+    }
+    
+    &.has-file {
+      border-color: var(--success-color, #4CAF50);
+      background: var(--success-light, rgba(76, 175, 80, 0.05));
+    }
+    
+    &.uploading {
+      border-color: var(--primary-color);
+      background: var(--primary-light, rgba(33, 150, 243, 0.05));
+    }
+    
+    .upload-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      
+      .upload-icon {
+        font-size: 64px;
+        width: 64px;
+        height: 64px;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+      }
+      
+      h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      
+      p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 1rem;
+      }
+      
+      button {
+        margin-top: 8px;
+      }
+    }
+    
+    .file-selected {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      
+      .file-icon {
+        font-size: 32px;
+        width: 32px;
+        height: 32px;
+        color: var(--success-color, #4CAF50);
+      }
+      
+      .file-info {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        
+        .file-name {
+          font-weight: 600;
+          color: var(--text-primary);
+          font-size: 1rem;
+        }
+        
+        .file-size {
+          color: var(--text-secondary);
+          font-size: 0.875rem;
+        }
+      }
+    }
+    
+    .uploading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      
+      p {
+        margin: 0;
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Upload Results
+.upload-result {
+  margin-top: 16px;
+  
+  .result-card {
+    padding: 0;
+    border-radius: 8px;
+    
+    &.success {
+      border-left: 4px solid var(--success-color, #4CAF50);
+      background: var(--success-light, rgba(76, 175, 80, 0.05));
+    }
+    
+    &.error {
+      border-left: 4px solid var(--error-color, #f44336);
+      background: var(--error-light, rgba(244, 67, 54, 0.05));
+    }
+    
+    .result-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      
+      .result-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        
+        &[ng-reflect-font-icon="check_circle"] {
+          color: var(--success-color, #4CAF50);
+        }
+        
+        &[ng-reflect-font-icon="error"] {
+          color: var(--error-color, #f44336);
+        }
+      }
+      
+      .result-text {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        
+        .result-message {
+          font-weight: 500;
+          color: var(--text-primary);
+          font-size: 1rem;
+        }
+        
+        .result-count {
+          color: var(--text-secondary);
+          font-size: 0.875rem;
+          margin-top: 2px;
+        }
+      }
+    }
+  }
+}
+
+// Floating Help Overlay
+.help-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  
+  .popup-card {
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    
+    mat-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .close-button {
+        margin-left: auto;
+      }
+    }
+    
+    .help-content {
+      h4 {
+        color: var(--text-primary);
+        margin: 15px 0 8px 0;
+        font-size: 1rem;
+      }
+      
+      p, li {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        color: var(--text-secondary);
+      }
+      
+      ul {
+        margin: 8px 0;
+        padding-left: 20px;
+      }
+      
+      strong {
+        color: var(--text-primary);
+      }
+    }
+  }
+}
+
+// Dark mode support for help popup
+[data-theme="dark"] {
+  .help-overlay .popup-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    
+    .help-content {
+      h4 {
+        color: var(--text-primary);
+      }
+      
+      p, li {
+        color: var(--text-secondary);
+      }
+      
+      strong {
+        color: var(--text-primary);
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 16px;
+  }
+  
+  .admin-header .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    
+    .stats-section {
+      width: 100%;
+      justify-content: space-between;
+      
+      .stat-card {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+  }
+  
+  .upload-sections {
+    grid-template-columns: 1fr;
+  }
+  
+  .upload-area {
+    padding: 24px 16px !important;
+    min-height: 160px !important;
+  }
+}
+
+// Dark Mode Support
+:host-context(body[data-theme="dark"]) {
+  .admin-container {
+    background: var(--background-dark);
+  }
+  
+  .upload-card, .guidelines-card {
+    background: var(--card-background-dark);
+    border-color: var(--border-color-dark);
+  }
+  
+  .stats-section .stat-card {
+    background: var(--card-background-dark);
+    border-color: var(--border-color-dark);
+  }
+  
+  .upload-area {
+    background: var(--surface-dark);
+    border-color: var(--border-color-dark);
+    
+    &:hover {
+      background: var(--primary-dark-light);
+    }
+    
+    &.has-file {
+      background: var(--success-dark-light);
+    }
+    
+    &.uploading {
+      background: var(--primary-dark-light);
+    }
+  }
+  
+  .file-selected {
+    background: var(--card-background-dark) !important;
+  }
+  
+  .result-card {
+    &.success {
+      background: var(--success-dark-light);
+    }
+    
+    &.error {
+      background: var(--error-dark-light);
+    }
+  }
+}

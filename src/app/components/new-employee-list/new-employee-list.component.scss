@@ -1,5 +1,7 @@
+@import '../../../styles/mixins.scss';
+
 .new-employee-list-container {
-  padding: 32px;
+  padding: var(--spacing-xl);
   max-width: 1600px;
   margin: 0 auto;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -8,10 +10,10 @@
 
 .page-header {
   text-align: center;
-  margin-bottom: 48px;
-  padding: 40px 0;
+  margin-bottom: var(--spacing-3xl);
+  padding: var(--spacing-2xl) 0;
   background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-  border-radius: 20px;
+  border-radius: var(--border-radius-xl);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
   
@@ -37,9 +39,9 @@
 
 .filters-section {
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border-radius: 20px;
-  padding: 32px;
-  margin-bottom: 32px;
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(226, 232, 240, 0.8);
   backdrop-filter: blur(10px);
@@ -110,7 +112,7 @@
     .filter-chip {
       background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
       color: #1e40af;
-      border-radius: 20px;
+      border-radius: var(--border-radius-xl);
       font-weight: 500;
       border: 1px solid rgba(59, 130, 246, 0.2);
       
@@ -144,7 +146,7 @@
 .employee-card {
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 20px;
+  border-radius: var(--border-radius-xl);
   overflow: hidden;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid rgba(226, 232, 240, 0.6);
@@ -376,7 +378,7 @@ mat-card-actions {
   text-align: center;
   padding: 80px 32px;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border-radius: 20px;
+  border-radius: var(--border-radius-xl);
   border: 1px solid rgba(226, 232, 240, 0.6);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
   
@@ -396,7 +398,7 @@ mat-card-actions {
   }
   
   p {
-    margin-bottom: 32px;
+    margin-bottom: var(--spacing-xl);
     color: #64748b;
     font-size: 1.1rem;
   }
@@ -431,7 +433,7 @@ mat-card-actions {
   
   .page-header {
     padding: 32px 20px;
-    margin-bottom: 32px;
+    margin-bottom: var(--spacing-xl);
     
     h1 {
       font-size: 2.2rem;

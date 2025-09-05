@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -13,8 +13,10 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, finalize } from 'rxjs';
 import { Employee, Opportunity } from '../../models/employee.model';
 import { OpportunityService } from '../../services/opportunity.service';
 import { EmployeeService } from '../../services/employee.service';
@@ -24,27 +26,29 @@ import { FilterService, FilterState } from '../../shared/services/filter.service
 import { OpportunityModalComponent } from '../opportunity-modal/opportunity-modal.component';
 import { EmployeeDetailModalComponent } from '../employee-detail-modal/employee-detail-modal.component';
 import { SkillsInventoryComponent } from '../skills-inventory/skills-inventory.component';
+import { APP_CONSTANTS } from '../../shared/constants/app.constants';
+import { 
+  SkillsAnalytics, 
+  EmployeeMatch, 
+  MatchTableData, 
+  DashboardState,
+  SkillGap,
+  MatchRecommendation
+} from '../../shared/interfaces/dashboard.interfaces';
 
-// Interfaces
-
-interface SkillsAnalytics {
-  totalUniqueSkills: number;
-  totalOpportunities: number;
-  totalEmployees: number;
-  skillGaps?: any[];
-  criticalGaps?: any[];
-}
-
-interface EmployeeMatch {
-  employee: Employee;
-  matchScore: number;
-  matchingSkills: string[];
-  missingSkills: string[];
+// Component-specific interfaces
+interface OpportunityAdjustment {
+  opportunityId: string;
+  departmentBonus: string[];
+  roleBonus: string[];
+  experienceRequirement: number;
+  adjustment: number;
 }
 
 @Component({
   selector: 'app-hrbp-dashboard',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     MatCardModule,
@@ -55,8 +59,10 @@ interface EmployeeMatch {
     MatChipsModule,
     MatIconModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatDialogModule,
     MatTabsModule,
+    MatTableModule,
     MatSnackBarModule,
     MatTooltipModule,
     FormsModule,
@@ -69,10 +75,10 @@ interface EmployeeMatch {
       state('in', style({transform: 'translateY(0)', opacity: 1})),
       transition('void => *', [
         style({transform: 'translateY(-20px)', opacity: 0}),
-        animate(300)
+        animate(APP_CONSTANTS.ANIMATIONS.SLIDE_DURATION)
       ]),
       transition('* => void', [
-        animate(300, style({transform: 'translateY(-20px)', opacity: 0}))
+        animate(APP_CONSTANTS.ANIMATIONS.SLIDE_DURATION, style({transform: 'translateY(-20px)', opacity: 0}))
       ])
     ])
   ]
@@ -80,24 +86,32 @@ interface EmployeeMatch {
 export class HrbpDashboardComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
+  // Data properties
   opportunities: Opportunity[] = [];
   filteredOpportunities: Opportunity[] = [];
   employees: Employee[] = [];
-  selectedOpportunity: Opportunity | null = null;
-  selectedEmployee: Employee | null = null;
   employeeMatches: EmployeeMatch[] = [];
   skillsAnalytics: SkillsAnalytics | null = null;
 
   // UI state
-  showEmployeePanel = false;
-  showInstructionPopup = false;
-  selectedTabIndex = 0;
+  dashboardState: DashboardState = {
+    isLoading: false,
+    error: null,
+    selectedOpportunity: null,
+    selectedEmployee: null,
+    showEmployeePanel: false,
+    showInstructionPopup: false,
+    selectedTabIndex: 0
+  };
+  
+  // Matches table configuration
+  matchesDisplayedColumns: string[] = ['employee', 'opportunity', 'assignmentDate', 'duration', 'location', 'skillsMatch', 'actions'];
 
   // Filter state
   filterState: FilterState;
   
-  filterOptions: any = {};
-  filterLabels: any = {
+  filterOptions: Record<string, string[]> = {};
+  filterLabels: Record<string, string> = {
     department: 'Department',
     location: 'Location',
     skills: 'Skills',
@@ -105,6 +119,9 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     rotationInterest: 'Rotation Interest',
     rotationLength: 'Duration'
   };
+
+  // Constants
+  readonly CONSTANTS = APP_CONSTANTS;
 
   constructor(
     private opportunityService: OpportunityService,
@@ -128,83 +145,57 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   }
 
   loadOpportunities(): void {
+    this.dashboardState.isLoading = true;
+    this.dashboardState.error = null;
+    
     this.opportunityService.getOpportunities()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(opportunities => {
-        this.opportunities = opportunities;
-        this.filteredOpportunities = opportunities;
-        this.filterOptions = this.filterService.extractFilterOptions(opportunities);
-        this.updateSkillsAnalytics();
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => this.dashboardState.isLoading = false)
+      )
+      .subscribe({
+        next: opportunities => {
+          this.opportunities = opportunities;
+          this.filteredOpportunities = opportunities;
+          this.filterOptions = this.filterService.extractFilterOptions(opportunities);
+          this.updateSkillsAnalytics();
+        },
+        error: error => {
+          this.dashboardState.error = 'Failed to load opportunities. Please try again.';
+          this.snackBar.open(this.dashboardState.error, 'Close', { 
+            duration: this.CONSTANTS.SNACKBAR_DURATION.MEDIUM 
+          });
+        }
       });
   }
 
   loadEmployees(): void {
+    this.dashboardState.isLoading = true;
+    
     this.employeeService.getEmployees()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(employees => {
-        this.employees = employees;
-        this.updateSkillsAnalytics();
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => this.dashboardState.isLoading = false)
+      )
+      .subscribe({
+        next: employees => {
+          this.employees = employees;
+          this.updateSkillsAnalytics();
+        },
+        error: error => {
+          this.dashboardState.error = 'Failed to load employees. Please try again.';
+          this.snackBar.open(this.dashboardState.error, 'Close', { 
+            duration: this.CONSTANTS.SNACKBAR_DURATION.MEDIUM 
+          });
+        }
       });
   }
 
   updateSkillsAnalytics(): void {
     if (this.opportunities.length > 0 && this.employees.length > 0) {
-      // Calculate analytics directly from the loaded data
-      const uniqueSkills = new Set<string>();
-      
-      // Collect all skills from opportunities
-      this.opportunities.forEach(opp => {
-        opp.requiredSkills.forEach(skill => uniqueSkills.add(skill));
-        opp.preferredSkills.forEach(skill => uniqueSkills.add(skill));
-      });
-      
-      // Collect all skills from employees
-      this.employees.forEach(emp => {
-        emp.skills.forEach(skill => uniqueSkills.add(skill));
-      });
-      
-      // Create analytics object with actual data
-      // Calculate skill gaps for consistent data
-      const skillDemandMap = new Map<string, number>();
-      this.opportunities.forEach(opp => {
-        [...opp.requiredSkills, ...opp.preferredSkills].forEach(skill => {
-          skillDemandMap.set(skill, (skillDemandMap.get(skill) || 0) + 1);
-        });
-      });
-
-      const skillSupplyMap = new Map<string, number>();
-      this.employees.forEach(emp => {
-        emp.skills.forEach(skill => {
-          skillSupplyMap.set(skill, (skillSupplyMap.get(skill) || 0) + 1);
-        });
-      });
-
-      const skillGaps: any[] = [];
-      const allSkills = new Set([...skillDemandMap.keys(), ...skillSupplyMap.keys()]);
-      
-      allSkills.forEach(skill => {
-        const demand = skillDemandMap.get(skill) || 0;
-        const supply = skillSupplyMap.get(skill) || 0;
-        const gap = demand - supply;
-        
-        let status: string;
-        if (gap > 0) {
-          status = 'shortage';
-        } else if (gap < 0) {
-          status = 'surplus';
-        } else {
-          status = 'balanced';
-        }
-        
-        skillGaps.push({
-          skill,
-          demand,
-          supply,
-          gap: Math.abs(gap),
-          status,
-          severity: Math.abs(gap) > 3 ? 'critical' : Math.abs(gap) > 1 ? 'moderate' : 'low'
-        });
-      });
+      const uniqueSkills = this.extractUniqueSkills();
+      const { skillDemandMap, skillSupplyMap } = this.calculateSkillMaps();
+      const skillGaps = this.calculateSkillGaps(skillDemandMap, skillSupplyMap);
 
       this.skillsAnalytics = {
         totalUniqueSkills: uniqueSkills.size,
@@ -216,6 +207,71 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  private extractUniqueSkills(): Set<string> {
+    const uniqueSkills = new Set<string>();
+    
+    this.opportunities.forEach(opp => {
+      opp.requiredSkills.forEach(skill => uniqueSkills.add(skill));
+      opp.preferredSkills.forEach(skill => uniqueSkills.add(skill));
+    });
+    
+    this.employees.forEach(emp => {
+      emp.skills.forEach(skill => uniqueSkills.add(skill));
+    });
+    
+    return uniqueSkills;
+  }
+
+  private calculateSkillMaps(): { skillDemandMap: Map<string, number>, skillSupplyMap: Map<string, number> } {
+    const skillDemandMap = new Map<string, number>();
+    const skillSupplyMap = new Map<string, number>();
+
+    this.opportunities.forEach(opp => {
+      [...opp.requiredSkills, ...opp.preferredSkills].forEach(skill => {
+        skillDemandMap.set(skill, (skillDemandMap.get(skill) || 0) + 1);
+      });
+    });
+
+    this.employees.forEach(emp => {
+      emp.skills.forEach(skill => {
+        skillSupplyMap.set(skill, (skillSupplyMap.get(skill) || 0) + 1);
+      });
+    });
+
+    return { skillDemandMap, skillSupplyMap };
+  }
+
+  private calculateSkillGaps(skillDemandMap: Map<string, number>, skillSupplyMap: Map<string, number>): SkillGap[] {
+    const skillGaps: SkillGap[] = [];
+    const allSkills = new Set([...skillDemandMap.keys(), ...skillSupplyMap.keys()]);
+    
+    allSkills.forEach(skill => {
+      const demand = skillDemandMap.get(skill) || 0;
+      const supply = skillSupplyMap.get(skill) || 0;
+      const gap = demand - supply;
+      
+      let status: 'shortage' | 'balanced' | 'surplus';
+      if (gap > 0) {
+        status = 'shortage';
+      } else if (gap < 0) {
+        status = 'surplus';
+      } else {
+        status = 'balanced';
+      }
+      
+      skillGaps.push({
+        skill,
+        demand,
+        supply,
+        gap: Math.abs(gap),
+        status,
+        severity: Math.abs(gap) > 3 ? 'critical' : Math.abs(gap) > 1 ? 'moderate' : 'low'
+      });
+    });
+
+    return skillGaps;
+  }
+
   getSkillShortages(): number {
     if (!this.skillsAnalytics?.skillGaps) return 0;
     return this.skillsAnalytics.skillGaps.filter(gap => gap.status === 'shortage').length;
@@ -224,6 +280,141 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   getCurrentMatches(): number {
     // Count opportunities that have been assigned to employees
     return this.opportunities.filter(opp => opp.assignedEmployeeId).length;
+  }
+
+  getUniqueAssignedEmployees(): number {
+    const assignedEmployeeIds = new Set(
+      this.opportunities
+        .filter(opp => opp.assignedEmployeeId)
+        .map(opp => opp.assignedEmployeeId)
+    );
+    return assignedEmployeeIds.size;
+  }
+
+  getMatchCompletionRate(): number {
+    if (this.opportunities.length === 0) return 0;
+    const completionRate = (this.getCurrentMatches() / this.opportunities.length) * 100;
+    return Math.round(completionRate);
+  }
+
+  getMatchesTableData(): MatchTableData[] {
+    return this.opportunities
+      .filter(opp => opp.assignedEmployeeId && opp.assignedEmployee)
+      .map(opp => {
+        const employee = opp.assignedEmployee!;
+        const matchingSkills = this.calculateMatchingSkills(employee, opp);
+        
+        return {
+          opportunityId: opp.id,
+          employeeId: opp.assignedEmployeeId!,
+          employeeName: employee.name,
+          employeeRole: employee.currentRole,
+          opportunityTitle: opp.title,
+          opportunityDepartment: opp.department,
+          assignmentDate: opp.assignmentDate || new Date().toISOString(),
+          duration: opp.duration || 'Not specified',
+          location: opp.location,
+          remote: opp.remote,
+          matchingSkills: matchingSkills
+        };
+      });
+  }
+
+  private calculateMatchingSkills(employee: Employee, opportunity: Opportunity): string[] {
+    const employeeSkills = new Set(employee.skills);
+    const requiredSkills = opportunity.requiredSkills || [];
+    const preferredSkills = opportunity.preferredSkills || [];
+    const allOpportunitySkills = [...requiredSkills, ...preferredSkills];
+    
+    return allOpportunitySkills.filter(skill => employeeSkills.has(skill));
+  }
+
+  exportMatchesToCSV(): void {
+    const matchesData = this.getMatchesTableData();
+    
+    if (matchesData.length === 0) {
+      this.snackBar.open('No matches to export', 'Close', { 
+        duration: this.CONSTANTS.SNACKBAR_DURATION.SHORT 
+      });
+      return;
+    }
+
+    const csvContent = this.generateCSVContent(matchesData);
+    this.downloadCSVFile(csvContent);
+
+    this.snackBar.open('Matches exported successfully', 'Close', { 
+      duration: this.CONSTANTS.SNACKBAR_DURATION.SHORT 
+    });
+  }
+
+  private generateCSVContent(matchesData: MatchTableData[]): string {
+    const headers = [
+      'Employee Name', 'Employee Role', 'Opportunity Title', 'Department',
+      'Assignment Date', 'Duration', 'Location', 'Remote', 'Matching Skills'
+    ];
+
+    const csvRows = matchesData.map(match => [
+      match.employeeName,
+      match.employeeRole,
+      match.opportunityTitle,
+      match.opportunityDepartment,
+      new Date(match.assignmentDate).toLocaleDateString(),
+      match.duration,
+      match.location,
+      match.remote ? 'Yes' : 'No',
+      match.matchingSkills.join(this.CONSTANTS.CSV_EXPORT.FIELD_SEPARATOR)
+    ]);
+
+    return [
+      headers.join(','),
+      ...csvRows.map(row => row.map(field => 
+        `${this.CONSTANTS.CSV_EXPORT.QUOTE_CHAR}${field}${this.CONSTANTS.CSV_EXPORT.QUOTE_CHAR}`
+      ).join(','))
+    ].join('\n');
+  }
+
+  private downloadCSVFile(csvContent: string): void {
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    const fileName = `matches-summary-${new Date().toISOString().split('T')[0]}.csv`;
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', fileName);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  viewMatchDetails(match: MatchTableData): void {
+    const opportunity = this.opportunities.find(opp => opp.id === match.opportunityId);
+    if (opportunity) {
+      this.openOpportunityModal(opportunity);
+    }
+  }
+
+  removeMatch(match: MatchTableData): void {
+    const opportunity = this.opportunities.find(opp => opp.id === match.opportunityId);
+    if (opportunity) {
+      this.opportunityService.removeAssignment(opportunity.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.snackBar.open('Assignment removed successfully', 'Close', { 
+              duration: this.CONSTANTS.SNACKBAR_DURATION.SHORT 
+            });
+            this.loadOpportunities(); // Refresh data
+          },
+          error: (error: any) => {
+            this.dashboardState.error = 'Failed to remove assignment. Please try again.';
+            this.snackBar.open(this.dashboardState.error, 'Close', { 
+              duration: this.CONSTANTS.SNACKBAR_DURATION.SHORT 
+            });
+          }
+        });
+    }
   }
 
   getFilteredOpportunities(): Opportunity[] {
@@ -267,16 +458,16 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     };
 
     this.dialog.open(OpportunityModalComponent, {
-      width: '800px',
-      maxWidth: '90vw',
+      width: this.CONSTANTS.DIALOG_CONFIG.OPPORTUNITY_MODAL.width,
+      maxWidth: this.CONSTANTS.DIALOG_CONFIG.OPPORTUNITY_MODAL.maxWidth,
       data: { match }
     });
   }
 
   openEmployeeModal(employee: Employee): void {
     this.dialog.open(EmployeeDetailModalComponent, {
-      width: '800px',
-      maxWidth: '90vw',
+      width: this.CONSTANTS.DIALOG_CONFIG.EMPLOYEE_DETAIL.maxWidth,
+      maxWidth: this.CONSTANTS.DIALOG_CONFIG.EMPLOYEE_DETAIL.width,
       data: { employee }
     });
   }
@@ -299,25 +490,23 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
       // Calculate base match score
       let score = 0;
       
-      // Skills match (40% weight)
+      // Skills match weight
       const skillMatchRatio = matchingSkills.length / (opportunity.requiredSkills.length + opportunity.preferredSkills.length);
-      score += skillMatchRatio * 40;
+      score += skillMatchRatio * this.CONSTANTS.SCORING_WEIGHTS.SKILLS_MATCH;
       
-      // Performance rating (20% weight)
-      const performanceScore = employee.performanceRating === 'Outstanding' ? 5 : 
-                               employee.performanceRating === 'Exceeds' ? 4 : 
-                               employee.performanceRating === 'Meets' ? 3 : 2;
-      score += (performanceScore / 5) * 20;
+      // Performance rating weight
+      const performanceScore = this.CONSTANTS.PERFORMANCE_SCORES[employee.performanceRating] || 2;
+      score += (performanceScore / 5) * this.CONSTANTS.SCORING_WEIGHTS.PERFORMANCE;
       
-      // Career interest alignment (20% weight)
+      // Career interest alignment weight
       const interestAlignment = this.calculateInterestAlignment(employee, opportunity);
-      score += interestAlignment * 20;
+      score += interestAlignment * this.CONSTANTS.SCORING_WEIGHTS.CAREER_INTEREST;
       
-      // Availability and rotation interest (20% weight)
+      // Availability and rotation interest weight
       if (employee.confirmedInterestInRotation && employee.leadershipSupportOfRotation) {
-        score += 20;
+        score += this.CONSTANTS.SCORING_WEIGHTS.AVAILABILITY;
       } else if (employee.confirmedInterestInRotation || employee.leadershipSupportOfRotation) {
-        score += 10;
+        score += this.CONSTANTS.SCORING_WEIGHTS.AVAILABILITY / 2;
       }
 
       // Add opportunity-specific adjustments to create variety
@@ -377,36 +566,38 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
 
   filterAndSortForOpportunity(matches: EmployeeMatch[], opportunity: Opportunity): EmployeeMatch[] {
     // Filter out employees with very low scores and limit results
-    let filteredMatches = matches.filter(match => match.matchScore > 20);
+    let filteredMatches = matches.filter(match => match.matchScore > this.CONSTANTS.MATCH_SCORES.MINIMUM);
     
     // Sort by match score
     filteredMatches.sort((a, b) => b.matchScore - a.matchScore);
     
-    // Limit to top 6-8 matches per opportunity for variety
-    const maxMatches = opportunity.id === '5' ? 3 : Math.min(8, Math.max(5, filteredMatches.length));
+    // Limit to top matches per opportunity for variety
+    const maxMatches = opportunity.id === '5' ? 
+      this.CONSTANTS.MATCH_LIMITS.SPECIAL_CASE_MAX : 
+      Math.min(this.CONSTANTS.MATCH_LIMITS.DEFAULT_MAX, Math.max(this.CONSTANTS.MATCH_LIMITS.DEFAULT_MIN, filteredMatches.length));
     
     return filteredMatches.slice(0, maxMatches);
   }
 
   getExcellentMatches(): EmployeeMatch[] {
-    return this.employeeMatches.filter(match => match.matchScore >= 90);
+    return this.employeeMatches.filter(match => match.matchScore >= this.CONSTANTS.MATCH_SCORES.EXCELLENT);
   }
 
   getOtherMatches(): EmployeeMatch[] {
-    return this.employeeMatches.filter(match => match.matchScore < 90);
+    return this.employeeMatches.filter(match => match.matchScore < this.CONSTANTS.MATCH_SCORES.EXCELLENT);
   }
 
   closeEmployeePanel(): void {
-    this.showEmployeePanel = false;
+    this.dashboardState.showEmployeePanel = false;
     // Clear selected employee match state
   }
 
   toggleInstructionPopup(): void {
-    this.showInstructionPopup = !this.showInstructionPopup;
+    this.dashboardState.showInstructionPopup = !this.dashboardState.showInstructionPopup;
   }
 
   onTabChange(index: number): void {
-    this.selectedTabIndex = index;
+    this.dashboardState.selectedTabIndex = index;
   }
 
   showEmployeeDetails(employee: Employee): void {
@@ -414,86 +605,86 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   }
 
   onOpportunityClick(opportunity: Opportunity): void {
-    this.selectedOpportunity = opportunity;
+    this.dashboardState.selectedOpportunity = opportunity;
     this.calculateEmployeeMatches(opportunity);
-    this.showEmployeePanel = true;
+    this.dashboardState.showEmployeePanel = true;
   }
 
   onEmployeeClick(employee: Employee): void {
-    this.selectedEmployee = employee;
+    this.dashboardState.selectedEmployee = employee;
   }
 
   // Quick assignment functionality
   canQuickAssign(): boolean {
-    return !!(this.selectedOpportunity && this.selectedEmployee && !this.selectedOpportunity.assignedEmployee);
+    return !!(this.dashboardState.selectedOpportunity && this.dashboardState.selectedEmployee && !this.dashboardState.selectedOpportunity.assignedEmployee);
   }
 
   quickAssignEmployee(): void {
-    if (!this.selectedOpportunity || !this.selectedEmployee) return;
+    if (!this.dashboardState.selectedOpportunity || !this.dashboardState.selectedEmployee) return;
     
-    this.opportunityService.assignEmployee(this.selectedOpportunity.id, this.selectedEmployee.id, this.selectedEmployee)
+    this.opportunityService.assignEmployee(this.dashboardState.selectedOpportunity.id, this.dashboardState.selectedEmployee.id, this.dashboardState.selectedEmployee)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           this.snackBar.open(
-            `Assigned ${this.selectedEmployee!.name} to ${this.selectedOpportunity!.title}`,
+            `Assigned ${this.dashboardState.selectedEmployee!.name} to ${this.dashboardState.selectedOpportunity!.title}`,
             'Close',
-            { duration: 4000 }
+            { duration: this.CONSTANTS.SNACKBAR_DURATION.MEDIUM }
           );
           this.loadOpportunities(); // Refresh data
-          this.selectedEmployee = null; // Clear selection
+          this.dashboardState.selectedEmployee = null; // Clear selection
           // Recalculate matches to exclude newly assigned employee
-          if (this.selectedOpportunity) {
-            this.calculateEmployeeMatches(this.selectedOpportunity);
+          if (this.dashboardState.selectedOpportunity) {
+            this.calculateEmployeeMatches(this.dashboardState.selectedOpportunity);
           }
         },
         error: (error) => {
           this.snackBar.open(
             'Failed to assign employee. Please try again.',
             'Close',
-            { duration: 3000 }
+            { duration: this.CONSTANTS.SNACKBAR_DURATION.SHORT }
           );
         }
       });
   }
 
   quickRemoveAssignment(): void {
-    if (!this.selectedOpportunity?.assignedEmployee) return;
+    if (!this.dashboardState.selectedOpportunity?.assignedEmployee) return;
     
-    this.opportunityService.removeAssignment(this.selectedOpportunity.id)
+    this.opportunityService.removeAssignment(this.dashboardState.selectedOpportunity.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           this.snackBar.open(
-            `Removed assignment from ${this.selectedOpportunity!.title}`,
+            `Removed assignment from ${this.dashboardState.selectedOpportunity!.title}`,
             'Close',
-            { duration: 3000 }
+            { duration: this.CONSTANTS.SNACKBAR_DURATION.SHORT }
           );
           this.loadOpportunities(); // Refresh data
           // Recalculate matches to include newly available employee
-          if (this.selectedOpportunity) {
-            this.calculateEmployeeMatches(this.selectedOpportunity);
+          if (this.dashboardState.selectedOpportunity) {
+            this.calculateEmployeeMatches(this.dashboardState.selectedOpportunity);
           }
         },
         error: (error) => {
           this.snackBar.open(
             'Failed to remove assignment. Please try again.',
             'Close',
-            { duration: 3000 }
+            { duration: this.CONSTANTS.SNACKBAR_DURATION.SHORT }
           );
         }
       });
   }
 
   getEmployeeMatchScore(employee: Employee): number {
-    if (!this.selectedOpportunity) return 0;
+    if (!this.dashboardState.selectedOpportunity) return 0;
     const match = this.employeeMatches.find(m => m.employee.id === employee.id);
     return match ? Math.round(match.matchScore) : 0;
   }
 
   getMatchScoreClass(score: number): string {
-    if (score >= 80) return 'high-match';
-    if (score >= 60) return 'medium-match';
+    if (score >= this.CONSTANTS.MATCH_SCORES.VERY_GOOD) return 'high-match';
+    if (score >= this.CONSTANTS.MATCH_SCORES.FAIR) return 'medium-match';
     return 'low-match';
   }
 
@@ -503,11 +694,11 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     return this.employeeMatches[0]; // Highest scoring match
   }
 
-  getRecommendationConfidence(match: EmployeeMatch): string {
-    if (match.matchScore >= 90) return 'Excellent';
-    if (match.matchScore >= 80) return 'Very Good';
-    if (match.matchScore >= 70) return 'Good';
-    if (match.matchScore >= 60) return 'Fair';
+  getRecommendationConfidence(match: EmployeeMatch): 'Excellent' | 'Very Good' | 'Good' | 'Fair' | 'Poor' {
+    if (match.matchScore >= this.CONSTANTS.MATCH_SCORES.EXCELLENT) return 'Excellent';
+    if (match.matchScore >= this.CONSTANTS.MATCH_SCORES.VERY_GOOD) return 'Very Good';
+    if (match.matchScore >= this.CONSTANTS.MATCH_SCORES.GOOD) return 'Good';
+    if (match.matchScore >= this.CONSTANTS.MATCH_SCORES.FAIR) return 'Fair';
     return 'Poor';
   }
 
@@ -541,11 +732,11 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   }
 
   getSkillMatchPercentage(employee: Employee): number {
-    if (!this.selectedOpportunity) return 0;
+    if (!this.dashboardState.selectedOpportunity) return 0;
     const match = this.employeeMatches.find(m => m.employee.id === employee.id);
     if (!match) return 0;
     
-    const totalSkills = this.selectedOpportunity.requiredSkills.length + this.selectedOpportunity.preferredSkills.length;
+    const totalSkills = this.dashboardState.selectedOpportunity.requiredSkills.length + this.dashboardState.selectedOpportunity.preferredSkills.length;
     return totalSkills > 0 ? Math.round((match.matchingSkills.length / totalSkills) * 100) : 0;
   }
 

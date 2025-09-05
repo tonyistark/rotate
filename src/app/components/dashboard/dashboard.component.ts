@@ -11,6 +11,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { OpportunityService } from '../../services/opportunity.service';
 import { Opportunity, Employee } from '../../models/employee.model';
+import { BaseComponent } from '../../shared/base/base.component';
+import { UtilsService } from '../../shared/services/utils.service';
+import { FilterService } from '../../shared/services/filter.service';
 
 interface TeamMetrics {
   totalMembers: number;
@@ -55,7 +58,7 @@ interface RotationEvent {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent extends BaseComponent implements OnInit {
   teamMetrics: TeamMetrics = {
     totalMembers: 0,
     activeRotations: 0,
@@ -256,11 +259,19 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private opportunityService: OpportunityService
-  ) {}
+    private opportunityService: OpportunityService,
+    utilsService: UtilsService,
+    filterService: FilterService
+  ) {
+    super(utilsService, filterService);
+  }
 
   ngOnInit(): void {
     this.loadDashboardData();
+  }
+
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
   }
 
   loadDashboardData(): void {
@@ -385,7 +396,7 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/manager']);
   }
 
-  getPerformanceColor(rating: string): string {
+  override getPerformanceColor(rating: string): string {
     switch (rating) {
       case 'Outstanding': return 'success';
       case 'Exceeds': return 'primary';
@@ -395,7 +406,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getAttritionRiskColor(risk: number): string {
+  override getAttritionRiskColor(risk: number): string {
     if (risk <= 15) return 'success';
     if (risk <= 30) return 'warn';
     return 'danger';
@@ -417,13 +428,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  formatDate(date: Date): string {
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  }
+  // formatDate method now inherited from BaseComponent
 
   getRotationTypeIcon(type: string): string {
     switch (type) {

@@ -1,0 +1,263 @@
+<div class="admin-container">
+  <!-- Header Section -->
+  <div class="admin-header">
+    <div class="header-content">
+      <div class="title-section">
+        <mat-icon class="admin-icon">admin_panel_settings</mat-icon>
+        <div class="title-text">
+          <div class="title-with-help">
+            <h1>Admin Dashboard</h1>
+            <button mat-icon-button 
+                    class="help-button"
+                    (click)="toggleHelpPopup()"
+                    matTooltip="Help">
+              <mat-icon>help</mat-icon>
+            </button>
+          </div>
+          <p>Upload and manage opportunities and employees data</p>
+        </div>
+      </div>
+      
+      <div class="stats-section">
+        <div class="stat-card">
+          <mat-icon>work</mat-icon>
+          <div class="stat-info">
+            <span class="stat-value">{{ currentOpportunities }}</span>
+            <span class="stat-label">Opportunities</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <mat-icon>people</mat-icon>
+          <div class="stat-info">
+            <span class="stat-value">{{ currentEmployees }}</span>
+            <span class="stat-label">Employees</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Sections -->
+  <div class="upload-sections">
+    
+    <!-- Opportunities Upload Section -->
+    <mat-card class="upload-card">
+      <mat-card-header>
+        <div mat-card-avatar class="upload-avatar opportunities-avatar">
+          <mat-icon>work</mat-icon>
+        </div>
+        <mat-card-title>Upload Opportunities</mat-card-title>
+        <mat-card-subtitle>Import opportunities data from CSV file</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <!-- File Upload Section -->
+        <div class="file-upload-section">
+          <div class="upload-area" 
+               [class.has-file]="opportunitiesFile"
+               [class.uploading]="opportunitiesUploading">
+            
+            <input type="file" 
+                   id="opportunities-file-input"
+                   accept=".csv"
+                   (change)="onOpportunitiesFileSelected($event)"
+                   hidden>
+            
+            <div class="upload-content" *ngIf="!opportunitiesFile">
+              <mat-icon class="upload-icon">cloud_upload</mat-icon>
+              <h3>Select CSV File</h3>
+              <p>Choose a CSV file containing opportunities data</p>
+              <button mat-raised-button 
+                      color="primary"
+                      (click)="triggerOpportunitiesFileInput()">
+                <mat-icon>folder_open</mat-icon>
+                Browse Files
+              </button>
+            </div>
+            
+            <div class="file-selected" *ngIf="opportunitiesFile && !opportunitiesUploading">
+              <mat-icon class="file-icon">description</mat-icon>
+              <div class="file-info">
+                <span class="file-name">{{ opportunitiesFile.name }}</span>
+                <span class="file-size">{{ (opportunitiesFile.size / 1024).toFixed(1) }} KB</span>
+              </div>
+              <button mat-icon-button 
+                      color="warn"
+                      (click)="clearOpportunitiesFile()"
+                      matTooltip="Remove file">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            
+            <div class="uploading-state" *ngIf="opportunitiesUploading">
+              <mat-spinner diameter="40"></mat-spinner>
+              <p>Uploading opportunities...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Result -->
+        <div class="upload-result" *ngIf="opportunitiesResult">
+          <mat-card class="result-card" 
+                    [class.success]="opportunitiesResult.success"
+                    [class.error]="!opportunitiesResult.success">
+            <div class="result-content">
+              <mat-icon class="result-icon">
+                {{ opportunitiesResult.success ? 'check_circle' : 'error' }}
+              </mat-icon>
+              <div class="result-text">
+                <span class="result-message">{{ opportunitiesResult.message }}</span>
+                <span class="result-count" *ngIf="opportunitiesResult.count">
+                  {{ opportunitiesResult.count }} records processed
+                </span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <button mat-raised-button 
+                color="primary"
+                [disabled]="!opportunitiesFile || opportunitiesUploading"
+                (click)="uploadOpportunities()">
+          <mat-icon>upload</mat-icon>
+          Upload Opportunities
+        </button>
+        
+        <button mat-button 
+                (click)="downloadOpportunitiesSample()">
+          <mat-icon>download</mat-icon>
+          Download Sample CSV
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Employees Upload Section -->
+    <mat-card class="upload-card">
+      <mat-card-header>
+        <div mat-card-avatar class="upload-avatar employees-avatar">
+          <mat-icon>people</mat-icon>
+        </div>
+        <mat-card-title>Upload Employees</mat-card-title>
+        <mat-card-subtitle>Import employee data from CSV file</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <!-- File Upload Section -->
+        <div class="file-upload-section">
+          <div class="upload-area" 
+               [class.has-file]="employeesFile"
+               [class.uploading]="employeesUploading">
+            
+            <input type="file" 
+                   id="employees-file-input"
+                   accept=".csv"
+                   (change)="onEmployeesFileSelected($event)"
+                   hidden>
+            
+            <div class="upload-content" *ngIf="!employeesFile">
+              <mat-icon class="upload-icon">cloud_upload</mat-icon>
+              <h3>Select CSV File</h3>
+              <p>Choose a CSV file containing employee data</p>
+              <button mat-raised-button 
+                      color="primary"
+                      (click)="triggerEmployeesFileInput()">
+                <mat-icon>folder_open</mat-icon>
+                Browse Files
+              </button>
+            </div>
+            
+            <div class="file-selected" *ngIf="employeesFile && !employeesUploading">
+              <mat-icon class="file-icon">description</mat-icon>
+              <div class="file-info">
+                <span class="file-name">{{ employeesFile.name }}</span>
+                <span class="file-size">{{ (employeesFile.size / 1024).toFixed(1) }} KB</span>
+              </div>
+              <button mat-icon-button 
+                      color="warn"
+                      (click)="clearEmployeesFile()"
+                      matTooltip="Remove file">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            
+            <div class="uploading-state" *ngIf="employeesUploading">
+              <mat-spinner diameter="40"></mat-spinner>
+              <p>Uploading employees...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Result -->
+        <div class="upload-result" *ngIf="employeesResult">
+          <mat-card class="result-card" 
+                    [class.success]="employeesResult.success"
+                    [class.error]="!employeesResult.success">
+            <div class="result-content">
+              <mat-icon class="result-icon">
+                {{ employeesResult.success ? 'check_circle' : 'error' }}
+              </mat-icon>
+              <div class="result-text">
+                <span class="result-message">{{ employeesResult.message }}</span>
+                <span class="result-count" *ngIf="employeesResult.count">
+                  {{ employeesResult.count }} records processed
+                </span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <button mat-raised-button 
+                color="primary"
+                [disabled]="!employeesFile || employeesUploading"
+                (click)="uploadEmployees()">
+          <mat-icon>upload</mat-icon>
+          Upload Employees
+        </button>
+        
+        <button mat-button 
+                (click)="downloadEmployeesSample()">
+          <mat-icon>download</mat-icon>
+          Download Sample CSV
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Help Popup - Floating Overlay -->
+  <div class="help-overlay" *ngIf="showHelpPopup" [@slideIn] (click)="toggleHelpPopup()">
+    <mat-card class="popup-card" (click)="$event.stopPropagation()">
+      <mat-card-header>
+        <mat-card-title>CSV Format Guidelines</mat-card-title>
+        <button mat-icon-button (click)="toggleHelpPopup()" class="close-button">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="help-content">
+          <h4>🔹 Opportunities CSV</h4>
+          <p><strong>Required:</strong> title, department</p>
+          <p><strong>Optional:</strong> id, location, description, requiredSkills, duration, startDate, priority, status, remote, experienceLevel, workType</p>
+          <p><strong>Skills:</strong> separated by semicolons (;)</p>
+          
+          <h4>👥 Employees CSV</h4>
+          <p><strong>Required:</strong> name, email</p>
+          <p><strong>Optional:</strong> id, department, role, location, skills, experience, availability, performanceRating, remote, workType</p>
+          <p><strong>Skills:</strong> separated by semicolons (;)</p>
+          
+          <h4>⚙️ General Rules</h4>
+          <ul>
+            <li>First row must contain column headers</li>
+            <li>Use double quotes for text containing commas</li>
+            <li>Boolean values: true/false, 1/0, or yes/no</li>
+            <li>Download sample files to see exact format</li>
+          </ul>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

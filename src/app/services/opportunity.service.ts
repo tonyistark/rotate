@@ -124,6 +124,28 @@ export class OpportunityService {
     });
   }
 
+  uploadOpportunities(opportunities: Opportunity[]): Promise<void> {
+    return new Promise((resolve, reject) => {
+      try {
+        // Add unique IDs to opportunities that don't have them
+        const processedOpportunities = opportunities.map(opp => ({
+          ...opp,
+          id: opp.id || this.generateId()
+        }));
+
+        // Replace existing opportunities with uploaded ones
+        this.opportunities = processedOpportunities;
+        this.opportunitiesSubject.next([...this.opportunities]);
+        
+        console.log(`Successfully uploaded ${opportunities.length} opportunities`);
+        resolve();
+      } catch (error) {
+        console.error('Error uploading opportunities:', error);
+        reject(error);
+      }
+    });
+  }
+
   private generateId(): string {
     return 'opp_' + Math.random().toString(36).substr(2, 9);
   }

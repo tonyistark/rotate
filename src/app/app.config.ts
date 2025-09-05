@@ -13,6 +13,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { routes } from './app.routes';
@@ -34,6 +38,10 @@ export const appConfig: ApplicationConfig = {
       MatGridListModule,
       MatDividerModule,
       MatBadgeModule,
+      MatSnackBarModule,
+      MatDialogModule,
+      MatProgressSpinnerModule,
+      MatTooltipModule,
       ReactiveFormsModule
     )
   ]

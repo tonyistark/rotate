@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { BaseComponent } from '../../shared/base/base.component';
+import { UtilsService } from '../../shared/services/utils.service';
+import { FilterService } from '../../shared/services/filter.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -40,7 +43,7 @@ interface TeamMemberMatch {
   templateUrl: './opportunities-list.component.html',
   styleUrls: ['./opportunities-list.component.scss']
 })
-export class OpportunitiesListComponent implements OnInit {
+export class OpportunitiesListComponent extends BaseComponent implements OnInit, OnDestroy {
   opportunities: Opportunity[] = [];
   filteredOpportunities: Opportunity[] = [];
   loading = false;
@@ -239,8 +242,12 @@ export class OpportunitiesListComponent implements OnInit {
     private router: Router,
     private opportunityService: OpportunityService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    utilsService: UtilsService,
+    filterService: FilterService
+  ) {
+    super(utilsService, filterService);
+  }
 
   ngOnInit(): void {
     this.loadOpportunities();
@@ -292,18 +299,9 @@ export class OpportunitiesListComponent implements OnInit {
     this.applyFilters();
   }
 
-  formatDate(dateString: string): string {
-    if (!dateString || dateString.trim() === '') {
-      return 'Not set';
-    }
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-      return 'Not set';
-    }
-    return date.toLocaleDateString();
-  }
+  // formatDate method now inherited from BaseComponent
 
-  getLevelColor(level: string): string {
+  override getLevelColor(level: string): string {
     switch (level) {
       case 'Entry': return 'primary';
       case 'Mid': return 'accent';

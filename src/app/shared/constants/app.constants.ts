@@ -31,8 +31,25 @@ export const APP_CONSTANTS = {
   // Match score thresholds
   MATCH_SCORES: {
     EXCELLENT: 90,
-    GOOD: 75,
-    FAIR: 60
+    VERY_GOOD: 80,
+    GOOD: 70,
+    FAIR: 60,
+    MINIMUM: 20
+  },
+
+  // Scoring algorithm weights
+  SCORING_WEIGHTS: {
+    SKILLS_MATCH: 40,
+    PERFORMANCE: 20,
+    CAREER_INTEREST: 20,
+    AVAILABILITY: 20
+  },
+
+  // Match result limits
+  MATCH_LIMITS: {
+    DEFAULT_MAX: 8,
+    DEFAULT_MIN: 5,
+    SPECIAL_CASE_MAX: 3
   },
 
   // Attrition risk thresholds
@@ -51,9 +68,23 @@ export const APP_CONSTANTS = {
       maxWidth: '1200px'
     },
     OPPORTUNITY_MODAL: {
-      width: '80vw',
-      maxWidth: '800px'
+      width: '800px',
+      maxWidth: '90vw'
     }
+  },
+
+  // Snackbar durations
+  SNACKBAR_DURATION: {
+    SHORT: 3000,
+    MEDIUM: 4000,
+    LONG: 5000
+  },
+
+  // CSV export settings
+  CSV_EXPORT: {
+    DATE_FORMAT: 'YYYY-MM-DD',
+    FIELD_SEPARATOR: '; ',
+    QUOTE_CHAR: '"'
   },
 
   // Animation durations

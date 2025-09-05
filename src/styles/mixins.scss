@@ -1,0 +1,234 @@
+// Shared SCSS Mixins for DRY CSS
+// This file contains reusable mixins to eliminate duplicate styling patterns
+
+// Gradient mixins for status indicators
+@mixin gradient-surplus {
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+}
+
+@mixin gradient-balanced {
+  background: linear-gradient(135deg, #2196f3, #1976d2);
+}
+
+@mixin gradient-shortage {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
+// Status colors mixin
+@mixin status-colors {
+  &.surplus {
+    color: #4caf50;
+    .summary-count { color: #4caf50; }
+    mat-icon { color: #4caf50; }
+  }
+  
+  &.balanced {
+    color: #2196f3;
+    .summary-count { color: #2196f3; }
+    mat-icon { color: #2196f3; }
+  }
+  
+  &.shortage {
+    color: #f44336;
+    .summary-count { color: #f44336; }
+    mat-icon { color: #f44336; }
+  }
+}
+
+// Interactive element mixin
+@mixin interactive-element {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Card styling mixin
+@mixin card-base($radius: var(--border-radius-lg)) {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+@mixin card-hover {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+}
+
+// Badge/Chip styling mixin
+@mixin badge-base($radius: var(--border-radius-xl)) {
+  padding: 6px 12px;
+  border-radius: $radius;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+@mixin performance-badge {
+  @include badge-base();
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+@mixin status-badge {
+  @include badge-base(var(--border-radius-md));
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+// Match score styling
+@mixin match-score-badge {
+  @include badge-base(var(--border-radius-md));
+  font-weight: 700;
+  
+  &.high-match {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: white;
+  }
+  
+  &.medium-match {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+    color: white;
+  }
+  
+  &.low-match {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    color: white;
+  }
+}
+
+// Loading and empty states
+@mixin loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--text-secondary);
+  
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+@mixin empty-state {
+  @include loading-state();
+  
+  mat-icon {
+    color: var(--text-muted);
+  }
+}
+
+// Form field consistency
+@mixin form-field-base {
+  .mat-mdc-form-field {
+    width: 100%;
+    
+    .mat-mdc-text-field-wrapper {
+      border-radius: var(--border-radius-md);
+    }
+  }
+}
+
+// Section header styling
+@mixin section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  
+  h2, h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  
+  .section-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 4px 0 0 0;
+  }
+}
+
+// Responsive grid layouts
+@mixin responsive-grid($min-width: 300px, $gap: 20px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+  gap: $gap;
+}
+
+// Animation utilities
+@mixin fade-in-animation {
+  animation: fadeIn 0.6s ease;
+}
+
+@mixin slide-up-animation {
+  animation: slideInUp 0.6s ease;
+}
+
+@mixin mobile-responsive {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Scrollbar styling
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-sm);
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: var(--border-radius-sm);
+    
+    &:hover {
+      background: var(--text-secondary);
+    }
+  }
+}
