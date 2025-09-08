@@ -68,15 +68,6 @@ export class ManagerDashboardComponent extends BaseComponent implements OnInit {
   }
 
 
-  override getPerformanceColor(rating: string): string {
-    switch (rating) {
-      case 'Outstanding': return '#4caf50';
-      case 'Exceeds': return '#2196f3';
-      case 'Meets': return '#ff9800';
-      case 'Below': return '#f44336';
-      default: return '#666';
-    }
-  }
 
   assignOpportunity(employeeId: string, opportunityId: string, opportunityTitle: string): void {
     this.managerService.assignOpportunityToEmployee(employeeId, opportunityId);

@@ -257,10 +257,8 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
   }
 
   loadJobLevels(): void {
-    console.log('Loading job levels...');
     this.jobLevelsService.getJobLevelsWithAll().subscribe({
       next: (levels) => {
-        console.log('Job levels loaded:', levels);
         this.levels = levels;
       },
       error: (error) => {
@@ -316,10 +314,6 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
   onLevelChange(): void {
     this.applyFilters();
   }
-
-  // formatDate method now inherited from BaseComponent
-
-
 
 
   viewOpportunityDetails(opportunity: Opportunity): void {

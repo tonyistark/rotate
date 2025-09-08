@@ -149,7 +149,7 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe(result => {
         if (result) {
-          console.log('Employee updated:', result);
+          // Employee updated successfully
         }
       });
   }

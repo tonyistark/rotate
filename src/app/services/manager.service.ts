@@ -30,7 +30,7 @@ export class ManagerService {
   private loadEmployeeData(): void {
     this.http.get<Employee[]>('/assets/data/employees.json')
       .pipe(
-        tap(employees => console.log('Loaded employees from JSON:', employees))
+        tap(employees => employees)
       )
       .subscribe({
         next: (employees) => {

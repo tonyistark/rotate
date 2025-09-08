@@ -123,15 +123,12 @@ export class MatchResultsComponent implements OnInit {
     }
   }
 
-  onApply(opportunityId: string): void {
-    const opportunity = this.matches.find(m => m.opportunity.id === opportunityId)?.opportunity;
-    if (opportunity) {
-      this.snackBar.open(
-        `Application submitted for "${opportunity.title}"! Your manager will be notified and you'll hear back within 5 business days.`,
-        'Close',
-        { duration: 5000 }
-      );
-    }
+  onApply(match: Match): void {
+    this.snackBar.open(
+      `Application submitted for "${match.opportunity.title}"! Your manager will be notified and you'll hear back within 5 business days.`,
+      'Close',
+      { duration: 5000 }
+    );
   }
 
   openModal(match: Match): void {

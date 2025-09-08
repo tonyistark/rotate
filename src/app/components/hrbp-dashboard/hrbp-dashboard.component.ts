@@ -217,7 +217,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (options) => {
           this.filterOptions = options;
-          console.log('Loaded all filter options:', options);
+          // Filter options loaded successfully
         },
         error: (error) => {
           console.error('Error loading filter options:', error);

@@ -53,7 +53,7 @@ export class EmployeeService {
         // Replace existing employees with uploaded ones
         this.employees = processedEmployees;
         
-        console.log(`Successfully uploaded ${employees.length} employees`);
+        // Successfully uploaded employees
         resolve();
       } catch (error) {
         console.error('Error uploading employees:', error);

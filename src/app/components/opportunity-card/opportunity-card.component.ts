@@ -7,6 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Match } from '../../models/employee.model';
+import { BaseComponent } from '../../shared/base/base.component';
+import { UtilsService } from '../../shared/services/utils.service';
+import { FilterService } from '../../shared/services/filter.service';
 
 @Component({
   selector: 'app-opportunity-card',
@@ -23,10 +26,18 @@ import { Match } from '../../models/employee.model';
   templateUrl: './opportunity-card.component.html',
   styleUrls: ['./opportunity-card.component.scss']
 })
-export class OpportunityCardComponent {
+export class OpportunityCardComponent extends BaseComponent {
   @Input() match!: Match;
-  @Output() apply = new EventEmitter<string>();
+  @Output() apply = new EventEmitter<Match>();
   @Output() cardClick = new EventEmitter<Match>();
+
+  constructor(
+    private snackBar: MatSnackBar,
+    utilsService: UtilsService,
+    filterService: FilterService
+  ) {
+    super(utilsService, filterService);
+  }
 
   getScoreClass(score: number): string {
     if (score >= 90) return 'match-score-high';
@@ -34,7 +45,7 @@ export class OpportunityCardComponent {
     return 'match-score-low';
   }
 
-  getLevelColor(level: string): string {
+  override getLevelColor(level: string): string {
     switch (level?.toLowerCase()) {
       case 'sr. vp':
       case 'managing vp':
@@ -55,9 +66,8 @@ export class OpportunityCardComponent {
     }
   }
 
-  constructor(private snackBar: MatSnackBar) { }
-
   onApply(): void {
+    this.apply.emit(this.match);
     this.snackBar.open(
       `Application submitted for ${this.match.opportunity.title}!`,
       'Close',
@@ -69,14 +79,4 @@ export class OpportunityCardComponent {
     this.cardClick.emit(this.match);
   }
 
-  formatDate(dateString: string): string {
-    if (!dateString || dateString.trim() === '') {
-      return 'Not set';
-    }
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-      return 'Not set';
-    }
-    return date.toLocaleDateString();
-  }
 }

@@ -393,15 +393,6 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     this.router.navigate(['/manager']);
   }
 
-  override getPerformanceColor(rating: string): string {
-    switch (rating) {
-      case 'Outstanding': return 'success';
-      case 'Exceeds': return 'primary';
-      case 'Meets': return 'accent';
-      case 'Below': return 'warn';
-      default: return 'warn';
-    }
-  }
 
   override getAttritionRiskColor(risk: number): string {
     if (risk <= 15) return 'success';
@@ -425,7 +416,6 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     }
   }
 
-  // formatDate method now inherited from BaseComponent
 
   getRotationTypeIcon(type: string): string {
     switch (type) {

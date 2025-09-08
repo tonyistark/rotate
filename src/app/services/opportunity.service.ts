@@ -18,7 +18,7 @@ export class OpportunityService {
   private loadOpportunityData(): void {
     this.http.get<Opportunity[]>('/assets/data/opportunities.json')
       .pipe(
-        tap(opportunities => console.log('Loaded opportunities from JSON:', opportunities))
+        tap(opportunities => opportunities)
       )
       .subscribe({
         next: (opportunities) => {
@@ -137,7 +137,7 @@ export class OpportunityService {
         this.opportunities = processedOpportunities;
         this.opportunitiesSubject.next([...this.opportunities]);
         
-        console.log(`Successfully uploaded ${opportunities.length} opportunities`);
+        // Successfully uploaded opportunities
         resolve();
       } catch (error) {
         console.error('Error uploading opportunities:', error);
