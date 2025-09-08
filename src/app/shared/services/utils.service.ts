@@ -90,17 +90,22 @@ export class UtilsService {
    */
   getLevelColor(level: string): string {
     switch (level?.toLowerCase()) {
-      case 'senior':
-      case 'lead':
-        return APP_CONSTANTS.COLORS.PRIMARY;
-      case 'mid':
-      case 'intermediate':
-        return APP_CONSTANTS.COLORS.ACCENT;
-      case 'junior':
-      case 'entry':
-        return APP_CONSTANTS.COLORS.WARN;
+      case 'sr. vp':
+      case 'managing vp':
+      case 'vp':
+        return 'warn';
+      case 'sr. director':
+      case 'director':
+        return 'accent';
+      case 'sr. manager':
+      case 'manager':
+        return 'primary';
+      case 'principal associate':
+      case 'sr. associate':
+        return 'accent';
+      case 'associate':
       default:
-        return APP_CONSTANTS.COLORS.BASIC;
+        return 'primary';
     }
   }
 

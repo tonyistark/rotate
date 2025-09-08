@@ -23,6 +23,8 @@ import { EmployeeService } from '../../services/employee.service';
 import { MatchingService } from '../../services/matching.service';
 import { SkillsAnalyticsService } from '../../services/skills-analytics.service';
 import { FilterService, FilterState } from '../../shared/services/filter.service';
+import { JobLevelsService } from '../../services/job-levels.service';
+import { HrbpFilterService, HrbpFilterOptions } from '../../services/hrbp-filter.service';
 import { OpportunityModalComponent } from '../opportunity-modal/opportunity-modal.component';
 import { EmployeeDetailModalComponent } from '../employee-detail-modal/employee-detail-modal.component';
 import { SkillsInventoryComponent } from '../skills-inventory/skills-inventory.component';
@@ -110,7 +112,18 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   // Filter state
   filterState: FilterState;
   
-  filterOptions: Record<string, string[]> = {};
+  filterOptions: HrbpFilterOptions = {
+    leaders: [],
+    jobLevels: [],
+    jobFamilies: [],
+    jobProfiles: [],
+    tenureOptions: [],
+    locationOptions: [],
+    attritionResponseOptions: [],
+    performanceRatingOptions: [],
+    rotationLevelOptions: [],
+    rotationLengthOptions: []
+  };
   filterLabels: Record<string, string> = {
     department: 'Department',
     location: 'Location',
@@ -129,7 +142,9 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private skillsAnalyticsService: SkillsAnalyticsService,
     private snackBar: MatSnackBar,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private jobLevelsService: JobLevelsService,
+    private hrbpFilterService: HrbpFilterService
   ) {
     this.filterState = this.filterService.createInitialFilterState();
   }
@@ -137,6 +152,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadOpportunities();
     this.loadEmployees();
+    this.loadAllFilterOptions();
   }
 
   ngOnDestroy(): void {
@@ -157,7 +173,6 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
         next: opportunities => {
           this.opportunities = opportunities;
           this.filteredOpportunities = opportunities;
-          this.filterOptions = this.filterService.extractFilterOptions(opportunities);
           this.updateSkillsAnalytics();
         },
         error: error => {
@@ -185,6 +200,23 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
         error: error => {
           this.dashboardState.error = 'Failed to load employees. Please try again.';
           this.snackBar.open(this.dashboardState.error, 'Close', { 
+            duration: this.CONSTANTS.SNACKBAR_DURATION.MEDIUM 
+          });
+        }
+      });
+  }
+
+  loadAllFilterOptions(): void {
+    this.hrbpFilterService.getAllFilterOptions()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (options) => {
+          this.filterOptions = options;
+          console.log('Loaded all filter options:', options);
+        },
+        error: (error) => {
+          console.error('Error loading filter options:', error);
+          this.snackBar.open('Error loading filter options', 'Close', { 
             duration: this.CONSTANTS.SNACKBAR_DURATION.MEDIUM 
           });
         }

@@ -29,19 +29,29 @@ export class OpportunityCardComponent {
   @Output() cardClick = new EventEmitter<Match>();
 
   getScoreClass(score: number): string {
-    if (score >= 80) return 'match-score-high';
-    if (score >= 60) return 'match-score-medium';
+    if (score >= 90) return 'match-score-high';
+    if (score >= 70) return 'match-score-medium';
     return 'match-score-low';
   }
 
   getLevelColor(level: string): string {
-    switch (level.toLowerCase()) {
-      case 'entry': return 'primary';
-      case 'mid': return 'accent';
-      case 'senior': return 'warn';
-      case 'lead': return 'primary';
-      case 'development': return 'accent';
-      default: return 'primary';
+    switch (level?.toLowerCase()) {
+      case 'sr. vp':
+      case 'managing vp':
+      case 'vp':
+        return 'warn';
+      case 'sr. director':
+      case 'director':
+        return 'accent';
+      case 'sr. manager':
+      case 'manager':
+        return 'primary';
+      case 'principal associate':
+      case 'sr. associate':
+        return 'accent';
+      case 'associate':
+      default:
+        return 'primary';
     }
   }
 

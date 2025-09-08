@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OpportunityService } from '../../services/opportunity.service';
+import { JobLevelsService } from '../../services/job-levels.service';
 import { Opportunity, Match, Employee } from '../../models/employee.model';
 import { OpportunityModalComponent } from '../opportunity-modal/opportunity-modal.component';
 
@@ -52,7 +53,7 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
   selectedLevel: string = '';
 
   departments = ['All', 'Engineering', 'Product', 'Design', 'Marketing', 'Sales', 'Operations', 'HR', 'Finance'];
-  levels = ['All', 'Entry', 'Mid', 'Senior', 'Lead'];
+  levels: string[] = [];
 
   // Mock team data for matching - in real app this would come from a service
   teamMembers: Employee[] = [
@@ -241,6 +242,7 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
   constructor(
     private router: Router,
     private opportunityService: OpportunityService,
+    private jobLevelsService: JobLevelsService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     utilsService: UtilsService,
@@ -251,6 +253,22 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
 
   ngOnInit(): void {
     this.loadOpportunities();
+    this.loadJobLevels();
+  }
+
+  loadJobLevels(): void {
+    console.log('Loading job levels...');
+    this.jobLevelsService.getJobLevelsWithAll().subscribe({
+      next: (levels) => {
+        console.log('Job levels loaded:', levels);
+        this.levels = levels;
+      },
+      error: (error) => {
+        console.error('Error loading job levels:', error);
+        // Fallback to default levels if service fails
+        this.levels = ['All', 'Associate', 'Sr. Associate', 'Principal Associate', 'Manager', 'Sr. Manager', 'Director', 'Sr. Director', 'VP', 'Managing VP', 'Sr. VP'];
+      }
+    });
   }
 
   loadOpportunities(): void {
@@ -301,15 +319,6 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
 
   // formatDate method now inherited from BaseComponent
 
-  override getLevelColor(level: string): string {
-    switch (level) {
-      case 'Entry': return 'primary';
-      case 'Mid': return 'accent';
-      case 'Senior': return 'warn';
-      case 'Lead': return 'primary';
-      default: return 'primary';
-    }
-  }
 
 
 

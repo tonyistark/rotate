@@ -13,6 +13,9 @@ import { ManagerService, EmployeeWithMatches } from '../../services/manager.serv
 import { OpportunityModalComponent } from '../opportunity-modal/opportunity-modal.component';
 import { EmployeeDetailModalComponent } from '../employee-detail-modal/employee-detail-modal.component';
 import { Match, Employee } from '../../models/employee.model';
+import { BaseComponent } from '../../shared/base/base.component';
+import { UtilsService } from '../../shared/services/utils.service';
+import { FilterService } from '../../shared/services/filter.service';
 
 @Component({
   selector: 'app-manager-dashboard',
@@ -31,7 +34,7 @@ import { Match, Employee } from '../../models/employee.model';
   templateUrl: './manager-dashboard.component.html',
   styleUrls: ['./manager-dashboard.component.scss']
 })
-export class ManagerDashboardComponent implements OnInit {
+export class ManagerDashboardComponent extends BaseComponent implements OnInit {
   teamMembers: EmployeeWithMatches[] = [];
   loading = true;
 
@@ -39,8 +42,12 @@ export class ManagerDashboardComponent implements OnInit {
     private managerService: ManagerService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private router: Router
-  ) {}
+    private router: Router,
+    utilsService: UtilsService,
+    filterService: FilterService
+  ) {
+    super(utilsService, filterService);
+  }
 
   ngOnInit(): void {
     this.loadTeamData();
@@ -60,17 +67,8 @@ export class ManagerDashboardComponent implements OnInit {
     return 'score-poor';
   }
 
-  getLevelColor(level: string): string {
-    switch (level) {
-      case 'Entry': return 'primary';
-      case 'Mid': return 'accent';
-      case 'Senior': return 'warn';
-      case 'Lead': return 'primary';
-      default: return 'primary';
-    }
-  }
 
-  getPerformanceColor(rating: string): string {
+  override getPerformanceColor(rating: string): string {
     switch (rating) {
       case 'Outstanding': return '#4caf50';
       case 'Exceeds': return '#2196f3';
@@ -118,7 +116,7 @@ export class ManagerDashboardComponent implements OnInit {
     });
   }
 
-  formatDate(dateString: string): string {
+  override formatDate(dateString: string): string {
     if (!dateString || dateString.trim() === '') {
       return 'Not set';
     }
@@ -147,7 +145,7 @@ export class ManagerDashboardComponent implements OnInit {
     return allScores.length > 0 ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length) : 0;
   }
 
-  getAttritionRiskClass(risk: number): string {
+  override getAttritionRiskClass(risk: number): string {
     if (risk <= 15) return 'risk-low';
     if (risk <= 30) return 'risk-medium';
     return 'risk-high';
