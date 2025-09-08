@@ -57,7 +57,7 @@ export class MatchResultsComponent implements OnInit {
         this.employee = employee;
         this.calculateMatches();
       } else {
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/hrbp-dashboard']);
       }
     });
   }
@@ -150,6 +150,6 @@ export class MatchResultsComponent implements OnInit {
   }
 
   onBack(): void {
-    this.router.navigate(['/profile']);
+    this.router.navigate(['/hrbp-dashboard']);
   }
 }

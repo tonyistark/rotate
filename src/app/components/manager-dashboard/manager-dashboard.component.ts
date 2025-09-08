@@ -139,10 +139,20 @@ export class ManagerDashboardComponent extends BaseComponent implements OnInit {
   }
 
   getAverageMatchScore(): number {
+    if (!this.teamMembers || this.teamMembers.length === 0) {
+      return 0;
+    }
+    
     const allScores = this.teamMembers.flatMap(member => 
-      member.topMatches.map(match => match.score)
+      member.topMatches?.map(match => match.score).filter(score => !isNaN(score) && score != null) || []
     );
-    return allScores.length > 0 ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length) : 0;
+    
+    if (allScores.length === 0) {
+      return 0;
+    }
+    
+    const average = allScores.reduce((a, b) => a + b, 0) / allScores.length;
+    return Math.round(average);
   }
 
   override getAttritionRiskClass(risk: number): string {

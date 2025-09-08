@@ -15,6 +15,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject, takeUntil, finalize } from 'rxjs';
 import { Employee, Opportunity } from '../../models/employee.model';
@@ -67,6 +68,7 @@ interface OpportunityAdjustment {
     MatTableModule,
     MatSnackBarModule,
     MatTooltipModule,
+    MatSlideToggleModule,
     FormsModule,
     SkillsInventoryComponent
   ],
@@ -111,6 +113,9 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
 
   // Filter state
   filterState: FilterState;
+  
+  // Toggle state for showing matched opportunities
+  showMatchedOpportunities = true;
   
   filterOptions: HrbpFilterOptions = {
     leaders: [],
@@ -172,7 +177,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: opportunities => {
           this.opportunities = opportunities;
-          this.filteredOpportunities = opportunities;
+          this.applyOpportunityFilters();
           this.updateSkillsAnalytics();
         },
         error: error => {
@@ -221,6 +226,27 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  /**
+   * Apply filters to opportunities including the hide matched toggle
+   */
+  applyOpportunityFilters(): void {
+    let filtered = [...this.opportunities];
+    
+    // Apply show matched opportunities filter
+    if (!this.showMatchedOpportunities) {
+      filtered = filtered.filter(opportunity => !opportunity.assignedEmployee);
+    }
+    
+    this.filteredOpportunities = filtered;
+  }
+
+  /**
+   * Handle toggle for showing/hiding matched opportunities
+   */
+  onToggleMatchedOpportunities(): void {
+    this.applyOpportunityFilters();
   }
 
   updateSkillsAnalytics(): void {
@@ -617,6 +643,69 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
 
   getOtherMatches(): EmployeeMatch[] {
     return this.employeeMatches.filter(match => match.matchScore < this.CONSTANTS.MATCH_SCORES.EXCELLENT);
+  }
+
+  /**
+   * Show all available employees when no matches are found
+   */
+  showAllAvailableEmployees(): void {
+    if (!this.dashboardState.selectedOpportunity) return;
+    
+    // Get all available employees (not assigned to any opportunity)
+    const availableEmployees = this.getAvailableEmployees();
+    
+    // Create basic employee matches for display (without detailed scoring)
+    this.employeeMatches = availableEmployees.map(employee => ({
+      employee,
+      matchScore: 0, // Set to 0 to indicate these are unscored matches
+      matchingSkills: [],
+      missingSkills: [],
+      experienceMatch: false,
+      departmentMatch: false,
+      availabilityMatch: true
+    }));
+  }
+
+  /**
+   * Quick assign the AI recommended employee to the selected opportunity
+   */
+  quickAssignRecommendedEmployee(employee: Employee): void {
+    if (!this.dashboardState.selectedOpportunity || !employee) return;
+
+    this.opportunityService.assignEmployee(
+      this.dashboardState.selectedOpportunity.id,
+      employee.id,
+      employee
+    ).subscribe({
+      next: (updatedOpportunity) => {
+        // Update the opportunity in our local array
+        const index = this.opportunities.findIndex(opp => opp.id === updatedOpportunity.id);
+        if (index !== -1) {
+          this.opportunities[index] = updatedOpportunity;
+          this.dashboardState.selectedOpportunity = updatedOpportunity;
+          this.applyOpportunityFilters();
+        }
+        
+        // Show success message
+        this.snackBar.open(
+          `Successfully assigned ${employee.name} to ${updatedOpportunity.title}`,
+          'Close',
+          { duration: 3000 }
+        );
+
+        // Clear employee matches to refresh the recommendations
+        this.employeeMatches = [];
+        this.dashboardState.selectedEmployee = null;
+      },
+      error: (error) => {
+        console.error('Error assigning employee:', error);
+        this.snackBar.open(
+          'Failed to assign employee. Please try again.',
+          'Close',
+          { duration: 3000 }
+        );
+      }
+    });
   }
 
   closeEmployeePanel(): void {

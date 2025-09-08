@@ -27,10 +27,6 @@ import { ThemeService, Theme } from './services/theme.service';
         </mat-slide-toggle>
       </div>
       
-      <button mat-button routerLink="/profile">
-        <mat-icon>person</mat-icon>
-        Employee View
-      </button>
       <button mat-button routerLink="/manager">
         <mat-icon>supervisor_account</mat-icon>
         Manager View
