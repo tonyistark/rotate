@@ -1,0 +1,96 @@
+// Team matches styling for HRBP dashboard
+.team-matches {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+  border-top: 1px solid var(--border-light);
+  
+  .matches-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    
+    mat-icon {
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+  
+  .match-counts {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    
+    .match-count {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--border-radius-sm);
+      min-width: 60px;
+      
+      .count {
+        font-size: 1.125rem;
+        font-weight: 600;
+        line-height: 1;
+      }
+      
+      .label {
+        font-size: 0.75rem;
+        font-weight: 400;
+        margin-top: 2px;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+      }
+      
+      &.excellent {
+        background: rgba(76, 175, 80, 0.1);
+        color: var(--success-color);
+        
+        .count {
+          color: var(--success-color);
+        }
+      }
+      
+      &.good {
+        background: rgba(33, 150, 243, 0.1);
+        color: var(--primary-color);
+        
+        .count {
+          color: var(--primary-color);
+        }
+      }
+      
+      &.total {
+        background: rgba(158, 158, 158, 0.1);
+        color: var(--text-secondary);
+        
+        .count {
+          color: var(--text-primary);
+        }
+      }
+    }
+  }
+}
+
+.no-matches {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background: rgba(255, 193, 7, 0.1);
+  border-radius: var(--border-radius-sm);
+  color: var(--warning-color);
+  font-size: 0.875rem;
+  
+  mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
+}

@@ -85,7 +85,7 @@ export class FilterService {
   private matchesAllFilters(opportunity: Opportunity, filterState: FilterState): boolean {
     const filterChecks = [
       this.utilsService.matchesFilter(opportunity.leader, filterState.selectedLeader),
-      this.utilsService.matchesFilter(opportunity.jobLevel, filterState.selectedJobLevel),
+      this.utilsService.matchesFilter(opportunity.level, filterState.selectedJobLevel),
       this.utilsService.matchesFilter(opportunity.jobFamily, filterState.selectedJobFamily),
       this.utilsService.matchesFilter(opportunity.jobProfile, filterState.selectedJobProfile),
       this.utilsService.matchesFilter(opportunity.plIc, filterState.selectedPlIc),
@@ -133,7 +133,7 @@ export class FilterService {
   extractFilterOptions(opportunities: Opportunity[]) {
     return {
       leaders: this.utilsService.extractUniqueValues(opportunities, 'leader'),
-      jobLevels: this.utilsService.extractUniqueValues(opportunities, 'jobLevel'),
+      jobLevels: this.utilsService.extractUniqueValues(opportunities, 'level'),
       jobFamilies: this.utilsService.extractUniqueValues(opportunities, 'jobFamily'),
       jobProfiles: this.utilsService.extractUniqueValues(opportunities, 'jobProfile'),
       tenureOptions: this.utilsService.extractUniqueValues(opportunities, 'tenure'),

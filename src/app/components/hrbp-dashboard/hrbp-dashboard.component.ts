@@ -238,9 +238,10 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
    * Apply filters to opportunities including the hide matched toggle
    */
   applyOpportunityFilters(): void {
-    let filtered = [...this.opportunities];
+    // First apply all talent criteria filters using FilterService
+    let filtered = this.filterService.applyFilters(this.opportunities, this.filterState);
     
-    // Apply show matched opportunities filter
+    // Then apply show matched opportunities filter
     if (!this.showMatchedOpportunities) {
       filtered = filtered.filter(opportunity => !opportunity.assignedEmployee);
     }
