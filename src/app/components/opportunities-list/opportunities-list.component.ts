@@ -16,6 +16,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OpportunityService } from '../../services/opportunity.service';
 import { JobLevelsService } from '../../services/job-levels.service';
+import { EmployeeService } from '../../services/employee.service';
 import { Opportunity, Match, Employee } from '../../models/employee.model';
 import { OpportunityModalComponent } from '../opportunity-modal/opportunity-modal.component';
 
@@ -241,10 +242,11 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
 
   constructor(
     private router: Router,
-    private opportunityService: OpportunityService,
-    private jobLevelsService: JobLevelsService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
+    private opportunityService: OpportunityService,
+    private jobLevelsService: JobLevelsService,
+    private employeeService: EmployeeService,
     utilsService: UtilsService,
     filterService: FilterService
   ) {
@@ -254,6 +256,7 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
   ngOnInit(): void {
     this.loadOpportunities();
     this.loadJobLevels();
+    this.loadEmployees();
   }
 
   loadJobLevels(): void {
@@ -280,6 +283,19 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
         console.error('Error loading opportunities:', error);
         this.snackBar.open('Error loading opportunities', 'Close', { duration: 3000 });
         this.loading = false;
+      }
+    });
+  }
+
+  loadEmployees(): void {
+    this.employeeService.getEmployees().subscribe({
+      next: (employees) => {
+        this.teamMembers = employees;
+        console.log('Loaded employees for matching:', employees.length);
+      },
+      error: (error) => {
+        console.error('Error loading employees:', error);
+        // Keep mock data as fallback
       }
     });
   }
@@ -359,6 +375,13 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
 
   calculateMatchScore(member: Employee, opportunity: Opportunity): number {
     let score = 0;
+    
+    // Debug logging
+    console.log(`Calculating match for ${member.name} vs ${opportunity.title}`);
+    console.log('Member skills:', member.skills);
+    console.log('Opportunity required skills:', opportunity.requiredSkills);
+    console.log('Opportunity preferred skills:', opportunity.preferredSkills);
+    
     const requiredSkillsMatched = opportunity.requiredSkills.filter(skill => 
       member.skills.some(memberSkill => memberSkill.toLowerCase().includes(skill.toLowerCase()))
     ).length;
@@ -366,6 +389,9 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
     const preferredSkillsMatched = opportunity.preferredSkills.filter(skill => 
       member.skills.some(memberSkill => memberSkill.toLowerCase().includes(skill.toLowerCase()))
     ).length;
+    
+    console.log(`Required skills matched: ${requiredSkillsMatched}/${opportunity.requiredSkills.length}`);
+    console.log(`Preferred skills matched: ${preferredSkillsMatched}/${opportunity.preferredSkills.length}`);
 
     // Score based on required skills (higher weight)
     score += (requiredSkillsMatched / Math.max(opportunity.requiredSkills.length, 1)) * 70;

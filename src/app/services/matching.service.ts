@@ -13,15 +13,53 @@ export class MatchingService {
       const skillGaps: string[] = [];
 
       // Skill matching (40% of score)
-      const employeeSkills = employee.skills.map(s => s.toLowerCase());
-      const requiredSkills = opportunity.requiredSkills.map(s => s.toLowerCase());
-      const preferredSkills = opportunity.preferredSkills.map(s => s.toLowerCase());
+      // Handle both skills array and technicalSkillSet from CSV import
+      let employeeSkillsRaw: any = employee.skills || employee.technicalSkillSet || [];
+      
+      // If technicalSkillSet is a string (from CSV), parse it as comma-separated values
+      if (typeof employeeSkillsRaw === 'string') {
+        employeeSkillsRaw = employeeSkillsRaw.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
+      }
+      
+      const employeeSkills = (employeeSkillsRaw as string[]).map((s: string) => s.toLowerCase().trim());
+      
+      // Parse opportunity skills (they might be strings from CSV)
+      let requiredSkillsRaw: any = opportunity.requiredSkills || [];
+      if (typeof requiredSkillsRaw === 'string') {
+        requiredSkillsRaw = requiredSkillsRaw.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
+      }
+      const requiredSkills = (requiredSkillsRaw as string[]).map((s: string) => s.toLowerCase().trim());
+      
+      let preferredSkillsRaw: any = opportunity.preferredSkills || [];
+      if (typeof preferredSkillsRaw === 'string') {
+        preferredSkillsRaw = preferredSkillsRaw.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
+      }
+      const preferredSkills = (preferredSkillsRaw as string[]).map((s: string) => s.toLowerCase().trim());
+
+      // Debug logging for Michelle Park specifically
+      if (employee.name === 'Michelle Park' && opportunity.title.includes('Digital Transformation Lab')) {
+        console.log('=== MICHELLE PARK DEBUG ===');
+        console.log('Employee:', employee);
+        console.log('Opportunity:', opportunity);
+        console.log('Employee skills:', employeeSkills);
+        console.log('Required skills:', requiredSkills);
+        console.log('Preferred skills:', preferredSkills);
+      }
+
 
       const requiredMatches = requiredSkills.filter(skill => 
-        employeeSkills.some(empSkill => empSkill.includes(skill) || skill.includes(empSkill))
+        employeeSkills.some(empSkill => 
+          empSkill === skill || 
+          empSkill.includes(skill) || 
+          skill.includes(empSkill)
+        )
       );
       const preferredMatches = preferredSkills.filter(skill => 
-        employeeSkills.some(empSkill => empSkill.includes(skill) || skill.includes(empSkill))
+        employeeSkills.some(empSkill => 
+          empSkill === skill || 
+          empSkill.includes(skill) || 
+          skill.includes(empSkill)
+        )
       );
 
       const requiredScore = (requiredMatches.length / requiredSkills.length) * 25;
@@ -42,7 +80,7 @@ export class MatchingService {
       skillGaps.push(...missingRequired);
 
       // Interest alignment (20% of score)
-      const employeeInterests = employee.interests.map(i => i.toLowerCase());
+      const employeeInterests = (employee.interests || []).map(i => i.toLowerCase());
       const opportunityKeywords = [
         opportunity.title.toLowerCase(),
         opportunity.department.toLowerCase(),
@@ -80,7 +118,7 @@ export class MatchingService {
       }
 
       // Career goals alignment (10% of score)
-      const goalAlignment = employee.careerGoals.some(goal =>
+      const goalAlignment = (employee.careerGoals || []).some(goal =>
         opportunity.learningOutcomes.some(outcome =>
           goal.toLowerCase().includes(outcome.toLowerCase()) || 
           outcome.toLowerCase().includes(goal.toLowerCase())
@@ -98,6 +136,19 @@ export class MatchingService {
         matchReasons.push('Cross-departmental opportunity for broader experience');
       }
 
+      // Debug logging for Michelle Park specifically
+      if (employee.name === 'Michelle Park' && opportunity.title.includes('Digital Transformation Lab')) {
+        console.log('Required matches:', requiredMatches);
+        console.log('Preferred matches:', preferredMatches);
+        console.log('Required score:', requiredScore);
+        console.log('Preferred score:', preferredScore);
+        console.log('Experience score:', experienceScore);
+        console.log('Final score before rounding:', score);
+        console.log('Match reasons:', matchReasons);
+        console.log('=== END MICHELLE PARK DEBUG ===');
+      }
+
+
       return {
         opportunity,
         score: Math.min(Math.round(score), 100),
@@ -109,18 +160,24 @@ export class MatchingService {
 
   private calculateExperienceMatch(yearsExperience: number, level: Opportunity['level']): number {
     const levelRequirements = {
-      'Entry': { min: 0, max: 3 },
-      'Mid': { min: 2, max: 7 },
-      'Senior': { min: 5, max: 12 },
-      'Lead': { min: 8, max: 20 },
+      'Associate': { min: 0, max: 2 },
+      'Senior Associate': { min: 2, max: 5 },
+      'Principal Associate': { min: 3, max: 6 },
+      'Manager': { min: 3, max: 8 },
+      'Sr. Manager': { min: 5, max: 12 },
+      'Director': { min: 6, max: 18 },
+      'Sr. Director': { min: 4, max: 20 },
+      'Senior Director': { min: 6, max: 20 },
+      'Principal': { min: 4, max: 15 },
       'Executive': { min: 10, max: 25 }
     };
 
     const requirement = levelRequirements[level];
     
-    // Handle unknown levels gracefully
+    // Handle unknown levels gracefully - assume Associate level as default
     if (!requirement) {
-      return 0;
+      console.warn(`Unknown level: ${level}, using Associate level requirements`);
+      return this.calculateExperienceMatch(yearsExperience, 'Associate');
     }
     
     if (yearsExperience >= requirement.min && yearsExperience <= requirement.max) {

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Employee, Opportunity, Match } from '../models/employee.model';
 import { OpportunityService } from './opportunity.service';
 import { MatchingService } from './matching.service';
+import { EmployeeService } from './employee.service';
 
 export interface EmployeeWithMatches {
   employee: Employee;
@@ -16,37 +16,18 @@ export interface EmployeeWithMatches {
   providedIn: 'root'
 })
 export class ManagerService {
-  private teamEmployeesSubject = new BehaviorSubject<Employee[]>([]);
   private assignmentsSubject = new BehaviorSubject<Map<string, string[]>>(new Map());
 
   constructor(
-    private http: HttpClient,
+    private employeeService: EmployeeService,
     private opportunityService: OpportunityService,
     private matchingService: MatchingService
-  ) {
-    this.loadEmployeeData();
-  }
+  ) {}
 
-  private loadEmployeeData(): void {
-    this.http.get<Employee[]>('/assets/data/employees.json')
-      .pipe(
-        tap(employees => employees)
-      )
-      .subscribe({
-        next: (employees) => {
-          this.teamEmployeesSubject.next(employees);
-        },
-        error: (error) => {
-          console.error('Error loading employee data:', error);
-          // Fallback to empty array if JSON fails to load
-          this.teamEmployeesSubject.next([]);
-        }
-      });
-  }
 
   getTeamWithMatches(): Observable<EmployeeWithMatches[]> {
     return combineLatest([
-      this.teamEmployeesSubject.asObservable(),
+      this.employeeService.getEmployees(),
       this.opportunityService.getOpportunities(),
       this.assignmentsSubject.asObservable()
     ]).pipe(

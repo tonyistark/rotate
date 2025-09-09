@@ -8,12 +8,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { takeUntil } from 'rxjs/operators';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
-import { NewEmployee } from '../../models/new-employee.model';
-import { NewEmployeeService } from '../../services/new-employee.service';
-import { NewEmployeeDetailModalComponent } from '../new-employee-detail-modal/new-employee-detail-modal.component';
+import { Employee } from '../../models/employee.model';
+import { EmployeeService } from '../../services/employee.service';
+import { EmployeeDetailModalComponent } from '../employee-detail-modal/employee-detail-modal.component';
 import { BaseComponent } from '../../shared/base/base.component';
 import { FilterService, FilterState } from '../../shared/services/filter.service';
 import { UtilsService } from '../../shared/services/utils.service';
@@ -32,23 +40,50 @@ import { APP_CONSTANTS, FILTER_LABELS } from '../../shared/constants/app.constan
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatAutocompleteModule,
+    MatButtonToggleModule,
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   templateUrl: './new-employee-list.component.html',
-  styleUrls: ['./new-employee-list.component.scss']
+  styleUrls: ['./new-employee-list.component.scss'],
+  animations: [
+    trigger('slideDown', [
+      transition(':enter', [
+        style({ height: '0', opacity: 0, overflow: 'hidden' }),
+        animate('300ms ease-in-out', style({ height: '*', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in-out', style({ height: '0', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class NewEmployeeListComponent extends BaseComponent implements OnInit {
-  employees: NewEmployee[] = [];
-  filteredEmployees: NewEmployee[] = [];
+  employees: Employee[] = [];
+  filteredEmployees: Employee[] = [];
   
   // Filter state
   filterState: FilterState;
   filterOptions: any = {};
   readonly filterLabels = FILTER_LABELS;
+  
+  // Skills search
+  selectedSkills: string[] = [];
+  skillInput: string = '';
+  allSkills: string[] = [];
+  filteredSkillOptions: string[] = [];
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  
+  // UI state
+  showAdvancedFilters: boolean = false;
+  viewMode: 'grid' | 'list' = 'grid';
 
   constructor(
-    private newEmployeeService: NewEmployeeService,
+    private employeeService: EmployeeService,
     private dialog: MatDialog,
+    private snackBar: MatSnackBar,
     utilsService: UtilsService,
     filterService: FilterService
   ) {
@@ -61,57 +96,78 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
   }
 
   loadEmployees(): void {
-    this.newEmployeeService.getNewEmployees()
+    this.employeeService.getEmployees()
       .pipe(takeUntil(this.destroy$))
       .subscribe(employees => {
         this.employees = employees;
         this.filteredEmployees = employees;
         this.extractFilterOptions();
+        this.extractSkills();
       });
   }
 
   extractFilterOptions(): void {
     this.filterOptions = {
-      jobLevels: ['All', ...new Set(this.employees.map(emp => emp.job_level))],
-      jobFamilies: ['All', ...new Set(this.employees.map(emp => emp.job_family))],
-      devZones: ['All', ...new Set(this.employees.map(emp => emp.dev_zone))],
-      lossImpacts: ['All', ...new Set(this.employees.map(emp => emp.loss_impact))],
-      attritionRisks: ['All', ...new Set(this.employees.map(emp => emp.attrition_risk))],
-      roleTypes: ['All', ...new Set(this.employees.map(emp => emp.role_type))],
-      specializations: ['All', ...new Set(this.employees.map(emp => emp.specialization))],
-      overallRatings: ['All', ...new Set(this.employees.map(emp => emp.overall_rating))],
+      jobLevels: ['All', ...new Set(this.employees.map(emp => emp.level || emp.currentRole).filter(Boolean))],
+      jobFamilies: ['All', ...new Set(this.employees.map(emp => emp.department).filter(Boolean))],
+      devZones: ['All', ...new Set(this.employees.map(emp => emp.tdiZone).filter(Boolean))],
+      lossImpacts: ['All', 'Low', 'Medium', 'High'], // Standard loss impact levels
+      attritionRisks: ['All', 'Low', 'Medium', 'High'], // Standard attrition risk levels
+      roleTypes: ['All', ...new Set(this.employees.map(emp => emp.jobTitle || emp.currentRole).filter(Boolean))],
+      specializations: ['All', ...new Set(this.employees.map(emp => emp.currentRole).filter(Boolean))],
+      overallRatings: ['All', ...new Set(this.employees.map(emp => emp.performanceRating).filter(Boolean))],
       departments: ['All', ...new Set(this.employees.map(emp => emp.department).filter(Boolean))]
     };
+  }
+  
+  extractSkills(): void {
+    const skillsSet = new Set<string>();
+    this.employees.forEach(emp => {
+      if (emp.skills) {
+        emp.skills.forEach(skill => skillsSet.add(skill));
+      }
+    });
+    this.allSkills = Array.from(skillsSet).sort();
+    this.filteredSkillOptions = [...this.allSkills];
   }
 
   applyFilters(): void {
     this.filteredEmployees = this.employees.filter(employee => {
       const matchesSearch = !this.filterState.searchTerm || 
-        employee.full_name.toLowerCase().includes(this.filterState.searchTerm.toLowerCase()) ||
-        employee.job_level.toLowerCase().includes(this.filterState.searchTerm.toLowerCase()) ||
-        employee.specialization.toLowerCase().includes(this.filterState.searchTerm.toLowerCase());
+        employee.name.toLowerCase().includes(this.filterState.searchTerm.toLowerCase()) ||
+        (employee.level && employee.level.toLowerCase().includes(this.filterState.searchTerm.toLowerCase())) ||
+        employee.currentRole.toLowerCase().includes(this.filterState.searchTerm.toLowerCase()) ||
+        (employee.department && employee.department.toLowerCase().includes(this.filterState.searchTerm.toLowerCase()));
+
+      const matchesSkills = this.selectedSkills.length === 0 || 
+        (employee.skills && this.selectedSkills.every(skill => 
+          employee.skills!.some(empSkill => 
+            empSkill.toLowerCase().includes(skill.toLowerCase())
+          )
+        ));
 
       const matchesJobLevel = !this.filterState.selectedJobLevel || 
         this.filterState.selectedJobLevel === 'All' || 
-        employee.job_level === this.filterState.selectedJobLevel;
+        (employee.level && employee.level === this.filterState.selectedJobLevel) ||
+        employee.currentRole === this.filterState.selectedJobLevel;
 
       const matchesJobFamily = !this.filterState.selectedJobFamily || 
         this.filterState.selectedJobFamily === 'All' || 
-        employee.job_family === this.filterState.selectedJobFamily;
+        employee.department === this.filterState.selectedJobFamily;
 
       const matchesDevZone = !this.filterState.selectedDayZero || 
         this.filterState.selectedDayZero === 'All' || 
-        employee.dev_zone === this.filterState.selectedDayZero;
+        employee.tdiZone === this.filterState.selectedDayZero;
 
       const matchesLossImpact = !this.filterState.selectedLossImpact || 
         this.filterState.selectedLossImpact === 'All' || 
-        employee.loss_impact === this.filterState.selectedLossImpact;
+        this.getLossImpactFromEmployee(employee) === this.filterState.selectedLossImpact;
 
       const matchesAttritionRisk = !this.filterState.selectedAttritionRisk || 
         this.filterState.selectedAttritionRisk === 'All' || 
-        employee.attrition_risk === this.filterState.selectedAttritionRisk;
+        this.getAttritionRiskFromEmployee(employee) === this.filterState.selectedAttritionRisk;
 
-      return matchesSearch && matchesJobLevel && matchesJobFamily && 
+      return matchesSearch && matchesSkills && matchesJobLevel && matchesJobFamily && 
              matchesDevZone && matchesLossImpact && matchesAttritionRisk;
     });
   }
@@ -126,7 +182,7 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
   }
 
   hasActiveFilters(): boolean {
-    return this.filterService.hasActiveFilters(this.filterState);
+    return this.filterService.hasActiveFilters(this.filterState) || this.selectedSkills.length > 0;
   }
 
   clearFilter(filterType: keyof FilterState): void {
@@ -136,11 +192,13 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
 
   clearAllFilters(): void {
     this.filterState = this.filterService.clearAllFilters(this.filterState);
+    this.selectedSkills = [];
+    this.skillInput = '';
     this.onFilterChange();
   }
 
-  showEmployeeDetails(employee: NewEmployee): void {
-    const dialogRef = this.dialog.open(NewEmployeeDetailModalComponent, {
+  showEmployeeDetails(employee: Employee): void {
+    const dialogRef = this.dialog.open(EmployeeDetailModalComponent, {
       ...APP_CONSTANTS.DIALOG_CONFIG.EMPLOYEE_DETAIL,
       data: { employee }
     });
@@ -181,5 +239,105 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
       'High': 'high-impact'
     };
     return impactMap[impact] || '';
+  }
+
+  // Helper methods to map Employee model to expected filter values
+  getLossImpactFromEmployee(employee: Employee): string {
+    // Map from Employee model - could be derived from attrition risk or other fields
+    if (employee.attritionRisk <= 30) return 'Low';
+    if (employee.attritionRisk <= 70) return 'Medium';
+    return 'High';
+  }
+
+  getAttritionRiskFromEmployee(employee: Employee): string {
+    // Map from Employee model attrition risk number to string
+    if (employee.attritionRisk <= 30) return 'Low';
+    if (employee.attritionRisk <= 70) return 'Medium';
+    return 'High';
+  }
+  
+  // Skills search methods
+  addSkill(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value && !this.selectedSkills.includes(value)) {
+      this.selectedSkills.push(value);
+      this.onFilterChange();
+    }
+    event.chipInput!.clear();
+    this.skillInput = '';
+  }
+  
+  removeSkill(skill: string): void {
+    const index = this.selectedSkills.indexOf(skill);
+    if (index >= 0) {
+      this.selectedSkills.splice(index, 1);
+      this.onFilterChange();
+    }
+  }
+  
+  skillSelected(event: MatAutocompleteSelectedEvent): void {
+    const value = event.option.viewValue;
+    if (!this.selectedSkills.includes(value)) {
+      this.selectedSkills.push(value);
+      this.onFilterChange();
+    }
+    this.skillInput = '';
+    event.option.deselect();
+  }
+  
+  getSkillMatchCount(employee: Employee): number {
+    if (!employee.skills || this.selectedSkills.length === 0) {
+      return 0;
+    }
+    return this.selectedSkills.filter(skill => 
+      employee.skills!.some(empSkill => 
+        empSkill.toLowerCase().includes(skill.toLowerCase())
+      )
+    ).length;
+  }
+  
+  // UI methods
+  toggleAdvancedFilters(): void {
+    this.showAdvancedFilters = !this.showAdvancedFilters;
+  }
+  
+  onViewModeChange(): void {
+    // View mode changed - could add analytics or other logic here
+  }
+
+  async copyEmployeeName(employee: Employee, event: Event): Promise<void> {
+    event.stopPropagation(); // Prevent card click event
+    
+    try {
+      await navigator.clipboard.writeText(employee.name);
+      this.snackBar.open(`Copied "${employee.name}" to clipboard`, 'Close', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        panelClass: ['success-snackbar']
+      });
+    } catch (err) {
+      // Fallback for older browsers
+      this.fallbackCopyToClipboard(employee.name);
+      this.snackBar.open(`Copied "${employee.name}" to clipboard`, 'Close', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        panelClass: ['success-snackbar']
+      });
+    }
+  }
+
+  private fallbackCopyToClipboard(text: string): void {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
   }
 }

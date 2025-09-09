@@ -190,30 +190,50 @@
   margin-bottom: 20px;
   
   .upload-area {
-    border: 2px dashed var(--border-color, #e0e0e0);
+    border: 2px dashed var(--border-color, #ddd);
     border-radius: 12px;
-    padding: 32px;
+    padding: 40px 20px;
     text-align: center;
-    background: var(--surface-color, #fafafa);
     transition: all 0.3s ease;
+    background: var(--card-background, #fff);
     min-height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     
     &:hover {
       border-color: var(--primary-color);
-      background: var(--primary-light, rgba(33, 150, 243, 0.05));
+      background: var(--hover-background, #f8f9fa);
+    }
+    
+    &.drag-over {
+      border-color: var(--primary-color);
+      background: var(--primary-light, #e3f2fd);
+      border-style: solid;
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      
+      .upload-content {
+        .upload-icon {
+          color: var(--primary-color);
+          animation: bounce 0.6s ease-in-out infinite alternate;
+        }
+        
+        h3 {
+          color: var(--primary-color);
+        }
+      }
     }
     
     &.has-file {
-      border-color: var(--success-color, #4CAF50);
-      background: var(--success-light, rgba(76, 175, 80, 0.05));
+      border-color: var(--success-color, #4caf50);
+      background: var(--success-light, #e8f5e9);
     }
     
     &.uploading {
       border-color: var(--primary-color);
-      background: var(--primary-light, rgba(33, 150, 243, 0.05));
+      background: var(--primary-light, #e3f2fd);
     }
     
     .upload-content {
@@ -356,7 +376,17 @@
   }
 }
 
-// Floating Help Overlay
+// Floating Animations
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+// Help Popup Styles
 .help-overlay {
   position: fixed;
   top: 0;

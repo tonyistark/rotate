@@ -1,602 +1,3847 @@
 [
   {
-    "id": "emp1",
-    "name": "Sarah Johnson",
-    "email": "sarah.johnson@company.com",
-    "department": "Engineering",
-    "currentRole": "Senior Software Engineer",
+    "id": "EID001",
+    "name": "Jordan Blake",
+    "email": "jordan.blake@company.com",
+    "department": "Design",
+    "currentRole": "Senior Director",
+    "yearsExperience": 2,
+    "performanceRating": "Strong",
+    "skills": [
+      "React Native",
+      "iOS",
+      "Android",
+      "Swift",
+      "Kotlin",
+      "Mobile UI/UX"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Director",
+    "jobTitle": "Senior Director - Design",
+    "timeInRole": "4 years 4 months",
+    "lengthOfService": "2 years 11 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "7/19/2022",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Design Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "9/2/2019",
+    "lastPromotedDate": "7/19/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "React Native",
+      "iOS",
+      "Android"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID002",
+    "name": "Alex Chen",
+    "email": "alex.chen@company.com",
+    "department": "Finance",
+    "currentRole": "Director",
+    "yearsExperience": 12,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - Finance",
+    "timeInRole": "4 years 9 months",
+    "lengthOfService": "2 years 7 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "35%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "9/29/2021",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Finance Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "12/18/2020",
+    "lastPromotedDate": "9/29/2021",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID003",
+    "name": "Morgan Davis",
+    "email": "morgan.davis@company.com",
+    "department": "Sales",
+    "currentRole": "Principal",
+    "yearsExperience": 10,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Principal",
+    "jobTitle": "Principal - Sales",
+    "timeInRole": "1 years 2 months",
+    "lengthOfService": "7 years 2 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "65%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "9/20/2023",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Sales Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "1/25/2019",
+    "lastPromotedDate": "9/20/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID004",
+    "name": "Taylor Smith",
+    "email": "taylor.smith@company.com",
+    "department": "Design",
+    "currentRole": "Senior Associate",
+    "yearsExperience": 7,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Associate",
+    "jobTitle": "Senior Associate - Design",
+    "timeInRole": "4 years 4 months",
+    "lengthOfService": "8 years 2 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "35%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "6/14/2021",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Design Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "1/19/2021",
+    "lastPromotedDate": "6/14/2021",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID005",
+    "name": "Casey Johnson",
+    "email": "casey.johnson@company.com",
+    "department": "Product",
+    "currentRole": "Senior Principal",
+    "yearsExperience": 11,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Principal",
+    "jobTitle": "Senior Principal - Product Management",
+    "timeInRole": "4 years 0 months",
+    "lengthOfService": "7 years 1 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "3/20/2021",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Product Management Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "4/26/2017",
+    "lastPromotedDate": "3/20/2021",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID006",
+    "name": "Riley Brown",
+    "email": "riley.brown@company.com",
+    "department": "HR",
+    "currentRole": "Associate",
+    "yearsExperience": 14,
+    "performanceRating": "Strong",
+    "skills": [
+      "React Native",
+      "iOS",
+      "Android",
+      "Swift",
+      "Kotlin",
+      "Mobile UI/UX"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Associate",
+    "jobTitle": "Associate - HR",
+    "timeInRole": "4 years 1 months",
+    "lengthOfService": "8 years 10 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "12/20/2024",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "HR Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "1/13/2021",
+    "lastPromotedDate": "12/20/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "React Native",
+      "iOS",
+      "Android"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID007",
+    "name": "Avery Wilson",
+    "email": "avery.wilson@company.com",
+    "department": "Data Science",
+    "currentRole": "Associate",
+    "yearsExperience": 9,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Associate",
+    "jobTitle": "Associate - Data Science",
+    "timeInRole": "2 years 0 months",
+    "lengthOfService": "2 years 2 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "35%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "7/3/2024",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Data Science Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "5/19/2021",
+    "lastPromotedDate": "7/3/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID008",
+    "name": "Quinn Miller",
+    "email": "quinn.miller@company.com",
+    "department": "Marketing",
+    "currentRole": "Senior Associate",
+    "yearsExperience": 11,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Associate",
+    "jobTitle": "Senior Associate - Marketing",
+    "timeInRole": "4 years 5 months",
+    "lengthOfService": "3 years 11 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "65%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "2/6/2023",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Marketing Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "11/19/2019",
+    "lastPromotedDate": "2/6/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID009",
+    "name": "Sage Garcia",
+    "email": "sage.garcia@company.com",
+    "department": "Marketing",
+    "currentRole": "Principal",
     "yearsExperience": 5,
     "performanceRating": "Strong",
-    "skills": ["JavaScript", "React", "Node.js", "Python", "AWS", "Data Analysis", "Project Management", "SQL", "Machine Learning", "Tableau"],
-    "interests": ["Machine Learning", "Cloud Architecture", "Team Leadership"],
-    "careerGoals": ["Technical Lead", "Solution Architect"],
-    "availability": "Part-time",
-    "level": "Senior",
-    "jobTitle": "Senior Software Engineer",
-    
-    "timeInRole": "2 years 4 months",
-    "lengthOfService": "5 years 8 months",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Principal",
+    "jobTitle": "Principal - Marketing",
+    "timeInRole": "3 years 10 months",
+    "lengthOfService": "11 years 3 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "35%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "6/27/2022",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Marketing Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "7/11/2020",
+    "lastPromotedDate": "6/27/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID010",
+    "name": "River Martinez",
+    "email": "river.martinez@company.com",
+    "department": "Operations",
+    "currentRole": "Director",
+    "yearsExperience": 7,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - Operations",
+    "timeInRole": "4 years 9 months",
+    "lengthOfService": "6 years 10 months",
     "promotionForecast": "YE 2025",
     "retentionRisk": "15%",
     "tdiZone": "Invest Now",
     "ratingCycles": {
       "MY24": "Strong",
-      "YE24": "Above Strong", 
+      "YE24": "Strong",
       "MY25": "Strong"
     },
     "myRating": "Strong",
-    "yeRating": "Above Strong",
-    "lastPromoDate": "2022-08-01",
-    
+    "yeRating": "Strong",
+    "lastPromoDate": "6/21/2020",
     "preparingForPromo": true,
     "preparingForStretch": false,
     "preparingForRotation": true,
-    
-    "futureTalentProfile": "Technical Leadership",
+    "futureTalentProfile": "Operations Leadership",
     "differentiatedStrength": "Technical Excellence & Innovation",
     "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
-    
-    "whatNeedsToBeDemonstrated": "Team leadership, mentoring junior developers, and architectural decision-making",
-    "howToInvest": "Tech lead opportunities, leadership training, and cross-team project ownership",
-    "whatSupportNeeded": "Senior engineering mentor, leadership development program, and stretch assignments",
-    
-    "associateCareerAspirations": "Solution Architect, Engineering Manager, or Technical Director",
-    "previousDifferentialInvestment": "Advanced AWS certification, machine learning specialization, leadership workshop series",
-    
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
     "retentionPlanNeeded": false,
     "retentionPlanJustification": "",
-    "rotationStechPlanNeeded": true,
-    "rotationStechPlanJustification": "Cross-functional experience needed for leadership growth and architectural perspective",
-    
-    "lastHireDate": "2019-03-15",
-    "lastPromotedDate": "2022-08-01",
-    "performanceTrend": "Exceptional(YE24), Very Strong(MY24)",
-    "talentDevelopmentInventory": ["Dev Zone", "High Potential"],
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "2/7/2024",
+    "lastPromotedDate": "6/21/2020",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
     "attritionRisk": 15,
-    "skillsetExperience": ["JavaScript", "Python", "AWS"],
-    "competencyStrengths": ["JavaScript", "System Design"],
-    "careerInterest": ["Machine Learning", "Architecture"],
-    "confirmedInterestInRotation": true,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
     "leadershipSupportOfRotation": true
   },
   {
-    "id": "emp2",
-    "name": "Michael Chen",
-    "email": "michael.chen@company.com",
+    "id": "EID011",
+    "name": "Phoenix Anderson",
+    "email": "phoenix.anderson@company.com",
     "department": "Engineering",
-    "currentRole": "Frontend Developer",
-    "yearsExperience": 3,
-    "performanceRating": "Strong",
-    "skills": ["React", "TypeScript", "CSS", "Angular", "Vue.js", "Research Methods", "Communication", "User Testing", "Figma"],
-    "interests": ["UI/UX Design", "Mobile Development", "Performance Optimization"],
-    "careerGoals": ["Senior Frontend Developer", "Full Stack Developer"],
-    "availability": "Full-time",
-    "level": "Mid",
-    "jobTitle": "Frontend Developer",
-    
-    "timeInRole": "1 year 10 months",
-    "lengthOfService": "3 years 6 months",
-    "promotionForecast": "YE 2024",
-    "retentionRisk": "25%",
-    "tdiZone": "Develop",
-    "ratingCycles": {
-      "MY24": "Solid",
-      "YE24": "Strong", 
-      "MY25": "Strong"
-    },
-    "myRating": "Solid",
-    "yeRating": "Strong",
-    "lastPromoDate": "2023-01-15",
-    
-    "preparingForPromo": true,
-    "preparingForStretch": true,
-    "preparingForRotation": true,
-    
-    "futureTalentProfile": "Full Stack Development",
-    "differentiatedStrength": "UI/UX Expertise & User-Centric Development",
-    "currentGapsOpportunities": "Backend development skills and system design knowledge",
-    
-    "whatNeedsToBeDemonstrated": "Full stack capabilities, API integration, and backend system understanding",
-    "howToInvest": "Full stack projects, backend training, and cross-team collaboration opportunities",
-    "whatSupportNeeded": "Backend mentor, full stack development courses, and system design workshops",
-    
-    "associateCareerAspirations": "Senior Full Stack Developer, Frontend Team Lead, or Product Engineer",
-    "previousDifferentialInvestment": "Advanced React certification, UX design course, mobile development workshop",
-    
-    "retentionPlanNeeded": true,
-    "retentionPlanJustification": "Moderate attrition risk due to competitive market for frontend talent",
-    "rotationStechPlanNeeded": true,
-    "rotationStechPlanJustification": "Backend exposure needed for full stack growth and career advancement",
-    
-    "lastHireDate": "2021-06-01",
-    "lastPromotedDate": "2023-01-15",
-    "performanceTrend": "Very Strong(YE24), Strong(MY24)",
-    "talentDevelopmentInventory": ["Dev Zone", "Technical Growth"],
-    "attritionRisk": 25,
-    "skillsetExperience": ["React", "TypeScript", "CSS"],
-    "competencyStrengths": ["Frontend Development", "UI/UX"],
-    "careerInterest": ["Full Stack", "Mobile Development"],
-    "confirmedInterestInRotation": true,
-    "leadershipSupportOfRotation": true
-  },
-  {
-    "id": "emp3",
-    "name": "Emily Rodriguez",
-    "email": "emily.rodriguez@company.com",
-    "department": "Product",
-    "currentRole": "Product Manager",
-    "yearsExperience": 4,
-    "performanceRating": "Above Strong",
-    "skills": ["Product Strategy", "Data Analysis", "Agile", "SQL", "Figma", "Cloud Computing", "System Architecture", "AWS", "Docker"],
-    "interests": ["AI/ML Products", "User Research", "Growth Strategy"],
-    "careerGoals": ["Senior Product Manager", "Director of Product"],
-    "availability": "Full-time",
-    "level": "Senior",
-    "jobTitle": "Product Manager",
-    
-    "timeInRole": "2 years 1 month",
-    "lengthOfService": "4 years 3 months",
-    "promotionForecast": "YE 2025",
-    "retentionRisk": "10%",
-    "tdiZone": "Invest Now",
-    "ratingCycles": {
-      "MY24": "Strong",
-      "YE24": "Exceptional", 
-      "MY25": "Above Strong"
-    },
-    "myRating": "Strong",
-    "yeRating": "Exceptional",
-    "lastPromoDate": "2022-11-01",
-    
-    "preparingForPromo": true,
-    "preparingForStretch": true,
-    "preparingForRotation": false,
-    
-    "futureTalentProfile": "Product Leadership",
-    "differentiatedStrength": "Strategic Vision & AI/ML Product Expertise",
-    "currentGapsOpportunities": "P&L ownership and cross-functional team leadership at scale",
-    
-    "whatNeedsToBeDemonstrated": "Revenue ownership, team leadership across multiple functions, and strategic business impact",
-    "howToInvest": "P&L responsibility, director-level stretch assignments, and executive leadership program",
-    "whatSupportNeeded": "Executive mentor, business strategy training, and cross-functional leadership opportunities",
-    
-    "associateCareerAspirations": "Director of Product, VP Product, or General Manager",
-    "previousDifferentialInvestment": "AI/ML product certification, executive leadership program, strategic planning workshop",
-    
-    "retentionPlanNeeded": false,
-    "retentionPlanJustification": "",
-    "rotationStechPlanNeeded": false,
-    "rotationStechPlanJustification": "",
-    
-    "lastHireDate": "2020-09-01",
-    "lastPromotedDate": "2022-11-01",
-    "performanceTrend": "Exceptional(YE24), Exceptional(MY24)",
-    "talentDevelopmentInventory": ["High Potential", "Leadership Track"],
-    "attritionRisk": 10,
-    "skillsetExperience": ["Product Strategy", "Data Analysis", "AI/ML"],
-    "competencyStrengths": ["Strategic Thinking", "User Research"],
-    "careerInterest": ["AI Products", "Leadership"],
-    "confirmedInterestInRotation": false,
-    "leadershipSupportOfRotation": true
-  },
-  {
-    "id": "emp4",
-    "name": "David Kim",
-    "email": "david.kim@company.com",
-    "department": "Engineering",
-    "currentRole": "Backend Developer",
-    "yearsExperience": 2,
-    "performanceRating": "Strong",
-    "skills": ["Java", "Spring Boot", "PostgreSQL", "Docker", "Kubernetes", "Marketing Automation", "CRM", "Digital Marketing"],
-    "interests": ["Microservices", "DevOps", "System Design"],
-    "careerGoals": ["Senior Backend Developer", "DevOps Engineer"],
-    "availability": "Full-time",
-    "level": "Mid",
-    "jobTitle": "Backend Developer",
-    
-    "timeInRole": "1 year 4 months",
-    "lengthOfService": "2 years 9 months",
-    "promotionForecast": "YE 2025",
-    "retentionRisk": "35%",
-    "tdiZone": "Maintain",
-    "ratingCycles": {
-      "MY24": "Solid",
-      "YE24": "Solid", 
-      "MY25": "Strong"
-    },
-    "myRating": "Solid",
-    "yeRating": "Solid",
-    "lastPromoDate": "2023-08-01",
-    
-    "preparingForPromo": false,
-    "preparingForStretch": true,
-    "preparingForRotation": true,
-    
-    "futureTalentProfile": "DevOps Engineering",
-    "differentiatedStrength": "System Integration & Infrastructure",
-    "currentGapsOpportunities": "Senior-level system design and DevOps practices",
-    
-    "whatNeedsToBeDemonstrated": "Complex system architecture, CI/CD pipeline ownership, and production system reliability",
-    "howToInvest": "DevOps training, system architecture projects, and infrastructure ownership",
-    "whatSupportNeeded": "Senior DevOps mentor, cloud architecture training, and production system experience",
-    
-    "associateCareerAspirations": "Senior Backend Developer, DevOps Engineer, or Site Reliability Engineer",
-    "previousDifferentialInvestment": "Kubernetes certification, Docker training, microservices workshop",
-    
-    "retentionPlanNeeded": true,
-    "retentionPlanJustification": "Higher attrition risk due to limited growth opportunities and competitive market",
-    "rotationStechPlanNeeded": true,
-    "rotationStechPlanJustification": "DevOps exposure needed for career growth and system understanding",
-    
-    "lastHireDate": "2022-02-15",
-    "lastPromotedDate": "2023-08-01",
-    "performanceTrend": "Strong(YE24), Developing(MY24)",
-    "talentDevelopmentInventory": ["Technical Growth", "Skill Building"],
-    "attritionRisk": 35,
-    "skillsetExperience": ["Java", "Spring Boot", "Docker"],
-    "competencyStrengths": ["Backend Development"],
-    "careerInterest": ["DevOps", "System Architecture"],
-    "confirmedInterestInRotation": true,
-    "leadershipSupportOfRotation": false
-  },
-  {
-    "id": "emp5",
-    "name": "Lisa Thompson",
-    "email": "lisa.thompson@company.com",
-    "department": "Design",
-    "currentRole": "UX Designer",
-    "yearsExperience": 6,
-    "performanceRating": "Strong",
-    "skills": ["Figma", "Sketch", "User Research", "Prototyping", "Design Systems", "Cloud Computing", "System Architecture", "AWS"],
-    "interests": ["Accessibility", "Design Leadership", "Product Strategy"],
-    "careerGoals": ["Senior UX Designer", "Design Manager"],
-    "availability": "Part-time",
-    "level": "Senior",
-    "jobTitle": "UX Designer",
-    
-    "timeInRole": "3 years 0 months",
-    "lengthOfService": "6 years 8 months",
-    "promotionForecast": "YE 2024",
-    "retentionRisk": "20%",
-    "tdiZone": "Invest Now",
-    "ratingCycles": {
-      "MY24": "Strong",
-      "YE24": "Above Strong", 
-      "MY25": "Strong"
-    },
-    "myRating": "Strong",
-    "yeRating": "Above Strong",
-    "lastPromoDate": "2021-12-01",
-    
-    "preparingForPromo": true,
-    "preparingForStretch": false,
-    "preparingForRotation": false,
-    
-    "futureTalentProfile": "Design Leadership",
-    "differentiatedStrength": "Accessibility Expertise & Design Systems",
-    "currentGapsOpportunities": "Team management and cross-functional leadership experience",
-    
-    "whatNeedsToBeDemonstrated": "Design team leadership, strategic design decisions, and cross-functional collaboration",
-    "howToInvest": "Design manager role, leadership training, and strategic design projects",
-    "whatSupportNeeded": "Leadership mentor, management training, and design strategy workshops",
-    
-    "associateCareerAspirations": "Design Manager, Senior UX Designer, or Head of Design",
-    "previousDifferentialInvestment": "Accessibility certification, design leadership program, strategic design course",
-    
-    "retentionPlanNeeded": false,
-    "retentionPlanJustification": "",
-    "rotationStechPlanNeeded": false,
-    "rotationStechPlanJustification": "",
-    
-    "lastHireDate": "2018-04-01",
-    "lastPromotedDate": "2021-12-01",
-    "performanceTrend": "Exceptional(YE24), Very Strong(MY24)",
-    "talentDevelopmentInventory": ["Design Leadership", "Loss Impact"],
-    "attritionRisk": 20,
-    "skillsetExperience": ["Figma", "User Research", "Design Systems"],
-    "competencyStrengths": ["User Experience", "Design Strategy"],
-    "careerInterest": ["Design Leadership", "Product Strategy"],
-    "confirmedInterestInRotation": false,
-    "leadershipSupportOfRotation": true
-  },
-  {
-    "id": "emp6",
-    "name": "Alex Martinez",
-    "email": "alex.martinez@company.com",
-    "department": "Data Science",
-    "currentRole": "Data Scientist",
-    "yearsExperience": 4,
-    "performanceRating": "Above Strong",
-    "skills": ["Python", "R", "Machine Learning", "SQL", "Tableau", "Data Analysis", "Project Management"],
-    "interests": ["Deep Learning", "Natural Language Processing", "Data Visualization"],
-    "careerGoals": ["Senior Data Scientist", "ML Engineering Lead"],
-    "availability": "Full-time",
-    "level": "Senior",
-    "jobTitle": "Data Scientist",
-    
-    "timeInRole": "9 months",
-    "lengthOfService": "4 years 1 month",
-    "promotionForecast": "YE 2025",
-    "retentionRisk": "18%",
-    "tdiZone": "Develop",
-    "ratingCycles": {
-      "MY24": "Strong",
-      "YE24": "Strong", 
-      "MY25": "Above Strong"
-    },
-    "myRating": "Strong",
-    "yeRating": "Strong",
-    "lastPromoDate": "2023-03-15",
-    
-    "preparingForPromo": true,
-    "preparingForStretch": true,
-    "preparingForRotation": true,
-    
-    "futureTalentProfile": "AI/ML Engineering Leadership",
-    "differentiatedStrength": "Deep Learning & NLP Expertise",
-    "currentGapsOpportunities": "Production ML systems and team leadership experience",
-    
-    "whatNeedsToBeDemonstrated": "End-to-end ML system ownership, team mentoring, and business impact measurement",
-    "howToInvest": "ML engineering projects, team lead opportunities, and production system ownership",
-    "whatSupportNeeded": "ML engineering mentor, leadership training, and production ML experience",
-    
-    "associateCareerAspirations": "Senior Data Scientist, ML Engineering Lead, or AI Research Director",
-    "previousDifferentialInvestment": "Deep learning certification, NLP specialization, ML engineering bootcamp",
-    
-    "retentionPlanNeeded": false,
-    "retentionPlanJustification": "",
-    "rotationStechPlanNeeded": true,
-    "rotationStechPlanJustification": "Cross-functional ML experience needed for leadership growth",
-    
-    "lastHireDate": "2020-11-10",
-    "lastPromotedDate": "2023-03-15",
-    "performanceTrend": "Very Strong(YE24), Strong(MY24)",
-    "talentDevelopmentInventory": ["Technical Growth", "AI Specialist"],
-    "attritionRisk": 18,
-    "skillsetExperience": ["Python", "Machine Learning", "SQL"],
-    "competencyStrengths": ["Data Analysis", "Statistical Modeling"],
-    "careerInterest": ["AI/ML", "Data Engineering"],
-    "confirmedInterestInRotation": true,
-    "leadershipSupportOfRotation": true
-  },
-  {
-    "id": "emp7",
-    "name": "Jessica Wang",
-    "email": "jessica.wang@company.com",
-    "department": "Marketing",
-    "currentRole": "Digital Marketing Manager",
-    "yearsExperience": 7,
-    "performanceRating": "Above Strong",
-    "skills": ["Digital Marketing", "SEO", "Google Analytics", "Content Strategy", "Social Media", "Marketing Automation", "CRM"],
-    "interests": ["Growth Hacking", "Marketing Automation", "Brand Strategy"],
-    "careerGoals": ["Marketing Director", "VP of Marketing"],
-    "availability": "Full-time",
-    "level": "Senior",
-    "jobTitle": "Digital Marketing Manager",
-    
-    "timeInRole": "3 years 2 months",
-    "lengthOfService": "7 years 4 months",
-    "promotionForecast": "YE 2024",
-    "retentionRisk": "12%",
-    "tdiZone": "Invest Now",
-    "ratingCycles": {
-      "MY24": "Strong",
-      "YE24": "Exceptional", 
-      "MY25": "Above Strong"
-    },
-    "myRating": "Strong",
-    "yeRating": "Exceptional",
-    "lastPromoDate": "2021-10-01",
-    
-    "preparingForPromo": true,
-    "preparingForStretch": true,
-    "preparingForRotation": false,
-    
-    "futureTalentProfile": "Marketing Leadership",
-    "differentiatedStrength": "Growth Strategy & Data-Driven Marketing",
-    "currentGapsOpportunities": "P&L ownership and cross-functional team leadership",
-    
-    "whatNeedsToBeDemonstrated": "Revenue ownership, team leadership across functions, and strategic business impact",
-    "howToInvest": "Director-level responsibilities, P&L ownership, and executive leadership program",
-    "whatSupportNeeded": "Executive mentor, business strategy training, and cross-functional leadership opportunities",
-    
-    "associateCareerAspirations": "Marketing Director, VP of Marketing, or Chief Marketing Officer",
-    "previousDifferentialInvestment": "Growth marketing certification, executive leadership program, digital strategy course",
-    
-    "retentionPlanNeeded": false,
-    "retentionPlanJustification": "",
-    "rotationStechPlanNeeded": false,
-    "rotationStechPlanJustification": "",
-    
-    "lastHireDate": "2017-08-22",
-    "lastPromotedDate": "2021-10-01",
-    "performanceTrend": "Exceptional(YE24), Very Strong(MY24)",
-    "talentDevelopmentInventory": ["Leadership Track", "High Potential"],
-    "attritionRisk": 12,
-    "skillsetExperience": ["Digital Marketing", "SEO", "Analytics"],
-    "competencyStrengths": ["Campaign Management", "Data-Driven Marketing"],
-    "careerInterest": ["Growth Strategy", "Marketing Leadership"],
-    "confirmedInterestInRotation": false,
-    "leadershipSupportOfRotation": true
-  },
-  {
-    "id": "emp8",
-    "name": "Robert Taylor",
-    "email": "robert.taylor@company.com",
-    "department": "Sales",
-    "currentRole": "Senior Sales Representative",
-    "yearsExperience": 8,
-    "performanceRating": "Above Strong",
-    "skills": ["Sales Strategy", "CRM", "Negotiation", "Lead Generation", "Customer Relations", "Research Methods", "Communication"],
-    "interests": ["Sales Operations", "Business Development", "Customer Success"],
-    "careerGoals": ["Sales Manager", "Regional Sales Director"],
-    "availability": "Full-time",
-    "level": "Senior",
-    "jobTitle": "Senior Sales Representative",
-    
-    "timeInRole": "4 years 3 months",
-    "lengthOfService": "8 years 7 months",
-    "promotionForecast": "YE 2025",
-    "retentionRisk": "22%",
-    "tdiZone": "Develop",
-    "ratingCycles": {
-      "MY24": "Strong",
-      "YE24": "Strong", 
-      "MY25": "Above Strong"
-    },
-    "myRating": "Strong",
-    "yeRating": "Strong",
-    "lastPromoDate": "2020-09-15",
-    
-    "preparingForPromo": true,
-    "preparingForStretch": false,
-    "preparingForRotation": true,
-    
-    "futureTalentProfile": "Sales Leadership",
-    "differentiatedStrength": "Relationship Building & Revenue Generation",
-    "currentGapsOpportunities": "Team management and sales operations experience",
-    
-    "whatNeedsToBeDemonstrated": "Sales team leadership, territory management, and strategic account development",
-    "howToInvest": "Sales manager role, leadership training, and strategic account ownership",
-    "whatSupportNeeded": "Sales leadership mentor, management training, and business development workshops",
-    
-    "associateCareerAspirations": "Sales Manager, Regional Sales Director, or VP of Sales",
-    "previousDifferentialInvestment": "Sales leadership certification, negotiation mastery course, CRM optimization training",
-    
-    "retentionPlanNeeded": false,
-    "retentionPlanJustification": "",
-    "rotationStechPlanNeeded": true,
-    "rotationStechPlanJustification": "Cross-functional business experience needed for leadership growth",
-    
-    "lastHireDate": "2016-05-12",
-    "lastPromotedDate": "2020-09-15",
-    "performanceTrend": "Very Strong(YE24), Very Strong(MY24)",
-    "talentDevelopmentInventory": ["Sales Excellence", "Leadership Development"],
-    "attritionRisk": 22,
-    "skillsetExperience": ["Sales Strategy", "CRM", "Negotiation"],
-    "competencyStrengths": ["Relationship Building", "Revenue Generation"],
-    "careerInterest": ["Sales Management", "Business Strategy"],
-    "confirmedInterestInRotation": true,
-    "leadershipSupportOfRotation": true
-  },
-  {
-    "id": "emp9",
-    "name": "Priya Patel",
-    "email": "priya.patel@company.com",
-    "department": "Operations",
-    "currentRole": "Operations Analyst",
-    "yearsExperience": 3,
-    "performanceRating": "Strong",
-    "skills": ["Process Optimization", "Excel", "Project Management", "Data Analysis", "Lean Six Sigma", "SQL", "Machine Learning"],
-    "interests": ["Supply Chain", "Business Intelligence", "Process Automation"],
-    "careerGoals": ["Operations Manager", "Business Analyst"],
-    "availability": "Full-time",
-    "level": "Mid",
-    "jobTitle": "Operations Analyst",
-    
-    "timeInRole": "5 months",
-    "lengthOfService": "3 years 3 months",
-    "promotionForecast": "YE 2026",
-    "retentionRisk": "28%",
-    "tdiZone": "Maintain",
-    "ratingCycles": {
-      "MY24": "Strong",
-      "YE24": "Strong", 
-      "MY25": "Strong"
-    },
-    "myRating": "Solid",
-    "yeRating": "Solid",
-    "lastPromoDate": "2023-06-01",
-    
-    "preparingForPromo": false,
-    "preparingForStretch": true,
-    "preparingForRotation": true,
-    
-    "futureTalentProfile": "Operations Management",
-    "differentiatedStrength": "Process Optimization & Analytical Thinking",
-    "currentGapsOpportunities": "Leadership experience and strategic business understanding",
-    
-    "whatNeedsToBeDemonstrated": "Process leadership, cross-functional collaboration, and business impact measurement",
-    "howToInvest": "Process improvement projects, leadership training, and cross-functional assignments",
-    "whatSupportNeeded": "Operations mentor, business strategy training, and leadership development",
-    
-    "associateCareerAspirations": "Operations Manager, Business Analyst, or Process Excellence Lead",
-    "previousDifferentialInvestment": "Lean Six Sigma certification, project management course, data analysis training",
-    
-    "retentionPlanNeeded": true,
-    "retentionPlanJustification": "Moderate attrition risk due to limited advancement opportunities and skill development needs",
-    "rotationStechPlanNeeded": true,
-    "rotationStechPlanJustification": "Cross-functional exposure needed for business understanding and career growth",
-    
-    "lastHireDate": "2021-09-07",
-    "lastPromotedDate": "2023-06-01",
-    "performanceTrend": "Strong(YE24), Developing(MY24)",
-    "talentDevelopmentInventory": ["Process Excellence", "Skill Building"],
-    "attritionRisk": 28,
-    "skillsetExperience": ["Process Optimization", "Excel", "Project Management"],
-    "competencyStrengths": ["Analytical Thinking", "Process Improvement"],
-    "careerInterest": ["Operations Management", "Business Analysis"],
-    "confirmedInterestInRotation": true,
-    "leadershipSupportOfRotation": false
-  },
-  {
-    "id": "emp10",
-    "name": "James Wilson",
-    "email": "james.wilson@company.com",
-    "department": "Finance",
-    "currentRole": "Financial Analyst",
+    "currentRole": "Senior Director",
     "yearsExperience": 5,
     "performanceRating": "Strong",
-    "skills": ["Financial Modeling", "Excel", "SQL", "Tableau", "Risk Analysis"],
-    "interests": ["Investment Analysis", "Corporate Finance", "Financial Technology"],
-    "careerGoals": ["Senior Financial Analyst", "Finance Manager"],
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
     "availability": "Full-time",
-    "level": "Senior",
-    "jobTitle": "Financial Analyst",
-    
-    "timeInRole": "1 year 0 months",
-    "lengthOfService": "5 years 4 months",
-    "promotionForecast": "YE 2025",
-    "retentionRisk": "16%",
-    "tdiZone": "Invest Now",
+    "level": "Senior Director",
+    "jobTitle": "Senior Director - Software Engineering",
+    "timeInRole": "2 years 10 months",
+    "lengthOfService": "8 years 0 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
     "ratingCycles": {
       "MY24": "Strong",
-      "YE24": "Above Strong", 
+      "YE24": "Strong",
       "MY25": "Strong"
     },
     "myRating": "Strong",
-    "yeRating": "Above Strong",
-    "lastPromoDate": "2022-12-01",
-    
+    "yeRating": "Strong",
+    "lastPromoDate": "9/20/2024",
     "preparingForPromo": true,
     "preparingForStretch": true,
     "preparingForRotation": false,
-    
-    "futureTalentProfile": "Finance Leadership",
-    "differentiatedStrength": "Financial Modeling & Strategic Analysis",
-    "currentGapsOpportunities": "Team leadership and cross-functional business experience",
-    
-    "whatNeedsToBeDemonstrated": "Team leadership, strategic business partnering, and P&L analysis ownership",
-    "howToInvest": "Finance manager role, business partnering assignments, and leadership development",
-    "whatSupportNeeded": "Finance leadership mentor, business strategy training, and cross-functional projects",
-    
-    "associateCareerAspirations": "Finance Manager, Senior Financial Analyst, or Finance Director",
-    "previousDifferentialInvestment": "CFA certification, financial modeling advanced course, strategic finance program",
-    
+    "futureTalentProfile": "Software Engineering Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
     "retentionPlanNeeded": false,
     "retentionPlanJustification": "",
     "rotationStechPlanNeeded": false,
-    "rotationStechPlanJustification": "",
-    
-    "lastHireDate": "2019-07-15",
-    "lastPromotedDate": "2022-12-01",
-    "performanceTrend": "Exceptional(YE24), Very Strong(MY24)",
-    "talentDevelopmentInventory": ["High Potential", "Finance Excellence"],
-    "attritionRisk": 16,
-    "skillsetExperience": ["Financial Modeling", "SQL", "Risk Analysis"],
-    "competencyStrengths": ["Financial Analysis", "Strategic Planning"],
-    "careerInterest": ["Corporate Finance", "Investment Strategy"],
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "2/27/2017",
+    "lastPromotedDate": "9/20/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID012",
+    "name": "Skylar Thompson",
+    "email": "skylar.thompson@company.com",
+    "department": "Finance",
+    "currentRole": "Senior Principal",
+    "yearsExperience": 5,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Principal",
+    "jobTitle": "Senior Principal - Finance",
+    "timeInRole": "1 years 10 months",
+    "lengthOfService": "6 years 2 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "65%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "9/7/2023",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Finance Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "1/27/2024",
+    "lastPromotedDate": "9/7/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
     "confirmedInterestInRotation": false,
     "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID013",
+    "name": "Rowan White",
+    "email": "rowan.white@company.com",
+    "department": "Sales",
+    "currentRole": "Principal",
+    "yearsExperience": 12,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Principal",
+    "jobTitle": "Principal - Sales",
+    "timeInRole": "1 years 2 months",
+    "lengthOfService": "2 years 8 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "15%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "8/21/2021",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Sales Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "5/2/2022",
+    "lastPromotedDate": "8/21/2021",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID014",
+    "name": "Emery Harris",
+    "email": "emery.harris@company.com",
+    "department": "Data Science",
+    "currentRole": "Director",
+    "yearsExperience": 4,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - Data Science",
+    "timeInRole": "2 years 6 months",
+    "lengthOfService": "10 years 10 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "7/30/2021",
+    "preparingForPromo": false,
+    "preparingForStretch": true,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Data Science Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "5/23/2019",
+    "lastPromotedDate": "7/30/2021",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID015",
+    "name": "Finley Clark",
+    "email": "finley.clark@company.com",
+    "department": "Operations",
+    "currentRole": "Associate",
+    "yearsExperience": 10,
+    "performanceRating": "Strong",
+    "skills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Python",
+      "SQL",
+      "AWS"
+    ],
+    "interests": [
+      "Full Stack Development",
+      "Cloud Architecture",
+      "DevOps"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Associate",
+    "jobTitle": "Associate - Operations",
+    "timeInRole": "3 years 6 months",
+    "lengthOfService": "5 years 6 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "35%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "8/2/2024",
+    "preparingForPromo": false,
+    "preparingForStretch": true,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Operations Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "5/31/2015",
+    "lastPromotedDate": "8/2/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "JavaScript",
+      "React",
+      "Node.js"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID016",
+    "name": "Hayden Lewis",
+    "email": "hayden.lewis@company.com",
+    "department": "Marketing",
+    "currentRole": "VP",
+    "yearsExperience": 10,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "VP",
+    "jobTitle": "VP - Marketing",
+    "timeInRole": "3 years 1 months",
+    "lengthOfService": "7 years 5 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "65%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "9/20/2022",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Marketing Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "2/23/2021",
+    "lastPromotedDate": "9/20/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID017",
+    "name": "Peyton Walker",
+    "email": "peyton.walker@company.com",
+    "department": "Finance",
+    "currentRole": "Director",
+    "yearsExperience": 15,
+    "performanceRating": "Strong",
+    "skills": [
+      "React Native",
+      "iOS",
+      "Android",
+      "Swift",
+      "Kotlin",
+      "Mobile UI/UX"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - Finance",
+    "timeInRole": "1 years 3 months",
+    "lengthOfService": "5 years 6 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "65%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "3/9/2023",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Finance Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "5/1/2019",
+    "lastPromotedDate": "3/9/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "React Native",
+      "iOS",
+      "Android"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID018",
+    "name": "Cameron Hall",
+    "email": "cameron.hall@company.com",
+    "department": "Design",
+    "currentRole": "Associate",
+    "yearsExperience": 12,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Associate",
+    "jobTitle": "Associate - Design",
+    "timeInRole": "1 years 4 months",
+    "lengthOfService": "5 years 10 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "65%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "6/29/2021",
+    "preparingForPromo": false,
+    "preparingForStretch": true,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Design Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "8/18/2020",
+    "lastPromotedDate": "6/29/2021",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID019",
+    "name": "Drew Allen",
+    "email": "drew.allen@company.com",
+    "department": "Finance",
+    "currentRole": "Associate",
+    "yearsExperience": 10,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Associate",
+    "jobTitle": "Associate - Finance",
+    "timeInRole": "1 years 4 months",
+    "lengthOfService": "3 years 10 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "12/27/2022",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Finance Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "9/22/2015",
+    "lastPromotedDate": "12/27/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID020",
+    "name": "Blake Young",
+    "email": "blake.young@company.com",
+    "department": "Marketing",
+    "currentRole": "VP",
+    "yearsExperience": 2,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "VP",
+    "jobTitle": "VP - Marketing",
+    "timeInRole": "1 years 6 months",
+    "lengthOfService": "8 years 1 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "6/9/2021",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Marketing Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "4/30/2015",
+    "lastPromotedDate": "6/9/2021",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID021",
+    "name": "Reese King",
+    "email": "reese.king@company.com",
+    "department": "Product",
+    "currentRole": "Senior Director",
+    "yearsExperience": 7,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Director",
+    "jobTitle": "Senior Director - Product Management",
+    "timeInRole": "4 years 2 months",
+    "lengthOfService": "6 years 4 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "15%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "8/12/2024",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Product Management Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "10/19/2024",
+    "lastPromotedDate": "8/12/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID022",
+    "name": "Parker Wright",
+    "email": "parker.wright@company.com",
+    "department": "Marketing",
+    "currentRole": "Director",
+    "yearsExperience": 3,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - Marketing",
+    "timeInRole": "3 years 4 months",
+    "lengthOfService": "10 years 7 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "12/24/2024",
+    "preparingForPromo": false,
+    "preparingForStretch": true,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Marketing Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "9/8/2024",
+    "lastPromotedDate": "12/24/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID023",
+    "name": "Kendall Lopez",
+    "email": "kendall.lopez@company.com",
+    "department": "HR",
+    "currentRole": "Principal",
+    "yearsExperience": 5,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Principal",
+    "jobTitle": "Principal - HR",
+    "timeInRole": "3 years 1 months",
+    "lengthOfService": "7 years 5 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "35%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "12/17/2020",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "HR Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "3/14/2021",
+    "lastPromotedDate": "12/17/2020",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID024",
+    "name": "Marlowe Hill",
+    "email": "marlowe.hill@company.com",
+    "department": "HR",
+    "currentRole": "Director",
+    "yearsExperience": 15,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - HR",
+    "timeInRole": "4 years 5 months",
+    "lengthOfService": "7 years 1 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "8/8/2021",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "HR Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "7/5/2017",
+    "lastPromotedDate": "8/8/2021",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID025",
+    "name": "Teagan Scott",
+    "email": "teagan.scott@company.com",
+    "department": "Engineering",
+    "currentRole": "Director",
+    "yearsExperience": 16,
+    "performanceRating": "Strong",
+    "skills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Python",
+      "SQL",
+      "AWS"
+    ],
+    "interests": [
+      "Full Stack Development",
+      "Cloud Architecture",
+      "DevOps"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - Software Engineering",
+    "timeInRole": "2 years 3 months",
+    "lengthOfService": "8 years 1 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "65%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "7/17/2023",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Software Engineering Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "7/25/2015",
+    "lastPromotedDate": "7/17/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "JavaScript",
+      "React",
+      "Node.js"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID026",
+    "name": "Remy Green",
+    "email": "remy.green@company.com",
+    "department": "Marketing",
+    "currentRole": "Senior Director",
+    "yearsExperience": 2,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Director",
+    "jobTitle": "Senior Director - Marketing",
+    "timeInRole": "4 years 2 months",
+    "lengthOfService": "5 years 2 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "65%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "1/25/2024",
+    "preparingForPromo": false,
+    "preparingForStretch": true,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Marketing Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "7/15/2019",
+    "lastPromotedDate": "1/25/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID027",
+    "name": "Shiloh Adams",
+    "email": "shiloh.adams@company.com",
+    "department": "Product",
+    "currentRole": "Senior Associate",
+    "yearsExperience": 12,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Associate",
+    "jobTitle": "Senior Associate - Product Management",
+    "timeInRole": "3 years 1 months",
+    "lengthOfService": "2 years 10 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "15%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "4/14/2021",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Product Management Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "5/17/2023",
+    "lastPromotedDate": "4/14/2021",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID028",
+    "name": "Indigo Baker",
+    "email": "indigo.baker@company.com",
+    "department": "Finance",
+    "currentRole": "Senior Associate",
+    "yearsExperience": 9,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Associate",
+    "jobTitle": "Senior Associate - Finance",
+    "timeInRole": "3 years 1 months",
+    "lengthOfService": "10 years 5 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "35%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "12/30/2022",
+    "preparingForPromo": false,
+    "preparingForStretch": true,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Finance Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "3/16/2023",
+    "lastPromotedDate": "12/30/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID029",
+    "name": "Kai Gonzalez",
+    "email": "kai.gonzalez@company.com",
+    "department": "Product",
+    "currentRole": "Director",
+    "yearsExperience": 14,
+    "performanceRating": "Strong",
+    "skills": [
+      "React Native",
+      "iOS",
+      "Android",
+      "Swift",
+      "Kotlin",
+      "Mobile UI/UX"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - Product Management",
+    "timeInRole": "1 years 11 months",
+    "lengthOfService": "9 years 0 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "35%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "7/23/2024",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Product Management Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "5/8/2023",
+    "lastPromotedDate": "7/23/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "React Native",
+      "iOS",
+      "Android"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID030",
+    "name": "Lennox Nelson",
+    "email": "lennox.nelson@company.com",
+    "department": "Operations",
+    "currentRole": "Director",
+    "yearsExperience": 12,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - Operations",
+    "timeInRole": "4 years 11 months",
+    "lengthOfService": "2 years 3 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "35%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "9/10/2022",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Operations Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "6/21/2024",
+    "lastPromotedDate": "9/10/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID031",
+    "name": "Briar Carter",
+    "email": "briar.carter@company.com",
+    "department": "Design",
+    "currentRole": "Senior Principal",
+    "yearsExperience": 8,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Principal",
+    "jobTitle": "Senior Principal - Design",
+    "timeInRole": "3 years 3 months",
+    "lengthOfService": "8 years 11 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "9/8/2022",
+    "preparingForPromo": true,
+    "preparingForStretch": true,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Design Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "9/6/2015",
+    "lastPromotedDate": "9/8/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID032",
+    "name": "Wren Mitchell",
+    "email": "wren.mitchell@company.com",
+    "department": "HR",
+    "currentRole": "Senior Associate",
+    "yearsExperience": 2,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Associate",
+    "jobTitle": "Senior Associate - HR",
+    "timeInRole": "1 years 9 months",
+    "lengthOfService": "3 years 1 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "65%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "1/8/2022",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "HR Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "8/28/2019",
+    "lastPromotedDate": "1/8/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID033",
+    "name": "Sage Perez",
+    "email": "sage.perez@company.com",
+    "department": "Data Science",
+    "currentRole": "VP",
+    "yearsExperience": 13,
+    "performanceRating": "Strong",
+    "skills": [
+      "React Native",
+      "iOS",
+      "Android",
+      "Swift",
+      "Kotlin",
+      "Mobile UI/UX"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "VP",
+    "jobTitle": "VP - Data Science",
+    "timeInRole": "4 years 4 months",
+    "lengthOfService": "3 years 7 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "65%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "5/16/2020",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Data Science Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "4/7/2019",
+    "lastPromotedDate": "5/16/2020",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "React Native",
+      "iOS",
+      "Android"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID034",
+    "name": "River Roberts",
+    "email": "river.roberts@company.com",
+    "department": "Marketing",
+    "currentRole": "Senior Director",
+    "yearsExperience": 2,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Director",
+    "jobTitle": "Senior Director - Marketing",
+    "timeInRole": "2 years 0 months",
+    "lengthOfService": "11 years 11 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "35%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "7/15/2020",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Marketing Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "4/10/2021",
+    "lastPromotedDate": "7/15/2020",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID035",
+    "name": "Aspen Turner",
+    "email": "aspen.turner@company.com",
+    "department": "Product",
+    "currentRole": "VP",
+    "yearsExperience": 8,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "VP",
+    "jobTitle": "VP - Product Management",
+    "timeInRole": "3 years 4 months",
+    "lengthOfService": "2 years 8 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "35%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "1/17/2024",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Product Management Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "5/30/2015",
+    "lastPromotedDate": "1/17/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID036",
+    "name": "Oakley Phillips",
+    "email": "oakley.phillips@company.com",
+    "department": "Finance",
+    "currentRole": "Director",
+    "yearsExperience": 7,
+    "performanceRating": "Strong",
+    "skills": [
+      "React Native",
+      "iOS",
+      "Android",
+      "Swift",
+      "Kotlin",
+      "Mobile UI/UX"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - Finance",
+    "timeInRole": "2 years 8 months",
+    "lengthOfService": "9 years 2 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "65%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "8/23/2020",
+    "preparingForPromo": true,
+    "preparingForStretch": true,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Finance Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "1/13/2019",
+    "lastPromotedDate": "8/23/2020",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "React Native",
+      "iOS",
+      "Android"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID037",
+    "name": "Juniper Campbell",
+    "email": "juniper.campbell@company.com",
+    "department": "Data Science",
+    "currentRole": "Principal",
+    "yearsExperience": 9,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Principal",
+    "jobTitle": "Principal - Data Science",
+    "timeInRole": "3 years 3 months",
+    "lengthOfService": "11 years 9 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "5/4/2023",
+    "preparingForPromo": true,
+    "preparingForStretch": true,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Data Science Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "1/22/2017",
+    "lastPromotedDate": "5/4/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID038",
+    "name": "Cedar Parker",
+    "email": "cedar.parker@company.com",
+    "department": "Operations",
+    "currentRole": "Senior Principal",
+    "yearsExperience": 3,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Principal",
+    "jobTitle": "Senior Principal - Operations",
+    "timeInRole": "1 years 3 months",
+    "lengthOfService": "3 years 4 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "15%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "3/27/2022",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Operations Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "2/4/2018",
+    "lastPromotedDate": "3/27/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID039",
+    "name": "Willow Evans",
+    "email": "willow.evans@company.com",
+    "department": "Product",
+    "currentRole": "Associate",
+    "yearsExperience": 13,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Associate",
+    "jobTitle": "Associate - Product Management",
+    "timeInRole": "2 years 11 months",
+    "lengthOfService": "6 years 0 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "65%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "7/5/2020",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Product Management Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "12/4/2018",
+    "lastPromotedDate": "7/5/2020",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID040",
+    "name": "Rowan Edwards",
+    "email": "rowan.edwards@company.com",
+    "department": "Operations",
+    "currentRole": "VP",
+    "yearsExperience": 7,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "VP",
+    "jobTitle": "VP - Operations",
+    "timeInRole": "2 years 6 months",
+    "lengthOfService": "8 years 3 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "9/29/2020",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Operations Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "11/23/2023",
+    "lastPromotedDate": "9/29/2020",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID041",
+    "name": "Sage Collins",
+    "email": "sage.collins@company.com",
+    "department": "Operations",
+    "currentRole": "Senior Principal",
+    "yearsExperience": 6,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Principal",
+    "jobTitle": "Senior Principal - Operations",
+    "timeInRole": "1 years 6 months",
+    "lengthOfService": "10 years 6 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "65%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "8/25/2023",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Operations Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "9/2/2015",
+    "lastPromotedDate": "8/25/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID042",
+    "name": "River Stewart",
+    "email": "river.stewart@company.com",
+    "department": "HR",
+    "currentRole": "Principal",
+    "yearsExperience": 9,
+    "performanceRating": "Strong",
+    "skills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Python",
+      "SQL",
+      "AWS"
+    ],
+    "interests": [
+      "Full Stack Development",
+      "Cloud Architecture",
+      "DevOps"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Principal",
+    "jobTitle": "Principal - HR",
+    "timeInRole": "4 years 9 months",
+    "lengthOfService": "7 years 0 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "65%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "10/17/2023",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "HR Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "9/14/2020",
+    "lastPromotedDate": "10/17/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "JavaScript",
+      "React",
+      "Node.js"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID043",
+    "name": "Aspen Sanchez",
+    "email": "aspen.sanchez@company.com",
+    "department": "Finance",
+    "currentRole": "Senior Principal",
+    "yearsExperience": 7,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Principal",
+    "jobTitle": "Senior Principal - Finance",
+    "timeInRole": "4 years 7 months",
+    "lengthOfService": "11 years 10 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "35%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "7/30/2024",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Finance Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "4/12/2021",
+    "lastPromotedDate": "7/30/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID044",
+    "name": "Oakley Morris",
+    "email": "oakley.morris@company.com",
+    "department": "Marketing",
+    "currentRole": "Senior Director",
+    "yearsExperience": 5,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Director",
+    "jobTitle": "Senior Director - Marketing",
+    "timeInRole": "1 years 6 months",
+    "lengthOfService": "7 years 1 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "65%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "4/10/2023",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Marketing Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "8/4/2019",
+    "lastPromotedDate": "4/10/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": false
+  },
+  {
+    "id": "EID045",
+    "name": "Juniper Rogers",
+    "email": "juniper.rogers@company.com",
+    "department": "Data Science",
+    "currentRole": "Principal",
+    "yearsExperience": 2,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Principal",
+    "jobTitle": "Principal - Data Science",
+    "timeInRole": "4 years 6 months",
+    "lengthOfService": "10 years 7 months",
+    "promotionForecast": "YE 2025",
+    "retentionRisk": "15%",
+    "tdiZone": "Invest Now",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "3/13/2022",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Data Science Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "4/24/2015",
+    "lastPromotedDate": "3/13/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Invest Now",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID046",
+    "name": "Cedar Reed",
+    "email": "cedar.reed@company.com",
+    "department": "Sales",
+    "currentRole": "Principal",
+    "yearsExperience": 12,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Principal",
+    "jobTitle": "Principal - Sales",
+    "timeInRole": "2 years 4 months",
+    "lengthOfService": "7 years 8 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "65%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "7/17/2020",
+    "preparingForPromo": false,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Sales Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": true,
+    "retentionPlanJustification": "High attrition risk requires retention plan",
+    "rotationStechPlanNeeded": false,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "3/18/2024",
+    "lastPromotedDate": "7/17/2020",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 65,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID047",
+    "name": "Willow Cook",
+    "email": "willow.cook@company.com",
+    "department": "Operations",
+    "currentRole": "Director",
+    "yearsExperience": 5,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Director",
+    "jobTitle": "Director - Operations",
+    "timeInRole": "2 years 6 months",
+    "lengthOfService": "5 years 7 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "35%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "1/23/2022",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Operations Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "5/7/2024",
+    "lastPromotedDate": "1/23/2022",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID048",
+    "name": "Rowan Bailey",
+    "email": "rowan.bailey@company.com",
+    "department": "Sales",
+    "currentRole": "Senior Principal",
+    "yearsExperience": 6,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Principal",
+    "jobTitle": "Senior Principal - Sales",
+    "timeInRole": "4 years 11 months",
+    "lengthOfService": "3 years 8 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "4/21/2023",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": true,
+    "futureTalentProfile": "Sales Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "12/20/2018",
+    "lastPromotedDate": "4/21/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Support in Current Role",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID049",
+    "name": "Sage Rivera",
+    "email": "sage.rivera@company.com",
+    "department": "Operations",
+    "currentRole": "Senior Associate",
+    "yearsExperience": 9,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Associate",
+    "jobTitle": "Senior Associate - Operations",
+    "timeInRole": "1 years 0 months",
+    "lengthOfService": "5 years 3 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "35%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "7/31/2024",
+    "preparingForPromo": false,
+    "preparingForStretch": true,
+    "preparingForRotation": false,
+    "futureTalentProfile": "Operations Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "5/18/2022",
+    "lastPromotedDate": "7/31/2024",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 35,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": false,
+    "leadershipSupportOfRotation": true
+  },
+  {
+    "id": "EID050",
+    "name": "River Cooper",
+    "email": "river.cooper@company.com",
+    "department": "HR",
+    "currentRole": "Senior Principal",
+    "yearsExperience": 5,
+    "performanceRating": "Strong",
+    "skills": [
+      "Technical Skills",
+      "Problem Solving",
+      "Communication"
+    ],
+    "interests": [
+      "Technology",
+      "Innovation",
+      "Leadership"
+    ],
+    "careerGoals": [
+      "Technical Lead",
+      "Manager",
+      "Principal"
+    ],
+    "availability": "Full-time",
+    "level": "Senior Principal",
+    "jobTitle": "Senior Principal - HR",
+    "timeInRole": "1 years 6 months",
+    "lengthOfService": "5 years 10 months",
+    "promotionForecast": "MY 2026",
+    "retentionRisk": "15%",
+    "tdiZone": "Develop",
+    "ratingCycles": {
+      "MY24": "Strong",
+      "YE24": "Strong",
+      "MY25": "Strong"
+    },
+    "myRating": "Strong",
+    "yeRating": "Strong",
+    "lastPromoDate": "10/25/2023",
+    "preparingForPromo": true,
+    "preparingForStretch": false,
+    "preparingForRotation": false,
+    "futureTalentProfile": "HR Leadership",
+    "differentiatedStrength": "Technical Excellence & Innovation",
+    "currentGapsOpportunities": "Leadership experience and cross-functional collaboration",
+    "whatNeedsToBeDemonstrated": "Team leadership, mentoring, and strategic thinking",
+    "howToInvest": "Leadership opportunities, training, and cross-team projects",
+    "whatSupportNeeded": "Senior mentor, leadership development program, and stretch assignments",
+    "associateCareerAspirations": "Manager, Director, VP",
+    "previousDifferentialInvestment": "Professional development, certifications, leadership training",
+    "retentionPlanNeeded": false,
+    "retentionPlanJustification": "",
+    "rotationStechPlanNeeded": true,
+    "rotationStechPlanJustification": "Cross-functional experience needed for career growth",
+    "lastHireDate": "12/27/2018",
+    "lastPromotedDate": "10/25/2023",
+    "performanceTrend": "undefined(YE24), undefined(MY24)",
+    "talentDevelopmentInventory": [
+      "Emerging Growth",
+      "High Potential"
+    ],
+    "attritionRisk": 15,
+    "skillsetExperience": [
+      "Technical Skills"
+    ],
+    "competencyStrengths": [
+      "Technical Excellence",
+      "Problem Solving"
+    ],
+    "careerInterest": [
+      "Technology",
+      "Leadership"
+    ],
+    "confirmedInterestInRotation": true,
+    "leadershipSupportOfRotation": false
   }
 ]

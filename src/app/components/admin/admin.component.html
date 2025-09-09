@@ -55,7 +55,11 @@
         <div class="file-upload-section">
           <div class="upload-area" 
                [class.has-file]="opportunitiesFile"
-               [class.uploading]="opportunitiesUploading">
+               [class.uploading]="opportunitiesUploading"
+               [class.drag-over]="opportunitiesDragOver"
+               (dragover)="onOpportunitiesDragOver($event)"
+               (dragleave)="onOpportunitiesDragLeave($event)"
+               (drop)="onOpportunitiesDrop($event)">
             
             <input type="file" 
                    id="opportunities-file-input"
@@ -65,8 +69,8 @@
             
             <div class="upload-content" *ngIf="!opportunitiesFile">
               <mat-icon class="upload-icon">cloud_upload</mat-icon>
-              <h3>Select CSV File</h3>
-              <p>Choose a CSV file containing opportunities data</p>
+              <h3>Drag & Drop CSV File</h3>
+              <p>Drag your opportunities CSV file here or click to browse</p>
               <button mat-raised-button 
                       color="primary"
                       (click)="triggerOpportunitiesFileInput()">
@@ -148,7 +152,11 @@
         <div class="file-upload-section">
           <div class="upload-area" 
                [class.has-file]="employeesFile"
-               [class.uploading]="employeesUploading">
+               [class.uploading]="employeesUploading"
+               [class.drag-over]="employeesDragOver"
+               (dragover)="onEmployeesDragOver($event)"
+               (dragleave)="onEmployeesDragLeave($event)"
+               (drop)="onEmployeesDrop($event)">
             
             <input type="file" 
                    id="employees-file-input"
@@ -158,8 +166,8 @@
             
             <div class="upload-content" *ngIf="!employeesFile">
               <mat-icon class="upload-icon">cloud_upload</mat-icon>
-              <h3>Select CSV File</h3>
-              <p>Choose a CSV file containing employee data</p>
+              <h3>Drag & Drop CSV File</h3>
+              <p>Drag your employees CSV file here or click to browse</p>
               <button mat-raised-button 
                       color="primary"
                       (click)="triggerEmployeesFileInput()">

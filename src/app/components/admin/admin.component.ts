@@ -12,7 +12,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OpportunityService } from '../../services/opportunity.service';
 import { EmployeeService } from '../../services/employee.service';
+import { CsvImportService } from '../../services/csv-import.service';
+import { IndexedDbService } from '../../services/indexed-db.service';
 import { Opportunity, Employee } from '../../models/employee.model';
+import { ComprehensiveEmployee } from '../../models/comprehensive-employee.model';
 
 interface UploadResult {
   success: boolean;
@@ -53,6 +56,10 @@ export class AdminComponent implements OnInit, OnDestroy {
   opportunitiesUploading = false;
   employeesUploading = false;
   
+  // Drag and drop states
+  opportunitiesDragOver = false;
+  employeesDragOver = false;
+  
   // File references
   opportunitiesFile: File | null = null;
   employeesFile: File | null = null;
@@ -71,6 +78,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   constructor(
     private opportunityService: OpportunityService,
     private employeeService: EmployeeService,
+    private csvImportService: CsvImportService,
+    private indexedDbService: IndexedDbService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
@@ -88,26 +97,39 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.showHelpPopup = !this.showHelpPopup;
   }
 
-  private loadCurrentStats(): void {
+  private async loadCurrentStats(): Promise<void> {
     this.opportunityService.getOpportunities()
       .pipe(takeUntil(this.destroy$))
       .subscribe(opportunities => {
         this.currentOpportunities = opportunities.length;
       });
 
-    this.employeeService.getEmployees()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(employees => {
-        this.currentEmployees = employees.length;
-      });
+    // Load employee count from IndexedDB
+    try {
+      this.currentEmployees = await this.indexedDbService.getEmployeeCount();
+    } catch (error) {
+      console.error('Error loading employee count:', error);
+      // Fallback to original service
+      this.employeeService.getEmployees()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(employees => {
+          this.currentEmployees = employees.length;
+        });
+    }
   }
 
   // Opportunities CSV Upload
-  onOpportunitiesFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.opportunitiesFile = input.files[0];
+  onOpportunitiesFileSelected(event: any): void {
+    const file = event.target.files[0];
+    this.handleOpportunitiesFile(file);
+  }
+
+  private handleOpportunitiesFile(file: File): void {
+    if (file && file.type === 'text/csv') {
+      this.opportunitiesFile = file;
       this.opportunitiesResult = null;
+    } else {
+      this.snackBar.open('Please select a valid CSV file', 'Close', { duration: 3000 });
     }
   }
 
@@ -161,11 +183,17 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   // Employees CSV Upload
-  onEmployeesFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.employeesFile = input.files[0];
+  onEmployeesFileSelected(event: any): void {
+    const file = event.target.files[0];
+    this.handleEmployeesFile(file);
+  }
+
+  private handleEmployeesFile(file: File): void {
+    if (file && file.type === 'text/csv') {
+      this.employeesFile = file;
       this.employeesResult = null;
+    } else {
+      this.snackBar.open('Please select a valid CSV file', 'Close', { duration: 3000 });
     }
   }
 
@@ -179,26 +207,23 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.employeesResult = null;
 
     try {
-      const csvText = await this.readFileAsText(this.employeesFile);
-      const employees = this.parseEmployeesCSV(csvText);
+      // Use the comprehensive CSV import service
+      const result = await this.csvImportService.importFromFile(this.employeesFile);
       
-      if (employees.length === 0) {
-        throw new Error('No valid employees found in CSV file');
+      if (result.success > 0) {
+        this.employeesResult = {
+          success: true,
+          message: `Successfully imported ${result.success} employees to IndexedDB`,
+          count: result.success
+        };
+        
+        this.snackBar.open(this.employeesResult.message, 'Close', { 
+          duration: 5000,
+          panelClass: ['success-snackbar']
+        });
+      } else {
+        throw new Error(result.errors.join(', ') || 'Import failed');
       }
-
-      // Upload employees to service
-      await this.employeeService.uploadEmployees(employees);
-      
-      this.employeesResult = {
-        success: true,
-        message: `Successfully uploaded ${employees.length} employees`,
-        count: employees.length
-      };
-      
-      this.snackBar.open(this.employeesResult.message, 'Close', { 
-        duration: 5000,
-        panelClass: ['success-snackbar']
-      });
       
       this.loadCurrentStats();
       
@@ -238,15 +263,15 @@ export class AdminComponent implements OnInit, OnDestroy {
           title: values[headers.indexOf('title')] || '',
           department: values[headers.indexOf('department')] || '',
           description: values[headers.indexOf('description')] || '',
-          requiredSkills: this.parseSkillsArray(values[headers.indexOf('requiredskills')] || values[headers.indexOf('skills')] || ''),
-          preferredSkills: [],
-          timeCommitment: values[headers.indexOf('duration')] || '',
+          requiredSkills: this.parseSkillsArray(values[headers.indexOf('requiredskills')] || ''),
+          preferredSkills: this.parseSkillsArray(values[headers.indexOf('preferredskills')] || ''),
+          timeCommitment: values[headers.indexOf('timecommitment')] || '',
           duration: values[headers.indexOf('duration')] || '',
-          learningOutcomes: [],
-          mentorAvailable: false,
+          learningOutcomes: this.parseSkillsArray(values[headers.indexOf('learningoutcomes')] || ''),
+          mentorAvailable: this.parseBoolean(values[headers.indexOf('mentoravailable')] || 'false'),
           remote: this.parseBoolean(values[headers.indexOf('remote')] || 'false'),
-          level: this.parseLevel(values[headers.indexOf('experiencelevel')] || 'Mid'),
-          applicationDeadline: values[headers.indexOf('deadline')] || '',
+          level: this.parseLevel(values[headers.indexOf('level')] || values[headers.indexOf('experiencelevel')] || 'Associate'),
+          applicationDeadline: values[headers.indexOf('applicationdeadline')] || '',
           startDate: values[headers.indexOf('startdate')] || '',
           leader: values[headers.indexOf('leader')] || '',
           jobLevel: values[headers.indexOf('joblevel')] || '',
@@ -259,7 +284,7 @@ export class AdminComponent implements OnInit, OnDestroy {
           lossImpact: this.parseLossImpact(values[headers.indexOf('lossimpact')] || 'Medium'),
           attritionRisk: this.parseAttritionRisk(values[headers.indexOf('attritionrisk')] || 'Medium'),
           attritionResponse: values[headers.indexOf('attritionresponse')] || '',
-          previousPerformanceRatings: this.parseSkillsArray(values[headers.indexOf('previousratings')] || ''),
+          previousPerformanceRatings: this.parseSkillsArray(values[headers.indexOf('previousperformanceratings')] || ''),
           rotationLevel: values[headers.indexOf('rotationlevel')] || '',
           rotationLength: values[headers.indexOf('rotationlength')] || '',
           submittedBy: values[headers.indexOf('submittedby')] || ''
@@ -291,22 +316,22 @@ export class AdminComponent implements OnInit, OnDestroy {
 
       try {
         const employee: Employee = {
-          id: values[headers.indexOf('id')] || `emp_${Date.now()}_${i}`,
-          name: values[headers.indexOf('name')] || '',
+          id: values[headers.indexOf('eid')] || values[headers.indexOf('id')] || `emp_${Date.now()}_${i}`,
+          name: values[headers.indexOf('full name')] || values[headers.indexOf('name')] || '',
           email: values[headers.indexOf('email')] || '',
-          department: values[headers.indexOf('department')] || '',
-          currentRole: values[headers.indexOf('role')] || values[headers.indexOf('currentrole')] || '',
-          yearsExperience: parseInt(values[headers.indexOf('experience')] || values[headers.indexOf('yearsexperience')] || '0'),
-          performanceRating: this.parsePerformanceRating(values[headers.indexOf('performancerating')] || 'Meets'),
-          skills: this.parseSkillsArray(values[headers.indexOf('skills')] || ''),
+          department: values[headers.indexOf('job family')] || values[headers.indexOf('department')] || '',
+          currentRole: values[headers.indexOf('job level')] || values[headers.indexOf('role')] || values[headers.indexOf('currentrole')] || '',
+          yearsExperience: parseInt(values[headers.indexOf('years experience')] || values[headers.indexOf('experience')] || values[headers.indexOf('yearsexperience')] || '0'),
+          performanceRating: this.parsePerformanceRating(values[headers.indexOf('recent year end performance')] || values[headers.indexOf('performancerating')] || 'Meets'),
+          skills: this.parseSkillsArray(values[headers.indexOf('technical skillset')] || values[headers.indexOf('skills')] || ''),
           interests: this.parseSkillsArray(values[headers.indexOf('interests')] || ''),
           careerGoals: this.parseSkillsArray(values[headers.indexOf('careergoals')] || ''),
           availability: this.parseAvailability(values[headers.indexOf('availability')] || 'Full-time'),
-          timeInRole: values[headers.indexOf('timeinrole')] || '',
-          lengthOfService: values[headers.indexOf('lengthofservice')] || '',
-          promotionForecast: values[headers.indexOf('promotionforecast')] || '',
-          retentionRisk: values[headers.indexOf('retentionrisk')] || '',
-          tdiZone: values[headers.indexOf('tdizone')] || '',
+          timeInRole: values[headers.indexOf('time in role')] || values[headers.indexOf('timeinrole')] || '',
+          lengthOfService: values[headers.indexOf('length of service')] || values[headers.indexOf('lengthofservice')] || '',
+          promotionForecast: values[headers.indexOf('promotion forecast')] || values[headers.indexOf('promotionforecast')] || '',
+          retentionRisk: values[headers.indexOf('attrition risk')] || values[headers.indexOf('retentionrisk')] || '',
+          tdiZone: values[headers.indexOf('dev zone')] || values[headers.indexOf('tdizone')] || '',
           myRating: values[headers.indexOf('myrating')] || '',
           yeRating: values[headers.indexOf('yerating')] || '',
           lastPromoDate: values[headers.indexOf('lastpromodate')] || '',
@@ -372,19 +397,41 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   private parseSkillsArray(skillsString: string): string[] {
     if (!skillsString) return [];
-    return skillsString.split(';').map(skill => skill.trim()).filter(skill => skill);
+    return skillsString.split(',').map(skill => skill.trim()).filter(skill => skill);
   }
 
   private parseBoolean(value: string): boolean {
     return value.toLowerCase() === 'true' || value === '1' || value.toLowerCase() === 'yes';
   }
 
-  private parseLevel(value: string): 'Entry' | 'Mid' | 'Senior' | 'Lead' {
-    const normalized = value.toLowerCase();
-    if (normalized.includes('entry') || normalized.includes('junior')) return 'Entry';
-    if (normalized.includes('senior')) return 'Senior';
-    if (normalized.includes('lead') || normalized.includes('principal')) return 'Lead';
-    return 'Mid';
+  private parseLevel(value: string): 'Associate' | 'Senior Associate' | 'Principal Associate' | 'Manager' | 'Sr. Manager' | 'Director' | 'Sr. Director' | 'Senior Director' | 'Principal' | 'Executive' {
+    const normalized = value.toLowerCase().trim();
+    
+    // Check for exact matches first
+    if (normalized === 'executive') return 'Executive';
+    if (normalized === 'sr. director' || normalized === 'sr director') return 'Sr. Director';
+    if (normalized === 'senior director') return 'Senior Director';
+    if (normalized === 'director') return 'Director';
+    if (normalized === 'sr. manager' || normalized === 'sr manager') return 'Sr. Manager';
+    if (normalized === 'manager') return 'Manager';
+    if (normalized === 'principal associate') return 'Principal Associate';
+    if (normalized === 'principal') return 'Principal';
+    if (normalized === 'senior associate') return 'Senior Associate';
+    if (normalized === 'associate') return 'Associate';
+    
+    // Check for partial matches if no exact match found
+    if (normalized.includes('executive')) return 'Executive';
+    if (normalized.includes('sr. director') || normalized.includes('sr director')) return 'Sr. Director';
+    if (normalized.includes('senior director')) return 'Senior Director';
+    if (normalized.includes('director')) return 'Director';
+    if (normalized.includes('sr. manager') || normalized.includes('sr manager')) return 'Sr. Manager';
+    if (normalized.includes('manager')) return 'Manager';
+    if (normalized.includes('principal associate')) return 'Principal Associate';
+    if (normalized.includes('principal')) return 'Principal';
+    if (normalized.includes('senior associate')) return 'Senior Associate';
+    if (normalized.includes('associate')) return 'Associate';
+    
+    return 'Associate';
   }
 
   private parsePlIc(value: string): 'PL' | 'IC' {
@@ -445,8 +492,35 @@ export class AdminComponent implements OnInit, OnDestroy {
   clearOpportunitiesFile(): void {
     this.opportunitiesFile = null;
     this.opportunitiesResult = null;
-    const input = document.getElementById('opportunities-file-input') as HTMLInputElement;
-    if (input) input.value = '';
+    // Reset the file input
+    const fileInput = document.getElementById('opportunities-file-input') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
+
+  onOpportunitiesDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.opportunitiesDragOver = true;
+  }
+
+  onOpportunitiesDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.opportunitiesDragOver = false;
+  }
+
+  onOpportunitiesDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.opportunitiesDragOver = false;
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      this.handleOpportunitiesFile(file);
+    }
   }
 
   clearEmployeesFile(): void {
@@ -454,6 +528,31 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.employeesResult = null;
     const input = document.getElementById('employees-file-input') as HTMLInputElement;
     if (input) input.value = '';
+  }
+
+  // Drag and drop handlers for employees
+  onEmployeesDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.employeesDragOver = true;
+  }
+
+  onEmployeesDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.employeesDragOver = false;
+  }
+
+  onEmployeesDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.employeesDragOver = false;
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      this.handleEmployeesFile(file);
+    }
   }
 
   // Download sample CSV templates
@@ -469,12 +568,11 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   downloadEmployeesSample(): void {
     const sampleData = [
-      ['id', 'name', 'email', 'department', 'role', 'location', 'skills', 'experience', 'availability', 'performanceRating', 'remote', 'workType'],
-      ['emp_001', 'John Smith', 'john.smith@company.com', 'Engineering', 'Software Engineer', 'San Francisco, CA', 'JavaScript;React;Node.js;Python', '5', 'Available', '4.2', 'true', 'Full-time'],
-      ['emp_002', 'Sarah Johnson', 'sarah.johnson@company.com', 'Product', 'Product Manager', 'New York, NY', 'Product Management;Agile;Analytics;SQL', '3', 'Available', '4.5', 'false', 'Full-time']
+      ['EID', 'Full Name', 'Job Level', 'Job Family', 'Last Hire', 'Last Promoted Data', 'Dev Zone', 'Loss Impact', 'Attrition Risk', 'Attrition Response', 'Career Clarity', 'Recent Year End Performance', 'Mid Year Performance Rating', 'Last Year End Performance Rating', 'PL or IC', 'Reports to 3', 'Reports to 4', 'Reports to 5', 'Technical SkillSet', 'Loss Impact Description', 'Investment Assessment', 'Strength Type', 'Strength Value', 'Gaps Type 1', 'Gaps Recommendation 1', 'Gaps Value 1', 'Gaps Type 2', 'Gaps Recommendation 2', 'Gaps Value 2'],
+      ['EID0001', 'Jordan Blake', 'Director', 'Software Engineering', '9/15/08', '2/3/25', 'Invest Now', 'Medium', 'Low', 'Enthusiasically look to retain', 'Somewhat Agree', '2-Very Strong', 'Strong', '2-Very Strong', 'IC', 'Kamlesh', 'Chris Nicotra, Howard Dierking', 'Parvesh Kumar, Jana Ragupathy', 'Fullstack, Backend', 'Associate has been emerging as a strong engineer among, taking ownership of initiatives', 'They need continued coaching and mentorship to refine their skills', 'Hard/Job Specific Skills, Problem Solving', 'They have demonstrated strong leadership by mentoring the team', 'It will set the associate up for success at the next level', 'They need to improve their ability to articulate complex technical concepts', 'They need to improve their ability to articulate complex technical concepts to non-technical stakeholders', 'It would close a gap that is currently getting in the associates way', 'Focus on communication and presentation skills training', 'Develop better stakeholder management and technical communication abilities']
     ];
     
-    this.downloadCSV(sampleData, 'employees-sample.csv');
+    this.downloadCSV(sampleData, 'comprehensive-employees-sample.csv');
   }
 
   private downloadCSV(data: string[][], filename: string): void {

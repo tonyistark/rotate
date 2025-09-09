@@ -349,15 +349,18 @@
                     <div class="header-text">
                       <h2>Available Opportunities</h2>
                       <p class="section-subtitle">Select an opportunity to view employee matches • Double-click to view details</p>
+                      <div class="header-toggle">
+                        <mat-slide-toggle 
+                          [(ngModel)]="showMatchedOpportunities"
+                          (change)="onToggleMatchedOpportunities()"
+                          color="primary"
+                          class="matched-toggle">
+                          Show Matched
+                        </mat-slide-toggle>
+                      </div>
                     </div>
                     <div class="header-controls">
-                      <mat-slide-toggle 
-                        [(ngModel)]="showMatchedOpportunities"
-                        (change)="onToggleMatchedOpportunities()"
-                        color="primary"
-                        class="matched-toggle">
-                        Show Matched
-                      </mat-slide-toggle>
+                      <!-- Empty space for FAB buttons -->
                     </div>
                   </div>
                   
@@ -423,6 +426,34 @@
                           <span *ngIf="opportunity.requiredSkills.length > 3" class="more-skills">
                             +{{opportunity.requiredSkills.length - 3}} more
                           </span>
+                        </div>
+                        
+                        <!-- Team Matches Section -->
+                        <div class="team-matches" *ngIf="hasMatches(opportunity.id)">
+                          <div class="matches-header">
+                            <mat-icon>people</mat-icon>
+                            <span>Team Matches</span>
+                          </div>
+                          <div class="match-counts">
+                            <div class="match-count excellent" *ngIf="getOpportunityExcellentMatchCount(opportunity.id) > 0">
+                              <span class="count">{{getOpportunityExcellentMatchCount(opportunity.id)}}</span>
+                              <span class="label">Excellent</span>
+                            </div>
+                            <div class="match-count good" *ngIf="getOpportunityGoodMatchCount(opportunity.id) > 0">
+                              <span class="count">{{getOpportunityGoodMatchCount(opportunity.id)}}</span>
+                              <span class="label">Good</span>
+                            </div>
+                            <div class="match-count total">
+                              <span class="count">{{getOpportunityMatchCount(opportunity.id)}}</span>
+                              <span class="label">Total Matches</span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- No Matches Message -->
+                        <div class="no-matches" *ngIf="!hasMatches(opportunity.id) && !opportunity.assignedEmployee">
+                          <mat-icon>info</mat-icon>
+                          <span>No employee matches found</span>
                         </div>
                         <div class="opportunity-meta">
                           <div class="meta-item">
@@ -694,6 +725,10 @@
                   
                   <!-- Enhanced match information -->
                   <div class="match-metrics">
+                    <div class="experience-info">
+                      <mat-icon>work_history</mat-icon>
+                      <span>{{match.employee.yearsExperience}} years exp</span>
+                    </div>
                     <div class="skill-match">
                       <mat-icon>psychology</mat-icon>
                       <span>{{getSkillMatchPercentage(match.employee)}}% Skills</span>
@@ -746,6 +781,10 @@
                   
                   <!-- Enhanced match information -->
                   <div class="match-metrics">
+                    <div class="experience-info">
+                      <mat-icon>work_history</mat-icon>
+                      <span>{{match.employee.yearsExperience}} years exp</span>
+                    </div>
                     <div class="skill-match">
                       <mat-icon>psychology</mat-icon>
                       <span>{{getSkillMatchPercentage(match.employee)}}% Skills</span>

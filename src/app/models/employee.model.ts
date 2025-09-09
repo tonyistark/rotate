@@ -7,6 +7,7 @@ export interface Employee {
   yearsExperience: number;
   performanceRating: 'Exceeds' | 'Meets' | 'Below' | 'Outstanding';
   skills: string[];
+  technicalSkillSet?: string[]; // Skills from CSV import
   interests: string[];
   careerGoals: string[];
   availability: 'Full-time' | 'Part-time' | 'Project-based';
@@ -85,7 +86,7 @@ export interface Opportunity {
   learningOutcomes: string[];
   mentorAvailable: boolean;
   remote: boolean;
-  level: 'Entry' | 'Mid' | 'Senior' | 'Lead';
+  level: 'Associate' | 'Senior Associate' | 'Principal Associate' | 'Manager' | 'Sr. Manager' | 'Director' | 'Sr. Director' | 'Senior Director' | 'Principal' | 'Executive';
   applicationDeadline: string;
   startDate: string;
   

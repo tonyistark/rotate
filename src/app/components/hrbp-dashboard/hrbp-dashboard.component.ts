@@ -96,6 +96,9 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   employees: Employee[] = [];
   employeeMatches: EmployeeMatch[] = [];
   skillsAnalytics: SkillsAnalytics | null = null;
+  
+  // Store matches for all opportunities
+  allOpportunityMatches: Map<string, EmployeeMatch[]> = new Map();
 
   // UI state
   dashboardState: DashboardState = {
@@ -144,6 +147,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private opportunityService: OpportunityService,
     private employeeService: EmployeeService,
+    private matchingService: MatchingService,
     private dialog: MatDialog,
     private skillsAnalyticsService: SkillsAnalyticsService,
     private snackBar: MatSnackBar,
@@ -179,6 +183,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
           this.opportunities = opportunities;
           this.applyOpportunityFilters();
           this.updateSkillsAnalytics();
+          this.calculateAllOpportunityMatches();
         },
         error: error => {
           this.dashboardState.error = 'Failed to load opportunities. Please try again.';
@@ -201,6 +206,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
         next: employees => {
           this.employees = employees;
           this.updateSkillsAnalytics();
+          this.calculateAllOpportunityMatches();
         },
         error: error => {
           this.dashboardState.error = 'Failed to load employees. Please try again.';
@@ -530,56 +536,53 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  calculateEmployeeMatches(opportunity: Opportunity): void {
+  /**
+   * Calculate matches for all opportunities automatically
+   */
+  calculateAllOpportunityMatches(): void {
+    if (this.opportunities.length === 0 || this.employees.length === 0) {
+      return;
+    }
+
+    this.allOpportunityMatches.clear();
+    
+    this.opportunities.forEach(opportunity => {
+      const matches = this.calculateMatchesForOpportunity(opportunity);
+      this.allOpportunityMatches.set(opportunity.id, matches);
+    });
+  }
+
+  /**
+   * Calculate matches for a specific opportunity (used by both single and all calculations)
+   */
+  private calculateMatchesForOpportunity(opportunity: Opportunity): EmployeeMatch[] {
     // Filter out employees who are already assigned to other opportunities
     const availableEmployees = this.getAvailableEmployees();
     
-    // Create opportunity-specific employee matches with varied results
+    // Use the MatchingService to calculate matches for each employee
     let potentialMatches = availableEmployees.map(employee => {
-      const allSkills = [...opportunity.requiredSkills, ...opportunity.preferredSkills];
-      const matchingSkills = employee.skills.filter((skill: string) => 
-        allSkills.some(reqSkill => reqSkill.toLowerCase().includes(skill.toLowerCase()))
-      );
+      // Use the fixed MatchingService to calculate matches
+      const matches = this.matchingService.calculateMatches(employee, [opportunity]);
+      const match = matches[0]; // Get the match for this opportunity
       
-      const missingSkills = opportunity.requiredSkills.filter((skill: string) => 
-        !employee.skills.includes(skill)
-      );
-      
-      // Calculate base match score
-      let score = 0;
-      
-      // Skills match weight
-      const skillMatchRatio = matchingSkills.length / (opportunity.requiredSkills.length + opportunity.preferredSkills.length);
-      score += skillMatchRatio * this.CONSTANTS.SCORING_WEIGHTS.SKILLS_MATCH;
-      
-      // Performance rating weight
-      const performanceScore = this.CONSTANTS.PERFORMANCE_SCORES[employee.performanceRating] || 2;
-      score += (performanceScore / 5) * this.CONSTANTS.SCORING_WEIGHTS.PERFORMANCE;
-      
-      // Career interest alignment weight
-      const interestAlignment = this.calculateInterestAlignment(employee, opportunity);
-      score += interestAlignment * this.CONSTANTS.SCORING_WEIGHTS.CAREER_INTEREST;
-      
-      // Availability and rotation interest weight
-      if (employee.confirmedInterestInRotation && employee.leadershipSupportOfRotation) {
-        score += this.CONSTANTS.SCORING_WEIGHTS.AVAILABILITY;
-      } else if (employee.confirmedInterestInRotation || employee.leadershipSupportOfRotation) {
-        score += this.CONSTANTS.SCORING_WEIGHTS.AVAILABILITY / 2;
-      }
-
-      // Add opportunity-specific adjustments to create variety
-      score += this.getOpportunitySpecificAdjustment(employee, opportunity);
-
       return {
         employee,
-        matchScore: Math.min(100, Math.max(0, Math.round(score))),
-        matchingSkills,
-        missingSkills
+        matchScore: match.score,
+        matchingSkills: this.calculateMatchingSkills(employee, opportunity),
+        missingSkills: match.skillGaps || []
       };
     });
 
     // Filter and sort based on opportunity characteristics
-    this.employeeMatches = this.filterAndSortForOpportunity(potentialMatches, opportunity);
+    return this.filterAndSortForOpportunity(potentialMatches, opportunity);
+  }
+
+  calculateEmployeeMatches(opportunity: Opportunity): void {
+    // Use the new method and also store in the current employeeMatches for the selected opportunity
+    this.employeeMatches = this.calculateMatchesForOpportunity(opportunity);
+    
+    // Update the stored matches for this opportunity
+    this.allOpportunityMatches.set(opportunity.id, this.employeeMatches);
   }
 
   private calculateInterestAlignment(employee: Employee, opportunity: Opportunity): number {
@@ -905,9 +908,26 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
         .filter(opp => opp.assignedEmployeeId)
         .map(opp => opp.assignedEmployeeId)
     );
+    
     return assignedEmployeeIds.size;
   }
 
+  getOpportunityMatchCount(opportunityId: string): number {
+    const matches = this.allOpportunityMatches.get(opportunityId);
+    return matches ? matches.length : 0;
+  }
 
+  getOpportunityExcellentMatchCount(opportunityId: string): number {
+    const matches = this.allOpportunityMatches.get(opportunityId);
+    return matches ? matches.filter(match => match.matchScore >= this.CONSTANTS.MATCH_SCORES.EXCELLENT).length : 0;
+  }
 
+  getOpportunityGoodMatchCount(opportunityId: string): number {
+    const matches = this.allOpportunityMatches.get(opportunityId);
+    return matches ? matches.filter(match => match.matchScore >= this.CONSTANTS.MATCH_SCORES.GOOD && match.matchScore < this.CONSTANTS.MATCH_SCORES.EXCELLENT).length : 0;
+  }
+
+  hasMatches(opportunityId: string): boolean {
+    return this.getOpportunityMatchCount(opportunityId) > 0;
+  }
 }

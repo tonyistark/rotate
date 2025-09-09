@@ -43,6 +43,23 @@
         <span>{{match.opportunity.remote ? 'Remote' : 'On-site'}}</span>
       </div>
     </div>
+
+    <!-- Team Matches Section -->
+    <div class="team-matches" *ngIf="getTopTeamMatches().length > 0">
+      <div class="team-matches-header">
+        <mat-icon>people</mat-icon>
+        <span class="team-matches-title">Top Team Matches</span>
+        <span class="team-matches-count">({{getTopTeamMatches().length}})</span>
+      </div>
+      <div class="team-members-list">
+        <div class="team-member" *ngFor="let teamMatch of getTopTeamMatches()">
+          <span class="member-name">{{teamMatch.name}}</span>
+          <mat-chip [color]="getMatchQualityColor(teamMatch.matchScore)" selected>
+            {{getMatchQualityLabel(teamMatch.matchScore)}} ({{teamMatch.matchScore}}%)
+          </mat-chip>
+        </div>
+      </div>
+    </div>
   </mat-card-content>
 
   <mat-card-actions class="compact-actions">

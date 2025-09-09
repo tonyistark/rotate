@@ -36,8 +36,8 @@ import { ThemeService, Theme } from './services/theme.service';
         HRBP Dashboard
       </button>
       <button mat-button routerLink="/new-employees">
-        <mat-icon>group</mat-icon>
-        New Employee Page
+        <mat-icon>search</mat-icon>
+        Employee Search
       </button>
       <button mat-button routerLink="/admin">
         <mat-icon>admin_panel_settings</mat-icon>

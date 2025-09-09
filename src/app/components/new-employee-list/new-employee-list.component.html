@@ -1,113 +1,187 @@
-<div class="new-employee-list-container">
+<div class="employee-search-container">
+  
+  <!-- Dashboard Header -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <h1>Employee Search</h1>
+      <p class="subtitle">Find employees by skills, role, and other criteria</p>
+    </div>
+    <div class="header-metrics">
+      <div class="kpi-card">
+        <div class="kpi-value">{{employees.length}}</div>
+        <div class="kpi-label">Total Employees</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">{{filteredEmployees.length}}</div>
+        <div class="kpi-label">Matching Results</div>
+      </div>
+    </div>
+  </div>
 
-  <!-- Filters Section -->
-  <div class="filters-section">
-    <!-- Search Filter -->
-    <div class="search-section">
-      <mat-form-field appearance="outline" class="search-field">
-        <input matInput [(ngModel)]="filterState.searchTerm" (ngModelChange)="onFilterChange()" placeholder="Search employees...">
+  <!-- Compact Search Section -->
+  <div class="compact-search-section">
+    <!-- Primary Search Row -->
+    <div class="search-row">
+      <mat-form-field appearance="outline" class="primary-search">
+        <input matInput [(ngModel)]="filterState.searchTerm" (ngModelChange)="onFilterChange()" placeholder="Search by name, role, or department...">
         <mat-icon matPrefix>search</mat-icon>
         <button *ngIf="filterState.searchTerm" matSuffix mat-icon-button (click)="clearSearch()">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
-    </div>
 
-    <!-- Filter Controls -->
-    <div class="filter-controls">
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Job Level</mat-label>
-        <mat-select [(ngModel)]="filterState.selectedJobLevel" (ngModelChange)="onFilterChange()">
-          <mat-option *ngFor="let level of filterOptions.jobLevels" [value]="level === 'All' ? '' : level">
-            {{level}}
+      <mat-form-field appearance="outline" class="skills-search">
+        <mat-chip-grid #chipGrid>
+          <mat-chip-row *ngFor="let skill of selectedSkills" (removed)="removeSkill(skill)" [removable]="true">
+            {{skill}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip-row>
+        </mat-chip-grid>
+        <input placeholder="Search by skills..." 
+               [matChipInputFor]="chipGrid"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               (matChipInputTokenEnd)="addSkill($event)"
+               [(ngModel)]="skillInput"
+               [matAutocomplete]="skillsAuto">
+        <mat-autocomplete #skillsAuto="matAutocomplete" (optionSelected)="skillSelected($event)">
+          <mat-option *ngFor="let skill of filteredSkillOptions" [value]="skill">
+            {{skill}}
           </mat-option>
-        </mat-select>
+        </mat-autocomplete>
+        <mat-icon matPrefix>psychology</mat-icon>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Job Family</mat-label>
-        <mat-select [(ngModel)]="filterState.selectedJobFamily" (ngModelChange)="onFilterChange()">
-          <mat-option *ngFor="let family of filterOptions.jobFamilies" [value]="family === 'All' ? '' : family">
-            {{family}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Development Zone</mat-label>
-        <mat-select [(ngModel)]="filterState.selectedDayZero" (ngModelChange)="onFilterChange()">
-          <mat-option *ngFor="let zone of filterOptions.devZones" [value]="zone === 'All' ? '' : zone">
-            {{zone}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Loss Impact</mat-label>
-        <mat-select [(ngModel)]="filterState.selectedLossImpact" (ngModelChange)="onFilterChange()">
-          <mat-option *ngFor="let impact of filterOptions.lossImpacts" [value]="impact === 'All' ? '' : impact">
-            {{impact}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Attrition Risk</mat-label>
-        <mat-select [(ngModel)]="filterState.selectedAttritionRisk" (ngModelChange)="onFilterChange()">
-          <mat-option *ngFor="let risk of filterOptions.attritionRisks" [value]="risk === 'All' ? '' : risk">
-            {{risk}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <button mat-raised-button color="warn" *ngIf="hasActiveFilters()" (click)="clearAllFilters()">
-        <mat-icon>clear_all</mat-icon>
-        Clear Filters
+      <button mat-button (click)="toggleAdvancedFilters()" class="filters-toggle">
+        <mat-icon>{{showAdvancedFilters ? 'expand_less' : 'tune'}}</mat-icon>
+        {{showAdvancedFilters ? 'Hide' : 'Filters'}}
       </button>
     </div>
 
-    <!-- Active Filters -->
-    <div class="active-filters" *ngIf="hasActiveFilters()">
-      <div class="filter-chips">
+    <!-- Advanced Filters (Collapsible) -->
+    <div class="advanced-filters-panel" *ngIf="showAdvancedFilters" [@slideDown]>
+      <div class="filters-grid">
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Job Level</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedJobLevel" (ngModelChange)="onFilterChange()">
+            <mat-option *ngFor="let level of filterOptions.jobLevels" [value]="level === 'All' ? '' : level">
+              {{level}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Job Family</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedJobFamily" (ngModelChange)="onFilterChange()">
+            <mat-option *ngFor="let family of filterOptions.jobFamilies" [value]="family === 'All' ? '' : family">
+              {{family}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Development Zone</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedDayZero" (ngModelChange)="onFilterChange()">
+            <mat-option *ngFor="let zone of filterOptions.devZones" [value]="zone === 'All' ? '' : zone">
+              {{zone}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Loss Impact</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedLossImpact" (ngModelChange)="onFilterChange()">
+            <mat-option *ngFor="let impact of filterOptions.lossImpacts" [value]="impact === 'All' ? '' : impact">
+              {{impact}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Attrition Risk</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedAttritionRisk" (ngModelChange)="onFilterChange()">
+            <mat-option *ngFor="let risk of filterOptions.attritionRisks" [value]="risk === 'All' ? '' : risk">
+              {{risk}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="warn" *ngIf="hasActiveFilters()" (click)="clearAllFilters()" class="clear-filters-btn">
+          <mat-icon>clear_all</mat-icon>
+          Clear All
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Filters Chips -->
+    <div class="active-filters-chips" *ngIf="hasActiveFilters() || selectedSkills.length > 0">
+      <span class="filters-label">Active:</span>
+      <div class="chips-container">
+        <mat-chip *ngFor="let skill of selectedSkills" class="skill-chip" (removed)="removeSkill(skill)">
+          {{skill}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
         <mat-chip *ngIf="filterState.selectedJobLevel" class="filter-chip" (removed)="clearFilter('selectedJobLevel')">
-          Job Level: {{filterState.selectedJobLevel}}
+          {{filterState.selectedJobLevel}}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
         <mat-chip *ngIf="filterState.selectedJobFamily" class="filter-chip" (removed)="clearFilter('selectedJobFamily')">
-          Job Family: {{filterState.selectedJobFamily}}
+          {{filterState.selectedJobFamily}}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
         <mat-chip *ngIf="filterState.selectedDayZero" class="filter-chip" (removed)="clearFilter('selectedDayZero')">
-          Dev Zone: {{filterState.selectedDayZero}}
+          {{filterState.selectedDayZero}}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
         <mat-chip *ngIf="filterState.selectedLossImpact" class="filter-chip" (removed)="clearFilter('selectedLossImpact')">
-          Loss Impact: {{filterState.selectedLossImpact}}
+          {{filterState.selectedLossImpact}}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
         <mat-chip *ngIf="filterState.selectedAttritionRisk" class="filter-chip" (removed)="clearFilter('selectedAttritionRisk')">
-          Attrition Risk: {{filterState.selectedAttritionRisk}}
+          {{filterState.selectedAttritionRisk}}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
       </div>
     </div>
   </div>
 
-  <!-- Results Summary -->
-  <div class="results-summary">
-    <p>Showing {{filteredEmployees.length}} of {{employees.length}} employees</p>
-  </div>
+  <!-- Results Section -->
+  <div class="results-section">
+    <div class="results-header">
+      <div class="results-summary">
+        <h3>Search Results</h3>
+        <p>{{filteredEmployees.length}} of {{employees.length}} employees match your criteria</p>
+      </div>
+      <div class="view-controls">
+        <mat-button-toggle-group [(value)]="viewMode" (change)="onViewModeChange()">
+          <mat-button-toggle value="grid">
+            <mat-icon>grid_view</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="list">
+            <mat-icon>view_list</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
 
-  <!-- Employee Cards Grid -->
-  <div class="employees-grid">
+    <!-- Employee Cards Grid -->
+    <div class="employees-grid" [class.list-view]="viewMode === 'list'">
     <mat-card 
       class="employee-card" 
       *ngFor="let employee of filteredEmployees" 
       (click)="showEmployeeDetails(employee)">
       
       <mat-card-header>
-        <mat-card-title>{{employee.full_name}}</mat-card-title>
-        <mat-card-subtitle>{{employee.job_level}} • {{employee.specialization}}</mat-card-subtitle>
+        <mat-card-title>
+          <span class="employee-name">{{employee.name}}</span>
+          <button mat-icon-button 
+                  color="accent" 
+                  (click)="copyEmployeeName(employee, $event)"
+                  matTooltip="Copy name to clipboard"
+                  class="copy-name-btn-inline">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </mat-card-title>
+        <mat-card-subtitle>{{employee.level || employee.currentRole}} • {{employee.jobTitle || employee.currentRole}}</mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
@@ -117,8 +191,8 @@
             <span class="value">{{employee.department}}</span>
           </div>
           <div class="info-row">
-            <span class="label">Role Type:</span>
-            <span class="value">{{employee.role_type}}</span>
+            <span class="label">Current Role:</span>
+            <span class="value">{{employee.currentRole}}</span>
           </div>
           <div class="info-row">
             <span class="label">Years Experience:</span>
@@ -129,62 +203,80 @@
         <div class="status-indicators">
           <div class="status-item">
             <span class="status-label">Development Zone</span>
-            <mat-chip [class]="getDevZoneClass(employee.dev_zone)" selected>
-              {{employee.dev_zone}}
+            <mat-chip [class]="getDevZoneClass(employee.tdiZone)" selected>
+              {{employee.tdiZone}}
             </mat-chip>
           </div>
 
           <div class="status-item">
-            <span class="status-label">Overall Rating</span>
-            <mat-chip [class]="getRatingClass(employee.overall_rating)" selected>
-              {{employee.overall_rating}}
+            <span class="status-label">Performance Rating</span>
+            <mat-chip [class]="getRatingClass(employee.performanceRating)" selected>
+              {{employee.performanceRating}}
             </mat-chip>
           </div>
 
           <div class="status-item">
             <span class="status-label">Loss Impact</span>
-            <mat-chip [class]="getLossImpactClass(employee.loss_impact)" selected>
-              {{employee.loss_impact}}
+            <mat-chip [class]="getLossImpactClass(getLossImpactFromEmployee(employee))" selected>
+              {{getLossImpactFromEmployee(employee)}}
             </mat-chip>
           </div>
 
           <div class="status-item">
             <span class="status-label">Attrition Risk</span>
-            <mat-chip [class]="getAttritionRiskClass(employee.attrition_risk)" selected>
-              {{employee.attrition_risk}}
+            <mat-chip [class]="getAttritionRiskClass(getAttritionRiskFromEmployee(employee))" selected>
+              {{getAttritionRiskFromEmployee(employee)}}
             </mat-chip>
           </div>
         </div>
 
         <div class="skills-preview" *ngIf="employee.skills && employee.skills.length > 0">
-          <span class="skills-label">Key Skills:</span>
+          <span class="skills-label">Skills:</span>
           <div class="skills-chips">
-            <mat-chip *ngFor="let skill of employee.skills.slice(0, 3)" class="skill-chip">
+            <mat-chip *ngFor="let skill of employee.skills.slice(0, 4)" 
+                      class="skill-chip"
+                      [class.skill-match]="selectedSkills.includes(skill)">
               {{skill}}
             </mat-chip>
-            <span *ngIf="employee.skills.length > 3" class="more-skills">
-              +{{employee.skills.length - 3}} more
+            <span *ngIf="employee.skills.length > 4" class="more-skills">
+              +{{employee.skills.length - 4}} more
             </span>
           </div>
         </div>
       </mat-card-content>
 
       <mat-card-actions>
-        <button mat-button color="primary">
-          <mat-icon>visibility</mat-icon>
-          View Details
-        </button>
+        <div class="action-buttons">
+          <button mat-button color="primary">
+            <mat-icon>visibility</mat-icon>
+            View Profile
+          </button>
+        </div>
+        <div class="skill-match-indicator" *ngIf="getSkillMatchCount(employee) > 0">
+          <mat-icon>verified</mat-icon>
+          <span>{{getSkillMatchCount(employee)}} skill match{{getSkillMatchCount(employee) > 1 ? 'es' : ''}}</span>
+        </div>
       </mat-card-actions>
     </mat-card>
-  </div>
+    </div>
 
-  <!-- Empty State -->
-  <div class="empty-state" *ngIf="filteredEmployees.length === 0 && employees.length > 0">
-    <mat-icon>search_off</mat-icon>
-    <h3>No employees found</h3>
-    <p>Try adjusting your search criteria or clearing filters</p>
-    <button mat-raised-button color="primary" (click)="clearAllFilters()">
-      Clear All Filters
-    </button>
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="filteredEmployees.length === 0 && employees.length > 0">
+      <div class="empty-state-content">
+        <mat-icon>person_search</mat-icon>
+        <h3>No employees found</h3>
+        <p>Try adjusting your search criteria, skills, or filters</p>
+        <div class="empty-state-actions">
+          <button mat-raised-button color="primary" (click)="clearAllFilters()">
+            <mat-icon>refresh</mat-icon>
+            Clear All Filters
+          </button>
+          <button mat-button (click)="toggleAdvancedFilters()" *ngIf="!showAdvancedFilters">
+            <mat-icon>tune</mat-icon>
+            Show Advanced Filters
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -5,9 +5,11 @@
   @include card-hover;
   margin-bottom: 20px;
   cursor: pointer;
-  height: 280px;
+  height: auto;
+  min-height: 320px;
   display: flex;
   flex-direction: column;
+  overflow: visible;
   
   &:hover {
     border-color: var(--accent-primary);
@@ -19,6 +21,8 @@
   
   mat-card-content {
     padding: 0 20px 16px 20px;
+    flex: 1;
+    overflow: visible;
   }
   
   .card-header-content {
@@ -148,7 +152,7 @@
 .quick-details {
   display: flex;
   gap: 12px;
-  margin: 0;
+  margin: 0 0 12px 0;
   flex-wrap: wrap;
   
   .detail-item {
@@ -171,6 +175,76 @@
   }
 }
 
+// Team Matches Section
+.team-matches {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--bg-tertiary);
+  border-radius: var(--border-radius-md);
+  border-left: 3px solid var(--accent-secondary);
+  
+  .team-matches-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: var(--accent-secondary);
+    }
+    
+    .team-matches-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-primary);
+    }
+    
+    .team-matches-count {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+  }
+  
+  .team-members-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    
+    .team-member {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 8px;
+      background: var(--bg-elevated);
+      border-radius: var(--border-radius-sm);
+      border: 1px solid var(--border-color);
+      
+      .member-name {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      
+      mat-chip {
+        font-size: 0.7rem;
+        height: 20px;
+        font-weight: 600;
+        margin-left: 8px;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
 .compact-actions {
   display: flex;
   justify-content: space-between;
@@ -178,6 +252,7 @@
   padding: 8px 16px;
   background: rgba(0, 0, 0, 0.02);
   border-top: 1px solid #e0e0e0;
+  margin-top: auto;
   
   .date-info {
     display: flex;
@@ -218,7 +293,30 @@
 @media (max-width: 768px) {
   .opportunity-card {
     height: auto;
+    min-height: 350px;
     margin-bottom: 16px;
+  }
+  
+  .team-matches {
+    margin-top: 8px;
+    padding: 8px;
+    
+    .team-members-list {
+      gap: 4px;
+      
+      .team-member {
+        padding: 3px 6px;
+        
+        .member-name {
+          font-size: 0.75rem;
+        }
+        
+        mat-chip {
+          font-size: 0.65rem;
+          height: 18px;
+        }
+      }
+    }
   }
   
   .card-header-content {

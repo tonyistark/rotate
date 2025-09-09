@@ -1,4 +1,5 @@
 @import '../../../styles/mixins.scss';
+@import './team-matches.scss';
 
 .hrbp-dashboard-container {
   padding: var(--spacing-lg);
@@ -516,6 +517,11 @@
           display: flex;
           align-items: center;
           gap: var(--spacing-md);
+          min-width: 120px; 
+        }
+        
+        .header-toggle {
+          margin-top: 12px;
           
           .matched-toggle {
             .mat-mdc-slide-toggle-label {
@@ -586,8 +592,9 @@
         padding: var(--spacing-lg);
         cursor: pointer;
         position: relative;
-        overflow: hidden;
-        height: 280px;
+        overflow: visible;
+        height: auto;
+        min-height: 320px;
         display: flex;
         flex-direction: column;
         max-width: 100%;
@@ -1017,6 +1024,7 @@
         color: var(--text-primary);
         margin-bottom: 6px;
         letter-spacing: -0.025em;
+        text-align: left;
       }
 
       .match-score {
