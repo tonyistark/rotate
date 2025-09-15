@@ -58,6 +58,16 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "electron": {
+              "buildOptimizer": true,
+              "optimization": true,
+              "vendorChunk": false,
+              "extractLicenses": false,
+              "sourceMap": false,
+              "namedChunks": false,
+              "baseHref": "./",
+              "outputHashing": "none"
             }
           },
           "defaultConfiguration": "production"
