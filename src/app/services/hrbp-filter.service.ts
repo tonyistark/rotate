@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin, map, catchError, of } from 'rxjs';
+import { Observable, forkJoin, map, catchError, of, combineLatest } from 'rxjs';
+import { OpportunityService } from './opportunity.service';
 
 export interface HrbpFilterOptions {
   leaders: string[];
@@ -21,14 +22,13 @@ export interface HrbpFilterOptions {
 export class HrbpFilterService {
   private readonly dataPath = '/assets/data/';
   
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private opportunityService: OpportunityService) {}
 
   /**
-   * Load all filter options from JSON files
+   * Load all filter options - leaders from opportunity data, others from JSON files
    */
   getAllFilterOptions(): Observable<HrbpFilterOptions> {
-    const requests = {
-      leaders: this.loadFilterData<string[]>('leaders.json'),
+    const staticRequests = {
       jobLevels: this.loadFilterData<string[]>('job-levels.json'),
       jobFamilies: this.loadFilterData<string[]>('job-families.json'),
       jobProfiles: this.loadFilterData<string[]>('job-profiles.json'),
@@ -40,7 +40,14 @@ export class HrbpFilterService {
       rotationLengthOptions: this.loadFilterData<string[]>('rotation-length-options.json')
     };
 
-    return forkJoin(requests).pipe(
+    return combineLatest([
+      forkJoin(staticRequests),
+      this.getLeadersFromOpportunities()
+    ]).pipe(
+      map(([staticOptions, leaders]) => ({
+        ...staticOptions,
+        leaders
+      })),
       catchError(error => {
         console.error('Error loading filter options:', error);
         return of(this.getFallbackFilterOptions());
@@ -61,10 +68,40 @@ export class HrbpFilterService {
   }
 
   /**
-   * Get leaders filter options
+   * Get leaders filter options from uploaded opportunity data
    */
   getLeaders(): Observable<string[]> {
-    return this.loadFilterData<string[]>('leaders.json');
+    return this.getLeadersFromOpportunities();
+  }
+
+  /**
+   * Extract unique leaders from opportunity data
+   */
+  private getLeadersFromOpportunities(): Observable<string[]> {
+    return this.opportunityService.getOpportunities().pipe(
+      map(opportunities => {
+        const leaders = new Set<string>();
+        leaders.add('All'); // Always include 'All' option
+        
+        opportunities.forEach(opportunity => {
+          if (opportunity.leader && opportunity.leader.trim()) {
+            leaders.add(opportunity.leader.trim());
+          }
+        });
+        
+        return Array.from(leaders).sort((a, b) => {
+          // Keep 'All' at the top
+          if (a === 'All') return -1;
+          if (b === 'All') return 1;
+          return a.localeCompare(b);
+        });
+      }),
+      catchError(error => {
+        console.error('Error extracting leaders from opportunities:', error);
+        // Fallback to static leaders if opportunity data fails
+        return this.loadFilterData<string[]>('leaders.json');
+      })
+    );
   }
 
   /**

@@ -184,6 +184,8 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
           this.applyOpportunityFilters();
           this.updateSkillsAnalytics();
           this.calculateAllOpportunityMatches();
+          // Reload filter options to update leaders from new opportunity data
+          this.loadAllFilterOptions();
         },
         error: error => {
           this.dashboardState.error = 'Failed to load opportunities. Please try again.';
