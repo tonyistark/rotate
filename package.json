@@ -50,8 +50,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "sharp": "^0.34.3",
     "typescript": "~5.2.0",
-    "wait-on": "^7.2.0",
-    "@types/jszip": "^3.4.1"
+    "wait-on": "^7.2.0"
   },
   "build": {
     "appId": "com.hrbp.dashboard",
