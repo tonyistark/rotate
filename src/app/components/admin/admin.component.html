@@ -15,6 +15,12 @@
             </button>
           </div>
           <p>Upload and manage opportunities and employees data</p>
+          <div class="header-actions">
+            <button mat-raised-button color="accent" (click)="exportAllZip()">
+              <mat-icon>archive</mat-icon>
+              Export All (ZIP)
+            </button>
+          </div>
         </div>
       </div>
       
@@ -134,6 +140,13 @@
           <mat-icon>download</mat-icon>
           Download Sample CSV
         </button>
+
+        <button mat-stroked-button 
+                color="accent"
+                (click)="exportOpportunities()">
+          <mat-icon>ios_share</mat-icon>
+          Export Opportunities
+        </button>
       </mat-card-actions>
     </mat-card>
 
@@ -230,6 +243,112 @@
                 (click)="downloadEmployeesSample()">
           <mat-icon>download</mat-icon>
           Download Sample CSV
+        </button>
+
+        <button mat-stroked-button 
+                color="accent"
+                (click)="exportEmployees()">
+          <mat-icon>ios_share</mat-icon>
+          Export Employees
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Matches Export/Import Section -->
+    <mat-card class="upload-card">
+      <mat-card-header>
+        <div mat-card-avatar class="upload-avatar opportunities-avatar">
+          <mat-icon>link</mat-icon>
+        </div>
+        <mat-card-title>Matches</mat-card-title>
+        <mat-card-subtitle>Export computed matches or import previously saved matches</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="file-upload-section">
+          <div class="upload-area" 
+               [class.has-file]="matchesFile"
+               [class.uploading]="matchesUploading">
+            <input type="file" 
+                   id="matches-file-input"
+                   accept=".csv"
+                   (change)="onMatchesFileSelected($event)"
+                   hidden>
+
+            <div class="upload-content" *ngIf="!matchesFile">
+              <mat-icon class="upload-icon">cloud_upload</mat-icon>
+              <h3>Import Matches CSV</h3>
+              <p>Choose a previously exported matches CSV to restore</p>
+              <button mat-raised-button 
+                      color="primary"
+                      (click)="triggerMatchesFileInput()">
+                <mat-icon>folder_open</mat-icon>
+                Browse Files
+              </button>
+            </div>
+
+            <div class="file-selected" *ngIf="matchesFile && !matchesUploading">
+              <mat-icon class="file-icon">description</mat-icon>
+              <div class="file-info">
+                <span class="file-name">{{ matchesFile.name }}</span>
+                <span class="file-size">{{ (matchesFile.size / 1024).toFixed(1) }} KB</span>
+              </div>
+              <button mat-icon-button 
+                      color="warn"
+                      (click)="clearMatchesFile()"
+                      matTooltip="Remove file">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+
+            <div class="uploading-state" *ngIf="matchesUploading">
+              <mat-spinner diameter="40"></mat-spinner>
+              <p>Uploading matches...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Result -->
+        <div class="upload-result" *ngIf="matchesResult">
+          <mat-card class="result-card" 
+                    [class.success]="matchesResult.success"
+                    [class.error]="!matchesResult.success">
+            <div class="result-content">
+              <mat-icon class="result-icon">
+                {{ matchesResult.success ? 'check_circle' : 'error' }}
+              </mat-icon>
+              <div class="result-text">
+                <span class="result-message">{{ matchesResult.message }}</span>
+                <span class="result-count" *ngIf="matchesResult.count">
+                  {{ matchesResult.count }} records processed
+                </span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button 
+                color="primary"
+                [disabled]="!matchesFile || matchesUploading"
+                (click)="uploadMatches()">
+          <mat-icon>upload</mat-icon>
+          Import Matches
+        </button>
+
+        <button mat-raised-button 
+                color="primary"
+                (click)="saveCurrentMatches()">
+          <mat-icon>save</mat-icon>
+          Save Current Matches
+        </button>
+
+        <button mat-stroked-button 
+                color="accent"
+                (click)="exportMatches()">
+          <mat-icon>ios_share</mat-icon>
+          Export Matches
         </button>
       </mat-card-actions>
     </mat-card>

@@ -7,9 +7,10 @@ import { Opportunity } from '../models/employee.model';
 })
 export class IndexedDbService {
   private dbName = 'EmployeeDB';
-  private dbVersion = 2;
+  private dbVersion = 3;
   private employeeStoreName = 'employees';
   private opportunityStoreName = 'opportunities';
+  private matchesStoreName = 'matches';
   private db: IDBDatabase | null = null;
 
   constructor() {
@@ -61,6 +62,16 @@ export class IndexedDbService {
           oppStore.createIndex('preferredSkills', 'preferredSkills', { unique: false, multiEntry: true });
           
           console.log('Opportunity object store created with indexes');
+        }
+
+        // Create matches object store if it doesn't exist
+        if (!db.objectStoreNames.contains(this.matchesStoreName)) {
+          const matchStore = db.createObjectStore(this.matchesStoreName, { keyPath: 'id' });
+          // Useful indexes
+          matchStore.createIndex('employeeId', 'employeeId', { unique: false });
+          matchStore.createIndex('opportunityId', 'opportunityId', { unique: false });
+          matchStore.createIndex('score', 'score', { unique: false });
+          console.log('Matches object store created with indexes');
         }
       };
     });
@@ -518,6 +529,98 @@ export class IndexedDbService {
 
       request.onsuccess = () => {
         resolve(request.result);
+      };
+    });
+  }
+
+  // Matches methods
+  async saveMatches(matches: Array<{ id: string; employeeId: string; opportunityId: string; score: number; matchReasons: string[]; skillGaps: string[] }>): Promise<void> {
+    if (!this.db) {
+      await this.initDB();
+    }
+
+    return new Promise((resolve, reject) => {
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+
+      const transaction = this.db.transaction([this.matchesStoreName], 'readwrite');
+      const store = transaction.objectStore(this.matchesStoreName);
+
+      let completed = 0;
+      const total = matches.length;
+
+      if (total === 0) {
+        resolve();
+        return;
+      }
+
+      matches.forEach(m => {
+        const withTimestamps = { ...m, updatedAt: new Date(), createdAt: (m as any).createdAt || new Date() } as any;
+        const request = store.put(withTimestamps);
+        request.onerror = () => {
+          console.error('Error saving match:', m.id, request.error);
+        };
+        request.onsuccess = () => {
+          completed++;
+          if (completed === total) {
+            console.log(`Successfully saved ${total} matches`);
+            resolve();
+          }
+        };
+      });
+
+      transaction.onerror = () => reject(transaction.error);
+    });
+  }
+
+  async getAllMatches(): Promise<Array<{ id: string; employeeId: string; opportunityId: string; score: number; matchReasons: string[]; skillGaps: string[] }>> {
+    if (!this.db) {
+      await this.initDB();
+    }
+
+    return new Promise((resolve, reject) => {
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+
+      const transaction = this.db.transaction([this.matchesStoreName], 'readonly');
+      const store = transaction.objectStore(this.matchesStoreName);
+      const request = store.getAll();
+
+      request.onerror = () => {
+        console.error('Error getting all matches:', request.error);
+        reject(request.error);
+      };
+      request.onsuccess = () => {
+        resolve(request.result || []);
+      };
+    });
+  }
+
+  async clearAllMatches(): Promise<void> {
+    if (!this.db) {
+      await this.initDB();
+    }
+
+    return new Promise((resolve, reject) => {
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+
+      const transaction = this.db.transaction([this.matchesStoreName], 'readwrite');
+      const store = transaction.objectStore(this.matchesStoreName);
+      const request = store.clear();
+      request.onerror = () => {
+        console.error('Error clearing matches:', request.error);
+        reject(request.error);
+      };
+      request.onsuccess = () => {
+        console.log('All matches cleared successfully');
+        resolve();
       };
     });
   }

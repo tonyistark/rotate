@@ -13,7 +13,11 @@ import { takeUntil } from 'rxjs/operators';
 import { OpportunityService } from '../../services/opportunity.service';
 import { EmployeeService } from '../../services/employee.service';
 import { CsvImportService } from '../../services/csv-import.service';
+import { CsvExportService } from '../../services/csv-export.service';
+import { MatchesCsvService } from '../../services/matches-csv.service';
 import { IndexedDbService } from '../../services/indexed-db.service';
+import { MatchingService } from '../../services/matching.service';
+import { ZipExportService } from '../../services/zip-export.service';
 import { Opportunity, Employee } from '../../models/employee.model';
 import { ComprehensiveEmployee } from '../../models/comprehensive-employee.model';
 
@@ -55,18 +59,22 @@ export class AdminComponent implements OnInit, OnDestroy {
   // Upload states
   opportunitiesUploading = false;
   employeesUploading = false;
+  matchesUploading = false;
   
   // Drag and drop states
   opportunitiesDragOver = false;
   employeesDragOver = false;
+  // (Optional) matches drag-over could be added later
   
   // File references
   opportunitiesFile: File | null = null;
   employeesFile: File | null = null;
+  matchesFile: File | null = null;
   
   // Upload results
   opportunitiesResult: UploadResult | null = null;
   employeesResult: UploadResult | null = null;
+  matchesResult: UploadResult | null = null;
   
   // Statistics
   currentOpportunities = 0;
@@ -80,12 +88,31 @@ export class AdminComponent implements OnInit, OnDestroy {
     private employeeService: EmployeeService,
     private csvImportService: CsvImportService,
     private indexedDbService: IndexedDbService,
+    private csvExportService: CsvExportService,
+    private matchesCsvService: MatchesCsvService,
+    private matchingService: MatchingService,
+    private zipExportService: ZipExportService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.loadCurrentStats();
+  }
+
+  async exportAllZip(): Promise<void> {
+    try {
+      const blob = await this.zipExportService.createDataZip();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'hrbp-data-export.zip';
+      link.click();
+      window.URL.revokeObjectURL(url);
+      this.snackBar.open('Exported all data to ZIP', 'Close', { duration: 4000 });
+    } catch (e) {
+      this.snackBar.open('Failed to export ZIP', 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
+    }
   }
 
   ngOnDestroy(): void {
@@ -584,5 +611,191 @@ export class AdminComponent implements OnInit, OnDestroy {
     link.download = filename;
     link.click();
     window.URL.revokeObjectURL(url);
+  }
+
+  // Generic text download helper
+  private downloadTextFile(filename: string, text: string, mime: string = 'text/csv'): void {
+    const blob = new Blob([text], { type: mime });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  // Export handlers
+  async exportEmployees(): Promise<void> {
+    try {
+      const csv = await this.csvExportService.exportEmployeesCSV();
+      this.downloadTextFile('employees-export.csv', csv);
+      this.snackBar.open('Employees exported', 'Close', { duration: 3000 });
+    } catch (e) {
+      this.snackBar.open('Failed to export employees', 'Close', { duration: 4000, panelClass: ['error-snackbar'] });
+    }
+  }
+
+  async exportOpportunities(): Promise<void> {
+    try {
+      const csv = await this.csvExportService.exportOpportunitiesCSV();
+      this.downloadTextFile('opportunities-export.csv', csv);
+      this.snackBar.open('Opportunities exported', 'Close', { duration: 3000 });
+    } catch (e) {
+      this.snackBar.open('Failed to export opportunities', 'Close', { duration: 4000, panelClass: ['error-snackbar'] });
+    }
+  }
+
+  async exportMatches(): Promise<void> {
+    try {
+      const csv = await this.csvExportService.exportMatchesCSV();
+      this.downloadTextFile('matches-export.csv', csv);
+      this.snackBar.open('Matches exported', 'Close', { duration: 3000 });
+    } catch (e) {
+      this.snackBar.open('Failed to export matches', 'Close', { duration: 4000, panelClass: ['error-snackbar'] });
+    }
+  }
+
+  // Import Matches
+  onMatchesFileSelected(event: any): void {
+    const file = event.target.files[0];
+    this.handleMatchesFile(file);
+  }
+
+  private handleMatchesFile(file: File): void {
+    if (file && file.type === 'text/csv') {
+      this.matchesFile = file;
+      this.matchesResult = null;
+    } else {
+      this.snackBar.open('Please select a valid CSV file', 'Close', { duration: 3000 });
+    }
+  }
+
+  async uploadMatches(): Promise<void> {
+    if (!this.matchesFile) {
+      this.snackBar.open('Please select a CSV file first', 'Close', { duration: 3000 });
+      return;
+    }
+    this.matchesUploading = true;
+    this.matchesResult = null;
+    try {
+      const result = await this.matchesCsvService.importFromFile(this.matchesFile);
+      if (result.success > 0) {
+        this.matchesResult = {
+          success: true,
+          message: `Successfully imported ${result.success} matches`,
+          count: result.success
+        };
+        this.snackBar.open(this.matchesResult.message, 'Close', { duration: 5000, panelClass: ['success-snackbar'] });
+      } else {
+        throw new Error(result.errors.join(', ') || 'Import failed');
+      }
+    } catch (error: any) {
+      this.matchesResult = {
+        success: false,
+        message: `Upload failed: ${error.message}`,
+        errors: [error.message]
+      };
+      this.snackBar.open(this.matchesResult.message, 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
+    } finally {
+      this.matchesUploading = false;
+    }
+  }
+
+  triggerMatchesFileInput(): void {
+    const input = document.getElementById('matches-file-input') as HTMLInputElement;
+    if (input) input.click();
+  }
+
+  clearMatchesFile(): void {
+    this.matchesFile = null;
+    this.matchesResult = null;
+    const input = document.getElementById('matches-file-input') as HTMLInputElement;
+    if (input) input.value = '';
+  }
+
+  // Save current matches (compute and persist in IndexedDB)
+  async saveCurrentMatches(): Promise<void> {
+    try {
+      // Load data
+      const [employeesRaw, opportunities] = await Promise.all([
+        this.indexedDbService.getAllEmployees(),
+        this.indexedDbService.getAllOpportunities()
+      ]);
+
+      // Compute matches (top 5 per employee)
+      const allMatches: Array<{ id: string; employeeId: string; opportunityId: string; score: number; matchReasons: string[]; skillGaps: string[] }> = [];
+      for (const e of employeesRaw) {
+        const emp = this.mapComprehensiveToEmployee(e);
+        const matches = this.matchingService.calculateMatches(emp, opportunities);
+        matches.slice(0, 5).forEach((m, idx) => {
+          allMatches.push({
+            id: `${emp.id || 'emp'}_${m.opportunity.id}_${idx}`,
+            employeeId: emp.id,
+            opportunityId: m.opportunity.id,
+            score: m.score,
+            matchReasons: m.matchReasons,
+            skillGaps: m.skillGaps
+          });
+        });
+      }
+
+      // Persist
+      await this.indexedDbService.clearAllMatches();
+      await this.indexedDbService.saveMatches(allMatches);
+
+      this.snackBar.open(`Saved ${allMatches.length} matches`, 'Close', { duration: 4000, panelClass: ['success-snackbar'] });
+    } catch (err) {
+      this.snackBar.open('Failed to save matches', 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
+    }
+  }
+
+  // Map comprehensive employee record to Employee model for matching
+  private mapComprehensiveToEmployee(e: any): Employee {
+    return {
+      id: e.eid || e.id || '',
+      name: e.fullName || e.name || '',
+      email: e.email || '',
+      department: e.jobFamily || e.department || '',
+      currentRole: e.jobLevel || e.currentRole || '',
+      yearsExperience: Number(e.yearsExperience || 0),
+      performanceRating: (e.myRating || e.yeRating || e.performanceRating || 'Meets') as Employee['performanceRating'],
+      skills: Array.isArray(e.technicalSkillSet) ? e.technicalSkillSet : (typeof e.technicalSkillSet === 'string' ? (e.technicalSkillSet || '').split(',').map((s: string) => s.trim()) : (e.skills || [])),
+      interests: Array.isArray(e.interests) ? e.interests : [],
+      careerGoals: Array.isArray(e.careerGoals) ? e.careerGoals : [],
+      availability: e.availability || 'Full-time',
+      timeInRole: e.timeInRole || '',
+      lengthOfService: e.lengthOfService || '',
+      promotionForecast: e.promotionForecast || '',
+      retentionRisk: String(e.retentionRisk || ''),
+      tdiZone: e.tdiZone || '',
+      myRating: e.myRating || '',
+      yeRating: e.yeRating || '',
+      lastPromoDate: e.lastPromoDate || '',
+      preparingForPromo: !!e.preparingForPromo,
+      preparingForStretch: !!e.preparingForStretch,
+      preparingForRotation: !!e.preparingForRotation,
+      futureTalentProfile: e.futureTalentProfile || '',
+      differentiatedStrength: e.differentiatedStrength || '',
+      currentGapsOpportunities: e.currentGapsOpportunities || '',
+      whatNeedsToBeDemonstrated: e.whatNeedsToBeDemonstrated || '',
+      howToInvest: e.howToInvest || '',
+      whatSupportNeeded: e.whatSupportNeeded || '',
+      associateCareerAspirations: e.associateCareerAspirations || '',
+      previousDifferentialInvestment: e.previousDifferentialInvestment || '',
+      retentionPlanNeeded: !!e.retentionPlanNeeded,
+      retentionPlanJustification: e.retentionPlanJustification || '',
+      rotationStechPlanNeeded: !!e.rotationStechPlanNeeded,
+      rotationStechPlanJustification: e.rotationStechPlanJustification || '',
+      lastHireDate: e.lastHireDate || '',
+      lastPromotedDate: e.lastPromotedDate || '',
+      performanceTrend: e.performanceTrend || '',
+      talentDevelopmentInventory: Array.isArray(e.talentDevelopmentInventory) ? e.talentDevelopmentInventory : [],
+      attritionRisk: Number(e.attritionRisk || 0),
+      skillsetExperience: Array.isArray(e.skillsetExperience) ? e.skillsetExperience : [],
+      competencyStrengths: Array.isArray(e.competencyStrengths) ? e.competencyStrengths : [],
+      careerInterest: Array.isArray(e.careerInterest) ? e.careerInterest : [],
+      confirmedInterestInRotation: !!e.confirmedInterestInRotation,
+      leadershipSupportOfRotation: !!e.leadershipSupportOfRotation
+    };
   }
 }
