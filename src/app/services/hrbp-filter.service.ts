@@ -25,28 +25,36 @@ export class HrbpFilterService {
   constructor(private http: HttpClient, private opportunityService: OpportunityService) {}
 
   /**
-   * Load all filter options - leaders from opportunity data, others from JSON files
+   * Load all filter options - most from opportunity data, performance ratings from JSON files
    */
   getAllFilterOptions(): Observable<HrbpFilterOptions> {
     const staticRequests = {
-      jobLevels: this.loadFilterData<string[]>('job-levels.json'),
-      jobFamilies: this.loadFilterData<string[]>('job-families.json'),
-      jobProfiles: this.loadFilterData<string[]>('job-profiles.json'),
-      tenureOptions: this.loadFilterData<string[]>('tenure-options.json'),
-      locationOptions: this.loadFilterData<string[]>('location-options.json'),
-      attritionResponseOptions: this.loadFilterData<string[]>('attrition-response-options.json'),
-      performanceRatingOptions: this.loadFilterData<string[]>('performance-rating-options.json'),
-      rotationLevelOptions: this.loadFilterData<string[]>('rotation-level-options.json'),
-      rotationLengthOptions: this.loadFilterData<string[]>('rotation-length-options.json')
+      performanceRatingOptions: this.loadFilterData<string[]>('performance-rating-options.json')
     };
 
     return combineLatest([
       forkJoin(staticRequests),
-      this.getLeadersFromOpportunities()
+      this.getLeadersFromOpportunities(),
+      this.getJobLevelsFromOpportunities(),
+      this.getJobFamiliesFromOpportunities(),
+      this.getJobProfilesFromOpportunities(),
+      this.getTenureOptionsFromOpportunities(),
+      this.getLocationOptionsFromOpportunities(),
+      this.getAttritionResponseOptionsFromOpportunities(),
+      this.getRotationLevelOptionsFromOpportunities(),
+      this.getRotationLengthOptionsFromOpportunities()
     ]).pipe(
-      map(([staticOptions, leaders]) => ({
+      map(([staticOptions, leaders, jobLevels, jobFamilies, jobProfiles, tenureOptions, locationOptions, attritionResponseOptions, rotationLevelOptions, rotationLengthOptions]) => ({
         ...staticOptions,
-        leaders
+        leaders,
+        jobLevels,
+        jobFamilies,
+        jobProfiles,
+        tenureOptions,
+        locationOptions,
+        attritionResponseOptions,
+        rotationLevelOptions,
+        rotationLengthOptions
       })),
       catchError(error => {
         console.error('Error loading filter options:', error);
@@ -105,45 +113,225 @@ export class HrbpFilterService {
   }
 
   /**
-   * Get job levels filter options
+   * Get job levels filter options from uploaded opportunity data
    */
   getJobLevels(): Observable<string[]> {
-    return this.loadFilterData<string[]>('job-levels.json');
+    return this.getJobLevelsFromOpportunities();
   }
 
   /**
-   * Get job families filter options
+   * Extract unique job levels from opportunity data
+   */
+  private getJobLevelsFromOpportunities(): Observable<string[]> {
+    return this.opportunityService.getOpportunities().pipe(
+      map(opportunities => {
+        const jobLevels = new Set<string>();
+        jobLevels.add('All'); // Always include 'All' option
+        
+        opportunities.forEach(opportunity => {
+          if (opportunity.jobLevel && opportunity.jobLevel.trim()) {
+            jobLevels.add(opportunity.jobLevel.trim());
+          }
+        });
+        
+        return Array.from(jobLevels).sort((a, b) => {
+          // Keep 'All' at the top
+          if (a === 'All') return -1;
+          if (b === 'All') return 1;
+          return a.localeCompare(b);
+        });
+      }),
+      catchError(error => {
+        console.error('Error extracting job levels from opportunities:', error);
+        // Fallback to static job levels if opportunity data fails
+        return this.loadFilterData<string[]>('job-levels.json');
+      })
+    );
+  }
+
+  /**
+   * Get job families filter options from uploaded opportunity data
    */
   getJobFamilies(): Observable<string[]> {
-    return this.loadFilterData<string[]>('job-families.json');
+    return this.getJobFamiliesFromOpportunities();
   }
 
   /**
-   * Get job profiles filter options
+   * Extract unique job families from opportunity data
+   */
+  private getJobFamiliesFromOpportunities(): Observable<string[]> {
+    return this.opportunityService.getOpportunities().pipe(
+      map(opportunities => {
+        const jobFamilies = new Set<string>();
+        jobFamilies.add('All'); // Always include 'All' option
+        
+        opportunities.forEach(opportunity => {
+          if (opportunity.jobFamily && opportunity.jobFamily.trim()) {
+            jobFamilies.add(opportunity.jobFamily.trim());
+          }
+        });
+        
+        return Array.from(jobFamilies).sort((a, b) => {
+          // Keep 'All' at the top
+          if (a === 'All') return -1;
+          if (b === 'All') return 1;
+          return a.localeCompare(b);
+        });
+      }),
+      catchError(error => {
+        console.error('Error extracting job families from opportunities:', error);
+        // Fallback to static job families if opportunity data fails
+        return this.loadFilterData<string[]>('job-families.json');
+      })
+    );
+  }
+
+  /**
+   * Get job profiles filter options from uploaded opportunity data
    */
   getJobProfiles(): Observable<string[]> {
-    return this.loadFilterData<string[]>('job-profiles.json');
+    return this.getJobProfilesFromOpportunities();
   }
 
   /**
-   * Get tenure options filter options
+   * Extract unique job profiles from opportunity data
+   */
+  private getJobProfilesFromOpportunities(): Observable<string[]> {
+    return this.opportunityService.getOpportunities().pipe(
+      map(opportunities => {
+        const jobProfiles = new Set<string>();
+        jobProfiles.add('All'); // Always include 'All' option
+        
+        opportunities.forEach(opportunity => {
+          if (opportunity.jobProfile && opportunity.jobProfile.trim()) {
+            jobProfiles.add(opportunity.jobProfile.trim());
+          }
+        });
+        
+        return Array.from(jobProfiles).sort((a, b) => {
+          // Keep 'All' at the top
+          if (a === 'All') return -1;
+          if (b === 'All') return 1;
+          return a.localeCompare(b);
+        });
+      }),
+      catchError(error => {
+        console.error('Error extracting job profiles from opportunities:', error);
+        // Fallback to static job profiles if opportunity data fails
+        return this.loadFilterData<string[]>('job-profiles.json');
+      })
+    );
+  }
+
+  /**
+   * Get tenure options filter options from uploaded opportunity data
    */
   getTenureOptions(): Observable<string[]> {
-    return this.loadFilterData<string[]>('tenure-options.json');
+    return this.getTenureOptionsFromOpportunities();
   }
 
   /**
-   * Get location options filter options
+   * Extract unique tenure options from opportunity data
+   */
+  private getTenureOptionsFromOpportunities(): Observable<string[]> {
+    return this.opportunityService.getOpportunities().pipe(
+      map(opportunities => {
+        const tenureOptions = new Set<string>();
+        tenureOptions.add('All'); // Always include 'All' option
+        
+        opportunities.forEach(opportunity => {
+          if (opportunity.tenure && opportunity.tenure.trim()) {
+            tenureOptions.add(opportunity.tenure.trim());
+          }
+        });
+        
+        return Array.from(tenureOptions).sort((a, b) => {
+          // Keep 'All' at the top
+          if (a === 'All') return -1;
+          if (b === 'All') return 1;
+          return a.localeCompare(b);
+        });
+      }),
+      catchError(error => {
+        console.error('Error extracting tenure options from opportunities:', error);
+        // Fallback to static tenure options if opportunity data fails
+        return this.loadFilterData<string[]>('tenure-options.json');
+      })
+    );
+  }
+
+  /**
+   * Get location options filter options from uploaded opportunity data
    */
   getLocationOptions(): Observable<string[]> {
-    return this.loadFilterData<string[]>('location-options.json');
+    return this.getLocationOptionsFromOpportunities();
   }
 
   /**
-   * Get attrition response options filter options
+   * Extract unique location options from opportunity data
+   */
+  private getLocationOptionsFromOpportunities(): Observable<string[]> {
+    return this.opportunityService.getOpportunities().pipe(
+      map(opportunities => {
+        const locationOptions = new Set<string>();
+        locationOptions.add('All'); // Always include 'All' option
+        
+        opportunities.forEach(opportunity => {
+          if (opportunity.location && opportunity.location.trim()) {
+            locationOptions.add(opportunity.location.trim());
+          }
+        });
+        
+        return Array.from(locationOptions).sort((a, b) => {
+          // Keep 'All' at the top
+          if (a === 'All') return -1;
+          if (b === 'All') return 1;
+          return a.localeCompare(b);
+        });
+      }),
+      catchError(error => {
+        console.error('Error extracting location options from opportunities:', error);
+        // Fallback to static location options if opportunity data fails
+        return this.loadFilterData<string[]>('location-options.json');
+      })
+    );
+  }
+
+  /**
+   * Get attrition response options filter options from uploaded opportunity data
    */
   getAttritionResponseOptions(): Observable<string[]> {
-    return this.loadFilterData<string[]>('attrition-response-options.json');
+    return this.getAttritionResponseOptionsFromOpportunities();
+  }
+
+  /**
+   * Extract unique attrition response options from opportunity data
+   */
+  private getAttritionResponseOptionsFromOpportunities(): Observable<string[]> {
+    return this.opportunityService.getOpportunities().pipe(
+      map(opportunities => {
+        const attritionResponseOptions = new Set<string>();
+        attritionResponseOptions.add('All'); // Always include 'All' option
+        
+        opportunities.forEach(opportunity => {
+          if (opportunity.attritionResponse && opportunity.attritionResponse.trim()) {
+            attritionResponseOptions.add(opportunity.attritionResponse.trim());
+          }
+        });
+        
+        return Array.from(attritionResponseOptions).sort((a, b) => {
+          // Keep 'All' at the top
+          if (a === 'All') return -1;
+          if (b === 'All') return 1;
+          return a.localeCompare(b);
+        });
+      }),
+      catchError(error => {
+        console.error('Error extracting attrition response options from opportunities:', error);
+        // Fallback to static attrition response options if opportunity data fails
+        return this.loadFilterData<string[]>('attrition-response-options.json');
+      })
+    );
   }
 
   /**
@@ -154,17 +342,77 @@ export class HrbpFilterService {
   }
 
   /**
-   * Get rotation level options filter options
+   * Get rotation level options filter options from uploaded opportunity data
    */
   getRotationLevelOptions(): Observable<string[]> {
-    return this.loadFilterData<string[]>('rotation-level-options.json');
+    return this.getRotationLevelOptionsFromOpportunities();
   }
 
   /**
-   * Get rotation length options filter options
+   * Extract unique rotation level options from opportunity data
+   */
+  private getRotationLevelOptionsFromOpportunities(): Observable<string[]> {
+    return this.opportunityService.getOpportunities().pipe(
+      map(opportunities => {
+        const rotationLevelOptions = new Set<string>();
+        rotationLevelOptions.add('All'); // Always include 'All' option
+        
+        opportunities.forEach(opportunity => {
+          if (opportunity.rotationLevel && opportunity.rotationLevel.trim()) {
+            rotationLevelOptions.add(opportunity.rotationLevel.trim());
+          }
+        });
+        
+        return Array.from(rotationLevelOptions).sort((a, b) => {
+          // Keep 'All' at the top
+          if (a === 'All') return -1;
+          if (b === 'All') return 1;
+          return a.localeCompare(b);
+        });
+      }),
+      catchError(error => {
+        console.error('Error extracting rotation level options from opportunities:', error);
+        // Fallback to static rotation level options if opportunity data fails
+        return this.loadFilterData<string[]>('rotation-level-options.json');
+      })
+    );
+  }
+
+  /**
+   * Get rotation length options filter options from uploaded opportunity data
    */
   getRotationLengthOptions(): Observable<string[]> {
-    return this.loadFilterData<string[]>('rotation-length-options.json');
+    return this.getRotationLengthOptionsFromOpportunities();
+  }
+
+  /**
+   * Extract unique rotation length options from opportunity data
+   */
+  private getRotationLengthOptionsFromOpportunities(): Observable<string[]> {
+    return this.opportunityService.getOpportunities().pipe(
+      map(opportunities => {
+        const rotationLengthOptions = new Set<string>();
+        rotationLengthOptions.add('All'); // Always include 'All' option
+        
+        opportunities.forEach(opportunity => {
+          if (opportunity.rotationLength && opportunity.rotationLength.trim()) {
+            rotationLengthOptions.add(opportunity.rotationLength.trim());
+          }
+        });
+        
+        return Array.from(rotationLengthOptions).sort((a, b) => {
+          // Keep 'All' at the top
+          if (a === 'All') return -1;
+          if (b === 'All') return 1;
+          return a.localeCompare(b);
+        });
+      }),
+      catchError(error => {
+        console.error('Error extracting rotation length options from opportunities:', error);
+        // Fallback to static rotation length options if opportunity data fails
+        return this.loadFilterData<string[]>('rotation-length-options.json');
+      })
+    );
   }
 
   /**
