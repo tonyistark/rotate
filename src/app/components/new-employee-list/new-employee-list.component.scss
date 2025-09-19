@@ -1,5 +1,3 @@
-@import '../../../styles/mixins.scss';
-
 .employee-search-container {
   padding: var(--spacing-lg);
   background: var(--bg-primary);
@@ -7,7 +5,6 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-// Dashboard Header - matching HRBP dashboard style
 .dashboard-header {
   display: flex;
   align-items: center;
@@ -39,35 +36,15 @@
     display: flex;
     gap: 1rem;
     align-items: center;
-    
-    .kpi-card {
-      @include card-base;
-      @include card-hover;
-      padding: var(--spacing-md);
-      min-width: 120px;
-      text-align: center;
-      
-      .kpi-value {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--text-primary);
-        margin-bottom: 4px;
-      }
-      
-      .kpi-label {
-        font-size: 0.75rem;
-        color: var(--text-secondary);
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-    }
   }
 }
 
 // Compact Search Section
 .compact-search-section {
-  @include card-base;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.2s ease;
   padding: var(--spacing-md);
   margin-bottom: var(--spacing-lg);
   
@@ -272,10 +249,16 @@
   }
   
   .employee-card {
-    @include card-base;
-    @include card-hover;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: all 0.2s ease;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
     border: 1px solid var(--border-color, #e2e8f0);
     border-radius: 16px;
     background: var(--card-background, #ffffff);
@@ -436,7 +419,11 @@
           align-items: center;
           
           .skill-chip {
-            @include badge-base;
+            display: inline-block;
+            border-radius: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             font-size: 0.75rem;
             padding: 4px 10px;
             background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);

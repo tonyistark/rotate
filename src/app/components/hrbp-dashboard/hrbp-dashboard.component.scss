@@ -10,8 +10,8 @@
 
 .dashboard-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: var(--spacing-xl);
   padding: var(--spacing-lg) 0;
   border-bottom: 1px solid var(--border-color);
@@ -37,93 +37,9 @@
   
   .header-metrics {
     display: flex;
-    gap: 1rem;
     align-items: center;
-    
-    .kpi-card {
-      @include card-base;
-      @include card-hover;
-      padding: var(--spacing-md);
-      min-width: 120px;
-      text-align: center;
-      
-      .kpi-value {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 0.25rem;
-        color: var(--primary-color, #2196f3);
-      }
-      
-      .kpi-label {
-        font-size: 0.75rem;
-        color: var(--text-secondary, #666);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-weight: 500;
-      }
-      
-      &.opportunities .kpi-value { color: #2196f3; }
-      &.current-matches .kpi-value { color: #1976d2; }
-      &.employees .kpi-value { color: #ff9800; }
-      &.total-skills .kpi-value { color: #4caf50; }
-      &.gaps .kpi-value { color: #f44336; }
-    }
-  }
-  
-  // Dark mode styles
-  :host-context(body[data-theme="dark"]) & {
-    background: var(--bg-primary-dark, #1a1a1a);
-    color: var(--text-primary-dark, #ffffff);
-    
-    .header-content {
-      h1 {
-        color: var(--text-primary-dark, #ffffff);
-      }
-      
-      .subtitle {
-        color: var(--text-secondary-dark, #b0b0b0);
-      }
-    }
-    
-    .header-metrics .kpi-card {
-      background: var(--card-background-dark, #2d2d2d);
-      border: 1px solid var(--border-color-dark, #404040);
-      
-      .kpi-label {
-        color: var(--text-secondary-dark, #b0b0b0);
-      }
-    }
-    
-    .section-fab {
-      .assign-fab-inline, .remove-fab-inline {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        
-        &:hover {
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
-        }
-      }
-    }
-  }
-}
-
-.main-grid {
-  display: grid;
-  grid-template-columns: minmax(280px, 320px) 1fr minmax(320px, 400px);
-  gap: 24px;
-  height: calc(100vh - 180px);
-  
-  @media (max-width: 1400px) {
-    grid-template-columns: 280px 1fr 320px;
-  }
-  
-  @media (max-width: 1200px) {
-    grid-template-columns: 260px 1fr 300px;
+    justify-content: flex-start;
     gap: 16px;
-  }
-  
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
   }
 }
 
@@ -1084,17 +1000,6 @@
   animation: modalSlideIn 0.3s ease;
 }
 
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
 .employee-modal {
   .modal-header {
     display: flex;
@@ -1124,7 +1029,7 @@
     .overview-grid, .career-grid, .readiness-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 15px;
+      gap: 16px;
       margin-top: 15px;
     }
 
@@ -1288,17 +1193,7 @@
   }
 }
 
-// Animations
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+// Animations moved to global styles
 
 // Responsive Design
 @media (max-width: 1200px) {
