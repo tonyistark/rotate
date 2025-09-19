@@ -76,7 +76,7 @@ export class CsvExportService {
     return this.buildCsv([headers, ...rows]);
   }
 
-  async exportMatchesCSV(): Promise<string> {
+  async exportMatchesCSV(opportunityId?: string): Promise<string> {
     let matches = await this.indexedDb.getAllMatches();
     // If no persisted matches, compute on the fly (top 5 per employee)
     if (!matches || matches.length === 0) {
@@ -98,6 +98,13 @@ export class CsvExportService {
         });
       }
       matches = computed;
+    }
+
+    if (opportunityId) {
+      matches = matches.filter(m => m.opportunityId === opportunityId);
+      if (matches.length === 0) {
+        throw new Error(`No matches found for opportunity ID: ${opportunityId}`);
+      }
     }
 
     const headers = ['id','employeeId','opportunityId','score','matchReasons','skillGaps'];

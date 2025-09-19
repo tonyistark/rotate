@@ -647,12 +647,39 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   async exportMatches(): Promise<void> {
     try {
-      const csv = await this.csvExportService.exportMatchesCSV();
-      this.downloadTextFile('matches-export.csv', csv);
-      this.snackBar.open('Matches exported', 'Close', { duration: 3000 });
+      // Get the currently selected opportunity from HRBP dashboard if available
+      const selectedOpportunityId = this.getCurrentSelectedOpportunityId();
+      const csv = await this.csvExportService.exportMatchesCSV(selectedOpportunityId);
+      
+      const filename = selectedOpportunityId 
+        ? `matches-export-${selectedOpportunityId}.csv`
+        : 'matches-export-all.csv';
+      
+      this.downloadTextFile(filename, csv);
+      
+      const message = selectedOpportunityId 
+        ? 'Current opportunity matches exported'
+        : 'All matches exported';
+      
+      this.snackBar.open(message, 'Close', { duration: 3000 });
     } catch (e) {
       this.snackBar.open('Failed to export matches', 'Close', { duration: 4000, panelClass: ['error-snackbar'] });
     }
+  }
+
+  private getCurrentSelectedOpportunityId(): string | undefined {
+    // Try to get the selected opportunity from localStorage or a shared service
+    // This is a simple approach - in a real app you might use a state management solution
+    try {
+      const dashboardState = localStorage.getItem('hrbp-dashboard-state');
+      if (dashboardState) {
+        const state = JSON.parse(dashboardState);
+        return state.selectedOpportunityId;
+      }
+    } catch (e) {
+      // Ignore parsing errors
+    }
+    return undefined;
   }
 
   // Import Matches

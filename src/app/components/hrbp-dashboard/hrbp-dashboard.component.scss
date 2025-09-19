@@ -87,34 +87,75 @@
         .mat-mdc-form-field-icon-prefix {
           color: var(--text-secondary);
         }
-        
-        .mdc-notched-outline__notch {
-          border-top: none !important;
-        }
-        
-        .mdc-floating-label {
-          background: var(--bg-card);
-          padding: 0 8px;
-          border-radius: 4px;
-          
-          &.mdc-floating-label--float-above {
-            background: var(--bg-card);
-            padding: 0 8px;
-            z-index: 2;
+      }
+    }
+  }
+}
+
+// Dark mode styles for HRBP dashboard
+:host-context(body[data-theme="dark"]) {
+  .filters-sidebar {
+    .search-section {
+      background: var(--bg-secondary-dark, #2d2d2d);
+      border: 1px solid var(--border-color-dark, #404040);
+      
+      .search-field {
+        ::ng-deep .mat-mdc-form-field {
+          .mat-mdc-text-field-wrapper {
+            background: var(--bg-card-dark, #1e1e1e);
+            border: 2px solid var(--border-color-dark, #404040);
+            
+            &:hover {
+              border-color: var(--text-secondary-dark, #b0b0b0);
+            }
           }
-        }
-        
-        .mdc-notched-outline {
-          .mdc-notched-outline__notch {
-            padding-left: 0;
-            padding-right: 8px;
-            border-right: none;
+          
+          &.mat-focused .mat-mdc-text-field-wrapper {
+            border-color: var(--accent-primary, #3f51b5);
+            box-shadow: 0 0 0 4px rgba(63, 81, 181, 0.2);
+          }
+          
+          .mat-mdc-form-field-icon-prefix {
+            color: var(--text-secondary-dark, #b0b0b0);
+          }
+          
+          .mat-mdc-form-field-input-control {
+            color: var(--text-primary-dark, #ffffff);
+          }
+          
+          .mat-mdc-floating-label {
+            color: var(--text-secondary-dark, #b0b0b0);
+          }
+          
+          .mdc-text-field__input {
+            color: var(--text-primary-dark, #ffffff);
+            caret-color: var(--accent-primary, #3f51b5);
           }
         }
       }
     }
+    
+    .filter-section {
+      mat-select {
+        ::ng-deep .mat-mdc-select-trigger {
+          background: var(--bg-card-dark, #1e1e1e);
+          border: 1px solid var(--border-color-dark, #404040);
+          color: var(--text-primary-dark, #ffffff);
+        }
+        
+        ::ng-deep .mat-mdc-select-value {
+          color: var(--text-primary-dark, #ffffff);
+        }
+        
+        ::ng-deep .mat-mdc-select-arrow {
+          color: var(--text-secondary-dark, #b0b0b0);
+        }
+      }
+    }
   }
-  
+}
+
+.filters-sidebar {
   .active-filters {
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);

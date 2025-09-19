@@ -172,6 +172,8 @@ export class CsvImportService {
 
       case 'technicalSkillSet':
       case 'strengthType':
+      case 'skillsetExperience':
+      case 'careerInterest':
         return this.parseStringArray(trimmedValue);
 
       case 'jobLevel':

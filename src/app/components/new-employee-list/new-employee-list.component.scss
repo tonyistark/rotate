@@ -189,11 +189,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-lg);
-    padding: var(--spacing-md) 0;
+    margin-bottom: 24px;
+    padding: 16px 0;
     border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 16px;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
     
     .results-summary {
+      flex: 1;
+      min-width: 0;
+      
       h3 {
         font-size: 1.25rem;
         font-weight: 600;
@@ -205,13 +216,26 @@
         color: var(--text-secondary);
         margin: 0;
         font-size: 0.9rem;
+        line-height: 1.4;
       }
     }
     
     .view-controls {
+      flex-shrink: 0;
+      
       mat-button-toggle-group {
         border: 1px solid var(--border-color);
-        border-radius: var(--border-radius-sm);
+        border-radius: 8px;
+        overflow: hidden;
+        
+        mat-button-toggle {
+          border: none;
+          
+          &.mat-button-toggle-checked {
+            background: var(--primary-color);
+            color: white;
+          }
+        }
       }
     }
   }
@@ -220,30 +244,52 @@
 // Employee Cards Grid
 .employees-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 2rem;
-  padding: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 24px;
+  padding: 8px;
+  
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 4px;
+  }
   
   &.list-view {
     grid-template-columns: 1fr;
+    gap: 16px;
     
     .employee-card {
       display: flex;
-      align-items: center;
-      padding: var(--spacing-md);
+      align-items: stretch;
+      min-height: 200px;
       
       mat-card-header {
-        flex: 1;
+        flex: 0 0 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
       
       mat-card-content {
-        flex: 2;
+        flex: 1;
         display: flex;
-        gap: var(--spacing-lg);
+        flex-direction: row;
+        gap: 24px;
+        align-items: flex-start;
+        padding: 16px 24px;
       }
       
       mat-card-actions {
         flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 16px;
       }
     }
   }
@@ -252,31 +298,24 @@
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 500px;
+    overflow: hidden;
     
     &:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    }
-    border: 1px solid var(--border-color, #e2e8f0);
-    border-radius: 16px;
-    background: var(--card-background, #ffffff);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
       border-color: var(--primary-color, #2196f3);
     }
     
     mat-card-header {
-      padding: 1.5rem 1.5rem 1rem 1.5rem;
+      padding: 20px 20px 16px 20px;
+      flex-shrink: 0;
       
       mat-card-title {
         font-size: 1.25rem;
@@ -286,10 +325,15 @@
         line-height: 1.3;
         display: flex;
         align-items: center;
-        gap: 8px;
+        justify-content: space-between;
+        gap: 12px;
         
         .employee-name {
           flex: 1;
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         
         .copy-name-btn-inline {
@@ -327,14 +371,17 @@
         font-size: 0.9rem;
         font-weight: 500;
         opacity: 0.8;
+        line-height: 1.4;
+        margin-top: 4px;
       }
     }
     
     mat-card-content {
-      padding: 0 1.5rem 1rem 1.5rem;
+      padding: 0 20px 16px 20px;
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-height: 0;
       
       .employee-info {
         margin-bottom: 1.25rem;
@@ -370,8 +417,13 @@
       .status-indicators {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        margin-bottom: 1.25rem;
+        gap: 12px;
+        margin-bottom: 20px;
+        
+        @media (max-width: 480px) {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
         
         .status-item {
           .status-label {
@@ -390,17 +442,21 @@
             border-radius: 14px;
             font-weight: 600;
             width: 100%;
+            display: flex;
             justify-content: center;
+            align-items: center;
+            text-align: center;
           }
         }
       }
       
       .skills-preview {
-        background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
+        background: var(--bg-tertiary, #f8fafc);
         border-radius: 12px;
-        padding: 1rem;
-        border: 1px solid rgba(226, 232, 240, 0.5);
+        padding: 16px;
+        border: 1px solid var(--border-color);
         margin-top: auto;
+        flex-shrink: 0;
         
         .skills-label {
           display: block;
@@ -415,8 +471,9 @@
         .skills-chips {
           display: flex;
           flex-wrap: wrap;
-          gap: 6px;
+          gap: 8px;
           align-items: center;
+          margin-top: 8px;
           
           .skill-chip {
             display: inline-block;
@@ -458,10 +515,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.5rem;
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-      border-top: 1px solid var(--border-color, #e2e8f0);
+      padding: 16px 20px;
+      background: var(--bg-secondary, #f8fafc);
+      border-top: 1px solid var(--border-color);
       margin: 0;
+      flex-shrink: 0;
+      min-height: 72px;
       
       .action-buttons {
         display: flex;
@@ -535,13 +594,14 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        color: var(--color-success, #4caf50);
-        font-size: 0.875rem;
-        font-weight: 600;
-        background: rgba(76, 175, 80, 0.1);
-        padding: 6px 12px;
+        background: var(--success-color, #4caf50);
+        color: white;
+        padding: 8px 12px;
         border-radius: 20px;
-        border: 1px solid rgba(76, 175, 80, 0.2);
+        font-size: 0.8rem;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        flex-shrink: 0;
         
         mat-icon {
           font-size: 16px;

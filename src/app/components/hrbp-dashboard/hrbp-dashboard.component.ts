@@ -735,6 +735,21 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     this.dashboardState.selectedOpportunity = opportunity;
     this.calculateEmployeeMatches(opportunity);
     this.dashboardState.showEmployeePanel = true;
+    
+    // Save selected opportunity ID to localStorage for export functionality
+    this.saveSelectedOpportunityToStorage(opportunity.id);
+  }
+
+  private saveSelectedOpportunityToStorage(opportunityId: string): void {
+    try {
+      const dashboardState = {
+        selectedOpportunityId: opportunityId,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('hrbp-dashboard-state', JSON.stringify(dashboardState));
+    } catch (e) {
+      // Ignore localStorage errors
+    }
   }
 
   onEmployeeClick(employee: Employee): void {

@@ -260,8 +260,8 @@
         <div mat-card-avatar class="upload-avatar opportunities-avatar">
           <mat-icon>link</mat-icon>
         </div>
-        <mat-card-title>Matches</mat-card-title>
-        <mat-card-subtitle>Export computed matches or import previously saved matches</mat-card-subtitle>
+        <mat-card-title>Current Matches</mat-card-title>
+        <mat-card-subtitle>Export current/selected opportunity matches or import previously saved matches</mat-card-subtitle>
       </mat-card-header>
 
       <mat-card-content>
@@ -277,8 +277,8 @@
 
             <div class="upload-content" *ngIf="!matchesFile">
               <mat-icon class="upload-icon">cloud_upload</mat-icon>
-              <h3>Import Matches CSV</h3>
-              <p>Choose a previously exported matches CSV to restore</p>
+              <h3>Import Current Matches CSV</h3>
+              <p>Choose a previously exported current matches CSV to restore</p>
               <button mat-raised-button 
                       color="primary"
                       (click)="triggerMatchesFileInput()">
@@ -334,7 +334,7 @@
                 [disabled]="!matchesFile || matchesUploading"
                 (click)="uploadMatches()">
           <mat-icon>upload</mat-icon>
-          Import Matches
+          Import Current Matches
         </button>
 
         <button mat-raised-button 
@@ -347,8 +347,8 @@
         <button mat-stroked-button 
                 color="accent"
                 (click)="exportMatches()">
-          <mat-icon>ios_share</mat-icon>
-          Export Matches
+          <mat-icon>download</mat-icon>
+          Export Current Matches
         </button>
       </mat-card-actions>
     </mat-card>

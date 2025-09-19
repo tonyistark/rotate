@@ -292,6 +292,36 @@
                 </mat-chip-set>
               </mat-card-content>
             </mat-card>
+
+            <!-- Skillset Experience Card -->
+            <mat-card class="info-card" *ngIf="employee.skillsetExperience && employee.skillsetExperience.length > 0">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>engineering</mat-icon>
+                <mat-card-title>Technical Experience</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-chip-set class="chip-container">
+                  <mat-chip *ngFor="let experience of employee.skillsetExperience" class="experience-chip">
+                    {{experience}}
+                  </mat-chip>
+                </mat-chip-set>
+              </mat-card-content>
+            </mat-card>
+
+            <!-- Career Interests Card -->
+            <mat-card class="info-card" *ngIf="employee.careerInterest && employee.careerInterest.length > 0">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>explore</mat-icon>
+                <mat-card-title>Career Interests</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <mat-chip-set class="chip-container">
+                  <mat-chip *ngFor="let interest of employee.careerInterest" class="career-interest-chip">
+                    {{interest}}
+                  </mat-chip>
+                </mat-chip-set>
+              </mat-card-content>
+            </mat-card>
           </div>
         </div>
       </mat-tab>
@@ -307,6 +337,15 @@
               </mat-card-header>
               <mat-card-content>
                 <div class="development-section">
+                  <div class="development-item">
+                    <h4>Current Gaps & Opportunities</h4>
+                    <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
+                      <mat-label>Current gaps and opportunities</mat-label>
+                      <textarea matInput [(ngModel)]="editableEmployee.currentGapsOpportunities" rows="3"></textarea>
+                    </mat-form-field>
+                    <p *ngIf="!isEditMode" class="development-text">{{employee.currentGapsOpportunities || 'Not set'}}</p>
+                  </div>
+
                   <div class="development-item">
                     <h4>What needs to be demonstrated to unlock next level performance?</h4>
                     <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">

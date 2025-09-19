@@ -151,5 +151,8 @@ export const FIELD_MAPPINGS: { [csvField: string]: keyof ComprehensiveEmployee }
   'Gaps Value 1': 'gapsValue1',
   'Gaps Type 2': 'gapsType2',
   'Gaps Recommendation 2': 'gapsRecommendation2',
-  'Gaps Value 2': 'gapsValue2'
+  'Gaps Value 2': 'gapsValue2',
+  'Skillset Experience': 'skillsetExperience',
+  'Career Interest': 'careerInterest',
+  'Current Gaps Opportunities': 'currentGapsOpportunities'
 };
