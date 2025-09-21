@@ -27,10 +27,6 @@ import { ThemeService, Theme } from './services/theme.service';
         </mat-slide-toggle>
       </div>
       
-      <button mat-button routerLink="/manager">
-        <mat-icon>supervisor_account</mat-icon>
-        Manager View
-      </button>
       <button mat-button routerLink="/hrbp-dashboard">
         <mat-icon>dashboard</mat-icon>
         HRBP Dashboard
@@ -38,6 +34,10 @@ import { ThemeService, Theme } from './services/theme.service';
       <button mat-button routerLink="/new-employees">
         <mat-icon>search</mat-icon>
         Employee Search
+      </button>
+      <button mat-button routerLink="/manager">
+        <mat-icon>supervisor_account</mat-icon>
+        Manager View
       </button>
       <button mat-button routerLink="/admin">
         <mat-icon>admin_panel_settings</mat-icon>

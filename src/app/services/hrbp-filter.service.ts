@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, map, catchError, of, combineLatest } from 'rxjs';
 import { OpportunityService } from './opportunity.service';
+import { JobLevelsService } from './job-levels.service';
 
 export interface HrbpFilterOptions {
   leaders: string[];
@@ -22,7 +23,11 @@ export interface HrbpFilterOptions {
 export class HrbpFilterService {
   private readonly dataPath = '/assets/data/';
   
-  constructor(private http: HttpClient, private opportunityService: OpportunityService) {}
+  constructor(
+    private http: HttpClient, 
+    private opportunityService: OpportunityService,
+    private jobLevelsService: JobLevelsService
+  ) {}
 
   /**
    * Load all filter options - most from opportunity data, performance ratings from JSON files
@@ -35,7 +40,7 @@ export class HrbpFilterService {
     return combineLatest([
       forkJoin(staticRequests),
       this.getLeadersFromOpportunities(),
-      this.getJobLevelsFromOpportunities(),
+      this.jobLevelsService.getJobLevelsWithAll(),
       this.getJobFamiliesFromOpportunities(),
       this.getJobProfilesFromOpportunities(),
       this.getTenureOptionsFromOpportunities(),
@@ -113,10 +118,10 @@ export class HrbpFilterService {
   }
 
   /**
-   * Get job levels filter options from uploaded opportunity data
+   * Get job levels filter options from JobLevelsService
    */
   getJobLevels(): Observable<string[]> {
-    return this.getJobLevelsFromOpportunities();
+    return this.jobLevelsService.getJobLevelsWithAll();
   }
 
   /**

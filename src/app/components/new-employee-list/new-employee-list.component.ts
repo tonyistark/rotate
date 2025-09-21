@@ -108,8 +108,8 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
 
   extractFilterOptions(): void {
     this.filterOptions = {
-      jobLevels: ['All', ...new Set(this.employees.map(emp => emp.level || emp.currentRole).filter(Boolean))],
-      jobFamilies: ['All', ...new Set(this.employees.map(emp => emp.department).filter(Boolean))],
+      jobLevels: ['All', ...APP_CONSTANTS.JOB_LEVELS],
+      jobFamilies: ['All', ...new Set(this.employees.map(emp => emp.jobFamily || emp.department).filter(Boolean))],
       devZones: ['All', ...new Set(this.employees.map(emp => emp.tdiZone).filter(Boolean))],
       lossImpacts: ['All', 'Low', 'Medium', 'High'], // Standard loss impact levels
       attritionRisks: ['All', 'Low', 'Medium', 'High'], // Standard attrition risk levels

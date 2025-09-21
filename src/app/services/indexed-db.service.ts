@@ -112,6 +112,49 @@ export class IndexedDbService {
     });
   }
 
+  async updateEmployee(employee: ComprehensiveEmployee): Promise<void> {
+    if (!this.db) {
+      await this.initDB();
+    }
+
+    return new Promise((resolve, reject) => {
+      if (!this.db) {
+        reject(new Error('Database not initialized'));
+        return;
+      }
+
+      const transaction = this.db.transaction([this.employeeStoreName], 'readwrite');
+      const store = transaction.objectStore(this.employeeStoreName);
+      
+      // Use the employee's id or eid as the key
+      const key = employee.eid || employee.id;
+      if (!key) {
+        reject(new Error('Employee must have an id or eid'));
+        return;
+      }
+
+      // Add updated timestamp, preserve created timestamp
+      const employeeWithTimestamp = {
+        ...employee,
+        eid: key, // Ensure eid is set for IndexedDB key
+        updatedAt: new Date(),
+        createdAt: employee.createdAt || new Date()
+      };
+
+      const request = store.put(employeeWithTimestamp);
+
+      request.onerror = () => {
+        console.error('Error updating employee:', request.error);
+        reject(request.error);
+      };
+
+      request.onsuccess = () => {
+        console.log('Employee updated successfully:', key);
+        resolve();
+      };
+    });
+  }
+
   async saveEmployees(employees: ComprehensiveEmployee[]): Promise<void> {
     if (!this.db) {
       await this.initDB();
@@ -349,6 +392,11 @@ export class IndexedDbService {
         resolve();
       };
     });
+  }
+
+  async updateOpportunity(opportunity: Opportunity): Promise<void> {
+    // Use saveOpportunity as it already handles both add and update with put()
+    return this.saveOpportunity(opportunity);
   }
 
   async saveOpportunities(opportunities: Opportunity[]): Promise<void> {

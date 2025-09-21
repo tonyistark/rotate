@@ -53,8 +53,16 @@
         </mat-card-header>
         <mat-card-content>
           <div class="metric">
-            <span class="metric-value">{{employee.ratingCycles?.MY25 || employee.performanceRating}}</span>
-            <span class="metric-label">Current Rating (MY '25)</span>
+            <mat-form-field *ngIf="isEditMode" appearance="outline" class="summary-field">
+              <mat-select [(ngModel)]="editableEmployee.performanceRating">
+                <mat-option value="Outstanding">Outstanding</mat-option>
+                <mat-option value="Exceeds">Exceeds</mat-option>
+                <mat-option value="Meets">Meets</mat-option>
+                <mat-option value="Below">Below</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span *ngIf="!isEditMode" class="metric-value">{{employee.performanceRating}}</span>
+            <span class="metric-label">Current Rating</span>
           </div>
         </mat-card-content>
       </mat-card>
@@ -66,7 +74,14 @@
         </mat-card-header>
         <mat-card-content>
           <div class="metric">
-            <span class="metric-value" [class]="getAttritionRiskClass(employee.attritionRisk)">{{employee.retentionRisk}}</span>
+            <mat-form-field *ngIf="isEditMode" appearance="outline" class="summary-field">
+              <mat-select [(ngModel)]="editableEmployee.retentionRisk">
+                <mat-option value="Low">Low</mat-option>
+                <mat-option value="Medium">Medium</mat-option>
+                <mat-option value="High">High</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span *ngIf="!isEditMode" class="metric-value" [class]="getAttritionRiskClass(employee.attritionRisk)">{{employee.retentionRisk}}</span>
             <span class="metric-label">Risk Level</span>
           </div>
         </mat-card-content>
@@ -79,7 +94,14 @@
         </mat-card-header>
         <mat-card-content>
           <div class="metric">
-            <span class="metric-value">{{employee.tdiZone}}</span>
+            <mat-form-field *ngIf="isEditMode" appearance="outline" class="summary-field">
+              <mat-select [(ngModel)]="editableEmployee.tdiZone">
+                <mat-option value="Invest Now">Invest Now</mat-option>
+                <mat-option value="Develop">Develop</mat-option>
+                <mat-option value="Maintain">Maintain</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span *ngIf="!isEditMode" class="metric-value">{{employee.tdiZone}}</span>
             <span class="metric-label">Development Zone</span>
           </div>
         </mat-card-content>
@@ -147,50 +169,6 @@
                     </div>
                   </div>
                   
-                  <!-- Rating Cycles Section -->
-                  <div class="info-item rating-cycles-container">
-                    <mat-icon class="info-icon">star</mat-icon>
-                    <div class="info-content">
-                      <span class="info-label">Performance Ratings</span>
-                      <div class="rating-cycles-grid">
-                        <div class="rating-cycle">
-                          <span class="cycle-label">MY '24</span>
-                          <mat-form-field *ngIf="isEditMode" appearance="outline" class="cycle-field">
-                            <mat-select [(ngModel)]="editableEmployee.ratingCycles!.MY24">
-                              <mat-option value="Below Strong">Below Strong</mat-option>
-                              <mat-option value="Strong">Strong</mat-option>
-                              <mat-option value="Above Strong">Above Strong</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                          <span *ngIf="!isEditMode" class="cycle-value">{{employee.ratingCycles?.MY24 || employee.myRating || 'Not set'}}</span>
-                        </div>
-                        
-                        <div class="rating-cycle">
-                          <span class="cycle-label">YE '24</span>
-                          <mat-form-field *ngIf="isEditMode" appearance="outline" class="cycle-field">
-                            <mat-select [(ngModel)]="editableEmployee.ratingCycles!.YE24">
-                              <mat-option value="Below Strong">Below Strong</mat-option>
-                              <mat-option value="Strong">Strong</mat-option>
-                              <mat-option value="Above Strong">Above Strong</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                          <span *ngIf="!isEditMode" class="cycle-value">{{employee.ratingCycles?.YE24 || employee.yeRating || 'Not set'}}</span>
-                        </div>
-                        
-                        <div class="rating-cycle">
-                          <span class="cycle-label">MY '25</span>
-                          <mat-form-field *ngIf="isEditMode" appearance="outline" class="cycle-field">
-                            <mat-select [(ngModel)]="editableEmployee.ratingCycles!.MY25">
-                              <mat-option value="Below Strong">Below Strong</mat-option>
-                              <mat-option value="Strong">Strong</mat-option>
-                              <mat-option value="Above Strong">Above Strong</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                          <span *ngIf="!isEditMode" class="cycle-value">{{employee.ratingCycles?.MY25 || 'Not set'}}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </mat-card-content>
             </mat-card>
@@ -242,6 +220,53 @@
               </mat-card-content>
             </mat-card>
           </div>
+          
+          <!-- Performance Ratings Section - Full Width -->
+          <mat-card class="performance-ratings-section">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>star</mat-icon>
+              <mat-card-title>Performance Ratings</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="rating-cycles-grid">
+                <div class="rating-cycle">
+                  <span class="cycle-label">MY '24</span>
+                  <mat-form-field *ngIf="isEditMode" appearance="outline" class="cycle-field">
+                    <mat-select [(ngModel)]="editableEmployee.ratingCycles!.MY24">
+                      <mat-option *ngFor="let rating of ratingCycleOptions" [value]="rating">
+                        {{rating}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <span *ngIf="!isEditMode" class="cycle-value">{{employee.ratingCycles?.MY24 || employee.myRating || 'Not set'}}</span>
+                </div>
+                
+                <div class="rating-cycle">
+                  <span class="cycle-label">YE '24</span>
+                  <mat-form-field *ngIf="isEditMode" appearance="outline" class="cycle-field">
+                    <mat-select [(ngModel)]="editableEmployee.ratingCycles!.YE24">
+                      <mat-option *ngFor="let rating of ratingCycleOptions" [value]="rating">
+                        {{rating}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <span *ngIf="!isEditMode" class="cycle-value">{{employee.ratingCycles?.YE24 || employee.yeRating || 'Not set'}}</span>
+                </div>
+                
+                <div class="rating-cycle">
+                  <span class="cycle-label">MY '25</span>
+                  <mat-form-field *ngIf="isEditMode" appearance="outline" class="cycle-field">
+                    <mat-select [(ngModel)]="editableEmployee.ratingCycles!.MY25">
+                      <mat-option *ngFor="let rating of ratingCycleOptions" [value]="rating">
+                        {{rating}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <span *ngIf="!isEditMode" class="cycle-value">{{employee.ratingCycles?.MY25 || 'Not set'}}</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
       </mat-tab>
 
@@ -255,7 +280,22 @@
                 <mat-card-title>Skills</mat-card-title>
               </mat-card-header>
               <mat-card-content>
-                <mat-chip-set class="chip-container">
+                <mat-chip-grid #skillChipGrid *ngIf="isEditMode" class="chip-container">
+                  <mat-chip-row *ngFor="let skill of editableEmployee.skills; let i = index" 
+                                (removed)="removeSkillChip(i)"
+                                class="skill-chip">
+                    {{skill}}
+                    <button matChipRemove [attr.aria-label]="'remove ' + skill">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip-row>
+                  <input placeholder="Add skill..."
+                         [matChipInputFor]="skillChipGrid"
+                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         [matChipInputAddOnBlur]="true"
+                         (matChipInputTokenEnd)="addSkillChip($event)">
+                </mat-chip-grid>
+                <mat-chip-set *ngIf="!isEditMode" class="chip-container">
                   <mat-chip *ngFor="let skill of employee.skills" class="skill-chip">
                     {{skill}}
                   </mat-chip>
@@ -270,7 +310,22 @@
                 <mat-card-title>Interests</mat-card-title>
               </mat-card-header>
               <mat-card-content>
-                <mat-chip-set class="chip-container">
+                <mat-chip-grid #interestChipGrid *ngIf="isEditMode" class="chip-container">
+                  <mat-chip-row *ngFor="let interest of editableEmployee.interests; let i = index" 
+                                (removed)="removeInterestChip(i)"
+                                class="interest-chip">
+                    {{interest}}
+                    <button matChipRemove [attr.aria-label]="'remove ' + interest">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip-row>
+                  <input placeholder="Add interest..."
+                         [matChipInputFor]="interestChipGrid"
+                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         [matChipInputAddOnBlur]="true"
+                         (matChipInputTokenEnd)="addInterestChip($event)">
+                </mat-chip-grid>
+                <mat-chip-set *ngIf="!isEditMode" class="chip-container">
                   <mat-chip *ngFor="let interest of employee.interests" class="interest-chip">
                     {{interest}}
                   </mat-chip>
@@ -285,7 +340,22 @@
                 <mat-card-title>Career Goals</mat-card-title>
               </mat-card-header>
               <mat-card-content>
-                <mat-chip-set class="chip-container">
+                <mat-chip-grid #careerGoalChipGrid *ngIf="isEditMode" class="chip-container">
+                  <mat-chip-row *ngFor="let goal of editableEmployee.careerGoals; let i = index" 
+                                (removed)="removeCareerGoalChip(i)"
+                                class="goal-chip">
+                    {{goal}}
+                    <button matChipRemove [attr.aria-label]="'remove ' + goal">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip-row>
+                  <input placeholder="Add career goal..."
+                         [matChipInputFor]="careerGoalChipGrid"
+                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         [matChipInputAddOnBlur]="true"
+                         (matChipInputTokenEnd)="addCareerGoalChip($event)">
+                </mat-chip-grid>
+                <mat-chip-set *ngIf="!isEditMode" class="chip-container">
                   <mat-chip *ngFor="let goal of employee.careerGoals" class="goal-chip">
                     {{goal}}
                   </mat-chip>

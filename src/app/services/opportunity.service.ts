@@ -74,11 +74,16 @@ export class OpportunityService {
     };
 
     this.opportunities[index] = opportunity;
-    this.opportunitiesSubject.next([...this.opportunities]);
-
+    
+    // Save to IndexedDB
     return new Observable(observer => {
-      observer.next(opportunity);
-      observer.complete();
+      this.indexedDbService.updateOpportunity(opportunity).then(() => {
+        this.opportunitiesSubject.next([...this.opportunities]);
+        observer.next(opportunity);
+        observer.complete();
+      }).catch(error => {
+        observer.error(error);
+      });
     });
   }
 
@@ -90,18 +95,25 @@ export class OpportunityService {
       });
     }
 
-    this.opportunities[index] = {
+    const updatedOpportunity = {
       ...this.opportunities[index],
       assignedEmployeeId: employeeId,
       assignedEmployee: employee,
       assignmentDate: new Date().toISOString()
     };
 
-    this.opportunitiesSubject.next([...this.opportunities]);
+    this.opportunities[index] = updatedOpportunity;
 
+    // Save to IndexedDB for persistence
     return new Observable(observer => {
-      observer.next(this.opportunities[index]);
-      observer.complete();
+      this.indexedDbService.updateOpportunity(updatedOpportunity).then(() => {
+        this.opportunitiesSubject.next([...this.opportunities]);
+        observer.next(updatedOpportunity);
+        observer.complete();
+      }).catch(error => {
+        console.error('Error persisting assignment:', error);
+        observer.error(error);
+      });
     });
   }
 
@@ -113,18 +125,25 @@ export class OpportunityService {
       });
     }
 
-    this.opportunities[index] = {
+    const updatedOpportunity = {
       ...this.opportunities[index],
       assignedEmployeeId: undefined,
       assignedEmployee: undefined,
       assignmentDate: undefined
     };
 
-    this.opportunitiesSubject.next([...this.opportunities]);
+    this.opportunities[index] = updatedOpportunity;
 
+    // Save to IndexedDB for persistence
     return new Observable(observer => {
-      observer.next(this.opportunities[index]);
-      observer.complete();
+      this.indexedDbService.updateOpportunity(updatedOpportunity).then(() => {
+        this.opportunitiesSubject.next([...this.opportunities]);
+        observer.next(updatedOpportunity);
+        observer.complete();
+      }).catch(error => {
+        console.error('Error persisting assignment removal:', error);
+        observer.error(error);
+      });
     });
   }
 

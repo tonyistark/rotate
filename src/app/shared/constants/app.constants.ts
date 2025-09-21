@@ -10,6 +10,32 @@ export const APP_CONSTANTS = {
     ABOVE_STRONG: 'Above Strong'
   },
 
+  // Rating cycle options (for MY24, YE24, MY25)
+  RATING_CYCLE_OPTIONS: [
+    '1-Exceptional',
+    '2-Very Strong', 
+    '3-Strong',
+    '4-Inconsistent',
+    '5-Action Required',
+    '6-Too New',
+    'No Rating Required'
+  ],
+
+  // Job level options
+  JOB_LEVELS: [
+    'Associate',
+    'Sr. Associate',
+    'Principal Associate',
+    'Manager',
+    'Sr. Manager',
+    'Director',
+    'Sr. Director',
+    'Vice President',
+    'Managing VP',
+    'Sr. VP',
+    'Exec. VP'
+  ],
+
   // Performance rating scores
   PERFORMANCE_SCORES: {
     'Outstanding': 5,
@@ -17,7 +43,14 @@ export const APP_CONSTANTS = {
     'Meets': 3,
     'Below': 2,
     'Strong': 4,
-    'Above Strong': 5
+    'Above Strong': 5,
+    '1-Exceptional': 6,
+    '2-Very Strong': 5,
+    '3-Strong': 4,
+    '4-Inconsistent': 3,
+    '5-Action Required': 2,
+    '6-Too New': 1,
+    'No Rating Required': 0
   },
 
   // Color mappings

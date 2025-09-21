@@ -1,8 +1,12 @@
-<div class="modal-header">
+<div class="modal-header" [class.edit-mode]="isEditMode">
   <div class="header-content">
     <div class="title-section">
-      <h2 mat-dialog-title>{{match.opportunity.title}}</h2>
-      <div class="subtitle-info">
+      <h2 mat-dialog-title *ngIf="!isEditMode">{{match.opportunity.title}}</h2>
+      <mat-form-field *ngIf="isEditMode" appearance="outline" class="title-field">
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="editableOpportunity.title" placeholder="Opportunity title">
+      </mat-form-field>
+      <div class="subtitle-info" *ngIf="!isEditMode">
         <span class="department">
           <mat-icon>business</mat-icon>
           {{match.opportunity.department}}
@@ -15,6 +19,24 @@
           {{match.opportunity.duration}}
         </span>
       </div>
+      <div class="subtitle-info-edit" *ngIf="isEditMode">
+        <mat-form-field appearance="outline" class="subtitle-field">
+          <mat-label>Department</mat-label>
+          <input matInput [(ngModel)]="editableOpportunity.department" placeholder="Department">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="subtitle-field">
+          <mat-label>Job Family</mat-label>
+          <input matInput [(ngModel)]="editableOpportunity.jobFamily" placeholder="Job Family">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="subtitle-field">
+          <mat-label>Job Level</mat-label>
+          <mat-select [(ngModel)]="editableOpportunity.jobLevel">
+            <mat-option *ngFor="let level of jobLevels" [value]="level">
+              {{level}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
     <div class="header-meta">
       <div class="submitted-by">
@@ -23,47 +45,107 @@
       </div>
     </div>
   </div>
-  <button mat-icon-button (click)="onClose()" class="close-button">
-    <mat-icon>close</mat-icon>
+  <div class="header-actions">
+    <button mat-icon-button (click)="toggleEditMode()" [matTooltip]="isEditMode ? 'Exit edit mode' : 'Edit opportunity'">
+      <mat-icon>{{isEditMode ? 'close' : 'edit'}}</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onClose()" class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+
+<!-- Floating Save Button -->
+<div class="floating-save-button" *ngIf="isEditMode" [@slideIn]>
+  <button mat-fab color="primary" (click)="saveChanges()" matTooltip="Save changes" matTooltipPosition="left">
+    <mat-icon>save</mat-icon>
   </button>
 </div>
 
 <mat-dialog-content class="modal-content">
-  <div class="description-section">
+  <div class="description-section full-width">
     <h3><mat-icon>description</mat-icon> Description</h3>
-    <p class="description">{{match.opportunity.description}}</p>
+    <p class="description" *ngIf="!isEditMode">{{match.opportunity.description}}</p>
+    <mat-form-field *ngIf="isEditMode" appearance="outline" class="description-field">
+      <textarea matInput [(ngModel)]="editableOpportunity.description" rows="5" placeholder="Provide a detailed description of the opportunity, including key responsibilities and expectations"></textarea>
+    </mat-form-field>
   </div>
 
   <div class="skills-section">
     <div class="skill-group">
       <h3><mat-icon>check_circle</mat-icon> Required Skills</h3>
-      <div class="chip-container">
+      <div class="chip-container" *ngIf="!isEditMode">
         <mat-chip *ngFor="let skill of match.opportunity.requiredSkills" color="warn" selected>
           {{skill}}
         </mat-chip>
       </div>
+      <mat-chip-grid #requiredSkillsGrid *ngIf="isEditMode" class="chip-container">
+        <mat-chip-row *ngFor="let skill of editableOpportunity.requiredSkills; let i = index" 
+                      (removed)="removeRequiredSkill(i)"
+                      color="warn" selected>
+          {{skill}}
+          <button matChipRemove [attr.aria-label]="'remove ' + skill">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        <input placeholder="Add required skill..."
+               [matChipInputFor]="requiredSkillsGrid"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="true"
+               (matChipInputTokenEnd)="addRequiredSkill($event)">
+      </mat-chip-grid>
     </div>
 
     <div class="skill-group">
       <h3><mat-icon>star</mat-icon> Preferred Skills</h3>
-      <div class="chip-container">
+      <div class="chip-container" *ngIf="!isEditMode">
         <mat-chip *ngFor="let skill of match.opportunity.preferredSkills" color="primary" selected>
           {{skill}}
         </mat-chip>
       </div>
+      <mat-chip-grid #preferredSkillsGrid *ngIf="isEditMode" class="chip-container">
+        <mat-chip-row *ngFor="let skill of editableOpportunity.preferredSkills; let i = index" 
+                      (removed)="removePreferredSkill(i)"
+                      color="primary" selected>
+          {{skill}}
+          <button matChipRemove [attr.aria-label]="'remove ' + skill">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        <input placeholder="Add preferred skill..."
+               [matChipInputFor]="preferredSkillsGrid"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="true"
+               (matChipInputTokenEnd)="addPreferredSkill($event)">
+      </mat-chip-grid>
     </div>
   </div>
 
   <div class="learning-outcomes">
     <h3><mat-icon>school</mat-icon> Learning Outcomes</h3>
-    <div class="chip-container">
+    <div class="chip-container" *ngIf="!isEditMode">
       <mat-chip *ngFor="let outcome of match.opportunity.learningOutcomes" color="accent" selected>
         {{outcome}}
       </mat-chip>
     </div>
+    <mat-chip-grid #learningOutcomesGrid *ngIf="isEditMode" class="chip-container">
+      <mat-chip-row *ngFor="let outcome of editableOpportunity.learningOutcomes; let i = index" 
+                    (removed)="removeLearningOutcome(i)"
+                    color="accent" selected>
+        {{outcome}}
+        <button matChipRemove [attr.aria-label]="'remove ' + outcome">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      <input placeholder="Add learning outcome..."
+             [matChipInputFor]="learningOutcomesGrid"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="true"
+             (matChipInputTokenEnd)="addLearningOutcome($event)">
+    </mat-chip-grid>
   </div>
 
-  <div class="opportunity-details">
+  <div class="opportunity-details" *ngIf="!isEditMode">
     <div class="detail-item">
       <mat-icon>access_time</mat-icon>
       <span>{{match.opportunity.timeCommitment}}</span>
@@ -75,6 +157,41 @@
     <div class="detail-item">
       <mat-icon>{{match.opportunity.remote ? 'home' : 'location_city'}}</mat-icon>
       <span>{{match.opportunity.remote ? 'Remote OK' : 'On-site'}}</span>
+    </div>
+  </div>
+  
+  <div class="opportunity-details-edit" *ngIf="isEditMode">
+    <div class="details-grid">
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Time Commitment</mat-label>
+        <input matInput [(ngModel)]="editableOpportunity.timeCommitment" placeholder="e.g., 10 hours/week">
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Duration</mat-label>
+        <input matInput [(ngModel)]="editableOpportunity.duration" placeholder="e.g., 6 months">
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Rotation Length</mat-label>
+        <mat-select [(ngModel)]="editableOpportunity.rotationLength">
+          <mat-option *ngFor="let length of rotationLengths" [value]="length">
+            {{length}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+    <div class="toggle-group">
+      <mat-slide-toggle [(ngModel)]="editableOpportunity.mentorAvailable" class="detail-toggle">
+        <mat-icon>supervisor_account</mat-icon>
+        Mentor Available
+      </mat-slide-toggle>
+      
+      <mat-slide-toggle [(ngModel)]="editableOpportunity.remote" class="detail-toggle">
+        <mat-icon>home</mat-icon>
+        Remote OK
+      </mat-slide-toggle>
     </div>
   </div>
 
@@ -131,16 +248,41 @@
 </mat-dialog-content>
 
 <mat-dialog-actions class="modal-actions">
-  <div class="deadline-info">
+  <div class="deadline-info" *ngIf="!isEditMode">
     <mat-icon>event</mat-icon>
     <span>Apply by: {{formatDate(match.opportunity.applicationDeadline)}}</span>
   </div>
-  <div class="start-date-info">
+  <div class="start-date-info" *ngIf="!isEditMode">
     <mat-icon>play_arrow</mat-icon>
     <span>Starts: {{formatDate(match.opportunity.startDate)}}</span>
   </div>
+  
+  <div class="date-fields" *ngIf="isEditMode">
+    <mat-form-field appearance="outline" class="date-field">
+      <mat-label>Application Deadline</mat-label>
+      <input matInput [matDatepicker]="deadlinePicker" [(ngModel)]="editableOpportunity.applicationDeadline">
+      <mat-datepicker-toggle matSuffix [for]="deadlinePicker"></mat-datepicker-toggle>
+      <mat-datepicker #deadlinePicker></mat-datepicker>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline" class="date-field">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="startPicker" [(ngModel)]="editableOpportunity.startDate">
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  
   <div class="action-buttons">
-    <button mat-raised-button color="primary" (click)="onClose()">
+    <button mat-raised-button *ngIf="isEditMode" (click)="exitEditMode()">
+      <mat-icon>cancel</mat-icon>
+      Cancel
+    </button>
+    <button mat-raised-button color="primary" *ngIf="isEditMode" (click)="saveChanges()">
+      <mat-icon>save</mat-icon>
+      Save Changes
+    </button>
+    <button mat-raised-button color="primary" *ngIf="!isEditMode" (click)="onClose()">
       <mat-icon>close</mat-icon>
       Close
     </button>

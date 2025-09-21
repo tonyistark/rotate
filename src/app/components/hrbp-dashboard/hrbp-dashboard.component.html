@@ -494,25 +494,78 @@
                 
                 <!-- Matches Overview Cards -->
                 <div class="matches-overview" *ngIf="getCurrentMatches() > 0">
-                  <mat-card class="overview-card">
+                  <mat-card class="overview-card active-matches-card">
+                    <div class="card-background-pattern"></div>
                     <mat-card-header>
-                      <mat-icon class="overview-icon">assignment_turned_in</mat-icon>
-                      <mat-card-title>Active Matches</mat-card-title>
+                      <div class="header-content">
+                        <div class="icon-wrapper">
+                          <mat-icon class="overview-icon">assignment_turned_in</mat-icon>
+                        </div>
+                        <div class="title-section">
+                          <mat-card-title>Active Matches</mat-card-title>
+                          <span class="subtitle">Real-time overview</span>
+                        </div>
+                      </div>
                     </mat-card-header>
                     <mat-card-content>
                       <div class="overview-stats">
-                        <div class="stat-item">
-                          <span class="stat-value">{{getCurrentMatches()}}</span>
-                          <span class="stat-label">Total Matches</span>
+                        <div class="stat-item total-matches">
+                          <div class="stat-icon-wrapper">
+                            <mat-icon>people_outline</mat-icon>
+                          </div>
+                          <div class="stat-content">
+                            <span class="stat-value">{{getCurrentMatches()}}</span>
+                            <span class="stat-label">Total Matches</span>
+                            <div class="stat-trend positive">
+                              <mat-icon>trending_up</mat-icon>
+                              <span>+12% this week</span>
+                            </div>
+                          </div>
                         </div>
-                        <div class="stat-item">
-                          <span class="stat-value">{{getUniqueAssignedEmployees()}}</span>
-                          <span class="stat-label">Employees Assigned</span>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item employees-assigned">
+                          <div class="stat-icon-wrapper">
+                            <mat-icon>person_add</mat-icon>
+                          </div>
+                          <div class="stat-content">
+                            <span class="stat-value">{{getUniqueAssignedEmployees()}}</span>
+                            <span class="stat-label">Employees Assigned</span>
+                            <div class="stat-progress">
+                              <div class="progress-bar" [style.width.%]="(getUniqueAssignedEmployees() / getCurrentMatches() * 100) || 0"></div>
+                            </div>
+                          </div>
                         </div>
-                        <div class="stat-item">
-                          <span class="stat-value">{{getMatchCompletionRate()}}%</span>
-                          <span class="stat-label">Completion Rate</span>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item completion-rate">
+                          <div class="stat-icon-wrapper">
+                            <mat-icon>check_circle</mat-icon>
+                          </div>
+                          <div class="stat-content">
+                            <div class="circular-progress">
+                              <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg"
+                                  d="M18 2.0845
+                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                                />
+                                <path class="circle"
+                                  [attr.stroke-dasharray]="getMatchCompletionRate() + ', 100'"
+                                  d="M18 2.0845
+                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                                />
+                                <text x="18" y="20.35" class="percentage">{{getMatchCompletionRate()}}%</text>
+                              </svg>
+                            </div>
+                            <span class="stat-label">Completion Rate</span>
+                          </div>
                         </div>
+                      </div>
+                      <div class="quick-actions">
+                        <button mat-button color="primary" class="action-button">
+                          <mat-icon>visibility</mat-icon>
+                          View All Matches
+                        </button>
                       </div>
                     </mat-card-content>
                   </mat-card>

@@ -16,6 +16,7 @@ export interface Employee {
   profilePicture?: string;
   level?: string;
   jobTitle?: string;
+  jobFamily?: string;
   
   // TDI Profile fields
   timeInRole: string; // e.g., "2 years 5 months"
@@ -26,9 +27,9 @@ export interface Employee {
   
   // Performance ratings for specific cycles
   ratingCycles?: {
-    'MY24': 'Below Strong' | 'Strong' | 'Above Strong';
-    'YE24': 'Below Strong' | 'Strong' | 'Above Strong';
-    'MY25': 'Below Strong' | 'Strong' | 'Above Strong';
+    'MY24': '1-Exceptional' | '2-Very Strong' | '3-Strong' | '4-Inconsistent' | '5-Action Required' | '6-Too New' | 'No Rating Required';
+    'YE24': '1-Exceptional' | '2-Very Strong' | '3-Strong' | '4-Inconsistent' | '5-Action Required' | '6-Too New' | 'No Rating Required';
+    'MY25': '1-Exceptional' | '2-Very Strong' | '3-Strong' | '4-Inconsistent' | '5-Action Required' | '6-Too New' | 'No Rating Required';
   };
   
   // Legacy rating fields for backward compatibility

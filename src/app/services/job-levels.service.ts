@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { APP_CONSTANTS } from '../shared/constants/app.constants';
 
 export interface JobLevelsData {
   jobLevels: string[];
@@ -15,43 +16,23 @@ export class JobLevelsService {
   private jobLevelsLoaded = false;
 
   // Fallback job levels in case JSON loading fails
-  private fallbackJobLevels: string[] = [
-    'Associate',
-    'Sr. Associate', 
-    'Principal Associate',
-    'Manager',
-    'Sr. Manager',
-    'Director',
-    'Sr. Director',
-    'VP',
-    'Managing VP',
-    'Sr. VP'
-  ];
+  private fallbackJobLevels: string[] = APP_CONSTANTS.JOB_LEVELS;
 
   constructor(private http: HttpClient) {
     this.loadJobLevels();
   }
 
   /**
-   * Load job levels from JSON file
+   * Load job levels from constants
    */
   private loadJobLevels(): void {
     if (this.jobLevelsLoaded) {
       return;
     }
 
-    this.http.get<JobLevelsData>('/assets/data/job-levels.json')
-      .pipe(
-        map(data => data.jobLevels),
-        catchError(error => {
-          console.warn('Failed to load job levels from JSON, using fallback:', error);
-          return of(this.fallbackJobLevels);
-        })
-      )
-      .subscribe(jobLevels => {
-        this.jobLevelsSubject.next(jobLevels);
-        this.jobLevelsLoaded = true;
-      });
+    // Use APP_CONSTANTS as the primary source
+    this.jobLevelsSubject.next(APP_CONSTANTS.JOB_LEVELS);
+    this.jobLevelsLoaded = true;
   }
 
   /**

@@ -81,6 +81,74 @@ export class EmployeeService {
     await this.loadEmployees();
   }
 
+  async updateEmployee(updatedEmployee: Employee): Promise<void> {
+    try {
+      // Convert to ComprehensiveEmployee format
+      const comprehensiveEmployee: ComprehensiveEmployee = {
+        id: updatedEmployee.id,
+        name: updatedEmployee.name,
+        email: updatedEmployee.email,
+        department: updatedEmployee.department,
+        currentRole: updatedEmployee.currentRole,
+        yearsExperience: updatedEmployee.yearsExperience,
+        performanceRating: updatedEmployee.performanceRating,
+        skills: updatedEmployee.skills,
+        interests: updatedEmployee.interests,
+        careerGoals: updatedEmployee.careerGoals,
+        availability: updatedEmployee.availability,
+        level: updatedEmployee.level,
+        jobTitle: updatedEmployee.jobTitle,
+        timeInRole: updatedEmployee.timeInRole,
+        lengthOfService: updatedEmployee.lengthOfService,
+        promotionForecast: updatedEmployee.promotionForecast,
+        retentionRisk: updatedEmployee.retentionRisk,
+        tdiZone: updatedEmployee.tdiZone,
+        ratingCycles: updatedEmployee.ratingCycles,
+        myRating: updatedEmployee.myRating,
+        yeRating: updatedEmployee.yeRating,
+        lastPromoDate: updatedEmployee.lastPromoDate,
+        preparingForPromo: updatedEmployee.preparingForPromo,
+        preparingForStretch: updatedEmployee.preparingForStretch,
+        preparingForRotation: updatedEmployee.preparingForRotation,
+        futureTalentProfile: updatedEmployee.futureTalentProfile,
+        differentiatedStrength: updatedEmployee.differentiatedStrength,
+        currentGapsOpportunities: updatedEmployee.currentGapsOpportunities,
+        whatNeedsToBeDemonstrated: updatedEmployee.whatNeedsToBeDemonstrated,
+        howToInvest: updatedEmployee.howToInvest,
+        whatSupportNeeded: updatedEmployee.whatSupportNeeded,
+        associateCareerAspirations: updatedEmployee.associateCareerAspirations,
+        previousDifferentialInvestment: updatedEmployee.previousDifferentialInvestment,
+        retentionPlanNeeded: updatedEmployee.retentionPlanNeeded,
+        retentionPlanJustification: updatedEmployee.retentionPlanJustification,
+        rotationStechPlanNeeded: updatedEmployee.rotationStechPlanNeeded,
+        rotationStechPlanJustification: updatedEmployee.rotationStechPlanJustification,
+        lastHireDate: updatedEmployee.lastHireDate,
+        lastPromotedDate: updatedEmployee.lastPromotedDate,
+        performanceTrend: updatedEmployee.performanceTrend,
+        talentDevelopmentInventory: updatedEmployee.talentDevelopmentInventory,
+        attritionRisk: updatedEmployee.attritionRisk,
+        skillsetExperience: updatedEmployee.skillsetExperience,
+        competencyStrengths: updatedEmployee.competencyStrengths,
+        careerInterest: updatedEmployee.careerInterest,
+        confirmedInterestInRotation: updatedEmployee.confirmedInterestInRotation,
+        leadershipSupportOfRotation: updatedEmployee.leadershipSupportOfRotation
+      };
+
+      // Update in IndexedDB
+      await this.indexedDbService.updateEmployee(comprehensiveEmployee);
+      
+      // Update local cache
+      const index = this.employees.findIndex(emp => emp.id === updatedEmployee.id);
+      if (index !== -1) {
+        this.employees[index] = updatedEmployee;
+        this.employeesSubject.next([...this.employees]);
+      }
+    } catch (error) {
+      console.error('Error updating employee:', error);
+      throw error;
+    }
+  }
+
   async uploadEmployees(employees: Employee[]): Promise<void> {
     try {
       // Add unique IDs to employees that don't have them
@@ -104,6 +172,7 @@ export class EmployeeService {
         availability: emp.availability,
         level: emp.level,
         jobTitle: emp.jobTitle,
+        jobFamily: emp.jobFamily as any,
         timeInRole: emp.timeInRole,
         lengthOfService: emp.lengthOfService,
         promotionForecast: emp.promotionForecast,
@@ -190,18 +259,99 @@ export class EmployeeService {
     return 'Full-time';
   }
 
-  private normalizeRatingCycle(rating: string): 'Below Strong' | 'Strong' | 'Above Strong' {
-    if (!rating) return 'Strong';
+  private normalizeJobFamily(family: string | undefined): string {
+    if (!family) return '';
+    
+    const normalized = family.toLowerCase().trim();
+    
+    // Map common variations to standard values
+    if (normalized.includes('software') || normalized.includes('engineering') && !normalized.includes('data')) {
+      return 'Software Engineering';
+    } else if (normalized.includes('data eng')) {
+      return 'Data Engineering';
+    } else if (normalized.includes('data sci')) {
+      return 'Data Science';
+    } else if (normalized.includes('design')) {
+      return 'Design';
+    } else if (normalized.includes('finance')) {
+      return 'Finance';
+    } else if (normalized.includes('sales')) {
+      return 'Sales';
+    } else if (normalized.includes('product')) {
+      return 'Product';
+    } else if (normalized.includes('hr') || normalized.includes('human')) {
+      return 'HR';
+    } else if (normalized.includes('market')) {
+      return 'Marketing';
+    } else if (normalized.includes('operation')) {
+      return 'Operations';
+    } else if (normalized === 'engineering') {
+      return 'Engineering';
+    }
+    
+    // Return original if no match found
+    return family;
+  }
+
+  private normalizeRetentionRisk(risk: string | number | undefined): 'Low' | 'Medium' | 'High' {
+    if (!risk) return 'Low';
+    
+    // Convert to string and normalize
+    const normalized = risk.toString().toLowerCase().trim();
+    
+    // Handle direct Low/Medium/High values
+    if (normalized === 'low') return 'Low';
+    if (normalized === 'medium') return 'Medium';
+    if (normalized === 'high') return 'High';
+    
+    // Handle percentage values
+    const percentMatch = normalized.match(/(\d+)/);
+    if (percentMatch) {
+      const percent = parseInt(percentMatch[1]);
+      if (percent <= 30) return 'Low';
+      if (percent <= 60) return 'Medium';
+      return 'High';
+    }
+    
+    // Handle numeric values (assuming 0-100 scale)
+    if (typeof risk === 'number') {
+      if (risk <= 30) return 'Low';
+      if (risk <= 60) return 'Medium';
+      return 'High';
+    }
+    
+    // Default to Low if unable to parse
+    return 'Low';
+  }
+
+  private normalizeRatingCycle(rating: string): '1-Exceptional' | '2-Very Strong' | '3-Strong' | '4-Inconsistent' | '5-Action Required' | '6-Too New' | 'No Rating Required' {
+    if (!rating) return 'No Rating Required';
     
     const normalized = rating.toLowerCase().trim();
     
-    if (normalized.includes('above') || normalized.includes('exceeds') || normalized.includes('outstanding')) {
-      return 'Above Strong';
-    } else if (normalized.includes('below') || normalized.includes('needs') || normalized.includes('poor')) {
-      return 'Below Strong';
+    // Handle new format ratings
+    if (normalized.includes('1-exceptional') || normalized === '1-exceptional') return '1-Exceptional';
+    if (normalized.includes('2-very strong') || normalized === '2-very strong') return '2-Very Strong';
+    if (normalized.includes('3-strong') || normalized === '3-strong') return '3-Strong';
+    if (normalized.includes('4-inconsistent') || normalized === '4-inconsistent') return '4-Inconsistent';
+    if (normalized.includes('5-action required') || normalized === '5-action required') return '5-Action Required';
+    if (normalized.includes('6-too new') || normalized === '6-too new') return '6-Too New';
+    if (normalized.includes('no rating') || normalized === 'no rating required') return 'No Rating Required';
+    
+    // Handle legacy format ratings
+    if (normalized.includes('above') || normalized.includes('exceeds') || normalized.includes('outstanding') || normalized.includes('exceptional')) {
+      return '1-Exceptional';
+    } else if (normalized.includes('very strong') || normalized.includes('strong') && !normalized.includes('below')) {
+      return '2-Very Strong';
+    } else if (normalized.includes('below') || normalized.includes('needs') || normalized.includes('poor') || normalized.includes('inconsistent')) {
+      return '4-Inconsistent';
+    } else if (normalized.includes('action') || normalized.includes('improvement')) {
+      return '5-Action Required';
+    } else if (normalized.includes('new') || normalized.includes('too new')) {
+      return '6-Too New';
     }
     
-    return 'Strong';
+    return 'No Rating Required';
   }
 
   private convertToEmployeeFormat(comprehensiveEmployees: ComprehensiveEmployee[]): Employee[] {
@@ -219,10 +369,11 @@ export class EmployeeService {
       availability: this.normalizeAvailability(emp.availability || 'Full-time'),
       level: emp.level || emp.jobLevel || '',
       jobTitle: emp.jobTitle || emp.currentRole || '',
+      jobFamily: this.normalizeJobFamily(emp.jobFamily),
       timeInRole: emp.timeInRole || '',
       lengthOfService: emp.lengthOfService || '',
       promotionForecast: emp.promotionForecast || '',
-      retentionRisk: emp.retentionRisk || (emp.attritionRisk ? emp.attritionRisk.toString() : ''),
+      retentionRisk: this.normalizeRetentionRisk(emp.retentionRisk || emp.attritionRisk),
       tdiZone: emp.tdiZone || emp.devZone || '',
       ratingCycles: emp.ratingCycles ? {
         'MY24': this.normalizeRatingCycle(emp.ratingCycles['MY24']),

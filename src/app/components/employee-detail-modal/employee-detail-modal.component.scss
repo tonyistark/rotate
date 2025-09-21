@@ -166,6 +166,8 @@ $transition-normal: 0.2s ease;
     overflow-y: auto;
     padding: 0;
     background: var(--bg-primary);
+    position: relative;
+    z-index: 1;
 
     // Summary Cards
     .summary-cards {
@@ -223,6 +225,38 @@ $transition-normal: 0.2s ease;
 
             .metric-label {
               display: none;
+            }
+            
+            .summary-field {
+              width: 100%;
+              margin: 0;
+              
+              ::ng-deep .mat-mdc-form-field-wrapper {
+                padding: 0;
+              }
+              
+              ::ng-deep .mat-mdc-text-field-wrapper {
+                background: var(--bg-card);
+                border-radius: 8px;
+                border: 1px solid var(--border-color);
+              }
+              
+              ::ng-deep .mat-mdc-select-value,
+              ::ng-deep .mdc-text-field__input {
+                font-size: 24px;
+                font-weight: 700;
+                color: var(--text-primary);
+                text-align: center;
+                padding: 8px;
+              }
+              
+              ::ng-deep .mat-mdc-select-arrow {
+                color: var(--text-secondary);
+              }
+              
+              ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+                display: none;
+              }
             }
           }
         }
@@ -327,7 +361,118 @@ $transition-normal: 0.2s ease;
             }
 
             ::ng-deep .mat-mdc-card-content {
-              padding: 24px;
+              padding: 20px; // Reduced from 24px for more compact layout
+            }
+          }
+        }
+      }
+    }
+    
+    // Performance Ratings Section - Full Width Card
+    .performance-ratings-section {
+      margin-top: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: $border-radius-md;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      
+      ::ng-deep .mat-mdc-card-header {
+        background: var(--bg-tertiary);
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+        
+        .mat-mdc-card-avatar {
+          background: var(--bg-elevated);
+          color: var(--text-secondary);
+          border-radius: 6px;
+          width: 40px;
+          height: 40px;
+          
+          mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+          }
+        }
+        
+        .mat-mdc-card-title {
+          color: var(--text-primary);
+          font-weight: 600;
+          font-size: 14px;
+          margin: 0;
+        }
+      }
+      
+      ::ng-deep .mat-mdc-card-content {
+        padding: 24px;
+      }
+      
+      .rating-cycles-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        
+        .rating-cycle {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 20px;
+          background: var(--bg-tertiary);
+          border-radius: 8px;
+          border: 1px solid var(--border-color);
+          transition: all 0.15s ease;
+          
+          &:hover {
+            background: var(--bg-elevated);
+            border-color: var(--border-color);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+          }
+          
+          .cycle-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+          }
+          
+          .cycle-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+          }
+          
+          .cycle-field {
+            width: 100%;
+            margin: 0;
+            position: relative;
+            z-index: 10;
+            
+            ::ng-deep .mat-mdc-form-field-wrapper {
+              padding: 0;
+            }
+            
+            ::ng-deep .mat-mdc-text-field-wrapper {
+              background: var(--bg-card);
+              border-radius: 4px;
+              border: 1px solid var(--border-color);
+            }
+            
+            ::ng-deep .mat-mdc-select {
+              font-size: 14px;
+              line-height: 1.2;
+            }
+            
+            ::ng-deep .mat-mdc-select-value {
+              font-size: 14px;
+              color: var(--text-primary);
+            }
+            
+            ::ng-deep .mat-mdc-select-arrow {
+              color: var(--text-secondary);
             }
           }
         }
@@ -338,13 +483,13 @@ $transition-normal: 0.2s ease;
     .info-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
+      gap: 12px; // Reduced from 16px for more compact layout
 
       .info-item {
         display: flex;
         align-items: flex-start;
         gap: 16px;
-        padding: 20px;
+        padding: 16px; // Reduced from 20px for more compact layout
         background: var(--bg-card);
         border: 1px solid var(--border-color);
         border-radius: $border-radius-md;
@@ -388,62 +533,6 @@ $transition-normal: 0.2s ease;
           }
         }
 
-        // Rating cycles specific styling
-        &.rating-cycles-container {
-          grid-column: 1 / -1; // Span full width
-          
-          .rating-cycles-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 8px;
-            
-            .rating-cycle {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              padding: 16px;
-              background: var(--bg-tertiary);
-              border-radius: 8px;
-              border: 1px solid var(--border-color);
-              transition: all 0.15s ease;
-              
-              &:hover {
-                background: var(--bg-elevated);
-                border-color: var(--border-color);
-              }
-              
-              .cycle-label {
-                font-size: 12px;
-                font-weight: 600;
-                color: var(--text-secondary);
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                margin-bottom: 8px;
-              }
-              
-              .cycle-value {
-                font-size: 14px;
-                font-weight: 600;
-                color: var(--text-primary);
-                text-align: center;
-              }
-              
-              .cycle-field {
-                width: 100%;
-                margin: 0;
-                
-                ::ng-deep .mat-mdc-form-field-wrapper {
-                  padding: 0;
-                }
-                
-                ::ng-deep .mat-mdc-text-field-wrapper {
-                  background: var(--bg-card);
-                  border-radius: 4px;
-                }
-              }
-            }
-          }
 
           .modern-field {
             width: 100%;
@@ -464,12 +553,12 @@ $transition-normal: 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 16px 20px;
+        padding: 12px 16px; // Reduced from 16px 20px
         background: var(--bg-card);
         border: 1px solid var(--border-color);
         border-radius: $border-radius-md;
         transition: all $transition-fast;
-        margin-bottom: 12px;
+        margin-bottom: 8px; // Reduced from 12px
 
         &:last-child {
           margin-bottom: 0;
@@ -981,7 +1070,6 @@ $transition-normal: 0.2s ease;
       }
     }
   }
-}
 
 // Status and rating color classes
 @mixin status-color($color) {
@@ -1051,4 +1139,102 @@ $transition-normal: 0.2s ease;
   font-family: monospace;
   word-break: break-all;
   margin: 4px 0;
+}
+
+// Global fix for mat-select dropdown z-index issues
+:host ::ng-deep .cdk-overlay-container {
+  z-index: 10000 !important;
+}
+
+:host ::ng-deep .cdk-overlay-pane {
+  z-index: 10000 !important;
+}
+
+:host ::ng-deep .mat-mdc-select-panel {
+  z-index: 10000 !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+:host ::ng-deep .cdk-overlay-connected-position-bounding-box {
+  z-index: 10000 !important;
+}
+
+// Ensure dropdowns don't overflow the modal
+:host ::ng-deep .cdk-overlay-backdrop {
+  z-index: 9999 !important;
+}
+
+// Style the dropdown options
+:host ::ng-deep .mat-mdc-option {
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  padding: 8px 16px !important;
+  min-height: 36px !important;
+  color: var(--text-primary) !important;
+  
+  &:hover {
+    background-color: var(--bg-hover) !important;
+  }
+  
+  &.mdc-list-item--selected {
+    background-color: var(--accent-primary) !important;
+    color: white !important;
+  }
+}
+
+// Ensure proper positioning for rating cycle dropdowns
+:host ::ng-deep .rating-cycles-container .cdk-overlay-pane {
+  transform-origin: top center !important;
+}
+
+// Chip grid styles for edit mode
+:host ::ng-deep mat-chip-grid {
+  .mdc-evolution-chip-set__chips {
+    gap: 8px;
+    
+    mat-chip-row {
+      background: var(--bg-chip);
+      border: 1px solid var(--border-color);
+      
+      &:hover {
+        background: var(--bg-hover);
+      }
+      
+      .mdc-evolution-chip__action--primary {
+        padding-right: 4px;
+      }
+      
+      button[matChipRemove] {
+        opacity: 0.7;
+        
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  
+  input {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-size: 14px;
+    width: 100%;
+    
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+    
+    &::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+  }
 }
