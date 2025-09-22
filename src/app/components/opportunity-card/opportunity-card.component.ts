@@ -78,7 +78,7 @@ export class OpportunityCardComponent extends BaseComponent implements OnInit {
 
   private calculateMatchScore(member: Employee, opportunity: any): number {
     let score = 0;
-    const memberSkills = member.technicalSkillSet || member.skills || [];
+    const memberSkills = member.skills || [];
     const requiredSkills = opportunity.requiredSkills || [];
     const preferredSkills = opportunity.preferredSkills || [];
     
@@ -108,7 +108,7 @@ export class OpportunityCardComponent extends BaseComponent implements OnInit {
   }
 
   private getMatchedSkills(member: Employee, opportunity: any): string[] {
-    const memberSkills = member.technicalSkillSet || member.skills || [];
+    const memberSkills = member.skills || [];
     const allOpportunitySkills = [...(opportunity.requiredSkills || []), ...(opportunity.preferredSkills || [])];
     
     return allOpportunitySkills.filter((skill: string) => 

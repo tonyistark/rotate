@@ -18,6 +18,7 @@ export interface FilterState {
   selectedPerformanceRating: string;
   selectedRotationLevel: string;
   selectedRotationLength: string;
+  selectedReportsTo?: string;
 }
 
 @Injectable({
@@ -46,7 +47,8 @@ export class FilterService {
       selectedAttritionResponse: '',
       selectedPerformanceRating: '',
       selectedRotationLevel: '',
-      selectedRotationLength: ''
+      selectedRotationLength: '',
+      selectedReportsTo: ''
     };
   }
 

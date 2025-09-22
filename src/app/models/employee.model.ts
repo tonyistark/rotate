@@ -1,29 +1,24 @@
 export interface Employee {
-  id: string;
+  id?: string;
+  eid?: string;
   name: string;
   email: string;
   department: string;
-  currentRole: string;
-  yearsExperience: number;
-  performanceRating: 'Exceeds' | 'Meets' | 'Below' | 'Outstanding';
+  jobTitle: string;
   skills: string[];
-  technicalSkillSet?: string[]; // Skills from CSV import
-  interests: string[];
-  careerGoals: string[];
-  availability: 'Full-time' | 'Part-time' | 'Project-based';
-  
-  // Enhanced profile fields
-  profilePicture?: string;
+  yearsExperience: number;
+  performanceRating?: string;
+  availability?: string;
+  currentRole?: string;
   level?: string;
-  jobTitle?: string;
   jobFamily?: string;
-  
-  // TDI Profile fields
-  timeInRole: string; // e.g., "2 years 5 months"
-  lengthOfService: string; // e.g., "5 years 2 months"
-  promotionForecast: string; // e.g., "YE 2026"
-  retentionRisk: string; // e.g., "30%"
-  tdiZone: string; // e.g., "Invest Now"
+  tdiZone?: string;
+  timeInRole?: string;
+  lengthOfService?: string;
+  lastPromoDate?: string;
+  promotionForecast?: string;
+  riskOfLeaving?: string;
+  reportsTo?: string;
   
   // Performance ratings for specific cycles
   ratingCycles?: {
@@ -33,9 +28,8 @@ export interface Employee {
   };
   
   // Legacy rating fields for backward compatibility
-  myRating: string; // e.g., "Strong"
-  yeRating: string; // e.g., "Above Strong"
-  lastPromoDate: string; // e.g., "1/1/2023"
+  myRating?: string; // e.g., "Strong"
+  yeRating?: string; // e.g., "Above Strong"
   
   // Development Focus
   preparingForPromo: boolean;

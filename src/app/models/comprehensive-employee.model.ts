@@ -59,6 +59,7 @@ export interface ComprehensiveEmployee {
   lossImpact?: 'Low' | 'Medium' | 'High';
   attritionRisk?: 'Low' | 'Medium' | 'High' | number; // from both (number from employees.json)
   retentionRisk?: string; // from employees.json
+  riskOfLeaving?: string; // from employees.json
   attritionResponse?: 'Act aggressive to retain' | 'Enthusiasically look to retain' | 'Maybe hire back' | 
                      'Hire back for this role' | 'Hire back for this or other role' | 'Not attempt to retain' | 
                      'Time bound retention';
@@ -67,6 +68,7 @@ export interface ComprehensiveEmployee {
   
   // Role & Leadership
   plOrIc?: 'IC' | 'PL';
+  reportsTo?: string;
   reportsTo3?: string;
   reportsTo4?: string[];
   reportsTo5?: string[];
@@ -137,7 +139,9 @@ export const FIELD_MAPPINGS: { [csvField: string]: keyof ComprehensiveEmployee }
   'Recent Year End Performance': 'recentYearEndPerformance',
   'Mid Year Performance Rating': 'midYearPerformanceRating',
   'Last Year End Performance Rating': 'lastYearEndPerformanceRating',
-  'PL or IC': 'plOrIc',
+  'Risk of Leaving': 'riskOfLeaving',
+  'Reports To': 'reportsTo',
+  'Preparing for Promo': 'preparingForPromo',
   'Reports to 3': 'reportsTo3',
   'Reports to 4': 'reportsTo4',
   'Reports to 5': 'reportsTo5',

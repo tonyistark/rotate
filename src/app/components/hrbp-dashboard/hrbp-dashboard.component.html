@@ -523,15 +523,15 @@
                           </div>
                         </div>
                         <div class="stat-divider"></div>
-                        <div class="stat-item employees-assigned">
+                        <div class="stat-item available-opportunities">
                           <div class="stat-icon-wrapper">
-                            <mat-icon>person_add</mat-icon>
+                            <mat-icon>work_outline</mat-icon>
                           </div>
                           <div class="stat-content">
-                            <span class="stat-value">{{getUniqueAssignedEmployees()}}</span>
-                            <span class="stat-label">Employees Assigned</span>
+                            <span class="stat-value">{{getAvailableOpportunities()}}</span>
+                            <span class="stat-label">Open Opportunities</span>
                             <div class="stat-progress">
-                              <div class="progress-bar" [style.width.%]="(getUniqueAssignedEmployees() / getCurrentMatches() * 100) || 0"></div>
+                              <div class="progress-bar available" [style.width.%]="(getAvailableOpportunities() / opportunities.length * 100) || 0"></div>
                             </div>
                           </div>
                         </div>

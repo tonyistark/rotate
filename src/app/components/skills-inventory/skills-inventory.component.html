@@ -1,14 +1,22 @@
 <div class="skills-inventory-container">
-  <!-- Header Section -->
-  <div class="inventory-header">
+  <!-- Premium Header Section -->
+  <div class="inventory-header premium-design">
+    <div class="header-background-pattern"></div>
     <div class="header-content">
-      <h2>Skills Inventory</h2>
-      <p class="subtitle">Real-time analysis of skill demand, supply, and gaps</p>
-    </div>
-    <div class="header-stats" *ngIf="analytics">
-      <div class="stat-item last-updated">
-        <mat-icon>schedule</mat-icon>
-        <span class="stat-label">{{getFormattedLastUpdated()}}</span>
+      <div class="title-wrapper">
+        <div class="icon-badge">
+          <mat-icon>analytics</mat-icon>
+        </div>
+        <div class="title-section">
+          <h2>Skills Analytics Dashboard</h2>
+          <p class="subtitle">Real-time analysis of skill demand, supply, and gaps</p>
+        </div>
+      </div>
+      <div class="header-stats" *ngIf="analytics">
+        <div class="stat-item last-updated">
+          <mat-icon>schedule</mat-icon>
+          <span class="stat-label">{{getFormattedLastUpdated()}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -21,6 +29,88 @@
 
   <!-- Main Content -->
   <div *ngIf="analytics" class="inventory-content">
+    
+    <!-- Featured Gap Analysis Section (Moved to Top) -->
+    <div class="featured-section gap-analysis-featured">
+      <div class="section-header">
+        <div class="header-icon critical">
+          <mat-icon>warning</mat-icon>
+        </div>
+        <div class="header-content">
+          <h3>Critical Skill Gap Analysis</h3>
+        </div>
+      </div>
+      
+      <!-- Gap Overview Cards -->
+      <div class="gap-overview-cards">
+        <div class="gap-card shortage-card">
+          <div class="card-icon">
+            <mat-icon>trending_down</mat-icon>
+          </div>
+          <div class="card-content">
+            <div class="card-value">{{getShortageCount()}}</div>
+            <div class="card-label">Critical Shortages</div>
+            <div class="card-trend negative">Immediate action needed</div>
+          </div>
+        </div>
+        
+        <div class="gap-card balanced-card">
+          <div class="card-icon">
+            <mat-icon>trending_flat</mat-icon>
+          </div>
+          <div class="card-content">
+            <div class="card-value">{{getBalancedCount()}}</div>
+            <div class="card-label">Balanced Skills</div>
+            <div class="card-trend neutral">Stable supply</div>
+          </div>
+        </div>
+        
+        <div class="gap-card surplus-card">
+          <div class="card-icon">
+            <mat-icon>trending_up</mat-icon>
+          </div>
+          <div class="card-content">
+            <div class="card-value">{{getSurplusCount()}}</div>
+            <div class="card-label">Surplus Skills</div>
+            <div class="card-trend positive">Available talent</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Critical Gaps List -->
+      <div class="critical-gaps-list">
+        <h4>Top Priority Skill Gaps</h4>
+        <div class="gaps-grid">
+          <div class="gap-item critical" 
+               *ngFor="let gap of getCriticalGaps() | slice:0:6">
+            <div class="gap-header">
+              <span class="skill-name">{{gap.skill}}</span>
+              <span class="gap-severity" [ngClass]="getSeverityClass(gap.gapPercentage)">
+                {{gap.gapPercentage}}% gap
+              </span>
+            </div>
+            <div class="gap-visual">
+              <div class="supply-demand-bars">
+                <div class="bar-item demand">
+                  <span class="bar-label">Demand</span>
+                  <div class="bar-container">
+                    <div class="bar-fill" [style.width.%]="getRelativePercentage(gap.demand, gap.demand)"></div>
+                  </div>
+                  <span class="bar-value">{{gap.demand}}</span>
+                </div>
+                <div class="bar-item supply">
+                  <span class="bar-label">Supply</span>
+                  <div class="bar-container">
+                    <div class="bar-fill" [style.width.%]="getRelativePercentage(gap.supply, gap.demand)"></div>
+                  </div>
+                  <span class="bar-value">{{gap.supply}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     
     <!-- Skills Demand Section -->
     <mat-card class="inventory-section demand-section">
@@ -116,21 +206,21 @@
           <div class="gap-summary-item shortage">
             <mat-icon>trending_down</mat-icon>
             <div class="summary-content">
-              <span class="summary-count">{{analytics.skillGaps.filter(g => g.status === 'shortage').length}}</span>
+              <span class="summary-count">{{getShortageCount()}}</span>
               <span class="summary-label">Skills in Shortage</span>
             </div>
           </div>
           <div class="gap-summary-item balanced">
             <mat-icon>trending_flat</mat-icon>
             <div class="summary-content">
-              <span class="summary-count">{{analytics.skillGaps.filter(g => g.status === 'balanced').length}}</span>
+              <span class="summary-count">{{getBalancedCount()}}</span>
               <span class="summary-label">Balanced Skills</span>
             </div>
           </div>
           <div class="gap-summary-item surplus">
             <mat-icon>trending_up</mat-icon>
             <div class="summary-content">
-              <span class="summary-count">{{analytics.skillGaps.filter(g => g.status === 'surplus').length}}</span>
+              <span class="summary-count">{{getSurplusCount()}}</span>
               <span class="summary-label">Skills in Surplus</span>
             </div>
           </div>

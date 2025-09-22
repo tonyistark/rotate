@@ -30,153 +30,10 @@ interface Opportunity {
     CommonModule,
     MatCardModule,
     MatIconModule,
-    MatButtonModule,
-    MatChipsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatChipsModule
   ],
-  template: `
-    <div class="skills-dashboard">
-      <!-- Dashboard Header with KPI Cards -->
-      <div class="dashboard-header">
-        <h2 class="dashboard-title">
-          <mat-icon>analytics</mat-icon>
-          Skills Analytics Dashboard
-        </h2>
-      </div>
-      
-      <!-- Loading State -->
-      <div *ngIf="!analytics" class="loading-state">
-        <mat-spinner diameter="50"></mat-spinner>
-        <p>Loading skills analytics...</p>
-      </div>
-      
-      <!-- Dashboard Content -->
-      <div *ngIf="analytics" class="dashboard-grid">
-        
-        <!-- Skills Demand Chart -->
-        <mat-card class="chart-card demand-chart">
-          <mat-card-header>
-            <div mat-card-avatar class="chart-avatar demand">
-              <mat-icon>trending_up</mat-icon>
-            </div>
-            <mat-card-title>Top Skills in Demand</mat-card-title>
-            <mat-card-subtitle>Most requested skills across opportunities</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="horizontal-chart">
-              <div *ngFor="let demand of getDisplayedDemands(); let i = index" class="chart-bar-item">
-                <div class="skill-info">
-                  <span class="skill-name">{{demand.skill}}</span>
-                  <span class="skill-count">{{demand.opportunityCount}}</span>
-                </div>
-                <div class="bar-container">
-                  <div class="bar demand-bar" 
-                       [style.width.%]="getBarWidth(demand.opportunityCount, getMaxDemand())"
-                       [attr.data-value]="demand.opportunityCount">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
-        
-        <!-- Skills Supply Chart -->
-        <mat-card class="chart-card supply-chart">
-          <mat-card-header>
-            <div mat-card-avatar class="chart-avatar supply">
-              <mat-icon>people</mat-icon>
-            </div>
-            <mat-card-title>Employee Skill Distribution</mat-card-title>
-            <mat-card-subtitle>Most common skills among employees</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="horizontal-chart">
-              <div *ngFor="let supply of getDisplayedSupplies(); let i = index" class="chart-bar-item">
-                <div class="skill-info">
-                  <span class="skill-name">{{supply.skill}}</span>
-                  <span class="skill-count">{{supply.employeeCount}}</span>
-                </div>
-                <div class="bar-container">
-                  <div class="bar supply-bar" 
-                       [style.width.%]="getBarWidth(supply.employeeCount, getMaxSupply())"
-                       [attr.data-value]="supply.employeeCount">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
-        
-        <!-- Skill Gap Analysis with Visual Indicators -->
-        <mat-card class="chart-card gap-analysis full-width">
-          <mat-card-header>
-            <div mat-card-avatar class="chart-avatar gaps">
-              <mat-icon>analytics</mat-icon>
-            </div>
-            <mat-card-title>Skill Gap Analysis</mat-card-title>
-            <mat-card-subtitle>Supply vs Demand comparison</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <!-- Gap Summary Donut -->
-            <div class="gap-summary-visual">
-              <div class="donut-chart">
-                <div class="donut-segment shortage" 
-                     [style.--percentage]="getShortagePercentage() + '%'">
-                </div>
-                <div class="donut-center">
-                  <div class="donut-value">{{getSkillShortages()}}</div>
-                  <div class="donut-label">Shortages</div>
-                </div>
-              </div>
-              
-              <div class="gap-legend">
-                <div class="legend-item shortage">
-                  <div class="legend-color"></div>
-                  <span>{{getSkillShortages()}} Skills in Shortage</span>
-                </div>
-                <div class="legend-item balanced">
-                  <div class="legend-color"></div>
-                  <span>{{getBalancedSkills()}} Balanced Skills</span>
-                </div>
-                <div class="legend-item surplus">
-                  <div class="legend-color"></div>
-                  <span>{{getSurplusSkills()}} Skills in Surplus</span>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Critical Gaps List -->
-            <div class="critical-gaps">
-              <h4>Critical Skill Gaps</h4>
-              <div class="gap-items">
-                <div *ngFor="let gap of getCriticalGaps(); let i = index" class="gap-item">
-                  <div class="gap-skill">
-                    <mat-icon [class]="getGapIconClass(gap.status)">{{getGapStatusIcon(gap.status)}}</mat-icon>
-                    <span class="skill-name">{{gap.skill}}</span>
-                  </div>
-                  <div class="gap-metrics">
-                    <div class="metric demand">
-                      <span class="label">Demand:</span>
-                      <span class="value">{{gap.demand}}</span>
-                    </div>
-                    <div class="metric supply">
-                      <span class="label">Supply:</span>
-                      <span class="value">{{gap.supply}}</span>
-                    </div>
-                    <div class="metric gap" [class]="getGapStatusClass(gap.status)">
-                      <span class="label">Gap:</span>
-                      <span class="value">{{getGapText(gap)}}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
-        
-      </div>
-    </div>
-  `,
+  templateUrl: './skills-inventory.component.html',
   styleUrls: ['./skills-inventory.component.scss']
 })
 
@@ -243,7 +100,7 @@ export class SkillsInventoryComponent implements OnInit, OnDestroy {
         skill, 
         opportunityCount: count,
         opportunities: [],
-        percentage: (count / this.opportunities.length) * 100
+        percentage: Math.round((count / this.opportunities.length) * 100)
       }))
       .sort((a, b) => b.opportunityCount - a.opportunityCount);
 
@@ -253,7 +110,7 @@ export class SkillsInventoryComponent implements OnInit, OnDestroy {
         skill, 
         employeeCount: count,
         employees: [],
-        percentage: (count / this.employees.length) * 100
+        percentage: Math.round((count / this.employees.length) * 100)
       }))
       .sort((a, b) => b.employeeCount - a.employeeCount);
 
@@ -268,7 +125,7 @@ export class SkillsInventoryComponent implements OnInit, OnDestroy {
       const supply = skillSupplyMap.get(skill) || 0;
       const gap = demand - supply;
       
-      let status: string;
+      let status: 'surplus' | 'balanced' | 'shortage';
       if (gap > 0) {
         status = 'shortage';
       } else if (gap < 0) {
@@ -277,13 +134,15 @@ export class SkillsInventoryComponent implements OnInit, OnDestroy {
         status = 'balanced';
       }
       
+      const gapPercentage = demand > 0 ? Math.round((Math.abs(gap) / demand) * 100) : 0;
+      
       skillGaps.push({
         skill,
         demand,
         supply,
         gap: Math.abs(gap),
-        status,
-        severity: Math.abs(gap) > 3 ? 'critical' : Math.abs(gap) > 1 ? 'moderate' : 'low'
+        gapPercentage,
+        status
       });
     });
 
@@ -447,8 +306,34 @@ export class SkillsInventoryComponent implements OnInit, OnDestroy {
         this.displayLimits.supply += 5;
         break;
       case 'gaps':
-        this.displayLimits.gaps += 5;
+        this.displayLimits.gaps += 10;
         break;
     }
+  }
+
+  getSeverityClass(gapPercentage: number): string {
+    if (gapPercentage >= 75) return 'severe';
+    if (gapPercentage >= 50) return 'high';
+    if (gapPercentage >= 25) return 'medium';
+    return 'low';
+  }
+
+  getRelativePercentage(value: number, max: number): number {
+    return max > 0 ? (value / max) * 100 : 0;
+  }
+
+  getShortageCount(): number {
+    if (!this.analytics?.skillGaps) return 0;
+    return this.analytics.skillGaps.filter(g => g.status === 'shortage').length;
+  }
+
+  getBalancedCount(): number {
+    if (!this.analytics?.skillGaps) return 0;
+    return this.analytics.skillGaps.filter(g => g.status === 'balanced').length;
+  }
+
+  getSurplusCount(): number {
+    if (!this.analytics?.skillGaps) return 0;
+    return this.analytics.skillGaps.filter(g => g.status === 'surplus').length;
   }
 }

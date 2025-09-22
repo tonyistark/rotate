@@ -102,7 +102,7 @@
               <div class="performance-breakdown">
                 <div class="performance-item" *ngFor="let member of teamMembers">
                   <span class="member-name">{{member.name}}</span>
-                  <mat-chip [color]="getPerformanceColor(member.performanceRating)" selected>
+                  <mat-chip [color]="getPerformanceColor(member.performanceRating || 'Meets')" selected>
                     {{member.performanceRating}}
                   </mat-chip>
                 </div>

@@ -105,6 +105,16 @@
           </mat-select>
         </mat-form-field>
 
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Reports To</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedReportsTo" (ngModelChange)="onFilterChange()">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let manager of filterOptions.managers" [value]="manager">
+              {{manager}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <button mat-raised-button color="warn" *ngIf="hasActiveFilters()" (click)="clearAllFilters()" class="clear-filters-btn">
           <mat-icon>clear_all</mat-icon>
           Clear All
@@ -140,6 +150,10 @@
           {{filterState.selectedAttritionRisk}}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
+        <mat-chip *ngIf="filterState.selectedReportsTo" class="filter-chip" (removed)="clearFilter('selectedReportsTo')">
+          Reports to: {{filterState.selectedReportsTo}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
       </div>
     </div>
   </div>
@@ -170,6 +184,14 @@
       *ngFor="let employee of filteredEmployees" 
       (click)="showEmployeeDetails(employee)">
       
+      <!-- Avatar Section (for list view) -->
+      <div class="employee-avatar-section" *ngIf="viewMode === 'list'">
+        <div class="employee-initials">
+          {{getInitials(employee.name)}}
+        </div>
+        <div class="status-dot"></div>
+      </div>
+      
       <mat-card-header>
         <mat-card-title>
           <span class="employee-name">{{employee.name}}</span>
@@ -185,7 +207,38 @@
       </mat-card-header>
 
       <mat-card-content>
-        <div class="employee-info">
+        <div class="employee-info" *ngIf="viewMode === 'list'">
+          <div class="info-item">
+            <mat-icon>business</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Department</span>
+              <span class="info-value">{{employee.department}}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon>work_history</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Experience</span>
+              <span class="info-value">{{employee.yearsExperience}} years</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon>supervisor_account</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Reports To</span>
+              <span class="info-value">{{employee.reportsTo || 'N/A'}}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon>trending_up</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Performance</span>
+              <span class="info-value">{{employee.performanceRating || 'N/A'}}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="employee-info" *ngIf="viewMode !== 'list'">
           <div class="info-row">
             <span class="label">Department:</span>
             <span class="value">{{employee.department}}</span>
@@ -199,14 +252,14 @@
         <div class="status-indicators">
           <div class="status-item">
             <span class="status-label">Development Zone</span>
-            <mat-chip [class]="getDevZoneClass(employee.tdiZone)" selected>
+            <mat-chip [class]="getDevZoneClass(employee.tdiZone || 'Support in Current Role')" selected>
               {{employee.tdiZone}}
             </mat-chip>
           </div>
 
           <div class="status-item">
             <span class="status-label">Performance Rating</span>
-            <mat-chip [class]="getRatingClass(employee.performanceRating)" selected>
+            <mat-chip [class]="getRatingClass(employee.performanceRating || 'Meets')" selected>
               {{employee.performanceRating}}
             </mat-chip>
           </div>

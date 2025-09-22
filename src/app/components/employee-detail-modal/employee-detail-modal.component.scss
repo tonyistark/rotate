@@ -132,6 +132,105 @@ $transition-normal: 0.2s ease;
             color: var(--text-primary);
           }
         }
+
+        .reports-to-section {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-top: 16px;
+          padding: 0;
+          background: transparent;
+          border: none;
+          border-radius: 0;
+          transition: all 0.2s ease;
+          position: relative;
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 24px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+          }
+
+          &:hover {
+            padding-left: 12px;
+
+            &::before {
+              opacity: 1;
+            }
+
+            .reports-to-value {
+              color: var(--primary-color);
+            }
+          }
+
+          mat-icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+            color: var(--primary-color);
+          }
+
+          .reports-to-label {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          .reports-to-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+            transition: color 0.2s ease;
+          }
+
+          .reports-to-field {
+            flex: 1;
+            margin: 0;
+            
+            ::ng-deep .mat-mdc-form-field-wrapper {
+              margin: 0;
+              padding: 0;
+              background: transparent;
+              border: none;
+            }
+
+            ::ng-deep .mat-mdc-text-field-wrapper {
+              background: var(--bg-primary);
+              border: 1px solid var(--border-color);
+              border-radius: 4px;
+              height: 32px;
+            }
+
+            ::ng-deep .mat-mdc-form-field-infix {
+              padding: 0 8px;
+              min-height: 32px;
+              border: none;
+            }
+
+            ::ng-deep .mat-mdc-form-field-label-wrapper {
+              display: none;
+            }
+
+            ::ng-deep input {
+              font-size: 14px;
+              font-weight: 600;
+              color: var(--text-primary);
+              padding: 0;
+            }
+          }
+        }
       }
     }
 
@@ -1153,6 +1252,36 @@ $transition-normal: 0.2s ease;
 :host ::ng-deep .mat-mdc-select-panel {
   z-index: 10000 !important;
   max-height: 200px !important;
+}
+
+// Dark mode specific styling for reports-to section
+:host-context(.dark-mode) {
+  .reports-to-section {
+    .reports-to-label {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .reports-to-value {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    &:hover {
+      .reports-to-value {
+        color: var(--primary-color);
+      }
+    }
+
+    .reports-to-field {
+      ::ng-deep .mat-mdc-text-field-wrapper {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      ::ng-deep input {
+        color: #ffffff;
+      }
+    }
+  }
   overflow-y: auto !important;
   border-radius: 8px !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;

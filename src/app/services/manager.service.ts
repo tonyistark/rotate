@@ -35,7 +35,7 @@ export class ManagerService {
         return employees.map(employee => {
           const allMatches = this.matchingService.calculateMatches(employee, opportunities);
           const topMatches = allMatches.slice(0, 3); // Top 3 matches
-          const employeeAssignments = assignments.get(employee.id) || [];
+          const employeeAssignments = assignments.get(employee.id || '') || [];
 
           return {
             employee,

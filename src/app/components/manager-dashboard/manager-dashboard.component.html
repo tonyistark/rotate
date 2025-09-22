@@ -48,11 +48,7 @@
           <!-- Header with Profile -->
           <div class="employee-header-section">
             <div class="employee-profile">
-              <img *ngIf="teamMember.employee.profilePicture" 
-                   [src]="teamMember.employee.profilePicture" 
-                   [alt]="teamMember.employee.name"
-                   class="profile-picture">
-              <mat-icon *ngIf="!teamMember.employee.profilePicture" class="profile-placeholder">person</mat-icon>
+              <mat-icon class="profile-placeholder">person</mat-icon>
               
               <div class="basic-info">
                 <h3 class="clickable-name" (click)="viewEmployeeDetails(teamMember.employee)">{{teamMember.employee.name}}</h3>
@@ -60,9 +56,6 @@
                 <div class="quick-stats">
                   <span class="stat">{{teamMember.employee.yearsExperience}}y exp</span>
                   <span class="stat">{{teamMember.employee.performanceRating}}</span>
-                  <span class="stat risk-stat" [ngClass]="getAttritionRiskClass(teamMember.employee.attritionRisk)">
-                    {{teamMember.employee.attritionRisk}}% risk
-                  </span>
                 </div>
                 <div class="rotation-badges">
                   <mat-chip [color]="teamMember.employee.confirmedInterestInRotation ? 'primary' : 'warn'" selected class="small-chip">
@@ -189,19 +182,19 @@
               </div>
               
               <div class="assignment-actions">
-                <button *ngIf="!isAssigned(teamMember.employee.id, match.opportunity.id)"
+                <button *ngIf="!isAssigned(teamMember.employee.id || '', match.opportunity.id)"
                         mat-icon-button 
                         color="primary"
                         matTooltip="Assign to Employee"
-                        (click)="assignOpportunity(teamMember.employee.id, match.opportunity.id, match.opportunity.title)">
+                        (click)="assignOpportunity(teamMember.employee.id || '', match.opportunity.id, match.opportunity.title)">
                   <mat-icon>add_circle</mat-icon>
                 </button>
                 
-                <button *ngIf="isAssigned(teamMember.employee.id, match.opportunity.id)"
+                <button *ngIf="isAssigned(teamMember.employee.id || '', match.opportunity.id)"
                         mat-icon-button 
                         color="warn"
                         matTooltip="Remove Assignment"
-                        (click)="removeAssignment(teamMember.employee.id, match.opportunity.id, match.opportunity.title)">
+                        (click)="removeAssignment(teamMember.employee.id || '', match.opportunity.id, match.opportunity.title)">
                   <mat-icon>remove_circle</mat-icon>
                 </button>
               </div>

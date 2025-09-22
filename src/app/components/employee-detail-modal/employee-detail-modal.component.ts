@@ -64,8 +64,7 @@ export class EmployeeDetailModalComponent extends BaseComponent {
   readonly ratingCycleOptions = APP_CONSTANTS.RATING_CYCLE_OPTIONS;
   readonly availabilityOptions = ['Full-time', 'Part-time'];
   readonly skillTypes = [
-    'skills', 'interests', 'careerGoals', 'skillsetExperience', 
-    'competencyStrengths', 'careerInterest', 'talentDevelopmentInventory'
+    'skills'
   ] as const;
 
   constructor(
@@ -233,38 +232,22 @@ export class EmployeeDetailModalComponent extends BaseComponent {
 
   // Chip input methods for Interests
   addInterestChip(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value) {
-      if (!this.editableEmployee.interests) {
-        this.editableEmployee.interests = [];
-      }
-      this.editableEmployee.interests.push(value);
-    }
+    // Interests don't exist on Employee interface
     event.chipInput!.clear();
   }
 
   removeInterestChip(index: number): void {
-    if (this.editableEmployee.interests && index >= 0) {
-      this.editableEmployee.interests.splice(index, 1);
-    }
+    // Interests don't exist on Employee interface
   }
 
   // Chip input methods for Career Goals
   addCareerGoalChip(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value) {
-      if (!this.editableEmployee.careerGoals) {
-        this.editableEmployee.careerGoals = [];
-      }
-      this.editableEmployee.careerGoals.push(value);
-    }
+    // Career goals don't exist on Employee interface
     event.chipInput!.clear();
   }
 
   removeCareerGoalChip(index: number): void {
-    if (this.editableEmployee.careerGoals && index >= 0) {
-      this.editableEmployee.careerGoals.splice(index, 1);
-    }
+    // Career goals don't exist on Employee interface
   }
 
   // Override helper method for attrition risk class

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IndexedDbService } from './indexed-db.service';
 import { EmployeeService } from './employee.service';
-import { ComprehensiveEmployee, FIELD_MAPPINGS, CSVEmployeeData } from '../models/comprehensive-employee.model';
+import { ComprehensiveEmployee, CSVEmployeeData, FIELD_MAPPINGS } from '../models/comprehensive-employee.model';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -128,23 +129,31 @@ export class CsvImportService {
 
   private mapCSVToEmployee(csvData: CSVEmployeeData): ComprehensiveEmployee | null {
     try {
-      const employee: Partial<ComprehensiveEmployee> = {};
-
-      // Map each CSV field to the employee model
+      // Map fields using the mapping object
+      const mappedEmployee: Partial<ComprehensiveEmployee> = {};
+      
+      // Use the FIELD_MAPPINGS from the model
       Object.entries(FIELD_MAPPINGS).forEach(([csvField, modelField]) => {
-        const value = csvData[csvField];
-        if (value !== undefined && value !== '') {
-          (employee as any)[modelField] = this.transformValue(modelField, value);
+        if (csvField in csvData) {
+          const value = this.transformValue(modelField as keyof ComprehensiveEmployee, csvData[csvField]);
+          if (value !== undefined) {
+            (mappedEmployee as any)[modelField] = value;
+          }
         }
       });
+      
+      // Set Reports To field based on Reports to 3 (direct manager)
+      if (csvData['Reports to 3']) {
+        (mappedEmployee as any).reportsTo = csvData['Reports to 3'];
+      }
 
       // Validate required fields
-      if (!employee.eid || !employee.fullName) {
+      if (!mappedEmployee.eid || !mappedEmployee.fullName) {
         console.warn('Skipping employee: Missing required fields (EID or Full Name)');
         return null;
       }
 
-      return employee as ComprehensiveEmployee;
+      return mappedEmployee as ComprehensiveEmployee;
     } catch (error) {
       console.error('Error mapping CSV data to employee:', error);
       return null;

@@ -116,7 +116,8 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
       roleTypes: ['All', ...new Set(this.employees.map(emp => emp.jobTitle || emp.currentRole).filter(Boolean))],
       specializations: ['All', ...new Set(this.employees.map(emp => emp.currentRole).filter(Boolean))],
       overallRatings: ['All', ...new Set(this.employees.map(emp => emp.performanceRating).filter(Boolean))],
-      departments: ['All', ...new Set(this.employees.map(emp => emp.department).filter(Boolean))]
+      departments: ['All', ...new Set(this.employees.map(emp => emp.department).filter(Boolean))],
+      managers: [...new Set(this.employees.map(emp => emp.reportsTo).filter(Boolean))].sort()
     };
   }
   
@@ -136,7 +137,7 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
       const matchesSearch = !this.filterState.searchTerm || 
         employee.name.toLowerCase().includes(this.filterState.searchTerm.toLowerCase()) ||
         (employee.level && employee.level.toLowerCase().includes(this.filterState.searchTerm.toLowerCase())) ||
-        employee.currentRole.toLowerCase().includes(this.filterState.searchTerm.toLowerCase()) ||
+        (employee.currentRole || '').toLowerCase().includes(this.filterState.searchTerm.toLowerCase()) ||
         (employee.department && employee.department.toLowerCase().includes(this.filterState.searchTerm.toLowerCase()));
 
       const matchesSkills = this.selectedSkills.length === 0 || 
@@ -167,8 +168,12 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
         this.filterState.selectedAttritionRisk === 'All' || 
         this.getAttritionRiskFromEmployee(employee) === this.filterState.selectedAttritionRisk;
 
+      const matchesReportsTo = !this.filterState.selectedReportsTo || 
+        this.filterState.selectedReportsTo === '' || 
+        employee.reportsTo === this.filterState.selectedReportsTo;
+
       return matchesSearch && matchesSkills && matchesJobLevel && matchesJobFamily && 
-             matchesDevZone && matchesLossImpact && matchesAttritionRisk;
+             matchesDevZone && matchesLossImpact && matchesAttritionRisk && matchesReportsTo;
     });
   }
 
@@ -306,26 +311,21 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
   }
 
   async copyEmployeeName(employee: Employee, event: Event): Promise<void> {
-    event.stopPropagation(); // Prevent card click event
-    
-    try {
-      await navigator.clipboard.writeText(employee.name);
-      this.snackBar.open(`Copied "${employee.name}" to clipboard`, 'Close', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        panelClass: ['success-snackbar']
+    event.stopPropagation();
+    navigator.clipboard.writeText(employee.name).then(() => {
+      this.snackBar.open('Name copied to clipboard', 'Close', {
+        duration: 2000
       });
-    } catch (err) {
-      // Fallback for older browsers
-      this.fallbackCopyToClipboard(employee.name);
-      this.snackBar.open(`Copied "${employee.name}" to clipboard`, 'Close', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        panelClass: ['success-snackbar']
-      });
+    });
+  }
+
+  getInitials(name: string): string {
+    if (!name) return '?';
+    const parts = name.split(' ');
+    if (parts.length >= 2) {
+      return parts[0][0] + parts[parts.length - 1][0];
     }
+    return name.substring(0, 2).toUpperCase();
   }
 
   private fallbackCopyToClipboard(text: string): void {

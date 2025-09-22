@@ -40,6 +40,88 @@
     align-items: center;
     justify-content: flex-start;
     gap: 16px;
+    
+    .kpi-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      .kpi-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: rgba(63, 81, 181, 0.1);
+        
+        mat-icon {
+          font-size: 24px;
+          color: var(--accent-primary);
+        }
+      }
+      
+      .kpi-content {
+        .kpi-value {
+          font-size: 1.75rem;
+          font-weight: 700;
+          color: var(--text-primary);
+          line-height: 1;
+        }
+        
+        .kpi-label {
+          font-size: 0.875rem;
+          color: var(--text-secondary);
+          margin-top: 4px;
+        }
+      }
+      
+      // Individual KPI card colors
+      &.opportunities {
+        .kpi-icon {
+          background: rgba(76, 175, 80, 0.1);
+          mat-icon { color: #4caf50; }
+        }
+      }
+      
+      &.current-matches {
+        .kpi-icon {
+          background: rgba(33, 150, 243, 0.1);
+          mat-icon { color: #2196f3; }
+        }
+      }
+      
+      &.employees {
+        .kpi-icon {
+          background: rgba(255, 152, 0, 0.1);
+          mat-icon { color: #ff9800; }
+        }
+      }
+      
+      &.total-skills {
+        .kpi-icon {
+          background: rgba(156, 39, 176, 0.1);
+          mat-icon { color: #9c27b0; }
+        }
+      }
+      
+      &.gaps {
+        .kpi-icon {
+          background: rgba(244, 67, 54, 0.1);
+          mat-icon { color: #f44336; }
+        }
+      }
+    }
   }
 }
 
@@ -115,6 +197,64 @@
 
 // Dark mode styles for HRBP dashboard
 :host-context(body[data-theme="dark"]) {
+  .dashboard-header {
+    .header-metrics {
+      .kpi-card {
+        background: #1a1a1a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        
+        &:hover {
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .kpi-content {
+          .kpi-value {
+            color: #ffffff;
+          }
+          
+          .kpi-label {
+            color: #b8b8b8; // Higher contrast for dark mode
+          }
+        }
+        
+        // Individual KPI card dark mode colors
+        &.opportunities {
+          .kpi-icon {
+            background: #1b5e20;
+            mat-icon { color: #81c784; }
+          }
+        }
+        
+        &.current-matches {
+          .kpi-icon {
+            background: #0d47a1;
+            mat-icon { color: #64b5f6; }
+          }
+        }
+        
+        &.employees {
+          .kpi-icon {
+            background: #e65100;
+            mat-icon { color: #ffb74d; }
+          }
+        }
+        
+        &.total-skills {
+          .kpi-icon {
+            background: #4a148c;
+            mat-icon { color: #ba68c8; }
+          }
+        }
+        
+        &.gaps {
+          .kpi-icon {
+            background: #b71c1c;
+            mat-icon { color: #ef5350; }
+          }
+        }
+      }
+    }
+  }
   .filters-sidebar {
     .search-section {
       background: var(--bg-secondary-dark, #2d2d2d);
@@ -1731,9 +1871,9 @@
             mat-icon { color: #4caf50; }
           }
           
-          &.employees-assigned .stat-icon-wrapper {
-            background: rgba(33, 150, 243, 0.1);
-            mat-icon { color: #2196f3; }
+          &.available-opportunities .stat-icon-wrapper {
+            background: rgba(156, 39, 176, 0.1);
+            mat-icon { color: #9c27b0; }
           }
           
           &.completion-rate .stat-icon-wrapper {
@@ -1793,6 +1933,10 @@
                 height: 100%;
                 background: linear-gradient(90deg, #2196f3 0%, #1976d2 100%);
                 transition: width 0.3s ease;
+                
+                &.available {
+                  background: linear-gradient(90deg, #9c27b0 0%, #7b1fa2 100%);
+                }
               }
             }
           }
@@ -2270,8 +2414,8 @@
             mat-icon { color: #ffffff; } // White icon for contrast
           }
           
-          &.employees-assigned {
-            background: #1976d2; // Solid blue background
+          &.available-opportunities {
+            background: #6a1b9a; // Solid purple background
             mat-icon { color: #ffffff; } // White icon for contrast
           }
           
@@ -2314,6 +2458,10 @@
             background: #64b5f6; // Solid light blue
             box-shadow: none; // Remove glow
             height: 100%;
+            
+            &.available {
+              background: #ba68c8; // Light purple for available opportunities
+            }
           }
         }
         

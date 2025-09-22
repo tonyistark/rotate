@@ -334,37 +334,205 @@
     padding: 4px;
   }
   
+  // Premium List View Design
   &.list-view {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
     
     .employee-card {
       display: flex;
       align-items: stretch;
-      min-height: 200px;
+      min-height: 120px;
+      max-height: 120px;
+      flex-direction: row;
+      padding: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background: linear-gradient(to right, #ffffff 0%, #fafbfc 100%);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      &:hover {
+        transform: translateX(8px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        border-color: var(--color-primary);
+        background: linear-gradient(to right, #ffffff 0%, #f0f4ff 100%);
+        
+        .employee-avatar-section {
+          background: linear-gradient(135deg, var(--color-primary) 0%, #5c6bc0 100%);
+          
+          .employee-initials {
+            transform: scale(1.1);
+          }
+        }
+        
+        mat-card-header .copy-name-btn-inline {
+          opacity: 1;
+        }
+        
+        mat-card-actions .action-buttons {
+          opacity: 1;
+        }
+      }
+      
+      // Avatar Section
+      .employee-avatar-section {
+        flex: 0 0 100px;
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: all 0.3s ease;
+        
+        .employee-initials {
+          width: 56px;
+          height: 56px;
+          border-radius: 16px;
+          background: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--color-primary);
+          font-size: 22px;
+          font-weight: 700;
+          text-transform: uppercase;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
+        }
+        
+        .status-dot {
+          position: absolute;
+          bottom: 12px;
+          right: 12px;
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: #4caf50;
+          border: 3px solid white;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+      }
       
       mat-card-header {
-        flex: 0 0 300px;
+        flex: 0 0 340px;
+        padding: 20px 24px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        border-right: 1px solid rgba(0, 0, 0, 0.06);
+        
+        .mat-mdc-card-header-text {
+          margin: 0;
+          
+          mat-card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            
+            .employee-name {
+              font-size: 18px;
+              font-weight: 600;
+              color: #1a1a1a;
+              letter-spacing: -0.3px;
+            }
+            
+            .copy-name-btn-inline {
+              opacity: 0;
+              transition: opacity 0.2s ease;
+              
+              mat-icon {
+                font-size: 16px;
+                color: var(--text-secondary);
+              }
+            }
+          }
+          
+          mat-card-subtitle {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+          }
+        }
       }
       
       mat-card-content {
         flex: 1;
         display: flex;
-        flex-direction: row;
-        gap: 24px;
-        align-items: flex-start;
-        padding: 16px 24px;
+        align-items: center;
+        padding: 20px 32px;
+        
+        .employee-info {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 24px;
+          width: 100%;
+          
+          .info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            
+            mat-icon {
+              font-size: 20px;
+              width: 20px;
+              height: 20px;
+              color: var(--color-primary);
+              opacity: 0.8;
+            }
+            
+            .info-content {
+              display: flex;
+              flex-direction: column;
+              gap: 2px;
+              
+              .info-label {
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: #999;
+                font-weight: 600;
+              }
+              
+              .info-value {
+                font-size: 14px;
+                color: #333;
+                font-weight: 500;
+              }
+            }
+          }
+        }
       }
       
       mat-card-actions {
         flex: 0 0 auto;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 16px;
+        align-items: center;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.02);
+        border-left: 1px solid rgba(0, 0, 0, 0.06);
+        
+        .action-buttons {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          opacity: 0.7;
+          transition: opacity 0.3s ease;
+          
+          button {
+            min-width: 120px;
+            height: 36px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            
+            mat-icon {
+              font-size: 18px;
+              margin-right: 4px;
+            }
+          }
+        }
       }
     }
   }
@@ -1414,6 +1582,81 @@
         background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
         color: #166534;
         border-color: rgba(34, 197, 94, 0.2);
+      }
+    }
+  }
+  
+  // List view dark mode styles
+  .employees-grid.list-view {
+    .employee-card {
+      background: linear-gradient(to right, #1a1a1a 0%, #2d2d2d 100%);
+      border-color: rgba(255, 255, 255, 0.08);
+      
+      &:hover {
+        background: linear-gradient(to right, #1a1a1a 0%, #1e3a5f 100%);
+        border-color: var(--color-primary);
+        
+        .employee-avatar-section {
+          background: linear-gradient(135deg, var(--color-primary) 0%, #5c6bc0 100%);
+          
+          .employee-initials {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+          }
+        }
+      }
+      
+      .employee-avatar-section {
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%);
+        
+        .employee-initials {
+          background: #2d2d2d;
+          color: var(--color-primary);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .status-dot {
+          background: #4caf50;
+          border-color: #1a1a1a;
+        }
+      }
+      
+      mat-card-header {
+        border-right-color: rgba(255, 255, 255, 0.08);
+        
+        .employee-name {
+          color: #ffffff;
+        }
+        
+        mat-card-subtitle {
+          color: #b8b8b8;
+        }
+      }
+      
+      mat-card-content {
+        .employee-info {
+          .info-item {
+            mat-icon {
+              color: #90caf9;
+              opacity: 0.9;
+            }
+            
+            .info-content {
+              .info-label {
+                color: #888;
+              }
+              
+              .info-value {
+                color: #e0e0e0;
+              }
+            }
+          }
+        }
+      }
+      
+      mat-card-actions {
+        background: rgba(255, 255, 255, 0.02);
+        border-left-color: rgba(255, 255, 255, 0.08);
       }
     }
   }

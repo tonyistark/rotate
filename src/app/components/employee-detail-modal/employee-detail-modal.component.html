@@ -20,6 +20,14 @@
             {{employee.yearsExperience}} years experience
           </span>
         </div>
+        <div class="reports-to-section">
+          <mat-icon>supervisor_account</mat-icon>
+          <span class="reports-to-label">Reports to:</span>
+          <mat-form-field *ngIf="isEditMode" appearance="outline" class="reports-to-field">
+            <input matInput [(ngModel)]="editableEmployee.reportsTo" placeholder="Manager name">
+          </mat-form-field>
+          <span *ngIf="!isEditMode" class="reports-to-value">{{employee.reportsTo || 'Not specified'}}</span>
+        </div>
       </div>
     </div>
     
@@ -69,19 +77,12 @@
       
       <mat-card class="summary-card retention-card">
         <mat-card-header>
-          <mat-icon mat-card-avatar [class]="getAttritionRiskClass(employee.attritionRisk)">warning</mat-icon>
+          <mat-icon mat-card-avatar>warning</mat-icon>
           <mat-card-title>Retention Risk</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div class="metric">
-            <mat-form-field *ngIf="isEditMode" appearance="outline" class="summary-field">
-              <mat-select [(ngModel)]="editableEmployee.retentionRisk">
-                <mat-option value="Low">Low</mat-option>
-                <mat-option value="Medium">Medium</mat-option>
-                <mat-option value="High">High</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <span *ngIf="!isEditMode" class="metric-value" [class]="getAttritionRiskClass(employee.attritionRisk)">{{employee.retentionRisk}}</span>
+            <span class="metric-value">N/A</span>
             <span class="metric-label">Risk Level</span>
           </div>
         </mat-card-content>
@@ -121,6 +122,14 @@
               </mat-card-header>
               <mat-card-content>
                 <div class="info-grid">
+                  <div class="info-item">
+                    <mat-icon>work</mat-icon>
+                    <div>
+                      <span class="info-label">Job Title</span>
+                      <span class="info-value">{{employee.jobTitle || employee.currentRole}}</span>
+                    </div>
+                  </div>
+                  
                   <div class="info-item">
                     <mat-icon class="info-icon">schedule</mat-icon>
                     <div class="info-content">
@@ -165,7 +174,7 @@
                         <mat-label>Last Promo Date</mat-label>
                         <input matInput [(ngModel)]="editableEmployee.lastPromoDate" type="date">
                       </mat-form-field>
-                      <span *ngIf="!isEditMode" class="info-value">{{formatDate(employee.lastPromoDate)}}</span>
+                      <span *ngIf="!isEditMode" class="info-value">{{formatDate(employee.lastPromoDate || '')}}</span>
                     </div>
                   </div>
                   
@@ -310,25 +319,13 @@
                 <mat-card-title>Interests</mat-card-title>
               </mat-card-header>
               <mat-card-content>
-                <mat-chip-grid #interestChipGrid *ngIf="isEditMode" class="chip-container">
-                  <mat-chip-row *ngFor="let interest of editableEmployee.interests; let i = index" 
-                                (removed)="removeInterestChip(i)"
-                                class="interest-chip">
-                    {{interest}}
-                    <button matChipRemove [attr.aria-label]="'remove ' + interest">
-                      <mat-icon>cancel</mat-icon>
-                    </button>
-                  </mat-chip-row>
-                  <input placeholder="Add interest..."
-                         [matChipInputFor]="interestChipGrid"
-                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                         [matChipInputAddOnBlur]="true"
-                         (matChipInputTokenEnd)="addInterestChip($event)">
-                </mat-chip-grid>
+                <div *ngIf="isEditMode" class="chip-grid">
+                  <!-- Interests editing disabled - not part of Employee interface -->
+                  <mat-chip>Interests editing not available</mat-chip>
+                </div>
                 <mat-chip-set *ngIf="!isEditMode" class="chip-container">
-                  <mat-chip *ngFor="let interest of employee.interests" class="interest-chip">
-                    {{interest}}
-                  </mat-chip>
+                  <!-- Interests don't exist on Employee interface -->
+                  <mat-chip class="interest-chip">No interests data</mat-chip>
                 </mat-chip-set>
               </mat-card-content>
             </mat-card>
@@ -340,58 +337,18 @@
                 <mat-card-title>Career Goals</mat-card-title>
               </mat-card-header>
               <mat-card-content>
-                <mat-chip-grid #careerGoalChipGrid *ngIf="isEditMode" class="chip-container">
-                  <mat-chip-row *ngFor="let goal of editableEmployee.careerGoals; let i = index" 
-                                (removed)="removeCareerGoalChip(i)"
-                                class="goal-chip">
-                    {{goal}}
-                    <button matChipRemove [attr.aria-label]="'remove ' + goal">
-                      <mat-icon>cancel</mat-icon>
-                    </button>
-                  </mat-chip-row>
-                  <input placeholder="Add career goal..."
-                         [matChipInputFor]="careerGoalChipGrid"
-                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                         [matChipInputAddOnBlur]="true"
-                         (matChipInputTokenEnd)="addCareerGoalChip($event)">
-                </mat-chip-grid>
+                <div *ngIf="isEditMode" class="chip-grid">
+                  <!-- Career goals editing disabled - not part of Employee interface -->
+                  <mat-chip>Career goals editing not available</mat-chip>
+                </div>
                 <mat-chip-set *ngIf="!isEditMode" class="chip-container">
-                  <mat-chip *ngFor="let goal of employee.careerGoals" class="goal-chip">
-                    {{goal}}
-                  </mat-chip>
+                  <!-- Career goals don't exist on Employee interface -->
+                  <mat-chip class="goal-chip">No career goals data</mat-chip>
                 </mat-chip-set>
               </mat-card-content>
             </mat-card>
 
-            <!-- Skillset Experience Card -->
-            <mat-card class="info-card" *ngIf="employee.skillsetExperience && employee.skillsetExperience.length > 0">
-              <mat-card-header>
-                <mat-icon mat-card-avatar>engineering</mat-icon>
-                <mat-card-title>Technical Experience</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <mat-chip-set class="chip-container">
-                  <mat-chip *ngFor="let experience of employee.skillsetExperience" class="experience-chip">
-                    {{experience}}
-                  </mat-chip>
-                </mat-chip-set>
-              </mat-card-content>
-            </mat-card>
 
-            <!-- Career Interests Card -->
-            <mat-card class="info-card" *ngIf="employee.careerInterest && employee.careerInterest.length > 0">
-              <mat-card-header>
-                <mat-icon mat-card-avatar>explore</mat-icon>
-                <mat-card-title>Career Interests</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <mat-chip-set class="chip-container">
-                  <mat-chip *ngFor="let interest of employee.careerInterest" class="career-interest-chip">
-                    {{interest}}
-                  </mat-chip>
-                </mat-chip-set>
-              </mat-card-content>
-            </mat-card>
           </div>
         </div>
       </mat-tab>
@@ -420,27 +377,27 @@
                     <h4>What needs to be demonstrated to unlock next level performance?</h4>
                     <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
                       <mat-label>Development needs</mat-label>
-                      <textarea matInput [(ngModel)]="editableEmployee.whatNeedsToBeDemonstrated" rows="3"></textarea>
+                      <textarea matInput rows="3" placeholder="This field is not available on Employee"></textarea>
                     </mat-form-field>
-                    <p *ngIf="!isEditMode" class="development-text">{{employee.whatNeedsToBeDemonstrated || 'Not set'}}</p>
+                    <p *ngIf="!isEditMode" class="development-text">Not available</p>
                   </div>
                   
                   <div class="development-item">
                     <h4>How do we need to differentially invest to unlock next step change?</h4>
                     <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
                       <mat-label>Investment strategy</mat-label>
-                      <textarea matInput [(ngModel)]="editableEmployee.howToInvest" rows="3"></textarea>
+                      <textarea matInput rows="3" placeholder="This field is not available on Employee"></textarea>
                     </mat-form-field>
-                    <p *ngIf="!isEditMode" class="development-text">{{employee.howToInvest || 'Not set'}}</p>
+                    <p *ngIf="!isEditMode" class="development-text">Not available</p>
                   </div>
                   
                   <div class="development-item">
                     <h4>What support can the group provide?</h4>
                     <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
                       <mat-label>Group support</mat-label>
-                      <textarea matInput [(ngModel)]="editableEmployee.whatSupportNeeded" rows="3"></textarea>
+                      <textarea matInput rows="3" placeholder="This field is not available on Employee"></textarea>
                     </mat-form-field>
-                    <p *ngIf="!isEditMode" class="development-text">{{employee.whatSupportNeeded || 'Not set'}}</p>
+                    <p *ngIf="!isEditMode" class="development-text">Not available</p>
                   </div>
                 </div>
               </mat-card-content>

@@ -358,6 +358,10 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
     return assignedEmployeeIds.size;
   }
 
+  getAvailableOpportunities(): number {
+    return this.opportunities.filter(opp => !opp.assignedEmployeeId).length;
+  }
+
   getMatchCompletionRate(): number {
     if (this.opportunities.length === 0) return 0;
     const completionRate = (this.getCurrentMatches() / this.opportunities.length) * 100;
@@ -375,7 +379,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
           opportunityId: opp.id,
           employeeId: opp.assignedEmployeeId!,
           employeeName: employee.name,
-          employeeRole: employee.currentRole,
+          employeeRole: employee.currentRole || '',
           opportunityTitle: opp.title,
           opportunityDepartment: opp.department,
           assignmentDate: opp.assignmentDate || new Date().toISOString(),
@@ -603,7 +607,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
         break;
       case '2': // UX Research Initiative  
         if (employee.department === 'Design' || employee.department === 'Product') adjustment += 15;
-        if (employee.currentRole.includes('Designer') || employee.currentRole.includes('UX')) adjustment += 10;
+        if ((employee.currentRole || '').includes('Designer') || (employee.currentRole || '').includes('UX')) adjustment += 10;
         break;
       case '3': // Cloud Migration Specialist
         if (employee.department === 'Engineering') adjustment += 20;
@@ -611,7 +615,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
         break;
       case '4': // Marketing Automation Lead
         if (employee.department === 'Marketing' || employee.department === 'Sales') adjustment += 15;
-        if (employee.currentRole.includes('Marketing')) adjustment += 10;
+        if ((employee.currentRole || '').includes('Marketing')) adjustment += 10;
         break;
       case '5': // AI Ethics Committee Member
         // This should have low matches as requested
@@ -620,7 +624,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
         break;
       default:
         // Add some randomization based on employee ID for variety
-        const employeeIdNum = parseInt(employee.id.replace('emp', ''));
+        const employeeIdNum = parseInt((employee.id || '0').replace('emp', ''));
         const opportunityIdNum = parseInt(opportunity.id);
         adjustment += (employeeIdNum * opportunityIdNum) % 15 - 7;
     }
@@ -680,7 +684,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
 
     this.opportunityService.assignEmployee(
       this.dashboardState.selectedOpportunity.id,
-      employee.id,
+      employee.id || '',
       employee
     ).subscribe({
       next: (updatedOpportunity) => {
@@ -764,7 +768,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
   quickAssignEmployee(): void {
     if (!this.dashboardState.selectedOpportunity || !this.dashboardState.selectedEmployee) return;
     
-    this.opportunityService.assignEmployee(this.dashboardState.selectedOpportunity.id, this.dashboardState.selectedEmployee.id, this.dashboardState.selectedEmployee)
+    this.opportunityService.assignEmployee(this.dashboardState.selectedOpportunity.id, this.dashboardState.selectedEmployee.id || '', this.dashboardState.selectedEmployee)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -870,7 +874,7 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
 
   shouldHighlightAsRecommended(employee: Employee): boolean {
     const topMatch = this.getTopRecommendation();
-    return topMatch?.employee.id === employee.id && topMatch.matchScore >= 75;
+    return topMatch?.employee.id === employee.id && (topMatch?.matchScore || 0) >= 75;
   }
 
   getSkillMatchPercentage(employee: Employee): number {
