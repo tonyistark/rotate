@@ -68,6 +68,7 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
   filterState: FilterState;
   filterOptions: any = {};
   readonly filterLabels = FILTER_LABELS;
+  readonly performanceRatings = APP_CONSTANTS.RATING_CYCLE_OPTIONS;
   
   // Skills search
   selectedSkills: string[] = [];
@@ -172,8 +173,12 @@ export class NewEmployeeListComponent extends BaseComponent implements OnInit {
         this.filterState.selectedReportsTo === '' || 
         employee.reportsTo === this.filterState.selectedReportsTo;
 
+      const matchesPerformance = !this.filterState.selectedPerformance || 
+        this.filterState.selectedPerformance === '' || 
+        employee.performanceRating === this.filterState.selectedPerformance;
+
       return matchesSearch && matchesSkills && matchesJobLevel && matchesJobFamily && 
-             matchesDevZone && matchesLossImpact && matchesAttritionRisk && matchesReportsTo;
+             matchesDevZone && matchesLossImpact && matchesAttritionRisk && matchesReportsTo && matchesPerformance;
     });
   }
 

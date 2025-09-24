@@ -41,122 +41,151 @@
     </mat-card>
   </div>
 
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="filters-header">
+      <h3>Filter Team Members</h3>
+      <button mat-button (click)="showAdvancedFilters = !showAdvancedFilters">
+        <mat-icon>{{showAdvancedFilters ? 'expand_less' : 'expand_more'}}</mat-icon>
+        {{showAdvancedFilters ? 'Hide' : 'Show'}} Advanced Filters
+      </button>
+    </div>
+
+    <!-- Advanced Filters (Collapsible) -->
+    <div class="advanced-filters-panel" *ngIf="showAdvancedFilters" [@slideDown]>
+      <div class="filters-grid">
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Job Level</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedJobLevel" (ngModelChange)="onFilterChange()">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let level of jobLevels" [value]="level">
+              {{level}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Department</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedDepartment" (ngModelChange)="onFilterChange()">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let dept of departments" [value]="dept">
+              {{dept}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Performance</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedPerformance" (ngModelChange)="onFilterChange()">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let rating of performanceRatings" [value]="rating">
+              {{rating}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>TDI Zone</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedTdiZone" (ngModelChange)="onFilterChange()">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let zone of tdiZones" [value]="zone">
+              {{zone}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Retention Risk</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedRetentionRisk" (ngModelChange)="onFilterChange()">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let risk of retentionRisks" [value]="risk">
+              {{risk}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="warn" *ngIf="hasActiveFilters()" (click)="clearAllFilters()" class="clear-filters-btn">
+          <mat-icon>clear_all</mat-icon>
+          Clear All
+        </button>
+      </div>
+    </div>
+
+    <!-- Skills Summary -->
+    <div class="skills-summary" *ngIf="topSkills.length > 0">
+      <h4>Top Skills in Filtered Group</h4>
+      <div class="top-skills">
+        <div class="skill-item" *ngFor="let skill of topSkills">
+          <span class="skill-name">{{skill.name}}</span>
+          <span class="skill-count">{{skill.count}} employees</span>
+          <div class="skill-bar">
+            <div class="skill-bar-fill" [style.width.%]="(skill.count / filteredTeamMembers.length) * 100"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="team-grid" *ngIf="!loading">
-    <mat-card class="employee-card" *ngFor="let teamMember of teamMembers">
-      <mat-card-header>
-        <div class="employee-card-content">
-          <!-- Header with Profile -->
-          <div class="employee-header-section">
-            <div class="employee-profile">
-              <mat-icon class="profile-placeholder">person</mat-icon>
-              
-              <div class="basic-info">
-                <h3 class="clickable-name" (click)="viewEmployeeDetails(teamMember.employee)">{{teamMember.employee.name}}</h3>
-                <p class="job-title">{{teamMember.employee.currentRole}}</p>
-                <div class="quick-stats">
-                  <span class="stat">{{teamMember.employee.yearsExperience}}y exp</span>
-                  <span class="stat">{{teamMember.employee.performanceRating}}</span>
-                </div>
-                <div class="rotation-badges">
-                  <mat-chip [color]="teamMember.employee.confirmedInterestInRotation ? 'primary' : 'warn'" selected class="small-chip">
-                    Interest: {{teamMember.employee.confirmedInterestInRotation ? 'Yes' : 'No'}}
-                  </mat-chip>
-                  <mat-chip [color]="teamMember.employee.leadershipSupportOfRotation ? 'primary' : 'warn'" selected class="small-chip">
-                    Support: {{teamMember.employee.leadershipSupportOfRotation ? 'Yes' : 'No'}}
-                  </mat-chip>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Compact Info Grid -->
-          <div class="info-grid">
-            <div class="info-item">
-              <mat-icon>code</mat-icon>
-              <div class="info-content">
-                <span class="label">Skills</span>
-                <div class="compact-chips">
-                  <mat-chip *ngFor="let skill of teamMember.employee.skillsetExperience.slice(0, 3)" color="primary" selected>
-                    {{skill}}
-                  </mat-chip>
-                  <span *ngIf="teamMember.employee.skillsetExperience.length > 3" class="more-count">
-                    +{{teamMember.employee.skillsetExperience.length - 3}}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="info-item">
-              <mat-icon>star</mat-icon>
-              <div class="info-content">
-                <span class="label">Strengths</span>
-                <div class="compact-chips">
-                  <mat-chip *ngFor="let strength of teamMember.employee.competencyStrengths.slice(0, 2)" color="accent" selected>
-                    {{strength}}
-                  </mat-chip>
-                  <span *ngIf="teamMember.employee.competencyStrengths.length > 2" class="more-count">
-                    +{{teamMember.employee.competencyStrengths.length - 2}}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="info-item">
-              <mat-icon>interests</mat-icon>
-              <div class="info-content">
-                <span class="label">Interests</span>
-                <div class="compact-chips">
-                  <mat-chip *ngFor="let interest of teamMember.employee.careerInterest.slice(0, 2)" color="warn" selected>
-                    {{interest}}
-                  </mat-chip>
-                  <span *ngIf="teamMember.employee.careerInterest.length > 2" class="more-count">
-                    +{{teamMember.employee.careerInterest.length - 2}}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="info-item">
-              <mat-icon>timeline</mat-icon>
-              <div class="info-content">
-                <span class="label">Career</span>
-                <div class="career-info">
-                  <span class="career-detail">Hired: {{formatDate(teamMember.employee.lastHireDate)}}</span>
-                  <span class="career-detail">Promoted: {{formatDate(teamMember.employee.lastPromotedDate)}}</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="info-item full-width">
-              <mat-icon>psychology</mat-icon>
-              <div class="info-content">
-                <span class="label">Development</span>
-                <div class="development-tags">
-                  <span *ngFor="let item of teamMember.employee.talentDevelopmentInventory" class="dev-tag">
-                    {{item}}
-                  </span>
-                </div>
-              </div>
-            </div>
-
+    <mat-card class="employee-card" *ngFor="let teamMember of filteredTeamMembers">
+      <!-- Hero Section -->
+      <div class="card-hero">
+        <div class="employee-avatar">
+          <span class="avatar-initials">{{getInitials(teamMember.employee.name)}}</span>
+        </div>
+        <div class="hero-content">
+          <h3 class="employee-name" (click)="viewEmployeeDetails(teamMember.employee)">
+            {{teamMember.employee.name}}
+            <mat-icon class="view-icon">open_in_new</mat-icon>
+          </h3>
+          <p class="employee-role">{{teamMember.employee.jobTitle || teamMember.employee.currentRole}}</p>
+          <div class="employee-meta">
+            <span class="meta-chip">{{teamMember.employee.department}}</span>
+            <span class="meta-chip level">{{teamMember.employee.level || 'N/A'}}</span>
+            <span class="meta-chip tenure">{{teamMember.employee.yearsExperience}}y</span>
           </div>
         </div>
-      </mat-card-header>
+        <div class="hero-actions">
+          <button mat-icon-button 
+                  (click)="copyEmployeeName(teamMember.employee, $event)"
+                  matTooltip="Copy name"
+                  class="action-btn">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </div>
+      </div>
 
+      <!-- Key Metrics Bar -->
+      <div class="metrics-bar">
+        <div class="metric" [class.alert]="teamMember.employee.performanceRating === '5-Action Required'">
+          <span class="metric-label">Performance</span>
+          <span class="metric-value">{{teamMember.employee.performanceRating || 'Not Rated'}}</span>
+        </div>
+        <div class="metric" [class.highlight]="teamMember.employee.retentionRisk === 'Alert'">
+          <span class="metric-label">Retention Risk</span>
+          <span class="metric-value">{{teamMember.employee.retentionRisk || 'Unknown'}}</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">TDI Zone</span>
+          <span class="metric-value">{{teamMember.employee.tdiZone || 'Not Set'}}</span>
+        </div>
+      </div>
+
+      <!-- Skills Snapshot -->
+      <div class="skills-snapshot">
+        <h4 class="section-title">Skills</h4>
+        <div class="skills-grid">
+          <mat-chip *ngFor="let skill of (teamMember.employee.skills || []).slice(0, 4)" 
+                    class="skill-chip">
+            {{skill}}
+          </mat-chip>
+          <span *ngIf="teamMember.employee.skills && teamMember.employee.skills.length > 4" class="more-indicator">
+            +{{teamMember.employee.skills.length - 4}}
+          </span>
+        </div>
+      </div>
+      
       <mat-card-content>
-        <div class="skills-preview">
-          <h4><mat-icon>psychology</mat-icon> Key Skills</h4>
-          <div class="skills-chips">
-            <mat-chip *ngFor="let skill of teamMember.employee.skills.slice(0, 3)" 
-                     color="primary" selected>
-              {{skill}}
-            </mat-chip>
-            <span *ngIf="teamMember.employee.skills.length > 3" class="more-skills">
-              +{{teamMember.employee.skills.length - 3}} more
-            </span>
-          </div>
-        </div>
-
         <div class="opportunities-section">
           <h4><mat-icon>work</mat-icon> Top Opportunity Matches</h4>
           

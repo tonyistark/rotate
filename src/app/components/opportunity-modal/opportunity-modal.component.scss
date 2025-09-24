@@ -2,29 +2,44 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 32px;
-  border-bottom: 1px solid var(--border-color);
-  background: var(--bg-card);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 36px 40px 32px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(to bottom, #ffffff, #fafafa);
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(33, 150, 243, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
   
   &.edit-mode {
-    background: linear-gradient(135deg, rgba(33, 150, 243, 0.05) 0%, rgba(63, 81, 181, 0.05) 100%);
-    border-bottom: 2px solid var(--accent-primary);
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.03) 0%, rgba(63, 81, 181, 0.03) 100%);
+    padding-bottom: 36px;
+    
+    &::after {
+      opacity: 1;
+    }
     
     &::before {
-      content: 'EDIT MODE';
+      content: 'EDITING';
       position: absolute;
-      top: 8px;
-      right: 80px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
+      top: 12px;
+      left: 40px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
       color: var(--accent-primary);
-      background: rgba(33, 150, 243, 0.1);
-      padding: 4px 12px;
-      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(33, 150, 243, 0.15), rgba(63, 81, 181, 0.15));
+      padding: 6px 16px;
+      border-radius: 16px;
       animation: pulse 2s infinite;
     }
   }
@@ -52,25 +67,53 @@
         display: flex;
         align-items: center;
         gap: 16px;
-        flex-wrap: wrap;
+        margin-top: 8px;
         
-        .department, .duration {
+        .department {
           display: flex;
           align-items: center;
           gap: 6px;
-          background: rgba(63, 81, 181, 0.08);
-          padding: 6px 12px;
-          border-radius: 12px;
+          color: var(--text-secondary);
           font-weight: 500;
-          font-size: 0.9rem;
-          color: var(--text-primary);
           
           mat-icon {
             font-size: 18px;
             width: 18px;
             height: 18px;
-            color: var(--accent-primary);
+            color: var(--text-tertiary);
           }
+        }
+        
+        .duration {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: var(--text-secondary);
+          font-weight: 500;
+          
+          mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+          }
+        }
+      }
+      
+      .subtitle-info-edit {
+        display: flex;
+        gap: 16px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+        animation: fieldSlideIn 0.4s ease-out;
+        
+        .subtitle-field {
+          flex: 1;
+          min-width: 200px;
+          animation: fieldFadeIn 0.3s ease-out backwards;
+          
+          &:nth-child(1) { animation-delay: 0.1s; }
+          &:nth-child(2) { animation-delay: 0.15s; }
+          &:nth-child(3) { animation-delay: 0.2s; }
         }
       }
     }
@@ -108,6 +151,10 @@
           color: var(--text-secondary);
         }
       }
+      
+      .submitted-by-field {
+        min-width: 200px;
+      }
     }
   }
   
@@ -123,12 +170,31 @@
 }
 
 .modal-content {
-  padding: 32px;
-  max-height: 70vh;
+  padding: 40px;
+  max-height: 65vh;
   overflow-y: auto;
+  background: linear-gradient(to bottom, #ffffff, #fcfcfc);
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.15);
+    }
+  }
   
   .description-section {
-    margin-bottom: 32px;
+    margin-bottom: 36px;
     
     &.full-width {
       width: 100%;
@@ -137,14 +203,18 @@
     h3 {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 1.1rem;
-      font-weight: 600;
+      gap: 10px;
+      font-size: 1.15rem;
+      font-weight: 700;
       color: var(--text-primary);
-      margin: 0 0 16px 0;
+      margin: 0 0 20px 0;
+      letter-spacing: -0.02em;
       
       mat-icon {
         color: var(--accent-primary);
+        font-size: 22px;
+        width: 22px;
+        height: 22px;
       }
     }
     
@@ -157,23 +227,55 @@
     
     .description-field {
       width: 100%;
+      animation: fieldFadeIn 0.3s ease-out;
       
       ::ng-deep .mat-mdc-text-field-wrapper {
-        background: rgba(33, 150, 243, 0.02);
-        border-radius: 12px;
-        border: 1px solid rgba(33, 150, 243, 0.1);
-        transition: all 0.3s ease;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(250, 250, 250, 0.95));
+        border-radius: 16px;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: -1;
+          margin: -2px;
+          border-radius: inherit;
+          background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
         
         &:hover {
-          border-color: rgba(33, 150, 243, 0.2);
-          background: rgba(33, 150, 243, 0.04);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+          
+          &::before {
+            opacity: 0.3;
+          }
+        }
+      }
+      
+      ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(33, 150, 243, 0.2);
+        
+        &::before {
+          opacity: 1;
         }
       }
       
       ::ng-deep textarea {
         font-size: 1rem;
-        line-height: 1.6;
+        line-height: 1.7;
         color: var(--text-primary);
+        font-weight: 500;
       }
       
       ::ng-deep .mat-mdc-form-field-focus-overlay {
@@ -189,28 +291,56 @@
     margin-bottom: 32px;
   }
   
-  .skill-group, .learning-outcomes {
+  .skill-group, .learning-outcomes, .performance-ratings-section {
     margin-bottom: 32px;
-    background: var(--bg-card);
-    padding: 24px;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to bottom right, #ffffff, #fafbfc);
+    padding: 28px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    &:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+      
+      &::before {
+        opacity: 0.8;
+      }
+    }
     
     h3 {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 20px;
-      font-size: 1.3rem;
+      margin-bottom: 24px;
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--text-primary);
+      letter-spacing: -0.02em;
       
       mat-icon {
-        font-size: 24px;
-        width: 24px;
-        height: 24px;
+        font-size: 26px;
+        width: 26px;
+        height: 26px;
         color: var(--accent-primary);
+        background: rgba(33, 150, 243, 0.08);
+        padding: 8px;
+        border-radius: 12px;
       }
     }
   }
@@ -277,66 +407,183 @@
   }
   
   .opportunity-details-edit {
-    margin-bottom: 32px;
-    padding: 24px;
+    margin-bottom: 36px;
+    padding: 32px;
     background: linear-gradient(135deg, rgba(33, 150, 243, 0.02) 0%, rgba(63, 81, 181, 0.02) 100%);
-    border-radius: 16px;
-    border: 1px solid rgba(33, 150, 243, 0.1);
+    border-radius: 24px;
+    border: 1px solid rgba(33, 150, 243, 0.08);
+    box-shadow: 0 4px 20px rgba(33, 150, 243, 0.08);
+    position: relative;
+    
+    &::before {
+      content: 'OPPORTUNITY DETAILS';
+      position: absolute;
+      top: -10px;
+      left: 24px;
+      background: white;
+      padding: 0 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--accent-primary);
+    }
     
     .details-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-bottom: 28px;
       
       .detail-field {
-        ::ng-deep .mat-mdc-text-field-wrapper {
-          background: rgba(255, 255, 255, 0.9);
-          border-radius: 8px;
-          transition: all 0.2s ease;
-          
-          &:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        animation: detailFieldSlide 0.4s ease-out backwards;
+        
+        @for $i from 1 through 12 {
+          &:nth-child(#{$i}) {
+            animation-delay: #{$i * 0.05}s;
           }
         }
         
-        ::ng-deep .mat-mdc-form-field-focused .mat-mdc-text-field-wrapper {
-          box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+        ::ng-deep .mat-mdc-text-field-wrapper {
+          background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(250, 250, 250, 0.98));
+          border-radius: 14px;
+          border: 1.5px solid rgba(0, 0, 0, 0.06);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: visible;
+          
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+          }
+          
+          &:hover {
+            border-color: rgba(33, 150, 243, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
+          }
+        }
+        
+        ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+          border-color: rgba(33, 150, 243, 0.3);
+          box-shadow: 0 6px 20px rgba(33, 150, 243, 0.15);
+          
+          &::after {
+            transform: scaleX(1);
+          }
+        }
+        
+        ::ng-deep .mat-mdc-select-arrow {
+          color: var(--accent-primary);
+          transition: transform 0.3s ease;
+        }
+        
+        ::ng-deep .mat-mdc-select-arrow-wrapper {
+          transform: translateY(-50%);
+        }
+        
+        ::ng-deep .mat-mdc-form-field:hover .mat-mdc-select-arrow {
+          transform: translateY(1px);
+        }
+        
+        ::ng-deep .mat-mdc-floating-label {
+          max-width: 100%;
+          overflow: visible;
+          text-overflow: clip;
+          white-space: nowrap;
+        }
+        
+        ::ng-deep .mat-mdc-form-field-infix {
+          min-height: 56px;
+          padding-top: 24px;
         }
       }
     }
     
     .toggle-group {
       display: flex;
-      gap: 32px;
+      gap: 36px;
       flex-wrap: wrap;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(33, 150, 243, 0.03), rgba(63, 81, 181, 0.03));
+      border-radius: 16px;
+      border: 1px solid rgba(33, 150, 243, 0.08);
+      animation: toggleGroupFade 0.5s ease-out;
       
       .detail-toggle {
         display: flex;
         align-items: center;
-        gap: 8px;
-        font-weight: 500;
+        gap: 10px;
+        font-weight: 600;
         color: var(--text-primary);
+        padding: 8px 16px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        animation: toggleSlide 0.4s ease-out backwards;
+        
+        &:nth-child(1) { animation-delay: 0.1s; }
+        &:nth-child(2) { animation-delay: 0.15s; }
+        &:nth-child(3) { animation-delay: 0.2s; }
+        
+        &:hover {
+          background: rgba(33, 150, 243, 0.05);
+          transform: translateX(4px);
+        }
         
         mat-icon {
           color: var(--accent-primary);
           margin-right: 4px;
+          font-size: 22px;
+          transition: transform 0.3s ease;
+        }
+        
+        &:hover mat-icon {
+          transform: scale(1.1);
         }
         
         ::ng-deep .mdc-switch {
-          margin-left: 8px;
+          margin-left: 12px;
+          z-index: 1;
+          position: relative;
         }
         
         ::ng-deep .mdc-switch__track {
           background-color: rgba(0, 0, 0, 0.12) !important;
+          height: 20px;
+          border-radius: 10px;
+          border: none;
         }
         
         ::ng-deep .mdc-switch--selected .mdc-switch__track {
-          background-color: rgba(33, 150, 243, 0.5) !important;
+          background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary)) !important;
         }
         
-        ::ng-deep .mdc-switch--selected .mdc-switch__handle-track {
-          background-color: var(--accent-primary) !important;
+        ::ng-deep .mdc-switch__handle-track {
+          width: 28px;
+          height: 28px;
+          background: transparent;
+        }
+        
+        ::ng-deep .mdc-switch__handle {
+          width: 20px;
+          height: 20px;
+          background-color: white !important;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        ::ng-deep .mdc-switch--selected .mdc-switch__handle {
+          background-color: white !important;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        ::ng-deep .mdc-switch__ripple {
+          display: none;
         }
       }
     }
@@ -492,10 +739,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 28px 32px;
+  padding: 24px 32px;
   border-top: 1px solid var(--border-color);
-  background: var(--bg-card);
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(to bottom, var(--bg-card), rgba(255, 255, 255, 0.98));
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  
+  &.edit-mode {
+    background: linear-gradient(to bottom, rgba(33, 150, 243, 0.02), var(--bg-card));
+    border-top: 2px solid rgba(33, 150, 243, 0.2);
+  }
   
   .deadline-info, .start-date-info {
     display: flex;
@@ -535,87 +787,119 @@
   
   .action-buttons {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    gap: 16px;
     
     button {
-      padding: 14px 32px;
-      border-radius: 28px;
-      font-weight: 700;
-      font-size: 1rem;
-      transition: all 0.3s ease;
+      padding: 12px 28px;
+      border-radius: 24px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-transform: none;
-      letter-spacing: 0.02em;
-      background-color: var(--accent-primary);
-      color: white;
-      box-shadow: 0 6px 16px rgba(63, 81, 181, 0.25);
-      
-      &:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(63, 81, 181, 0.35);
-        background-color: var(--accent-secondary);
-      }
+      letter-spacing: 0.01em;
       
       mat-icon {
-        margin-right: 10px;
+        margin-right: 8px;
+        font-size: 20px;
+      }
+      
+      &.cancel-button {
+        background: rgba(0, 0, 0, 0.06);
+        color: var(--text-primary);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        
+        &:hover {
+          background: rgba(0, 0, 0, 0.1);
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+      }
+      
+      &.save-button {
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        color: white;
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.25);
+        
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(33, 150, 243, 0.35);
+        }
+        
+        &:active {
+          transform: translateY(0);
+        }
+      }
+      
+      &[color="primary"]:not(.save-button) {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        box-shadow: none;
+        
+        &:hover {
+          background: var(--bg-elevated);
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
       }
     }
   }
 }
 
-.header-actions {
-  display: flex;
-  gap: 8px;
-  
-  button {
-    transition: all 0.2s ease;
-    
-    &:hover {
-      background: rgba(0, 0, 0, 0.04);
-    }
-  }
-}
-
-.close-button {
-  mat-icon {
-    color: var(--text-secondary);
-  }
-  
-  &:hover {
-    mat-icon {
-      color: var(--text-primary);
-    }
-  }
-}
 
 // Edit mode styles
 .title-field {
   width: 100%;
   margin-bottom: 16px;
+  animation: titleFieldExpand 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   
   ::ng-deep .mat-mdc-text-field-wrapper {
-    background: rgba(33, 150, 243, 0.04);
-    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.04), rgba(63, 81, 181, 0.04));
+    border-radius: 16px;
+    border: 2px solid rgba(33, 150, 243, 0.1);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      border-color: rgba(33, 150, 243, 0.2);
+      box-shadow: 0 4px 16px rgba(33, 150, 243, 0.1);
+    }
+  }
+  
+  ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+    border-color: var(--accent-primary);
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.15);
   }
   
   ::ng-deep .mdc-text-field__input {
-    font-size: 1.75rem;
-    font-weight: 600;
+    font-size: 1.875rem;
+    font-weight: 700;
     color: var(--text-primary);
+    letter-spacing: -0.02em;
   }
 }
 
 .subtitle-info-edit {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  
   .subtitle-field {
-    flex: 1;
-    min-width: 200px;
-    
     ::ng-deep .mat-mdc-text-field-wrapper {
-      background: var(--bg-input);
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      
+      &:hover {
+        border-color: rgba(33, 150, 243, 0.2);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+    }
+    
+    ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+      border-color: var(--accent-primary);
+      box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+    }
+    
+    ::ng-deep .mat-mdc-select-arrow {
+      color: var(--accent-primary);
     }
   }
 }
@@ -623,18 +907,28 @@
 // Chip grid styles for edit mode
 ::ng-deep mat-chip-grid {
   .mdc-evolution-chip-set__chips {
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: 10px;
+    margin-bottom: 16px;
     
     mat-chip-row {
-      background: rgba(33, 150, 243, 0.1);
-      border: 1px solid rgba(33, 150, 243, 0.2);
-      transition: all 0.2s ease;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(250, 250, 250, 0.9));
+      border: 1.5px solid rgba(33, 150, 243, 0.2);
+      border-radius: 20px;
+      font-weight: 500;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: chipFadeIn 0.3s ease-out backwards;
+      
+      @for $i from 1 through 10 {
+        &:nth-child(#{$i}) {
+          animation-delay: #{$i * 0.05}s;
+        }
+      }
       
       &:hover {
-        background: rgba(33, 150, 243, 0.15);
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.15), rgba(63, 81, 181, 0.15));
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.25);
+        border-color: rgba(33, 150, 243, 0.3);
       }
       
       &[color="warn"] {
@@ -683,26 +977,38 @@
   }
   
   input {
-    margin-top: 8px;
-    padding: 10px 14px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px dashed rgba(33, 150, 243, 0.3);
-    border-radius: 8px;
+    margin-top: 12px;
+    padding: 14px 18px;
+    background: #ffffff;
+    border: 2px solid rgba(33, 150, 243, 0.4);
+    border-radius: 12px;
     color: var(--text-primary);
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
     width: 100%;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    
+    &:hover {
+      border-color: rgba(33, 150, 243, 0.6);
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+    }
     
     &:focus {
       outline: none;
       border-color: var(--accent-primary);
-      background: white;
-      box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+      border-width: 2px;
+      background: #ffffff;
+      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.25);
+      transform: translateY(-2px);
     }
     
     &::placeholder {
       color: var(--text-secondary);
       opacity: 0.7;
+      font-weight: 400;
+      font-style: italic;
     }
   }
 }
@@ -710,16 +1016,37 @@
 // Date picker fields
 .date-fields {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   flex-wrap: wrap;
   margin-right: auto;
+  animation: fieldFadeIn 0.4s ease-out;
   
   .date-field {
-    min-width: 200px;
+    min-width: 220px;
+    animation: detailFieldSlide 0.3s ease-out backwards;
+    
+    &:nth-child(1) { animation-delay: 0.1s; }
+    &:nth-child(2) { animation-delay: 0.15s; }
     
     ::ng-deep .mat-mdc-text-field-wrapper {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 8px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(250, 250, 250, 0.98));
+      border-radius: 14px;
+      border: 1.5px solid rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      
+      &:hover {
+        border-color: rgba(33, 150, 243, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+    }
+    
+    ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+      border-color: rgba(33, 150, 243, 0.3);
+      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.15);
+    }
+    
+    ::ng-deep .mat-datepicker-toggle {
+      color: var(--accent-primary);
     }
   }
 }
@@ -748,47 +1075,180 @@
   }
 }
 
-// Floating Save Button
-.floating-save-button {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  z-index: 1000;
+@keyframes fieldFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fieldSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes titleFieldExpand {
+  from {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes detailFieldSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes chipFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes toggleGroupFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toggleSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  
+  .edit-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
   
   button {
-    box-shadow: 0 4px 16px rgba(33, 150, 243, 0.3);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
     }
     
-    &:active {
-      transform: translateY(0);
+    &[mat-fab] {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      
+      &:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+      
+      &[color="primary"] {
+        background: var(--accent-primary);
+        
+        &:hover {
+          background: var(--accent-secondary);
+        }
+      }
+      
+      &[color="warn"] {
+        background: var(--error);
+        
+        &:hover {
+          background: #ef5350;
+        }
+      }
     }
     
-    mat-icon {
-      font-size: 28px;
+    &[mat-icon-button] {
+      mat-icon {
+        color: var(--text-secondary);
+        transition: color 0.2s ease;
+      }
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.04);
+        
+        mat-icon {
+          color: var(--text-primary);
+        }
+      }
     }
   }
 }
 
 // Dark mode support with proper contrast
 :host-context(body[data-theme="dark"]) {
-  .floating-save-button {
-    button {
-      background: #42a5f5;
-      color: #000000;
+  .modal-header {
+    background: linear-gradient(to bottom, #1a1a1a, #161616);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    
+    &.edit-mode {
+      background: linear-gradient(135deg, rgba(66, 165, 245, 0.05) 0%, rgba(63, 81, 181, 0.05) 100%);
       
-      &:hover {
-        background: #64b5f6;
+      &::before {
+        background: linear-gradient(135deg, rgba(66, 165, 245, 0.25), rgba(63, 81, 181, 0.25));
+        color: #82b1ff;
       }
     }
-  }
-  .modal-header {
-    background: #1a1a1a;
-    border-bottom-color: rgba(255, 255, 255, 0.1);
+    
+    .header-actions {
+      button {
+        &[mat-fab] {
+          &[color="primary"] {
+            background: #42a5f5;
+            color: #000000;
+            
+            &:hover {
+              background: #64b5f6;
+            }
+          }
+          
+          &[color="warn"] {
+            background: #f44336;
+            color: #ffffff;
+            
+            &:hover {
+              background: #ef5350;
+            }
+          }
+        }
+      }
+    }
     
     .title-field {
       ::ng-deep .mat-mdc-text-field-wrapper {
@@ -817,7 +1277,19 @@
   }
   
   .modal-content {
-    background: #0a0a0a;
+    background: linear-gradient(to bottom, #0a0a0a, #080808);
+    
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+    }
     
     .description-section {
       .description {
@@ -841,6 +1313,21 @@
       }
     }
     
+    .skill-group, .learning-outcomes, .performance-ratings-section {
+      background: linear-gradient(to bottom right, #1a1a1a, #181818);
+      border-color: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.4);
+      
+      h3 {
+        color: #ffffff;
+        
+        mat-icon {
+          background: rgba(66, 165, 245, 0.15);
+          color: #82b1ff;
+        }
+      }
+    }
+    
     .opportunity-details {
       background: #1a1a1a;
       border-color: rgba(255, 255, 255, 0.1);
@@ -857,34 +1344,91 @@
     }
     
     .opportunity-details-edit {
-      background: linear-gradient(135deg, rgba(66, 165, 245, 0.05) 0%, rgba(63, 81, 181, 0.05) 100%);
-      border-color: rgba(66, 165, 245, 0.2);
+      background: linear-gradient(135deg, rgba(66, 165, 245, 0.08) 0%, rgba(63, 81, 181, 0.08) 100%);
+      border-color: rgba(66, 165, 245, 0.15);
+      box-shadow: 0 4px 20px rgba(66, 165, 245, 0.15);
+      
+      &::before {
+        background: #0a0a0a;
+        color: #82b1ff;
+      }
       
       .detail-field {
         ::ng-deep .mat-mdc-text-field-wrapper {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.06));
+          border: 1.5px solid rgba(255, 255, 255, 0.1);
+          
+          &::after {
+            background: linear-gradient(90deg, #42a5f5, #2196f3);
+          }
           
           &:hover {
-            box-shadow: 0 2px 8px rgba(66, 165, 245, 0.2);
+            border-color: rgba(66, 165, 245, 0.25);
+            box-shadow: 0 4px 12px rgba(66, 165, 245, 0.2);
           }
+        }
+        
+        ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+          border-color: rgba(66, 165, 245, 0.4);
+          box-shadow: 0 6px 20px rgba(66, 165, 245, 0.25);
         }
         
         ::ng-deep .mdc-text-field__input,
         ::ng-deep .mat-mdc-select-value {
           color: #e0e0e0;
         }
+        
+        ::ng-deep .mat-mdc-select-arrow {
+          color: #82b1ff;
+        }
       }
       
-      .detail-toggle {
-        color: #e0e0e0;
+      .toggle-group {
+        background: linear-gradient(135deg, rgba(66, 165, 245, 0.06), rgba(63, 81, 181, 0.06));
+        border-color: rgba(66, 165, 245, 0.12);
         
-        ::ng-deep .mdc-switch__track {
-          background-color: rgba(255, 255, 255, 0.2) !important;
-        }
-        
-        ::ng-deep .mdc-switch--selected .mdc-switch__track {
-          background-color: rgba(66, 165, 245, 0.6) !important;
+        .detail-toggle {
+          color: #e0e0e0;
+          
+          &:hover {
+            background: rgba(66, 165, 245, 0.1);
+          }
+          
+          mat-icon {
+            color: #82b1ff;
+          }
+          
+          ::ng-deep .mdc-switch {
+            z-index: 1;
+            position: relative;
+          }
+          
+          ::ng-deep .mdc-switch__track {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            border: none;
+          }
+          
+          ::ng-deep .mdc-switch--selected .mdc-switch__track {
+            background: linear-gradient(90deg, #42a5f5, #2196f3) !important;
+          }
+          
+          ::ng-deep .mdc-switch__handle-track {
+            background: transparent;
+          }
+          
+          ::ng-deep .mdc-switch__handle {
+            background-color: #ffffff !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+          }
+          
+          ::ng-deep .mdc-switch--selected .mdc-switch__handle {
+            background-color: #ffffff !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+          }
+          
+          ::ng-deep .mdc-switch__ripple {
+            display: none;
+          }
         }
       }
     }
@@ -893,38 +1437,70 @@
   // Chip styles for dark mode
   ::ng-deep mat-chip-grid {
     mat-chip-row {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.08));
+      border: 1.5px solid rgba(66, 165, 245, 0.25);
+      
+      &:hover {
+        background: linear-gradient(135deg, rgba(66, 165, 245, 0.2), rgba(63, 81, 181, 0.2));
+        border-color: rgba(66, 165, 245, 0.4);
+        box-shadow: 0 4px 12px rgba(66, 165, 245, 0.3);
+      }
+      
       &[color="warn"] {
-        background: rgba(244, 67, 54, 0.2);
-        border-color: rgba(244, 67, 54, 0.3);
+        background: linear-gradient(135deg, rgba(244, 67, 54, 0.25), rgba(244, 67, 54, 0.2));
+        border-color: rgba(244, 67, 54, 0.35);
         color: #ff8a80;
+        
+        &:hover {
+          background: rgba(244, 67, 54, 0.3);
+          box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+        }
       }
       
       &[color="primary"] {
-        background: rgba(66, 165, 245, 0.2);
-        border-color: rgba(66, 165, 245, 0.3);
+        background: linear-gradient(135deg, rgba(66, 165, 245, 0.25), rgba(66, 165, 245, 0.2));
+        border-color: rgba(66, 165, 245, 0.35);
         color: #82b1ff;
+        
+        &:hover {
+          background: rgba(66, 165, 245, 0.3);
+          box-shadow: 0 4px 12px rgba(66, 165, 245, 0.4);
+        }
       }
       
       &[color="accent"] {
-        background: rgba(255, 152, 0, 0.2);
-        border-color: rgba(255, 152, 0, 0.3);
+        background: linear-gradient(135deg, rgba(255, 152, 0, 0.25), rgba(255, 152, 0, 0.2));
+        border-color: rgba(255, 152, 0, 0.35);
         color: #ffd54f;
+        
+        &:hover {
+          background: rgba(255, 152, 0, 0.3);
+          box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+        }
       }
     }
     
     input {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(66, 165, 245, 0.3);
-      color: #e0e0e0;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid rgba(66, 165, 245, 0.5);
+      color: #1a1a1a;
+      box-shadow: 0 2px 8px rgba(66, 165, 245, 0.2);
+      
+      &:hover {
+        border-color: rgba(66, 165, 245, 0.7);
+        background: #ffffff;
+        box-shadow: 0 4px 12px rgba(66, 165, 245, 0.3);
+      }
       
       &:focus {
-        background: rgba(255, 255, 255, 0.08);
+        background: #ffffff;
         border-color: #42a5f5;
-        box-shadow: 0 2px 8px rgba(66, 165, 245, 0.3);
+        box-shadow: 0 6px 20px rgba(66, 165, 245, 0.4);
       }
       
       &::placeholder {
-        color: #808080;
+        color: #666666;
+        font-style: italic;
       }
     }
   }
@@ -932,37 +1508,69 @@
   .date-fields {
     .date-field {
       ::ng-deep .mat-mdc-text-field-wrapper {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.06));
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        
+        &:hover {
+          border-color: rgba(66, 165, 245, 0.25);
+          box-shadow: 0 4px 12px rgba(66, 165, 245, 0.2);
+        }
+      }
+      
+      ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+        border-color: rgba(66, 165, 245, 0.4);
+        box-shadow: 0 6px 20px rgba(66, 165, 245, 0.25);
       }
       
       ::ng-deep .mdc-text-field__input {
         color: #e0e0e0;
       }
+      
+      ::ng-deep .mat-datepicker-toggle {
+        color: #82b1ff;
+      }
     }
   }
   
   .modal-actions {
-    background: #1a1a1a;
-    border-top-color: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(to bottom, #1a1a1a, #161616);
+    border-top-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4);
+    
+    &.edit-mode {
+      background: linear-gradient(to bottom, rgba(66, 165, 245, 0.05), #1a1a1a);
+      border-top-color: rgba(66, 165, 245, 0.2);
+    }
     
     .action-buttons {
       button {
-        &[color="primary"] {
-          background: #42a5f5;
-          color: #000000;
-          
-          &:hover {
-            background: #64b5f6;
-          }
-        }
-        
-        &:not([color]) {
+        &.cancel-button {
           background: rgba(255, 255, 255, 0.08);
           color: #e0e0e0;
+          border-color: rgba(255, 255, 255, 0.15);
           
           &:hover {
             background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+          }
+        }
+        
+        &.save-button {
+          background: linear-gradient(135deg, #42a5f5, #2196f3);
+          color: #000000;
+          
+          &:hover {
+            background: linear-gradient(135deg, #64b5f6, #42a5f5);
+          }
+        }
+        
+        &[color="primary"]:not(.save-button) {
+          background: rgba(255, 255, 255, 0.06);
+          color: #e0e0e0;
+          border-color: rgba(255, 255, 255, 0.1);
+          
+          &:hover {
+            background: rgba(255, 255, 255, 0.1);
           }
         }
       }

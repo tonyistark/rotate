@@ -91,6 +91,16 @@ export class OpportunityModalComponent extends BaseComponent implements OnInit {
     '18 months',
     '24 months'
   ];
+  
+  // Dynamic dropdown options
+  departments: string[] = [];
+  jobFamilies: string[] = [];
+  locations: string[] = [];
+  leaders: string[] = [];
+  jobProfiles: string[] = [];
+  tenureOptions: string[] = [];
+  attritionResponseOptions: string[] = [];
+  rotationLevelOptions: string[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<OpportunityModalComponent>,
@@ -106,6 +116,35 @@ export class OpportunityModalComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAvailableEmployees();
+    this.loadDropdownOptions();
+  }
+  
+  private loadDropdownOptions(): void {
+    // Load dynamic dropdown options from opportunities
+    this.opportunityService.getOpportunities()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(opportunities => {
+        // Extract unique values for each dropdown
+        this.departments = this.extractUniqueValues(opportunities, 'department');
+        this.jobFamilies = this.extractUniqueValues(opportunities, 'jobFamily');
+        this.locations = this.extractUniqueValues(opportunities, 'location');
+        this.leaders = this.extractUniqueValues(opportunities, 'leader');
+        this.jobProfiles = this.extractUniqueValues(opportunities, 'jobProfile');
+        this.tenureOptions = this.extractUniqueValues(opportunities, 'tenure');
+        this.attritionResponseOptions = this.extractUniqueValues(opportunities, 'attritionResponse');
+        this.rotationLevelOptions = this.extractUniqueValues(opportunities, 'rotationLevel');
+      });
+  }
+  
+  private extractUniqueValues(opportunities: Opportunity[], field: keyof Opportunity): string[] {
+    const values = new Set<string>();
+    opportunities.forEach(opp => {
+      const value = opp[field];
+      if (value && typeof value === 'string' && value.trim()) {
+        values.add(value.trim());
+      }
+    });
+    return Array.from(values).sort();
   }
 
   private loadAvailableEmployees(): void {
@@ -201,6 +240,18 @@ export class OpportunityModalComponent extends BaseComponent implements OnInit {
     this.isEditMode = true;
     this.editableOpportunity = JSON.parse(JSON.stringify(this.match.opportunity));
     this.originalOpportunity = JSON.parse(JSON.stringify(this.match.opportunity));
+    
+    // Initialize any undefined fields with defaults
+    if (!this.editableOpportunity.requiredSkills) this.editableOpportunity.requiredSkills = [];
+    if (!this.editableOpportunity.preferredSkills) this.editableOpportunity.preferredSkills = [];
+    if (!this.editableOpportunity.learningOutcomes) this.editableOpportunity.learningOutcomes = [];
+    if (!this.editableOpportunity.previousPerformanceRatings) this.editableOpportunity.previousPerformanceRatings = [];
+    if (!this.editableOpportunity.plIc) this.editableOpportunity.plIc = 'IC';
+    if (!this.editableOpportunity.lossImpact) this.editableOpportunity.lossImpact = 'Medium';
+    if (!this.editableOpportunity.attritionRisk) this.editableOpportunity.attritionRisk = 'Medium';
+    if (this.editableOpportunity.mentorAvailable === undefined) this.editableOpportunity.mentorAvailable = false;
+    if (this.editableOpportunity.remote === undefined) this.editableOpportunity.remote = false;
+    if (this.editableOpportunity.dayZero === undefined) this.editableOpportunity.dayZero = false;
   }
 
   exitEditMode(): void {
@@ -210,12 +261,49 @@ export class OpportunityModalComponent extends BaseComponent implements OnInit {
   }
 
   saveChanges(): void {
-    const { id, ...opportunityData } = this.editableOpportunity;
+    // Ensure all fields are included in the update
+    const updatedOpportunity: Opportunity = {
+      id: this.editableOpportunity.id,
+      title: this.editableOpportunity.title,
+      department: this.editableOpportunity.department,
+      description: this.editableOpportunity.description,
+      requiredSkills: this.editableOpportunity.requiredSkills || [],
+      preferredSkills: this.editableOpportunity.preferredSkills || [],
+      timeCommitment: this.editableOpportunity.timeCommitment,
+      duration: this.editableOpportunity.duration,
+      learningOutcomes: this.editableOpportunity.learningOutcomes || [],
+      mentorAvailable: this.editableOpportunity.mentorAvailable,
+      remote: this.editableOpportunity.remote,
+      level: this.editableOpportunity.level,
+      applicationDeadline: this.editableOpportunity.applicationDeadline,
+      startDate: this.editableOpportunity.startDate,
+      submittedBy: this.editableOpportunity.submittedBy,
+      leader: this.editableOpportunity.leader,
+      jobLevel: this.editableOpportunity.jobLevel,
+      jobFamily: this.editableOpportunity.jobFamily,
+      jobProfile: this.editableOpportunity.jobProfile,
+      plIc: this.editableOpportunity.plIc,
+      tenure: this.editableOpportunity.tenure,
+      location: this.editableOpportunity.location,
+      dayZero: this.editableOpportunity.dayZero,
+      lossImpact: this.editableOpportunity.lossImpact,
+      attritionRisk: this.editableOpportunity.attritionRisk,
+      attritionResponse: this.editableOpportunity.attritionResponse,
+      previousPerformanceRatings: this.editableOpportunity.previousPerformanceRatings || [],
+      rotationLevel: this.editableOpportunity.rotationLevel,
+      rotationLength: this.editableOpportunity.rotationLength,
+      // Preserve assignment fields if they exist
+      assignedEmployeeId: this.editableOpportunity.assignedEmployeeId,
+      assignedEmployee: this.editableOpportunity.assignedEmployee,
+      assignmentDate: this.editableOpportunity.assignmentDate
+    };
+
+    const { id, ...opportunityData } = updatedOpportunity;
     this.opportunityService.updateOpportunity(id, opportunityData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (updatedOpportunity) => {
-          this.match.opportunity = updatedOpportunity;
+        next: (savedOpportunity) => {
+          this.match.opportunity = savedOpportunity;
           this.isEditMode = false;
           this.snackBar.open('Opportunity updated successfully!', 'Close', { duration: 3000 });
         },
@@ -277,6 +365,24 @@ export class OpportunityModalComponent extends BaseComponent implements OnInit {
   removeLearningOutcome(index: number): void {
     if (this.editableOpportunity.learningOutcomes && index >= 0) {
       this.editableOpportunity.learningOutcomes.splice(index, 1);
+    }
+  }
+
+  // Chip input methods for Previous Performance Ratings
+  addPerformanceRating(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      if (!this.editableOpportunity.previousPerformanceRatings) {
+        this.editableOpportunity.previousPerformanceRatings = [];
+      }
+      this.editableOpportunity.previousPerformanceRatings.push(value);
+    }
+    event.chipInput!.clear();
+  }
+
+  removePerformanceRating(index: number): void {
+    if (this.editableOpportunity.previousPerformanceRatings && index >= 0) {
+      this.editableOpportunity.previousPerformanceRatings.splice(index, 1);
     }
   }
 

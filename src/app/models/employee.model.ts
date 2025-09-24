@@ -15,10 +15,14 @@ export interface Employee {
   tdiZone?: string;
   timeInRole?: string;
   lengthOfService?: string;
+  roleStartDate?: Date | string;  // Date when started current role
+  serviceStartDate?: Date | string;  // Date when joined the company
   lastPromoDate?: string;
   promotionForecast?: string;
   riskOfLeaving?: string;
   reportsTo?: string;
+  retentionRisk?: 'Alert' | 'Monitor' | 'Aware';
+  location?: string;
   
   // Performance ratings for specific cycles
   ratingCycles?: {

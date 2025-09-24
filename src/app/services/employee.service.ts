@@ -83,6 +83,11 @@ export class EmployeeService {
 
   async updateEmployee(updatedEmployee: Employee): Promise<void> {
     try {
+      // Sync MY '25 rating with Performance Rating if MY25 exists
+      if (updatedEmployee.ratingCycles?.MY25) {
+        updatedEmployee.performanceRating = updatedEmployee.ratingCycles.MY25;
+      }
+      
       // Convert to ComprehensiveEmployee format
       const comprehensiveEmployee: ComprehensiveEmployee = {
         id: updatedEmployee.id || '',
@@ -360,7 +365,7 @@ export class EmployeeService {
       department: emp.department || '',
       currentRole: emp.currentRole || emp.jobLevel || '',
       yearsExperience: emp.yearsExperience || 0,
-      performanceRating: this.normalizePerformanceRating(emp.performanceRating || emp.myRating || 'Strong'),
+      performanceRating: emp.performanceRating || emp.ratingCycles?.['MY25'] || emp.myRating || '3-Strong',
       skills: emp.skills || emp.technicalSkillSet || [],
       interests: emp.interests || emp.careerInterest || [],
       careerGoals: emp.careerGoals || [],

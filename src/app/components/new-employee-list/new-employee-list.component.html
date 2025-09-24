@@ -115,6 +115,16 @@
           </mat-select>
         </mat-form-field>
 
+        <mat-form-field appearance="outline" class="compact-filter">
+          <mat-label>Performance</mat-label>
+          <mat-select [(ngModel)]="filterState.selectedPerformance" (ngModelChange)="onFilterChange()">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let rating of performanceRatings" [value]="rating">
+              {{rating}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <button mat-raised-button color="warn" *ngIf="hasActiveFilters()" (click)="clearAllFilters()" class="clear-filters-btn">
           <mat-icon>clear_all</mat-icon>
           Clear All
@@ -152,6 +162,10 @@
         </mat-chip>
         <mat-chip *ngIf="filterState.selectedReportsTo" class="filter-chip" (removed)="clearFilter('selectedReportsTo')">
           Reports to: {{filterState.selectedReportsTo}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <mat-chip *ngIf="filterState.selectedPerformance" class="filter-chip" (removed)="clearFilter('selectedPerformance')">
+          Performance: {{filterState.selectedPerformance}}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
       </div>

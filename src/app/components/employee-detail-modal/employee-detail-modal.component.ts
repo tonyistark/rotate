@@ -15,6 +15,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { Employee } from '../../models/employee.model';
 import { BaseComponent } from '../../shared/base/base.component';
 import { UtilsService } from '../../shared/services/utils.service';
@@ -43,7 +45,9 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
     MatTabsModule,
     MatSlideToggleModule,
     MatTooltipModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './employee-detail-modal.component.html',
   styleUrls: ['./employee-detail-modal.component.scss']
@@ -100,6 +104,19 @@ export class EmployeeDetailModalComponent extends BaseComponent {
 
   async saveChanges(): Promise<void> {
     try {
+      // Update computed fields based on dates
+      if (this.editableEmployee.roleStartDate) {
+        this.editableEmployee.timeInRole = this.calculateTimePeriod(this.editableEmployee.roleStartDate);
+      }
+      if (this.editableEmployee.serviceStartDate) {
+        this.editableEmployee.lengthOfService = this.calculateTimePeriod(this.editableEmployee.serviceStartDate);
+      }
+      
+      // Sync MY '25 rating with Performance Rating
+      if (this.editableEmployee.ratingCycles?.MY25) {
+        this.editableEmployee.performanceRating = this.editableEmployee.ratingCycles.MY25;
+      }
+      
       // Update the employee in IndexedDB
       await this.employeeService.updateEmployee(this.editableEmployee);
       
@@ -163,6 +180,14 @@ export class EmployeeDetailModalComponent extends BaseComponent {
         (this.editableEmployee as any)[field] = [];
       }
     });
+    
+    // Initialize other array fields
+    if (!this.editableEmployee.careerInterest) {
+      this.editableEmployee.careerInterest = [];
+    }
+    if (!this.editableEmployee.competencyStrengths) {
+      this.editableEmployee.competencyStrengths = [];
+    }
 
     // Initialize rating cycles if they don't exist
     if (!this.editableEmployee.ratingCycles) {
@@ -228,6 +253,81 @@ export class EmployeeDetailModalComponent extends BaseComponent {
     if (this.editableEmployee.skills && index >= 0) {
       this.editableEmployee.skills.splice(index, 1);
     }
+  }
+
+  // Career Interest methods
+  addCareerInterest(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      if (!this.editableEmployee.careerInterest) {
+        this.editableEmployee.careerInterest = [];
+      }
+      this.editableEmployee.careerInterest.push(value);
+    }
+    event.chipInput!.clear();
+  }
+
+  removeCareerInterest(index: number): void {
+    if (this.editableEmployee.careerInterest && index >= 0) {
+      this.editableEmployee.careerInterest.splice(index, 1);
+    }
+  }
+
+  // Competency Strength methods
+  addCompetencyStrength(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      if (!this.editableEmployee.competencyStrengths) {
+        this.editableEmployee.competencyStrengths = [];
+      }
+      this.editableEmployee.competencyStrengths.push(value);
+    }
+    event.chipInput!.clear();
+  }
+
+  removeCompetencyStrength(index: number): void {
+    if (this.editableEmployee.competencyStrengths && index >= 0) {
+      this.editableEmployee.competencyStrengths.splice(index, 1);
+    }
+  }
+
+  getTimeInRole(): string {
+    if (!this.employee.roleStartDate) {
+      return this.employee.timeInRole || '';
+    }
+    return this.calculateTimePeriod(this.employee.roleStartDate);
+  }
+
+  getLengthOfService(): string {
+    if (!this.employee.serviceStartDate) {
+      return this.employee.lengthOfService || '';
+    }
+    return this.calculateTimePeriod(this.employee.serviceStartDate);
+  }
+
+  private calculateTimePeriod(startDate: Date | string): string {
+    const start = new Date(startDate);
+    const now = new Date();
+    
+    if (isNaN(start.getTime())) {
+      return '';
+    }
+
+    const diffMs = now.getTime() - start.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    const years = Math.floor(diffDays / 365);
+    const months = Math.floor((diffDays % 365) / 30);
+    
+    const parts = [];
+    if (years > 0) {
+      parts.push(`${years} year${years !== 1 ? 's' : ''}`);
+    }
+    if (months > 0) {
+      parts.push(`${months} month${months !== 1 ? 's' : ''}`);
+    }
+    
+    return parts.join(' ') || 'Less than a month';
   }
 
   // Chip input methods for Interests

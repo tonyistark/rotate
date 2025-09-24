@@ -11,9 +11,6 @@
           <mat-icon>business</mat-icon>
           {{match.opportunity.department}}
         </span>
-        <mat-chip [color]="getLevelColor(match.opportunity.level)" selected>
-          {{match.opportunity.level}}
-        </mat-chip>
         <span class="duration">
           <mat-icon>schedule</mat-icon>
           {{match.opportunity.duration}}
@@ -22,11 +19,19 @@
       <div class="subtitle-info-edit" *ngIf="isEditMode">
         <mat-form-field appearance="outline" class="subtitle-field">
           <mat-label>Department</mat-label>
-          <input matInput [(ngModel)]="editableOpportunity.department" placeholder="Department">
+          <mat-select [(ngModel)]="editableOpportunity.department">
+            <mat-option *ngFor="let dept of departments" [value]="dept">
+              {{dept}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline" class="subtitle-field">
           <mat-label>Job Family</mat-label>
-          <input matInput [(ngModel)]="editableOpportunity.jobFamily" placeholder="Job Family">
+          <mat-select [(ngModel)]="editableOpportunity.jobFamily">
+            <mat-option *ngFor="let family of jobFamilies" [value]="family">
+              {{family}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline" class="subtitle-field">
           <mat-label>Job Level</mat-label>
@@ -39,28 +44,36 @@
       </div>
     </div>
     <div class="header-meta">
-      <div class="submitted-by">
+      <div class="submitted-by" *ngIf="!isEditMode">
         <mat-icon>person</mat-icon>
         <span>Submitted by {{match.opportunity.submittedBy}}</span>
       </div>
+      <mat-form-field *ngIf="isEditMode" appearance="outline" class="submitted-by-field">
+        <mat-label>Submitted By</mat-label>
+        <input matInput [(ngModel)]="editableOpportunity.submittedBy" placeholder="Name of submitter">
+      </mat-form-field>
     </div>
   </div>
   <div class="header-actions">
-    <button mat-icon-button (click)="toggleEditMode()" [matTooltip]="isEditMode ? 'Exit edit mode' : 'Edit opportunity'">
-      <mat-icon>{{isEditMode ? 'close' : 'edit'}}</mat-icon>
+    <button *ngIf="!isEditMode" mat-fab color="primary" (click)="toggleEditMode()" matTooltip="Edit Profile">
+      <mat-icon>edit</mat-icon>
     </button>
-    <button mat-icon-button (click)="onClose()" class="close-button">
+    
+    <div *ngIf="isEditMode" class="edit-actions">
+      <button mat-fab color="primary" (click)="saveChanges()" matTooltip="Save Changes">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-fab color="warn" (click)="exitEditMode()" matTooltip="Cancel">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    
+    <button mat-icon-button (click)="onClose()" matTooltip="Close">
       <mat-icon>close</mat-icon>
     </button>
   </div>
 </div>
 
-<!-- Floating Save Button -->
-<div class="floating-save-button" *ngIf="isEditMode" [@slideIn]>
-  <button mat-fab color="primary" (click)="saveChanges()" matTooltip="Save changes" matTooltipPosition="left">
-    <mat-icon>save</mat-icon>
-  </button>
-</div>
 
 <mat-dialog-content class="modal-content">
   <div class="description-section full-width">
@@ -145,6 +158,30 @@
     </mat-chip-grid>
   </div>
 
+  <div class="performance-ratings-section" *ngIf="match.opportunity.previousPerformanceRatings && match.opportunity.previousPerformanceRatings.length > 0 || isEditMode">
+    <h3><mat-icon>assessment</mat-icon> Required Previous Performance Ratings</h3>
+    <div class="chip-container" *ngIf="!isEditMode">
+      <mat-chip *ngFor="let rating of match.opportunity.previousPerformanceRatings" color="primary" selected>
+        {{rating}}
+      </mat-chip>
+    </div>
+    <mat-chip-grid #performanceRatingsGrid *ngIf="isEditMode" class="chip-container">
+      <mat-chip-row *ngFor="let rating of editableOpportunity.previousPerformanceRatings; let i = index" 
+                    (removed)="removePerformanceRating(i)"
+                    color="primary" selected>
+        {{rating}}
+        <button matChipRemove [attr.aria-label]="'remove ' + rating">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      <input placeholder="Add performance rating requirement..."
+             [matChipInputFor]="performanceRatingsGrid"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="true"
+             (matChipInputTokenEnd)="addPerformanceRating($event)">
+    </mat-chip-grid>
+  </div>
+
   <div class="opportunity-details" *ngIf="!isEditMode">
     <div class="detail-item">
       <mat-icon>access_time</mat-icon>
@@ -180,6 +217,86 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Leader</mat-label>
+        <mat-select [(ngModel)]="editableOpportunity.leader">
+          <mat-option *ngFor="let leader of leaders" [value]="leader">
+            {{leader}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Job Profile</mat-label>
+        <mat-select [(ngModel)]="editableOpportunity.jobProfile">
+          <mat-option *ngFor="let profile of jobProfiles" [value]="profile">
+            {{profile}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>PL/IC</mat-label>
+        <mat-select [(ngModel)]="editableOpportunity.plIc">
+          <mat-option value="PL">PL</mat-option>
+          <mat-option value="IC">IC</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Tenure</mat-label>
+        <mat-select [(ngModel)]="editableOpportunity.tenure">
+          <mat-option *ngFor="let tenure of tenureOptions" [value]="tenure">
+            {{tenure}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Location</mat-label>
+        <mat-select [(ngModel)]="editableOpportunity.location">
+          <mat-option *ngFor="let location of locations" [value]="location">
+            {{location}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Loss Impact</mat-label>
+        <mat-select [(ngModel)]="editableOpportunity.lossImpact">
+          <mat-option value="Low">Low</mat-option>
+          <mat-option value="Medium">Medium</mat-option>
+          <mat-option value="High">High</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Attrition Risk</mat-label>
+        <mat-select [(ngModel)]="editableOpportunity.attritionRisk">
+          <mat-option value="Low">Low</mat-option>
+          <mat-option value="Medium">Medium</mat-option>
+          <mat-option value="High">High</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Attrition Response</mat-label>
+        <mat-select [(ngModel)]="editableOpportunity.attritionResponse">
+          <mat-option *ngFor="let response of attritionResponseOptions" [value]="response">
+            {{response}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="detail-field">
+        <mat-label>Rotation Level</mat-label>
+        <mat-select [(ngModel)]="editableOpportunity.rotationLevel">
+          <mat-option *ngFor="let level of rotationLevelOptions" [value]="level">
+            {{level}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
     
     <div class="toggle-group">
@@ -191,6 +308,11 @@
       <mat-slide-toggle [(ngModel)]="editableOpportunity.remote" class="detail-toggle">
         <mat-icon>home</mat-icon>
         Remote OK
+      </mat-slide-toggle>
+      
+      <mat-slide-toggle [(ngModel)]="editableOpportunity.dayZero" class="detail-toggle">
+        <mat-icon>flag</mat-icon>
+        Day Zero
       </mat-slide-toggle>
     </div>
   </div>
@@ -247,7 +369,7 @@
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions class="modal-actions">
+<mat-dialog-actions class="modal-actions" [class.edit-mode]="isEditMode">
   <div class="deadline-info" *ngIf="!isEditMode">
     <mat-icon>event</mat-icon>
     <span>Apply by: {{formatDate(match.opportunity.applicationDeadline)}}</span>
@@ -274,15 +396,7 @@
   </div>
   
   <div class="action-buttons">
-    <button mat-raised-button *ngIf="isEditMode" (click)="exitEditMode()">
-      <mat-icon>cancel</mat-icon>
-      Cancel
-    </button>
-    <button mat-raised-button color="primary" *ngIf="isEditMode" (click)="saveChanges()">
-      <mat-icon>save</mat-icon>
-      Save Changes
-    </button>
-    <button mat-raised-button color="primary" *ngIf="!isEditMode" (click)="onClose()">
+    <button mat-raised-button color="primary" (click)="onClose()">
       <mat-icon>close</mat-icon>
       Close
     </button>
