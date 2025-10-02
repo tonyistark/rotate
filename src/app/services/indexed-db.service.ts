@@ -28,7 +28,6 @@ export class IndexedDbService {
 
       request.onsuccess = () => {
         this.db = request.result;
-        console.log('IndexedDB opened successfully');
         resolve();
       };
 
@@ -46,8 +45,6 @@ export class IndexedDbService {
           store.createIndex('technicalSkillSet', 'technicalSkillSet', { unique: false, multiEntry: true });
           store.createIndex('attritionRisk', 'attritionRisk', { unique: false });
           store.createIndex('lossImpact', 'lossImpact', { unique: false });
-          
-          console.log('Employee object store created with indexes');
         }
         
         // Create opportunities object store if it doesn't exist
@@ -60,8 +57,6 @@ export class IndexedDbService {
           oppStore.createIndex('level', 'level', { unique: false });
           oppStore.createIndex('requiredSkills', 'requiredSkills', { unique: false, multiEntry: true });
           oppStore.createIndex('preferredSkills', 'preferredSkills', { unique: false, multiEntry: true });
-          
-          console.log('Opportunity object store created with indexes');
         }
 
         // Create matches object store if it doesn't exist
@@ -71,7 +66,6 @@ export class IndexedDbService {
           matchStore.createIndex('employeeId', 'employeeId', { unique: false });
           matchStore.createIndex('opportunityId', 'opportunityId', { unique: false });
           matchStore.createIndex('score', 'score', { unique: false });
-          console.log('Matches object store created with indexes');
         }
       };
     });
@@ -106,7 +100,6 @@ export class IndexedDbService {
       };
 
       request.onsuccess = () => {
-        console.log('Employee saved successfully:', employee.eid);
         resolve();
       };
     });
@@ -149,7 +142,6 @@ export class IndexedDbService {
       };
 
       request.onsuccess = () => {
-        console.log('Employee updated successfully:', key);
         resolve();
       };
     });
@@ -193,7 +185,6 @@ export class IndexedDbService {
         request.onsuccess = () => {
           completed++;
           if (completed === total) {
-            console.log(`Successfully saved ${total} employees`);
             resolve();
           }
         };
@@ -299,7 +290,6 @@ export class IndexedDbService {
       };
 
       request.onsuccess = () => {
-        console.log('Employee deleted successfully:', eid);
         resolve();
       };
     });
@@ -326,7 +316,6 @@ export class IndexedDbService {
       };
 
       request.onsuccess = () => {
-        console.log('All employees cleared successfully');
         resolve();
       };
     });
@@ -388,7 +377,6 @@ export class IndexedDbService {
       };
 
       request.onsuccess = () => {
-        console.log('Opportunity saved successfully:', opportunity.id);
         resolve();
       };
     });
@@ -437,7 +425,6 @@ export class IndexedDbService {
         request.onsuccess = () => {
           completed++;
           if (completed === total) {
-            console.log(`Successfully saved ${total} opportunities`);
             resolve();
           }
         };
@@ -522,7 +509,6 @@ export class IndexedDbService {
       };
 
       request.onsuccess = () => {
-        console.log('Opportunity deleted successfully:', id);
         resolve();
       };
     });
@@ -549,7 +535,6 @@ export class IndexedDbService {
       };
 
       request.onsuccess = () => {
-        console.log('All opportunities cleared successfully');
         resolve();
       };
     });
@@ -613,7 +598,6 @@ export class IndexedDbService {
         request.onsuccess = () => {
           completed++;
           if (completed === total) {
-            console.log(`Successfully saved ${total} matches`);
             resolve();
           }
         };
@@ -667,7 +651,6 @@ export class IndexedDbService {
         reject(request.error);
       };
       request.onsuccess = () => {
-        console.log('All matches cleared successfully');
         resolve();
       };
     });

@@ -30,8 +30,6 @@ export class EmployeeService {
         this.employees = this.convertToEmployeeFormat(indexedEmployees);
         this.employeesSubject.next(this.employees);
       } else {
-        // No employees in IndexedDB - user needs to upload CSV data
-        console.log('No employees found in IndexedDB. Please upload employee CSV data through the admin interface.');
         this.employees = [];
         this.employeesSubject.next([]);
       }
@@ -56,7 +54,6 @@ export class EmployeeService {
         this.employees = convertedEmployees;
         return convertedEmployees;
       } else {
-        console.log('No employees found in IndexedDB');
         return [];
       }
     } catch (error) {

@@ -168,7 +168,7 @@ export class OpportunityModalComponent extends BaseComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onEmployeeSelected(event: any): void {
+  onEmployeeSelected(event: { value: string }): void {
     this.selectedEmployeeId = event.value;
   }
 

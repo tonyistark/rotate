@@ -61,8 +61,7 @@ export class HrbpFilterService {
         rotationLevelOptions,
         rotationLengthOptions
       })),
-      catchError(error => {
-        console.error('Error loading filter options:', error);
+      catchError(() => {
         return of(this.getFallbackFilterOptions());
       })
     );
@@ -73,8 +72,7 @@ export class HrbpFilterService {
    */
   private loadFilterData<T>(filename: string): Observable<T> {
     return this.http.get<T>(`${this.dataPath}${filename}`).pipe(
-      catchError(error => {
-        console.error(`Error loading ${filename}:`, error);
+      catchError(() => {
         return of([] as T);
       })
     );
@@ -109,9 +107,7 @@ export class HrbpFilterService {
           return a.localeCompare(b);
         });
       }),
-      catchError(error => {
-        console.error('Error extracting leaders from opportunities:', error);
-        // Fallback to static leaders if opportunity data fails
+      catchError(() => {
         return this.loadFilterData<string[]>('leaders.json');
       })
     );
@@ -146,9 +142,7 @@ export class HrbpFilterService {
           return a.localeCompare(b);
         });
       }),
-      catchError(error => {
-        console.error('Error extracting job levels from opportunities:', error);
-        // Fallback to static job levels if opportunity data fails
+      catchError(() => {
         return this.loadFilterData<string[]>('job-levels.json');
       })
     );
@@ -183,9 +177,7 @@ export class HrbpFilterService {
           return a.localeCompare(b);
         });
       }),
-      catchError(error => {
-        console.error('Error extracting job families from opportunities:', error);
-        // Fallback to static job families if opportunity data fails
+      catchError(() => {
         return this.loadFilterData<string[]>('job-families.json');
       })
     );
@@ -220,9 +212,7 @@ export class HrbpFilterService {
           return a.localeCompare(b);
         });
       }),
-      catchError(error => {
-        console.error('Error extracting job profiles from opportunities:', error);
-        // Fallback to static job profiles if opportunity data fails
+      catchError(() => {
         return this.loadFilterData<string[]>('job-profiles.json');
       })
     );
@@ -257,9 +247,7 @@ export class HrbpFilterService {
           return a.localeCompare(b);
         });
       }),
-      catchError(error => {
-        console.error('Error extracting tenure options from opportunities:', error);
-        // Fallback to static tenure options if opportunity data fails
+      catchError(() => {
         return this.loadFilterData<string[]>('tenure-options.json');
       })
     );
@@ -294,9 +282,7 @@ export class HrbpFilterService {
           return a.localeCompare(b);
         });
       }),
-      catchError(error => {
-        console.error('Error extracting location options from opportunities:', error);
-        // Fallback to static location options if opportunity data fails
+      catchError(() => {
         return this.loadFilterData<string[]>('location-options.json');
       })
     );
@@ -331,9 +317,7 @@ export class HrbpFilterService {
           return a.localeCompare(b);
         });
       }),
-      catchError(error => {
-        console.error('Error extracting attrition response options from opportunities:', error);
-        // Fallback to static attrition response options if opportunity data fails
+      catchError(() => {
         return this.loadFilterData<string[]>('attrition-response-options.json');
       })
     );
@@ -375,9 +359,7 @@ export class HrbpFilterService {
           return a.localeCompare(b);
         });
       }),
-      catchError(error => {
-        console.error('Error extracting rotation level options from opportunities:', error);
-        // Fallback to static rotation level options if opportunity data fails
+      catchError(() => {
         return this.loadFilterData<string[]>('rotation-level-options.json');
       })
     );
@@ -412,9 +394,7 @@ export class HrbpFilterService {
           return a.localeCompare(b);
         });
       }),
-      catchError(error => {
-        console.error('Error extracting rotation length options from opportunities:', error);
-        // Fallback to static rotation length options if opportunity data fails
+      catchError(() => {
         return this.loadFilterData<string[]>('rotation-length-options.json');
       })
     );

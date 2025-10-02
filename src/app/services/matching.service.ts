@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Employee, Opportunity, Match } from '../models/employee.model';
+import { APP_CONSTANTS } from '../shared/constants/app.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -14,38 +15,24 @@ export class MatchingService {
 
       // Skill matching (40% of score)
       // Handle both skills array and technicalSkillSet from CSV import
-      let employeeSkillsRaw: any = employee.skills || [];
-      
-      // If technicalSkillSet is a string (from CSV), parse it as comma-separated values
-      if (typeof employeeSkillsRaw === 'string') {
-        employeeSkillsRaw = employeeSkillsRaw.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
-      }
-      
-      const employeeSkills = (employeeSkillsRaw as string[]).map((s: string) => s.toLowerCase().trim());
-      
+      const employeeSkillsRaw: string[] | string = employee.skills || [];
+      const employeeSkillsArray: string[] = Array.isArray(employeeSkillsRaw)
+        ? employeeSkillsRaw
+        : String(employeeSkillsRaw).split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
+      const employeeSkills = employeeSkillsArray.map((s: string) => s.toLowerCase().trim());
+
       // Parse opportunity skills (they might be strings from CSV)
-      let requiredSkillsRaw: any = opportunity.requiredSkills || [];
-      if (typeof requiredSkillsRaw === 'string') {
-        requiredSkillsRaw = requiredSkillsRaw.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
-      }
-      const requiredSkills = (requiredSkillsRaw as string[]).map((s: string) => s.toLowerCase().trim());
-      
-      let preferredSkillsRaw: any = opportunity.preferredSkills || [];
-      if (typeof preferredSkillsRaw === 'string') {
-        preferredSkillsRaw = preferredSkillsRaw.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
-      }
-      const preferredSkills = (preferredSkillsRaw as string[]).map((s: string) => s.toLowerCase().trim());
+      const requiredSkillsRaw: string[] | string = opportunity.requiredSkills || [];
+      const requiredSkillsArray: string[] = Array.isArray(requiredSkillsRaw)
+        ? requiredSkillsRaw
+        : String(requiredSkillsRaw).split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
+      const requiredSkills = requiredSkillsArray.map((s: string) => s.toLowerCase().trim());
 
-      // Debug logging for Michelle Park specifically
-      if (employee.name === 'Michelle Park' && opportunity.title.includes('Digital Transformation Lab')) {
-        console.log('=== MICHELLE PARK DEBUG ===');
-        console.log('Employee:', employee);
-        console.log('Opportunity:', opportunity);
-        console.log('Employee skills:', employeeSkills);
-        console.log('Required skills:', requiredSkills);
-        console.log('Preferred skills:', preferredSkills);
-      }
-
+      const preferredSkillsRaw: string[] | string = opportunity.preferredSkills || [];
+      const preferredSkillsArray: string[] = Array.isArray(preferredSkillsRaw)
+        ? preferredSkillsRaw
+        : String(preferredSkillsRaw).split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
+      const preferredSkills = preferredSkillsArray.map((s: string) => s.toLowerCase().trim());
 
       const requiredMatches = requiredSkills.filter(skill => 
         employeeSkills.some(empSkill => 
@@ -62,8 +49,8 @@ export class MatchingService {
         )
       );
 
-      const requiredScore = (requiredMatches.length / requiredSkills.length) * 25;
-      const preferredScore = (preferredMatches.length / Math.max(preferredSkills.length, 1)) * 15;
+      const requiredScore = (requiredMatches.length / requiredSkills.length) * APP_CONSTANTS.SCORING_WEIGHTS.REQUIRED_SKILLS;
+      const preferredScore = (preferredMatches.length / Math.max(preferredSkills.length, 1)) * APP_CONSTANTS.SCORING_WEIGHTS.PREFERRED_SKILLS;
       score += requiredScore + preferredScore;
 
       if (requiredMatches.length > 0) {
@@ -92,18 +79,14 @@ export class MatchingService {
       );
 
       if (interestMatches.length > 0) {
-        score += (interestMatches.length / employeeInterests.length) * 20;
+        score += (interestMatches.length / employeeInterests.length) * APP_CONSTANTS.SCORING_WEIGHTS.INTEREST_ALIGNMENT;
         matchReasons.push(`Aligns with ${interestMatches.length} of your interests`);
       }
 
       // Performance rating bonus (15% of score)
-      const performanceMultiplier: Record<string, number> = {
-        'Outstanding': 1.0,
-        'Exceeds': 0.8,
-        'Meets': 0.6,
-        'Below': 0.3
-      };
-      score += 15 * (performanceMultiplier[employee.performanceRating || 'Meets'] || 1);
+      const rating = employee.performanceRating || 'Meets';
+      const performanceMultiplier = APP_CONSTANTS.PERFORMANCE_MULTIPLIERS[rating as keyof typeof APP_CONSTANTS.PERFORMANCE_MULTIPLIERS] || 1;
+      score += APP_CONSTANTS.SCORING_WEIGHTS.PERFORMANCE_RATING * performanceMultiplier;
 
       if (employee.performanceRating === 'Outstanding' || employee.performanceRating === 'Exceeds') {
         matchReasons.push('Strong performance rating qualifies you for this opportunity');
@@ -113,7 +96,7 @@ export class MatchingService {
       const experienceScore = this.calculateExperienceMatch(employee.yearsExperience, opportunity.level);
       score += experienceScore;
 
-      if (experienceScore > 5) {
+      if (experienceScore > APP_CONSTANTS.EXPERIENCE_MATCH_SCORES.THRESHOLD_GOOD) {
         matchReasons.push('Experience level is well-suited for this role');
       }
 
@@ -122,32 +105,19 @@ export class MatchingService {
       const goalAlignment = false;
 
       if (goalAlignment) {
-        score += 10;
+        score += APP_CONSTANTS.SCORING_WEIGHTS.CAREER_GOALS;
         matchReasons.push('Supports your career development goals');
       }
 
       // Department diversity bonus (5% of score)
       if (employee.department !== opportunity.department) {
-        score += 5;
+        score += APP_CONSTANTS.SCORING_WEIGHTS.DEPARTMENT_DIVERSITY;
         matchReasons.push('Cross-departmental opportunity for broader experience');
       }
 
-      // Debug logging for Michelle Park specifically
-      if (employee.name === 'Michelle Park' && opportunity.title.includes('Digital Transformation Lab')) {
-        console.log('Required matches:', requiredMatches);
-        console.log('Preferred matches:', preferredMatches);
-        console.log('Required score:', requiredScore);
-        console.log('Preferred score:', preferredScore);
-        console.log('Experience score:', experienceScore);
-        console.log('Final score before rounding:', score);
-        console.log('Match reasons:', matchReasons);
-        console.log('=== END MICHELLE PARK DEBUG ===');
-      }
-
-
       return {
         opportunity,
-        score: Math.min(Math.round(score), 100),
+        score: Math.min(Math.round(score), APP_CONSTANTS.MAX_MATCH_SCORE),
         matchReasons,
         skillGaps
       };
@@ -155,35 +125,23 @@ export class MatchingService {
   }
 
   private calculateExperienceMatch(yearsExperience: number, level: Opportunity['level']): number {
-    const levelRequirements = {
-      'Associate': { min: 0, max: 2 },
-      'Senior Associate': { min: 2, max: 5 },
-      'Principal Associate': { min: 3, max: 6 },
-      'Manager': { min: 3, max: 8 },
-      'Sr. Manager': { min: 5, max: 12 },
-      'Director': { min: 6, max: 18 },
-      'Sr. Director': { min: 4, max: 20 },
-      'Senior Director': { min: 6, max: 20 },
-      'Principal': { min: 4, max: 15 },
-      'Executive': { min: 10, max: 25 }
-    };
+    const requirement = APP_CONSTANTS.LEVEL_REQUIREMENTS[level];
 
-    const requirement = levelRequirements[level];
-    
     // Handle unknown levels gracefully - assume Associate level as default
     if (!requirement) {
-      console.warn(`Unknown level: ${level}, using Associate level requirements`);
       return this.calculateExperienceMatch(yearsExperience, 'Associate');
     }
-    
+
     if (yearsExperience >= requirement.min && yearsExperience <= requirement.max) {
-      return 10; // Perfect match
-    } else if (yearsExperience >= requirement.min - 1 && yearsExperience <= requirement.max + 2) {
-      return 7; // Close match
-    } else if (yearsExperience >= requirement.min - 2 && yearsExperience <= requirement.max + 4) {
-      return 4; // Acceptable match
+      return APP_CONSTANTS.EXPERIENCE_MATCH_SCORES.PERFECT;
+    } else if (yearsExperience >= requirement.min - APP_CONSTANTS.EXPERIENCE_TOLERANCE.CLOSE_MIN &&
+               yearsExperience <= requirement.max + APP_CONSTANTS.EXPERIENCE_TOLERANCE.CLOSE_MAX) {
+      return APP_CONSTANTS.EXPERIENCE_MATCH_SCORES.CLOSE;
+    } else if (yearsExperience >= requirement.min - APP_CONSTANTS.EXPERIENCE_TOLERANCE.ACCEPTABLE_MIN &&
+               yearsExperience <= requirement.max + APP_CONSTANTS.EXPERIENCE_TOLERANCE.ACCEPTABLE_MAX) {
+      return APP_CONSTANTS.EXPERIENCE_MATCH_SCORES.ACCEPTABLE;
     }
-    
-    return 0; // Poor match
+
+    return APP_CONSTANTS.EXPERIENCE_MATCH_SCORES.POOR;
   }
 }

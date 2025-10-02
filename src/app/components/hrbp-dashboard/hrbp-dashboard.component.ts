@@ -478,10 +478,10 @@ export class HrbpDashboardComponent implements OnInit, OnDestroy {
             });
             this.loadOpportunities(); // Refresh data
           },
-          error: (error: any) => {
+          error: (error: unknown) => {
             this.dashboardState.error = 'Failed to remove assignment. Please try again.';
-            this.snackBar.open(this.dashboardState.error, 'Close', { 
-              duration: this.CONSTANTS.SNACKBAR_DURATION.SHORT 
+            this.snackBar.open(this.dashboardState.error, 'Close', {
+              duration: this.CONSTANTS.SNACKBAR_DURATION.SHORT
             });
           }
         });

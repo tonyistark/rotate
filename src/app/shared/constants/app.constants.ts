@@ -70,13 +70,62 @@ export const APP_CONSTANTS = {
     MINIMUM: 20
   },
 
-  // Scoring algorithm weights
+  // Scoring algorithm weights (as percentages)
   SCORING_WEIGHTS: {
     SKILLS_MATCH: 40,
     PERFORMANCE: 20,
     CAREER_INTEREST: 20,
-    AVAILABILITY: 20
+    AVAILABILITY: 20,
+    REQUIRED_SKILLS: 25,
+    PREFERRED_SKILLS: 15,
+    INTEREST_ALIGNMENT: 20,
+    PERFORMANCE_RATING: 15,
+    EXPERIENCE_LEVEL: 10,
+    CAREER_GOALS: 10,
+    DEPARTMENT_DIVERSITY: 5
   },
+
+  // Experience match scores
+  EXPERIENCE_MATCH_SCORES: {
+    PERFECT: 10,
+    CLOSE: 7,
+    ACCEPTABLE: 4,
+    POOR: 0,
+    THRESHOLD_GOOD: 5
+  },
+
+  // Experience level requirements (in years)
+  LEVEL_REQUIREMENTS: {
+    'Associate': { min: 0, max: 2 },
+    'Senior Associate': { min: 2, max: 5 },
+    'Principal Associate': { min: 3, max: 6 },
+    'Manager': { min: 3, max: 8 },
+    'Sr. Manager': { min: 5, max: 12 },
+    'Director': { min: 6, max: 18 },
+    'Sr. Director': { min: 4, max: 20 },
+    'Senior Director': { min: 6, max: 20 },
+    'Principal': { min: 4, max: 15 },
+    'Executive': { min: 10, max: 25 }
+  },
+
+  // Performance multipliers for matching
+  PERFORMANCE_MULTIPLIERS: {
+    'Outstanding': 1.0,
+    'Exceeds': 0.8,
+    'Meets': 0.6,
+    'Below': 0.3
+  },
+
+  // Experience match tolerance (years)
+  EXPERIENCE_TOLERANCE: {
+    CLOSE_MIN: 1,
+    CLOSE_MAX: 2,
+    ACCEPTABLE_MIN: 2,
+    ACCEPTABLE_MAX: 4
+  },
+
+  // Maximum match score
+  MAX_MATCH_SCORE: 100,
 
   // Match result limits
   MATCH_LIMITS: {

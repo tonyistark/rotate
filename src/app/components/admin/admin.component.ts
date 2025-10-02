@@ -14,6 +14,7 @@ import { OpportunityService } from '../../services/opportunity.service';
 import { EmployeeService } from '../../services/employee.service';
 import { CsvImportService } from '../../services/csv-import.service';
 import { CsvExportService } from '../../services/csv-export.service';
+import { CsvParserService } from '../../services/csv-parser.service';
 import { MatchesCsvService } from '../../services/matches-csv.service';
 import { IndexedDbService } from '../../services/indexed-db.service';
 import { MatchingService } from '../../services/matching.service';
@@ -87,6 +88,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     private opportunityService: OpportunityService,
     private employeeService: EmployeeService,
     private csvImportService: CsvImportService,
+    private csvParserService: CsvParserService,
     private indexedDbService: IndexedDbService,
     private csvExportService: CsvExportService,
     private matchesCsvService: MatchesCsvService,
@@ -146,9 +148,12 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   // Opportunities CSV Upload
-  onOpportunitiesFileSelected(event: any): void {
-    const file = event.target.files[0];
-    this.handleOpportunitiesFile(file);
+  onOpportunitiesFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (file) {
+      this.handleOpportunitiesFile(file);
+    }
   }
 
   private handleOpportunitiesFile(file: File): void {
@@ -192,12 +197,13 @@ export class AdminComponent implements OnInit, OnDestroy {
       });
       
       this.loadCurrentStats();
-      
-    } catch (error: any) {
+
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       this.opportunitiesResult = {
         success: false,
-        message: `Upload failed: ${error.message}`,
-        errors: [error.message]
+        message: `Upload failed: ${errorMessage}`,
+        errors: [errorMessage]
       };
       
       this.snackBar.open(this.opportunitiesResult.message, 'Close', { 
@@ -210,9 +216,12 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   // Employees CSV Upload
-  onEmployeesFileSelected(event: any): void {
-    const file = event.target.files[0];
-    this.handleEmployeesFile(file);
+  onEmployeesFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (file) {
+      this.handleEmployeesFile(file);
+    }
   }
 
   private handleEmployeesFile(file: File): void {
@@ -253,12 +262,13 @@ export class AdminComponent implements OnInit, OnDestroy {
       }
       
       this.loadCurrentStats();
-      
-    } catch (error: any) {
+
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       this.employeesResult = {
         success: false,
-        message: `Upload failed: ${error.message}`,
-        errors: [error.message]
+        message: `Upload failed: ${errorMessage}`,
+        errors: [errorMessage]
       };
       
       this.snackBar.open(this.employeesResult.message, 'Close', { 
@@ -399,83 +409,31 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   private parseCSVLine(line: string): string[] {
-    const result: string[] = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-      const char = line[i];
-      
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        result.push(current.trim());
-        current = '';
-      } else {
-        current += char;
-      }
-    }
-    
-    result.push(current.trim());
-    return result;
+    return this.csvParserService.parseCSVLine(line);
   }
 
   private parseSkillsArray(skillsString: string): string[] {
-    if (!skillsString) return [];
-    return skillsString.split(',').map(skill => skill.trim()).filter(skill => skill);
+    return this.csvParserService.parseSkillsArray(skillsString);
   }
 
   private parseBoolean(value: string): boolean {
-    return value.toLowerCase() === 'true' || value === '1' || value.toLowerCase() === 'yes';
+    return this.csvParserService.parseBoolean(value);
   }
 
   private parseLevel(value: string): 'Associate' | 'Senior Associate' | 'Principal Associate' | 'Manager' | 'Sr. Manager' | 'Director' | 'Sr. Director' | 'Senior Director' | 'Principal' | 'Executive' {
-    const normalized = value.toLowerCase().trim();
-    
-    // Check for exact matches first
-    if (normalized === 'executive') return 'Executive';
-    if (normalized === 'sr. director' || normalized === 'sr director') return 'Sr. Director';
-    if (normalized === 'senior director') return 'Senior Director';
-    if (normalized === 'director') return 'Director';
-    if (normalized === 'sr. manager' || normalized === 'sr manager') return 'Sr. Manager';
-    if (normalized === 'manager') return 'Manager';
-    if (normalized === 'principal associate') return 'Principal Associate';
-    if (normalized === 'principal') return 'Principal';
-    if (normalized === 'senior associate') return 'Senior Associate';
-    if (normalized === 'associate') return 'Associate';
-    
-    // Check for partial matches if no exact match found
-    if (normalized.includes('executive')) return 'Executive';
-    if (normalized.includes('sr. director') || normalized.includes('sr director')) return 'Sr. Director';
-    if (normalized.includes('senior director')) return 'Senior Director';
-    if (normalized.includes('director')) return 'Director';
-    if (normalized.includes('sr. manager') || normalized.includes('sr manager')) return 'Sr. Manager';
-    if (normalized.includes('manager')) return 'Manager';
-    if (normalized.includes('principal associate')) return 'Principal Associate';
-    if (normalized.includes('principal')) return 'Principal';
-    if (normalized.includes('senior associate')) return 'Senior Associate';
-    if (normalized.includes('associate')) return 'Associate';
-    
-    return 'Associate';
+    return this.csvParserService.parseLevel(value);
   }
 
   private parsePlIc(value: string): 'PL' | 'IC' {
-    const normalized = value.toLowerCase();
-    return normalized.includes('pl') || normalized.includes('people') || normalized.includes('manager') ? 'PL' : 'IC';
+    return this.csvParserService.parsePlIc(value);
   }
 
   private parseLossImpact(value: string): 'Low' | 'Medium' | 'High' {
-    const normalized = value.toLowerCase();
-    if (normalized.includes('low')) return 'Low';
-    if (normalized.includes('high')) return 'High';
-    return 'Medium';
+    return this.csvParserService.parseLossImpact(value);
   }
 
   private parseAttritionRisk(value: string): 'Low' | 'Medium' | 'High' {
-    const normalized = value.toLowerCase();
-    if (normalized.includes('low')) return 'Low';
-    if (normalized.includes('high')) return 'High';
-    return 'Medium';
+    return this.csvParserService.parseAttritionRisk(value);
   }
 
   private parsePerformanceRating(value: string): 'Exceeds' | 'Meets' | 'Below' | 'Outstanding' {
@@ -681,9 +639,12 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   // Import Matches
-  onMatchesFileSelected(event: any): void {
-    const file = event.target.files[0];
-    this.handleMatchesFile(file);
+  onMatchesFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (file) {
+      this.handleMatchesFile(file);
+    }
   }
 
   private handleMatchesFile(file: File): void {
@@ -714,11 +675,12 @@ export class AdminComponent implements OnInit, OnDestroy {
       } else {
         throw new Error(result.errors.join(', ') || 'Import failed');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       this.matchesResult = {
         success: false,
-        message: `Upload failed: ${error.message}`,
-        errors: [error.message]
+        message: `Upload failed: ${errorMessage}`,
+        errors: [errorMessage]
       };
       this.snackBar.open(this.matchesResult.message, 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
     } finally {
@@ -775,7 +737,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   // Map comprehensive employee record to Employee model for matching
-  private mapComprehensiveToEmployee(e: any): Employee {
+  private mapComprehensiveToEmployee(e: ComprehensiveEmployee): Employee {
     return {
       id: e.eid || e.id || '',
       name: e.fullName || e.name || '',
@@ -785,7 +747,11 @@ export class AdminComponent implements OnInit, OnDestroy {
       currentRole: e.jobLevel || e.currentRole || '',
       yearsExperience: Number(e.yearsExperience || 0),
       performanceRating: (e.myRating || e.yeRating || e.performanceRating || 'Meets') as Employee['performanceRating'],
-      skills: Array.isArray(e.technicalSkillSet) ? e.technicalSkillSet : (typeof e.technicalSkillSet === 'string' ? (e.technicalSkillSet || '').split(',').map((s: string) => s.trim()) : (e.skills || [])),
+      skills: Array.isArray(e.technicalSkillSet)
+        ? e.technicalSkillSet
+        : (e.technicalSkillSet as any)
+          ? String(e.technicalSkillSet).split(',').map((s: string) => s.trim())
+          : (e.skills || []),
       availability: e.availability || 'Full-time',
       timeInRole: e.timeInRole || '',
       lengthOfService: e.lengthOfService || '',
@@ -809,8 +775,8 @@ export class AdminComponent implements OnInit, OnDestroy {
       retentionPlanJustification: e.retentionPlanJustification || '',
       rotationStechPlanNeeded: !!e.rotationStechPlanNeeded,
       rotationStechPlanJustification: e.rotationStechPlanJustification || '',
-      lastHireDate: e.lastHireDate || '',
-      lastPromotedDate: e.lastPromotedDate || '',
+      lastHireDate: typeof e.lastHireDate === 'string' ? e.lastHireDate : (e.lastHireDate ? (e.lastHireDate as any).toISOString() : ''),
+      lastPromotedDate: typeof e.lastPromotedDate === 'string' ? e.lastPromotedDate : (e.lastPromotedDate ? (e.lastPromotedDate as Date).toISOString() : ''),
       performanceTrend: e.performanceTrend || '',
       talentDevelopmentInventory: Array.isArray(e.talentDevelopmentInventory) ? e.talentDevelopmentInventory : [],
       attritionRisk: Number(e.attritionRisk || 0),

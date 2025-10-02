@@ -72,9 +72,8 @@ export class CsvImportService {
     for (let i = 1; i < lines.length; i++) {
       try {
         const values = this.parseCSVLine(lines[i]);
-        
+
         if (values.length !== headers.length) {
-          console.warn(`Row ${i + 1}: Column count mismatch. Expected ${headers.length}, got ${values.length}`);
           continue;
         }
 
@@ -88,7 +87,6 @@ export class CsvImportService {
           employees.push(employee);
         }
       } catch (error) {
-        console.warn(`Error parsing row ${i + 1}:`, error);
       }
     }
 
@@ -137,19 +135,18 @@ export class CsvImportService {
         if (csvField in csvData) {
           const value = this.transformValue(modelField as keyof ComprehensiveEmployee, csvData[csvField]);
           if (value !== undefined) {
-            (mappedEmployee as any)[modelField] = value;
+            // Safe dynamic property assignment using Record type
+            (mappedEmployee as Record<string, unknown>)[modelField] = value;
           }
         }
       });
-      
+
       // Set Reports To field based on Reports to 3 (direct manager)
       if (csvData['Reports to 3']) {
-        (mappedEmployee as any).reportsTo = csvData['Reports to 3'];
+        mappedEmployee.reportsTo = csvData['Reports to 3'];
       }
 
-      // Validate required fields
       if (!mappedEmployee.eid || !mappedEmployee.fullName) {
-        console.warn('Skipping employee: Missing required fields (EID or Full Name)');
         return null;
       }
 
@@ -160,7 +157,7 @@ export class CsvImportService {
     }
   }
 
-  private transformValue(field: keyof ComprehensiveEmployee, value: string): any {
+  private transformValue(field: keyof ComprehensiveEmployee, value: string): string | number | Date | string[] | undefined {
     if (!value || value.trim() === '') {
       return undefined;
     }
@@ -252,7 +249,7 @@ export class CsvImportService {
     return isNaN(parsed) ? 0 : parsed;
   }
 
-  private normalizeJobLevel(value: string): any {
+  private normalizeJobLevel(value: string): ComprehensiveEmployee['jobLevel'] | string {
     const normalized = value.trim();
     const validLevels = ['Director', 'Principal Associate', 'Manager', 'Sr. Manager', 'Sr. Director'];
     
@@ -272,7 +269,7 @@ export class CsvImportService {
     return partialMatch || normalized;
   }
 
-  private normalizeJobFamily(value: string): any {
+  private normalizeJobFamily(value: string): ComprehensiveEmployee['jobFamily'] | string {
     const normalized = value.trim();
     const validFamilies = ['Software Engineering', 'Data Engineering'];
     
@@ -291,7 +288,7 @@ export class CsvImportService {
     return exactMatch || normalized;
   }
 
-  validateCSVStructure(file: File): Promise<{ valid: boolean; errors: string[]; preview: any[] }> {
+  validateCSVStructure(file: File): Promise<{ valid: boolean; errors: string[]; preview: Record<string, string>[] }> {
     return new Promise(async (resolve) => {
       try {
         const csvText = await this.readFileAsText(file);
@@ -308,12 +305,12 @@ export class CsvImportService {
 
         const headers = this.parseCSVLine(lines[0]);
         const errors: string[] = [];
-        const preview: any[] = [];
+        const preview: Record<string, string>[] = [];
 
         // Check for required fields
         const requiredFields = ['EID', 'Full Name'];
         const missingRequired = requiredFields.filter(field => !headers.includes(field));
-        
+
         if (missingRequired.length > 0) {
           errors.push(`Missing required fields: ${missingRequired.join(', ')}`);
         }
@@ -321,12 +318,12 @@ export class CsvImportService {
         // Generate preview of first few rows
         for (let i = 1; i < Math.min(6, lines.length); i++) {
           const values = this.parseCSVLine(lines[i]);
-          const rowPreview: any = {};
-          
+          const rowPreview: Record<string, string> = {};
+
           headers.forEach((header, index) => {
             rowPreview[header] = values[index] || '';
           });
-          
+
           preview.push(rowPreview);
         }
 

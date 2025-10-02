@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IndexedDbService } from './indexed-db.service';
 import { Opportunity, Employee, Match } from '../models/employee.model';
+import { ComprehensiveEmployee } from '../models/comprehensive-employee.model';
 import { MatchingService } from './matching.service';
 
 @Injectable({ providedIn: 'root' })
@@ -8,7 +9,7 @@ export class CsvExportService {
   constructor(private indexedDb: IndexedDbService, private matchingService: MatchingService) {}
 
   async exportEmployeesCSV(): Promise<string> {
-    const employees: any[] = await this.indexedDb.getAllEmployees();
+    const employees: ComprehensiveEmployee[] = await this.indexedDb.getAllEmployees();
     const headers = [
       'EID','Full Name','Email','Job Level','Job Family','Years Experience','Recent Year End Performance','Technical SkillSet','Interests','Career Goals','Availability','Time in Role','Length of Service','Promotion Forecast','Retention Risk','TDI Zone'
     ];
@@ -56,21 +57,21 @@ export class CsvExportService {
       o.level,
       o.applicationDeadline,
       o.startDate,
-      (o as any).submittedBy || '',
-      (o as any).leader || '',
-      (o as any).jobLevel || '',
-      (o as any).jobFamily || '',
-      (o as any).jobProfile || '',
-      (o as any).plIc || '',
-      (o as any).tenure || '',
-      (o as any).location || '',
-      String((o as any).dayZero ?? false),
-      (o as any).lossImpact || '',
-      (o as any).attritionRisk || '',
-      (o as any).attritionResponse || '',
-      ((o as any).previousPerformanceRatings || []).join(','),
-      (o as any).rotationLevel || '',
-      (o as any).rotationLength || ''
+      o.submittedBy || '',
+      o.leader || '',
+      o.jobLevel || '',
+      o.jobFamily || '',
+      o.jobProfile || '',
+      o.plIc || '',
+      o.tenure || '',
+      o.location || '',
+      String(o.dayZero ?? false),
+      o.lossImpact || '',
+      o.attritionRisk || '',
+      o.attritionResponse || '',
+      (o.previousPerformanceRatings || []).join(','),
+      o.rotationLevel || '',
+      o.rotationLength || ''
     ]);
 
     return this.buildCsv([headers, ...rows]);
@@ -80,7 +81,7 @@ export class CsvExportService {
     let matches = await this.indexedDb.getAllMatches();
     // If no persisted matches, compute on the fly (top 5 per employee)
     if (!matches || matches.length === 0) {
-      const employees: any[] = await this.indexedDb.getAllEmployees();
+      const employees: ComprehensiveEmployee[] = await this.indexedDb.getAllEmployees();
       const opportunities: Opportunity[] = await this.indexedDb.getAllOpportunities();
       const computed: Array<{ id: string; employeeId: string; opportunityId: string; score: number; matchReasons: string[]; skillGaps: string[] }> = [];
       for (const emp of employees) {
@@ -119,7 +120,7 @@ export class CsvExportService {
     return this.buildCsv([headers, ...rows]);
   }
 
-  private mapComprehensiveToEmployee(e: any): Employee {
+  private mapComprehensiveToEmployee(e: ComprehensiveEmployee): Employee {
     return {
       id: e.eid || e.id || '',
       name: e.fullName || e.name || '',
@@ -129,7 +130,11 @@ export class CsvExportService {
       currentRole: e.jobLevel || e.currentRole || '',
       yearsExperience: Number(e.yearsExperience || 0),
       performanceRating: (e.myRating || e.yeRating || e.performanceRating || 'Meets') as Employee['performanceRating'],
-      skills: Array.isArray(e.technicalSkillSet) ? e.technicalSkillSet : (typeof e.technicalSkillSet === 'string' ? (e.technicalSkillSet || '').split(',').map((s: string) => s.trim()) : (e.skills || [])),
+      skills: Array.isArray(e.technicalSkillSet)
+        ? e.technicalSkillSet
+        : (e.technicalSkillSet as any)
+          ? String(e.technicalSkillSet).split(',').map((s: string) => s.trim())
+          : (e.skills || []),
       availability: e.availability || 'Full-time',
       timeInRole: e.timeInRole || '',
       lengthOfService: e.lengthOfService || '',
@@ -153,8 +158,8 @@ export class CsvExportService {
       retentionPlanJustification: e.retentionPlanJustification || '',
       rotationStechPlanNeeded: !!e.rotationStechPlanNeeded,
       rotationStechPlanJustification: e.rotationStechPlanJustification || '',
-      lastHireDate: e.lastHireDate || '',
-      lastPromotedDate: e.lastPromotedDate || '',
+      lastHireDate: typeof e.lastHireDate === 'string' ? e.lastHireDate : (e.lastHireDate ? (e.lastHireDate as any).toISOString() : ''),
+      lastPromotedDate: typeof e.lastPromotedDate === 'string' ? e.lastPromotedDate : (e.lastPromotedDate ? (e.lastPromotedDate as Date).toISOString() : ''),
       performanceTrend: e.performanceTrend || '',
       talentDevelopmentInventory: Array.isArray(e.talentDevelopmentInventory) ? e.talentDevelopmentInventory : [],
       attritionRisk: Number(e.attritionRisk || 0),
@@ -167,7 +172,7 @@ export class CsvExportService {
   }
 
   private buildCsv(rows: (string | number)[][]): string {
-    const escape = (val: any) => {
+    const escape = (val: string | number | null | undefined): string => {
       const s = val == null ? '' : String(val);
       if (s.includes('"')) {
         return '"' + s.replace(/"/g, '""') + '"';

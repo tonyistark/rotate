@@ -55,184 +55,7 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
 
   departments = ['All', 'Engineering', 'Product', 'Design', 'Marketing', 'Sales', 'Operations', 'HR', 'Finance'];
   levels: string[] = [];
-
-  // Mock team data for matching - in real app this would come from a service
-  teamMembers: Employee[] = [
-    {
-      id: 'emp1',
-      name: 'Alice Johnson',
-      email: 'alice.johnson@company.com',
-      department: 'Engineering',
-      jobTitle: 'Senior Software Engineer',
-      currentRole: 'Senior Developer',
-      yearsExperience: 5,
-      skills: ['TypeScript', 'Angular', 'Node.js', 'AWS', 'React', 'Python'],
-      availability: 'Full-time',
-      performanceRating: 'Outstanding',
-      
-      // TDI Profile fields
-      timeInRole: '2 years 3 months',
-      lengthOfService: '5 years 8 months',
-      promotionForecast: 'YE 2025',
-      tdiZone: 'Invest Now',
-      myRating: 'Strong',
-      yeRating: 'Above Strong',
-      lastPromoDate: '2022-08-01',
-      
-      // Development Focus
-      preparingForPromo: true,
-      preparingForStretch: false,
-      preparingForRotation: true,
-      
-      // Future Talent Profile
-      futureTalentProfile: 'Technical Leadership',
-      differentiatedStrength: 'Technical Excellence',
-      currentGapsOpportunities: 'Leadership experience needed',
-      
-      // Development needs
-      whatNeedsToBeDemonstrated: 'Team leadership and mentoring skills',
-      howToInvest: 'Provide tech lead opportunities and leadership training',
-      whatSupportNeeded: 'Mentorship from senior engineering leaders',
-      
-      // Career aspirations and investment
-      associateCareerAspirations: 'Solution Architect, Engineering Manager',
-      previousDifferentialInvestment: 'Advanced AWS certification, leadership workshop',
-      
-      // Retention and rotation plans
-      retentionPlanNeeded: false,
-      retentionPlanJustification: '',
-      rotationStechPlanNeeded: true,
-      rotationStechPlanJustification: 'Cross-functional experience needed for leadership growth',
-      
-      // Legacy fields
-      lastHireDate: '2019-03-15',
-      lastPromotedDate: '2022-08-01',
-      performanceTrend: 'Outstanding (YE24), Exceeds (MY24)',
-      talentDevelopmentInventory: ['Dev Zone', 'Technical Leadership'],
-      attritionRisk: 12,
-      skillsetExperience: ['TypeScript', 'Angular', 'Node.js', 'AWS'],
-      competencyStrengths: ['TypeScript', 'Angular'],
-      careerInterest: ['Cloud Architecture', 'Technical Leadership'],
-      confirmedInterestInRotation: true,
-      leadershipSupportOfRotation: true
-    },
-    {
-      id: 'emp2',
-      name: 'Bob Smith',
-      email: 'bob.smith@company.com',
-      department: 'Product',
-      jobTitle: 'Product Manager',
-      currentRole: 'Product Manager',
-      yearsExperience: 7,
-      skills: ['Product Strategy', 'Data Analysis', 'Agile', 'User Research', 'SQL', 'Python'],
-      availability: 'Full-time',
-      performanceRating: 'Exceeds',
-      
-      // TDI Profile fields
-      timeInRole: '3 years 2 months',
-      lengthOfService: '7 years 1 month',
-      promotionForecast: 'YE 2026',
-      tdiZone: 'Develop',
-      myRating: 'Strong',
-      yeRating: 'Strong',
-      lastPromoDate: '2021-01-15',
-      
-      // Development Focus
-      preparingForPromo: true,
-      preparingForStretch: true,
-      preparingForRotation: true,
-      
-      // Future Talent Profile
-      futureTalentProfile: 'Product Leadership',
-      differentiatedStrength: 'Strategic Thinking',
-      currentGapsOpportunities: 'Cross-functional leadership experience',
-      
-      // Development needs
-      whatNeedsToBeDemonstrated: 'P&L ownership and strategic vision',
-      howToInvest: 'Stretch assignments with revenue responsibility',
-      whatSupportNeeded: 'Executive mentorship and business strategy training',
-      
-      // Career aspirations and investment
-      associateCareerAspirations: 'VP Product, General Manager',
-      previousDifferentialInvestment: 'MBA sponsorship, product leadership program',
-      
-      // Retention and rotation plans
-      retentionPlanNeeded: false,
-      retentionPlanJustification: '',
-      rotationStechPlanNeeded: true,
-      rotationStechPlanJustification: 'Business unit exposure for GM readiness',
-      
-      // Legacy fields
-      lastHireDate: '2017-11-20',
-      lastPromotedDate: '2021-01-15',
-      performanceTrend: 'Exceeds (YE24), Exceeds (MY24)',
-      talentDevelopmentInventory: ['Product Leadership', 'Strategic Planning'],
-      attritionRisk: 8,
-      skillsetExperience: ['Product Strategy', 'Data Analysis', 'Agile'],
-      competencyStrengths: ['Product Strategy', 'User Research'],
-      careerInterest: ['Product Leadership', 'Strategic Planning'],
-      confirmedInterestInRotation: true,
-      leadershipSupportOfRotation: true
-    },
-    {
-      id: 'emp3',
-      name: 'Carol Davis',
-      email: 'carol.davis@company.com',
-      department: 'Design',
-      jobTitle: 'UX Designer',
-      currentRole: 'UX Designer',
-      yearsExperience: 4,
-      skills: ['Figma', 'User Research', 'Prototyping', 'Design Systems', 'Adobe Creative Suite'],
-      availability: 'Full-time',
-      performanceRating: 'Meets',
-      
-      // TDI Profile fields
-      timeInRole: '1 year 8 months',
-      lengthOfService: '4 years 6 months',
-      promotionForecast: 'YE 2025',
-      tdiZone: 'Maintain',
-      myRating: 'Solid',
-      yeRating: 'Solid',
-      lastPromoDate: '2023-03-01',
-      
-      // Development Focus
-      preparingForPromo: false,
-      preparingForStretch: true,
-      preparingForRotation: false,
-      
-      // Future Talent Profile
-      futureTalentProfile: 'Design Leadership',
-      differentiatedStrength: 'User Empathy',
-      currentGapsOpportunities: 'Design system leadership and team management',
-      
-      // Development needs
-      whatNeedsToBeDemonstrated: 'Design system ownership and cross-team collaboration',
-      howToInvest: 'Design system lead role and design thinking workshops',
-      whatSupportNeeded: 'Senior design mentor and leadership training',
-      
-      // Career aspirations and investment
-      associateCareerAspirations: 'Senior UX Designer, Design Manager',
-      previousDifferentialInvestment: 'Design leadership course, UX certification',
-      
-      // Retention and rotation plans
-      retentionPlanNeeded: true,
-      retentionPlanJustification: 'Moderate attrition risk due to limited growth opportunities',
-      rotationStechPlanNeeded: false,
-      rotationStechPlanJustification: '',
-      
-      // Legacy fields
-      lastHireDate: '2020-06-10',
-      lastPromotedDate: '2023-03-01',
-      performanceTrend: 'Meets (YE24), Meets (MY24)',
-      talentDevelopmentInventory: ['Design Leadership', 'User Research'],
-      attritionRisk: 25,
-      skillsetExperience: ['Figma', 'User Research', 'Prototyping'],
-      competencyStrengths: ['Figma', 'Prototyping'],
-      careerInterest: ['Design Systems', 'User Research'],
-      confirmedInterestInRotation: false,
-      leadershipSupportOfRotation: true
-    }
-  ];
+  teamMembers: Employee[] = [];
 
   constructor(
     private router: Router,
@@ -258,9 +81,7 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
       next: (levels) => {
         this.levels = levels;
       },
-      error: (error) => {
-        console.error('Error loading job levels:', error);
-        // Fallback to default levels if service fails
+      error: () => {
         this.levels = ['All', 'Associate', 'Sr. Associate', 'Principal Associate', 'Manager', 'Sr. Manager', 'Director', 'Sr. Director', 'VP', 'Managing VP', 'Sr. VP'];
       }
     });
@@ -285,11 +106,8 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
     this.employeeService.getEmployees().subscribe({
       next: (employees) => {
         this.teamMembers = employees;
-        console.log('Loaded employees for matching:', employees.length);
       },
-      error: (error) => {
-        console.error('Error loading employees:', error);
-        // Keep mock data as fallback
+      error: () => {
       }
     });
   }
@@ -369,23 +187,14 @@ export class OpportunitiesListComponent extends BaseComponent implements OnInit,
 
   calculateMatchScore(member: Employee, opportunity: Opportunity): number {
     let score = 0;
-    
-    // Debug logging
-    console.log(`Calculating match for ${member.name} vs ${opportunity.title}`);
-    console.log('Member skills:', member.skills);
-    console.log('Opportunity required skills:', opportunity.requiredSkills);
-    console.log('Opportunity preferred skills:', opportunity.preferredSkills);
-    
-    const requiredSkillsMatched = opportunity.requiredSkills.filter(skill => 
+
+    const requiredSkillsMatched = opportunity.requiredSkills.filter(skill =>
       member.skills.some(memberSkill => memberSkill.toLowerCase().includes(skill.toLowerCase()))
     ).length;
-    
-    const preferredSkillsMatched = opportunity.preferredSkills.filter(skill => 
+
+    const preferredSkillsMatched = opportunity.preferredSkills.filter(skill =>
       member.skills.some(memberSkill => memberSkill.toLowerCase().includes(skill.toLowerCase()))
     ).length;
-    
-    console.log(`Required skills matched: ${requiredSkillsMatched}/${opportunity.requiredSkills.length}`);
-    console.log(`Preferred skills matched: ${preferredSkillsMatched}/${opportunity.preferredSkills.length}`);
 
     // Score based on required skills (higher weight)
     score += (requiredSkillsMatched / Math.max(opportunity.requiredSkills.length, 1)) * 70;

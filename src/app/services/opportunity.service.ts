@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Opportunity } from '../models/employee.model';
+import { Opportunity, Employee } from '../models/employee.model';
 import { IndexedDbService } from './indexed-db.service';
+import { CsvParserService } from './csv-parser.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,11 @@ export class OpportunityService {
   private opportunities: Opportunity[] = [];
   private opportunitiesSubject = new BehaviorSubject<Opportunity[]>([]);
 
-  constructor(private http: HttpClient, private indexedDbService: IndexedDbService) {
+  constructor(
+    private http: HttpClient,
+    private indexedDbService: IndexedDbService,
+    private csvParserService: CsvParserService
+  ) {
     this.loadOpportunityData();
   }
 
@@ -87,7 +92,7 @@ export class OpportunityService {
     });
   }
 
-  assignEmployee(opportunityId: string, employeeId: string, employee: any): Observable<Opportunity> {
+  assignEmployee(opportunityId: string, employeeId: string, employee: Employee): Observable<Opportunity> {
     const index = this.opportunities.findIndex(opp => opp.id === opportunityId);
     if (index === -1) {
       return new Observable(observer => {
@@ -229,88 +234,30 @@ export class OpportunityService {
   }
 
   private parseCSVLine(line: string): string[] {
-    const result: string[] = [];
-    let current = '';
-    let inQuotes = false;
-    
-    for (let i = 0; i < line.length; i++) {
-      const char = line[i];
-      
-      if (char === '"') {
-        if (inQuotes && line[i + 1] === '"') {
-          current += '"';
-          i++;
-        } else {
-          inQuotes = !inQuotes;
-        }
-      } else if (char === ',' && !inQuotes) {
-        result.push(current.trim());
-        current = '';
-      } else {
-        current += char;
-      }
-    }
-    
-    result.push(current.trim());
-    return result;
+    return this.csvParserService.parseCSVLine(line);
   }
 
   private parseSkillsArray(value: string): string[] {
-    if (!value || value.trim() === '') return [];
-    return value.split(',')
-      .map(item => item.trim())
-      .filter(item => item.length > 0);
+    return this.csvParserService.parseSkillsArray(value);
   }
 
   private parseBoolean(value: string): boolean {
-    return value.toLowerCase() === 'true';
+    return this.csvParserService.parseBoolean(value);
   }
 
   private parseLevel(value: string): 'Associate' | 'Senior Associate' | 'Principal Associate' | 'Manager' | 'Sr. Manager' | 'Director' | 'Sr. Director' | 'Senior Director' | 'Principal' | 'Executive' {
-    const normalized = value.toLowerCase().trim();
-    
-    // Check for exact matches first
-    if (normalized === 'executive') return 'Executive';
-    if (normalized === 'sr. director' || normalized === 'sr director') return 'Sr. Director';
-    if (normalized === 'senior director') return 'Senior Director';
-    if (normalized === 'director') return 'Director';
-    if (normalized === 'sr. manager' || normalized === 'sr manager') return 'Sr. Manager';
-    if (normalized === 'manager') return 'Manager';
-    if (normalized === 'principal associate') return 'Principal Associate';
-    if (normalized === 'principal') return 'Principal';
-    if (normalized === 'senior associate') return 'Senior Associate';
-    if (normalized === 'associate') return 'Associate';
-    
-    // Check for partial matches if no exact match found
-    if (normalized.includes('executive')) return 'Executive';
-    if (normalized.includes('sr. director') || normalized.includes('sr director')) return 'Sr. Director';
-    if (normalized.includes('senior director')) return 'Senior Director';
-    if (normalized.includes('director')) return 'Director';
-    if (normalized.includes('sr. manager') || normalized.includes('sr manager')) return 'Sr. Manager';
-    if (normalized.includes('manager')) return 'Manager';
-    if (normalized.includes('principal associate')) return 'Principal Associate';
-    if (normalized.includes('principal')) return 'Principal';
-    if (normalized.includes('senior associate')) return 'Senior Associate';
-    if (normalized.includes('associate')) return 'Associate';
-    
-    return 'Associate';
+    return this.csvParserService.parseLevel(value);
   }
 
   private parsePlIc(value: string): 'PL' | 'IC' {
-    return value.toUpperCase() === 'PL' ? 'PL' : 'IC';
+    return this.csvParserService.parsePlIc(value);
   }
 
   private parseLossImpact(value: string): 'Low' | 'Medium' | 'High' {
-    const normalized = value.toLowerCase();
-    if (normalized.includes('low')) return 'Low';
-    if (normalized.includes('high')) return 'High';
-    return 'Medium';
+    return this.csvParserService.parseLossImpact(value);
   }
 
   private parseAttritionRisk(value: string): 'Low' | 'Medium' | 'High' {
-    const normalized = value.toLowerCase();
-    if (normalized.includes('low')) return 'Low';
-    if (normalized.includes('high')) return 'High';
-    return 'Medium';
+    return this.csvParserService.parseAttritionRisk(value);
   }
 }
